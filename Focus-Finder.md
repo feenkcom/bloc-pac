@@ -28,7 +28,7 @@ Metacello new
 ### Examples:
 ```smalltalk
 Metacello new
-   baseline: 'BlocPacFocusFinder';
+   baseline: 'BlocPacFocusFinderExamples';
    repository: 'github://feenkcom/bloc-pac:main/src';
    load
 ```
