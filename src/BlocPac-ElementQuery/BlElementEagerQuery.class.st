@@ -24,17 +24,6 @@ BlElementEagerQuery >> forOne: anElement [
 	result prepareForSingle: anElement
 ]
 
-{ #category : #'as yet unclassified' }
-BlElementEagerQuery >> gtResultsFor: aView [
-	<gtView>
-	
-	^ aView forward
-		title: 'Result';
-		priority: 10;
-		object: [ result ];
-		view: #gtResultsFor:
-]
-
 { #category : #accessing }
 BlElementEagerQuery >> result [
 	"Return either a resulting collection of elements or just one element (or nil)"
