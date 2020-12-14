@@ -1,6 +1,6 @@
 # Focus Finder
 
-Allows users to find a next or previous focusable element in a given direction relative to an element or an area.
+Allows users to find the next or the previous focusable element in a given direction relative to an element or an area.
 
 ## Depend on it
 ```smalltalk
