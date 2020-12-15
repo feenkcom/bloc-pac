@@ -25,13 +25,13 @@ BlElementEagerQuery >> forOne: anElement [
 ]
 
 { #category : #accessing }
+BlElementEagerQuery >> queryStep: aBlElementStep [
+	self findNext: aBlElementStep result: result
+]
+
+{ #category : #accessing }
 BlElementEagerQuery >> result [
 	"Return either a resulting collection of elements or just one element (or nil)"
 
 	^ result lastResult result
-]
-
-{ #category : #accessing }
-BlElementEagerQuery >> step: aBlElementStep [
-	self findNext: aBlElementStep result: result
 ]

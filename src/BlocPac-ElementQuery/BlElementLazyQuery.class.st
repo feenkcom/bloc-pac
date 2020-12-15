@@ -12,6 +12,13 @@ Class {
 	#category : #'BlocPac-ElementQuery-Core'
 }
 
+{ #category : #converting }
+BlElementLazyQuery >> asBlocResolvedElementsFrom: anElement [
+	<return: #Collection of: #BlElement>
+
+	^ (self findMany: anElement) result
+]
+
 { #category : #computing }
 BlElementLazyQuery >> findMany: anElement [
 	| aResult |
@@ -56,7 +63,12 @@ BlElementLazyQuery >> initialize [
 	steps := OrderedCollection new
 ]
 
+{ #category : #testing }
+BlElementLazyQuery >> isEmpty [
+	^ steps isEmpty
+]
+
 { #category : #accessing }
-BlElementLazyQuery >> step: aBlElementStep [
+BlElementLazyQuery >> queryStep: aBlElementStep [
 	steps add: aBlElementStep
 ]

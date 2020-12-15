@@ -7,29 +7,10 @@ There are two types of queries: ${class:BlElementLazyQuery|label=Lazy}$ and eage
 Class {
 	#name : #BlElementQuery,
 	#superclass : #Object,
+	#traits : 'TBlElementQuery',
+	#classTraits : 'TBlElementQuery classTrait',
 	#category : #'BlocPac-ElementQuery-Core'
 }
-
-{ #category : #'api - query' }
-BlElementQuery >> / aSelector [
-	"Selects among direct children based on a given selector such as id or class"
-
-	self step: (aSelector asElementQuerySelector isDeep: false)
-]
-
-{ #category : #'api - query' }
-BlElementQuery >> // aSelector [
-	"Selects among all children (depth first) based on a given selector such as id or class"
-
-	self step: (aSelector asElementQuerySelector isDeep: true)
-]
-
-{ #category : #'api - query' }
-BlElementQuery >> @ aPredicate [
-	"Filters the result of the previous selection based on a predicate (such as index)"
-
-	self step: aPredicate asElementQueryPredicate
-]
 
 { #category : #private }
 BlElementQuery >> findNext: aStep result: aQueryResult [
@@ -44,6 +25,6 @@ BlElementQuery >> findNext: aStep result: aQueryResult [
 ]
 
 { #category : #accessing }
-BlElementQuery >> step: aBlElementStep [
+BlElementQuery >> queryStep: aBlElementStep [
 	self subclassResponsibility
 ]

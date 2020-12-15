@@ -39,6 +39,11 @@ BlElementQueryResult >> prepareForSingle: anElement [
 ]
 
 { #category : #accessing }
+BlElementQueryResult >> result [
+	^ results last result
+]
+
+{ #category : #accessing }
 BlElementQueryResult >> result: aResult [
 	results add: aResult
 ]
