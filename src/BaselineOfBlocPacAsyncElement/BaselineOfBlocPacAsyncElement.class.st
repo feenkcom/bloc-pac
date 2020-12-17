@@ -1,9 +1,6 @@
 Class {
 	#name : #BaselineOfBlocPacAsyncElement,
 	#superclass : #BaselineOf,
-	#classVars : [
-		'PostLoaded'
-	],
 	#category : #BaselineOfBlocPacAsyncElement
 }
 
