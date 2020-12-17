@@ -13,5 +13,5 @@ BaselineOfBlocPacPullAndSlide >> baseline: spec [
 				spec repository: 'github://feenkcom/Bloc/src' ].
 		spec 
 			package: #'BlocPac-PullAndSlide' with: [
-				spec requires: #(#'BlocCore') ] ].
+				spec requires: #(#'BlocCore') ] ]
 ]
