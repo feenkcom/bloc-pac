@@ -1,11 +1,11 @@
 Class {
-	#name : #BaselineOfBlocResizable,
+	#name : #BaselineOfBlocPacResizable,
 	#superclass : #BaselineOf,
 	#category : #BaselineOfBlocPacResizable
 }
 
 { #category : #baseline }
-BaselineOfBlocResizable >> baseline: spec [
+BaselineOfBlocPacResizable >> baseline: spec [
 	<baseline>
 	spec for: #'common' do: [
 		spec 
