@@ -1,11 +1,11 @@
 Class {
-	#name : #BaselineOfBlocPacGeometry,
+	#name : #BaselineOfBlocPacScripter,
 	#superclass : #BaselineOf,
-	#category : #BaselineOfBlocPacGeometry
+	#category : #BaselineOfBlocPacScripter
 }
 
 { #category : #baseline }
-BaselineOfBlocPacGeometry >> baseline: spec [
+BaselineOfBlocPacScripter >> baseline: spec [
 	<baseline>
 	spec for: #'common' do: [
 		spec 
@@ -14,10 +14,10 @@ BaselineOfBlocPacGeometry >> baseline: spec [
 			baseline: 'BlocLayout' with: [
 				spec repository: 'github://feenkcom/Bloc/src' ];
 			
-			baseline: 'BlocPacPullAndSlide' with: [
+			baseline: 'BlocPacGeometry' with: [
 				spec repository: 'github://feenkcom/bloc-pac:main/src' ].
 
 		spec 
-			package: #'BlocPac-Geometry' with: [
-				spec requires: #(#'BlocCore' #'BlocLayout' #'BlocPacPullAndSlide') ] ].
+			package: #'BlocPac-Scripter' with: [
+				spec requires: #(#'BlocCore' #'BlocLayout' #'BlocPacGeometry') ] ].
 ]
