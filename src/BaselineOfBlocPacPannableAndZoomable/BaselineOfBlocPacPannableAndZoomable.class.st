@@ -10,7 +10,7 @@ BaselineOfBlocPacPannableAndZoomable >> baseline: spec [
 	spec for: #'common' do: [
 		spec 
 			baseline: 'BlocCore' with: [
-				self repository: 'github://feenkcom/Bloc/src' for: self ];
+				self repository: 'github://feenkcom/Bloc/src' for: spec ];
 			baseline: 'BlocPacPullAndSlide' with: [
 				self thisRepositoryFor: spec ].
 		spec 
