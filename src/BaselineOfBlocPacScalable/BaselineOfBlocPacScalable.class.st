@@ -10,7 +10,7 @@ BaselineOfBlocPacScalable >> baseline: spec [
 	spec for: #'common' do: [
 		spec 
 			baseline: 'BlocCore' with: [
-				spec repository: 'github://feenkcom/Bloc/src' ].
+				self repository: 'github://feenkcom/Bloc/src' for: self ].
 		spec 
 			package: #'BlocPac-Scalable' with: [
 				spec requires: #(#BlocCore) ] ].

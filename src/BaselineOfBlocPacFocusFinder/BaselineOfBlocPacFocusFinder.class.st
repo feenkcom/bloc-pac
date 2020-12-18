@@ -10,7 +10,7 @@ BaselineOfBlocPacFocusFinder >> baseline: spec [
 	spec for: #'common' do: [
 		spec 
 			baseline: 'BlocCore' with: [
-				spec repository: 'github://feenkcom/Bloc/src' ].
+				self repository: 'github://feenkcom/Bloc/src' for: spec ].
 		spec 
 			package: #'BlocPac-FocusFinder' with: [
 				spec requires: #(#BlocCore) ] ].

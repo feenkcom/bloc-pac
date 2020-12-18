@@ -10,17 +10,17 @@ BaselineOfBlocPacAsyncElementExamples >> baseline: spec [
 	spec for: #'common' do: [
 		spec 
 			baseline: 'Beacon' with: [
-				spec repository: 'github://feenkcom/pharo-beacon/repository' ];
+				self repository: 'github://feenkcom/pharo-beacon/repository' for: spec ];
 
 			baseline: 'BlocCore' with: [
-				spec repository: 'github://feenkcom/Bloc/src' ];
+				self repository: 'github://feenkcom/Bloc/src' for: spec ];
 			baseline: 'BlocLayout' with: [
-				spec repository: 'github://feenkcom/Bloc/src' ];
+				self repository: 'github://feenkcom/Bloc/src' for: spec ];
 
 			baseline: 'BlocPacAsyncElement' with: [
-				spec repository: 'github://feenkcom/bloc-pac:main' ];
+				self thisRepositoryFor: spec ];
 			baseline: 'BlocPacTasker' with: [
-				spec repository: 'github://feenkcom/bloc-pac:main' ].
+				self thisRepositoryFor: spec ].
 		spec 
 			package: #'BlocPac-AsyncElement-Examples' with: [
 				spec requires: #(

@@ -10,9 +10,9 @@ BaselineOfBlocPacAsyncElement >> baseline: spec [
 	spec for: #'common' do: [
 		spec 
 			baseline: 'BlocCore' with: [
-				spec repository: 'github://feenkcom/Bloc/src' ];
+				self repository: 'github://feenkcom/Bloc/src' for: spec ];
 			baseline: 'BlocPacTasker' with: [
-				spec repository: 'github://feenkcom/bloc-pac:main' ].
+				self thisRepositoryFor: spec ].
 		spec 
 			package: #'BlocPac-AsyncElement' with: [
 				spec requires: #(#'BlocCore' #'BlocPacTasker') ] ].

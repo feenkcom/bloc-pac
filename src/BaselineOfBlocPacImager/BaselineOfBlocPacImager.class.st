@@ -10,15 +10,15 @@ BaselineOfBlocPacImager >> baseline: spec [
 	spec for: #'common' do: [
 		spec 
 			baseline: 'BlocCore' with: [
-				spec repository: 'github://feenkcom/Bloc/src' ];
+				self repository: 'github://feenkcom/Bloc/src' for: self ];
 			baseline: 'BlocPacTasker' with: [
-				spec repository: 'github://feenkcom/bloc-pac:main' ];
+				self thisRepositoryFor: spec ];
 			baseline: 'BlocPacAsyncElement' with: [
-				spec repository: 'github://feenkcom/bloc-pac:main' ];
+				self thisRepositoryFor: spec ];
 			baseline: 'Beacon' with: [
-				spec repository: 'github://feenkcom/pharo-beacon/repository' ];
+				self repository: 'github://feenkcom/pharo-beacon/repository' for: self ];
 			baseline: 'SpartaSkia' with: [
-				spec repository: 'github://feenkcom/Sparta/src' ].
+				self repository: 'github://feenkcom/Sparta/src' for: self ].
 		spec 
 			package: #'BlocPac-Imager' with: [
 				spec requires: #(#'BlocCore' #'BlocPacTasker' #'BlocPacAsyncElement' #'Beacon' #'SpartaSkia') ] ]
