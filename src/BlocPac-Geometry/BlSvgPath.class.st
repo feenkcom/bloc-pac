@@ -41,6 +41,15 @@ BlSvgPath >> build: aBlock viewbox: aRectangle [
 ]
 
 { #category : #accessing }
+BlSvgPath >> buildPathOnSpartaCanvas: aCanvas [
+	| pathBuilder|
+
+	pathBuilder := aCanvas path.
+	segments do: [ :each |  each executeOn: pathBuilder ].
+	^ pathBuilder finish
+]
+
+{ #category : #accessing }
 BlSvgPath >> gtSegmentsFor: aView [
 	<gtView>
 	^ aView list
