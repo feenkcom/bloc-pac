@@ -15,13 +15,13 @@ BaselineOfBlocPac >> baseline: spec [
 		
 		spec 
 			baseline: 'Bloc' with: [
-				self repository: 'github://feenkcom/Bloc/src' for: spec ];
+				spec repository: 'github://feenkcom/Bloc/src' ];
 			baseline: 'Beacon' with: [
-				self repository: 'github://feenkcom/pharo-beacon/repository' for: spec ];
+				spec repository: 'github://feenkcom/pharo-beacon/repository' ];
 			baseline: 'SpartaSkia' with: [
-				self repository: 'github://feenkcom/Sparta/src' for: spec ];
+				spec repository: 'github://feenkcom/Sparta/src' ];
 			baseline: 'TaskIt' with: [
-				self repository: 'github://feenkcom/taskit:feenk102' for: spec ].
+				spec repository: 'github://feenkcom/taskit:feenk102' ].
 
 		spec 
 			package: #'BlocPac-AsyncElement' with: [
