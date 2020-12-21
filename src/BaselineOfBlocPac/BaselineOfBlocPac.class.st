@@ -26,6 +26,8 @@ BaselineOfBlocPac >> baseline: spec [
 		spec 
 			package: #'BlocPac-AsyncElement' with: [
 				spec requires: #(#'Bloc' #'BlocPac-Tasker') ];
+			package: #'BlocPac-AsyncElement-Examples' with: [
+				spec requires: #(#'Beacon' #'Bloc' #'BlocPac-AsyncElement'  #'BlocPac-Tasker') ];
 			package: #'BlocPac-DragAndDrop' with: [
 				spec requires: #(#'Bloc') ];
 			package: #'BlocPac-ElementQuery' with: [
