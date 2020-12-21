@@ -7,26 +7,6 @@ Class {
 	#category : #'BlocPac-Geometry-Examples'
 }
 
-{ #category : #examples }
-BlParabollaArcElementExamples class >> absoluteCurvature [
-	<script: 'self absoluteCurvature'>
-
-	self
-		openInWindow: self new absoluteCurvature
-		named: 'Drag control points'
-		extent: 550@500
-]
-
-{ #category : #examples }
-BlParabollaArcElementExamples class >> relativeCurvature [
-	<script: 'self relativeCurvature'>
-
-	self openInWindow:
-		self new relativeCurvature
-		named: 'Drag control points'
-		extent: 550@500
-]
-
 { #category : #'examples - connections' }
 BlParabollaArcElementExamples >> absoluteCurvature [
 	<gtExample>	

@@ -4,50 +4,8 @@ I contain examples of different types of ==BlArrowheadElement==
 Class {
 	#name : #BlArrowheadExamples,
 	#superclass : #Object,
-	#traits : 'TBlExample',
-	#classTraits : 'TBlExample classTrait',
 	#category : #'BlocPac-Geometry-Examples'
 }
-
-{ #category : #examples }
-BlArrowheadExamples class >> curveWithCircleArrowheads [
-	<script: 'self curveWithCircleArrowheads'>
-	
-	self
-		openInWindow: self new curveWithCircleArrowheads
-		named: 'Circle arrowheads'
-		extent: 550@500
-]
-
-{ #category : #examples }
-BlArrowheadExamples class >> curveWithSimpleArrowArrowheads [
-	<script: 'self curveWithSimpleArrowArrowheads'>
-	
-	self
-		openInWindow: self new curveWithSimpleArrowArrowheads
-		named: 'Simple arrow arrowheads'
-		extent: 550@500
-]
-
-{ #category : #examples }
-BlArrowheadExamples class >> curveWithSimpleRoundedArrowArrowheads [
-	<script: 'self curveWithSimpleRoundedArrowArrowheads'>
-	
-	self
-		openInWindow: self new curveWithSimpleRoundedArrowArrowheads
-		named: 'Simple rounded arrow arrowheads'
-		extent: 550@500
-]
-
-{ #category : #examples }
-BlArrowheadExamples class >> curveWithTriangleArrowheads [
-	<script: 'self curveWithTriangleArrowheads'>
-	
-	self
-		openInWindow: self new curveWithTriangleArrowheads
-		named: 'Triangle arrowheads'
-		extent: 550@500
-]
 
 { #category : #'instance creation' }
 BlArrowheadExamples >> circleArrowhead [

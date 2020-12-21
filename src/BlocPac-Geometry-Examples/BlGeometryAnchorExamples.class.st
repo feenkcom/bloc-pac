@@ -1,8 +1,6 @@
 Class {
 	#name : #BlGeometryAnchorExamples,
 	#superclass : #Object,
-	#traits : 'TBlExample',
-	#classTraits : 'TBlExample classTrait',
 	#category : #'BlocPac-Geometry-Examples'
 }
 

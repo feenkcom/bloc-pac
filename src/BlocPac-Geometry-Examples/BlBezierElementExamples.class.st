@@ -21,46 +21,6 @@ Class {
 	#category : #'BlocPac-Geometry-Examples'
 }
 
-{ #category : #examples }
-BlBezierElementExamples class >> bezierControlPoints [
-	<script: 'self bezierControlPoints'>
-	
-	self openInWindow:
-		self new curveWithAnchors
-		named: 'Drag control points'
-		extent: 550@500
-]
-
-{ #category : #examples }
-BlBezierElementExamples class >> quadraticCurve [
-	<script: 'self quadraticCurve'>
-	
-	self openInWindow:
-		self new quadraticCurveWithAnchors
-		named: 'Drag control points'
-		extent: 550@500
-]
-
-{ #category : #examples }
-BlBezierElementExamples class >> quadraticCurveWithPerpendicularAnchor [
-	<script: 'self quadraticCurveWithPerpendicularAnchor'>
-
-	self openInWindow:
-		self new quadraticCurveWithPerpendicularAnchor
-		named: 'Drag control points'
-		extent: 550@500
-]
-
-{ #category : #examples }
-BlBezierElementExamples class >> quadraticCurveWithPerpendicularFractionAnchor [
-	<script: 'self quadraticCurveWithPerpendicularFractionAnchor'>
-
-	self openInWindow:
-		self new quadraticCurveWithPerpendicularFractionAnchor
-		named: 'Drag control points'
-		extent: 550@500
-]
-
 { #category : #'instance creation' }
 BlBezierElementExamples >> curve [
 	<gtExample>

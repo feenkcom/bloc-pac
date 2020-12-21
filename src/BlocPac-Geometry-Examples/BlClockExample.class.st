@@ -4,20 +4,8 @@ I am an example of an analog clock element
 Class {
 	#name : #BlClockExample,
 	#superclass : #Object,
-	#traits : 'TBlExample',
-	#classTraits : 'TBlExample classTrait',
 	#category : #'BlocPac-Geometry-Examples'
 }
-
-{ #category : #examples }
-BlClockExample class >> clock [
-	<script: 'self clock'>
-	
-	self
-		openInWindow: self new animatedClock
-		named: 'Clock'
-		extent: 400@400
-]
 
 { #category : #'examples - clock' }
 BlClockExample >> animatedClock [
