@@ -37,6 +37,9 @@ BaselineOfBlocPac >> baseline: spec [
 			
 			package: #'BlocPac-Geometry' with: [
 				spec requires: #(#'Bloc' #'BlocPac-PullAndSlide') ];
+			package: #'BlocPac-Geometry-Examples' with: [
+				spec requires: #(#'Bloc' #'BlocPac-Geometry') ];
+
 			package: #'BlocPac-Imager' with: [
 				spec requires: #(#'Bloc' #'Beacon' #'SpartaSkia' #'BlocPac-AsyncElement' #'BlocPac-Tasker') ];
 			package: #'BlocPac-Infinite' with: [
@@ -48,6 +51,9 @@ BaselineOfBlocPac >> baseline: spec [
 				spec requires: #(#'Bloc') ];
 			package: #'BlocPac-PannableAndZoomable' with: [
 				spec requires: #(#'Bloc' #'BlocPac-PullAndSlide') ];
+			package: #'BlocPac-PannableAndZoomable-Examples' with: [
+				spec requires: #(#'Bloc' #'BlocPac-PannableAndZoomable') ];
+			
 			package: #'BlocPac-PullAndSlide' with: [
 				spec requires: #(#'Bloc') ];
 			
@@ -60,6 +66,9 @@ BaselineOfBlocPac >> baseline: spec [
 			
 			package: #'BlocPac-Scrollable' with: [
 				spec requires: #(#'Bloc' #'BlocPac-PullAndSlide') ];
+			package: #'BlocPac-Scrollable-Examples' with: [
+				spec requires: #(#'Bloc' #'BlocPac-Scrollable') ];
+
 			package: #'BlocPac-Tasker' with: [
 				spec requires: #(#'Bloc' #'TaskIt') ];
 			
