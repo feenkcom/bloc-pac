@@ -45,3 +45,10 @@ BlDevScripterActionStep >> playOn: aScripter [
 	anObject := self target findTargetStartingInScripter: aScripter.
 	self block value: anObject.
 ]
+
+{ #category : #accessing }
+BlDevScripterActionStep >> pulse [
+	self label: 'Pulse space'.
+	self onSpace.
+	self block: [ :aSpace | aSpace pulse ].
+]

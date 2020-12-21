@@ -79,6 +79,14 @@ TBlDevScripterCheckStep >> satisfies: anOneArgBlock [
 	^ self addStep: (BlDevScripterCheckElementStep new block: anOneArgBlock; referenceSender)
 ]
 
+{ #category : #accessing }
+TBlDevScripterCheckStep >> satisfies: anOneArgBlock description: aDescriptionOneArgBlock [
+	^ self addStep: (BlDevScripterCheckElementStep new 
+		block: anOneArgBlock; 
+		description: aDescriptionOneArgBlock;
+		referenceSender)
+]
+
 { #category : #'steps - checks' }
 TBlDevScripterCheckStep >> totalChildrenCount: aNumber [
 	^ self addStep: (BlDevScripterCheckTotalChildrenCountStep new 
