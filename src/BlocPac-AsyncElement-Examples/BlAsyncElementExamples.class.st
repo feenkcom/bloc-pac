@@ -4,6 +4,8 @@ I exemplify ${class:BlLazyElement}$.
 Class {
 	#name : #BlAsyncElementExamples,
 	#superclass : #BlElement,
+	#traits : 'TBlDevScripterExamples',
+	#classTraits : 'TBlDevScripterExamples classTrait',
 	#category : #'BlocPac-AsyncElement-Examples'
 }
 
@@ -133,6 +135,154 @@ BlAsyncElementExamples >> lazyElement [
 	self assert: anElement element isNil.
 	self assertLazyElement: anElement string: self temporaryString.
 	^ anElement
+]
+
+{ #category : #'examples - lazy element in scripter' }
+BlAsyncElementExamples >> lazyElementInScripter [
+	<gtExample>
+	| anElement aScripter |
+	anElement := self lazyElement.
+	aScripter := self scripter element: anElement.
+	aScripter extent: 400@300.
+	self assert: aScripter element equals: anElement.
+	^ aScripter
+]
+
+{ #category : #'examples - lazy element in scripter' }
+BlAsyncElementExamples >> lazyElementInScripter_Async_HiddenToUser [
+	<gtExample>
+	| aScripter aPostBuildSemaphore aScripterSempahore |
+	aPostBuildSemaphore := Semaphore new.
+	aScripterSempahore := Semaphore new.
+	
+	aScripter := self lazyElementInScripter.
+	aScripter element 
+		relocate: (0 @ (aScripter extent y + 1));
+		elementBuilder: [
+			aScripterSempahore wait.
+			self finalElement ];
+		postAction: [ :aLazyElement :aNewChild | 
+			aPostBuildSemaphore signal ].
+			
+	aScripter userData
+		at: #scripterSemaphore put: aScripterSempahore;
+		at: #postBuildSemaphore put: aPostBuildSemaphore.
+			
+	aScripter substep: 'Lazy element in non-visible area' do: [ :aStep | 
+
+		aStep check 
+			label: 'Check lazy element does not need update';
+			satisfies: [ :anElement | anElement needsUpdate not ]
+			description: [ 'Lazy element must not need to update' ].
+
+		aStep check 
+			label: 'Check lazy element keeps the temporary child element';
+			value: [ :anElement | (anElement childAt: 1) text asString ]
+			equals: self temporaryString.
+
+	].
+	
+	^ aScripter continue
+]
+
+{ #category : #'examples - lazy element in scripter' }
+BlAsyncElementExamples >> lazyElementInScripter_Async_RelocateHiddenElementToVisibleArea [
+	<gtExample>
+	| aScripter aPostBuildSemaphore aScripterSemaphore |
+	aScripter := self lazyElementInScripter_Async_HiddenToUser.
+	aScripterSemaphore := aScripter userData at: #scripterSemaphore.
+	aPostBuildSemaphore := aScripter userData at: #postBuildSemaphore.
+	
+	aScripter substep: 'Move the lazy element into a visible area' do: [ :aStep | 
+
+		aStep do
+			label: 'Relocate the lazy element';
+			block: [ :anElement | anElement relocate: 0@0 ].
+	
+		aStep do pulse.
+					
+		aStep check 
+			label: 'Check that the lazy element needs update';
+			satisfies: [ :anElement | anElement needsUpdate ]
+			description: [ 'Lazy element must need to update' ].
+
+		aStep do
+			label: 'Allow background lazy element content computation';
+			block: [ :anElement | aScripterSemaphore signal ].
+		
+		aStep wait forEnqueuedSpaceTask.
+
+		aStep check 
+			label: 'Check temporary child element';
+			value: [ :anElement | (anElement childAt: 1) text asString ]
+			equals: self temporaryString.
+			
+		aStep wait forEmptySpaceTaskQueue.
+		
+		aStep wait
+			label: 'Wait for lazy element post-build action';
+			forSemaphore: aPostBuildSemaphore timeoutSeconds: 5.
+			
+		aStep wait forEmptySpaceTaskQueue.
+		
+		aStep check 
+			label: 'Check final child element';
+			value: [ :anElement | (anElement childAt: 1) text asString ]
+			equals: self finalString.
+	].
+	
+	^ aScripter continue
+]
+
+{ #category : #'examples - lazy element in scripter' }
+BlAsyncElementExamples >> lazyElementInScripter_Async_VisibleToUser [
+	<gtExample>
+	| aScripter aPostBuildSemaphore aScripterSemaphore |
+	aPostBuildSemaphore := Semaphore new.
+	aScripterSemaphore := Semaphore new.
+	
+	aScripter := self lazyElementInScripter.	
+	aScripter element 
+		elementBuilder: [
+			aScripterSemaphore wait.
+			self finalElement ];
+		postAction: [ :aLazyElement :aNewChild | 
+			aPostBuildSemaphore signal ].
+	
+	aScripter substep: 'Trigger background task' do: [ :aStep | 
+
+		aStep check 
+			label: 'Check lazy element needs update';
+			satisfies: [ :anElement | anElement needsUpdate ]
+			description: [ 'Lazy element must need to update' ].
+
+		aStep do
+			label: 'Signal scripter semaphore';
+			block: [ :anElement | aScripterSemaphore signal ].
+		
+		aStep wait forEnqueuedSpaceTask.
+
+		aStep check 
+			label: 'Check temporary child element';
+			value: [ :anElement | (anElement childAt: 1) text asString ]
+			equals: self temporaryString.
+			
+		aStep wait forEmptySpaceTaskQueue.
+		
+		aStep wait
+			label: 'Wait for lazy element post action';
+			forSemaphore: aPostBuildSemaphore timeoutSeconds: 5.
+			
+		aStep wait forEmptySpaceTaskQueue.
+		
+		aStep check 
+			label: 'Check final child element';
+			value: [ :anElement | (anElement childAt: 1) text asString ]
+			equals: self finalString.
+
+	].
+	
+	^ aScripter continue
 ]
 
 { #category : #'examples - lazy element in space' }

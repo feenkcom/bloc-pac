@@ -2,7 +2,8 @@ Class {
 	#name : #BlDevScripterCheckElementStep,
 	#superclass : #BlDevScripterCheckStep,
 	#instVars : [
-		'block'
+		'block',
+		'description'
 	],
 	#category : #'BlocPac-Scripter-Scripter-Steps'
 }
@@ -25,6 +26,24 @@ BlDevScripterCheckElementStep >> defaultLabel [
 		ifNil: [ self className ]
 ]
 
+{ #category : #accessing }
+BlDevScripterCheckElementStep >> description [
+	^ description
+]
+
+{ #category : #accessing }
+BlDevScripterCheckElementStep >> description: anObject [
+	description := anObject
+]
+
+{ #category : #accessing }
+BlDevScripterCheckElementStep >> initialize [
+	super initialize.
+	description := [ :aTarget | 
+		'Step ', self label asString, 
+		' is not satisfied: ', self block printString ].
+]
+
 { #category : #actions }
 BlDevScripterCheckElementStep >> playOn: aScripter [
 	| anElement |
@@ -34,5 +53,5 @@ BlDevScripterCheckElementStep >> playOn: aScripter [
 		description: [ 'Check block must be defined' ].
 	self 
 		assert: [ self block cull: anElement cull: aScripter userData ]
-		description: [ 'It does not satisfy ', self block printString ]
+		description: [ self description cull: anElement cull: aScripter userData ]
 ]
