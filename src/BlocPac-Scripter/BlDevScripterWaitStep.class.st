@@ -52,13 +52,13 @@ BlDevScripterWaitStep >> forEnqueuedSpaceTask [
 			do: [ aSpace pulse. self increaseCycle ] ]
 ]
 
-{ #category : #accessing }
+{ #category : #initialization }
 BlDevScripterWaitStep >> forSemaphore: aSemaphore [
 	self waitingBlock: [ :anObject | 
 		aSemaphore wait ]
 ]
 
-{ #category : #accessing }
+{ #category : #initialization }
 BlDevScripterWaitStep >> forSemaphore: aSemaphore timeoutSeconds: anInteger [
 	self waitingBlock: [ :anObject | 
 		| aTimeout |

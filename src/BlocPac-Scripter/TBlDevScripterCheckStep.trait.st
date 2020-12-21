@@ -79,7 +79,7 @@ TBlDevScripterCheckStep >> satisfies: anOneArgBlock [
 	^ self addStep: (BlDevScripterCheckElementStep new block: anOneArgBlock; referenceSender)
 ]
 
-{ #category : #accessing }
+{ #category : #'steps - checks' }
 TBlDevScripterCheckStep >> satisfies: anOneArgBlock description: aDescriptionOneArgBlock [
 	^ self addStep: (BlDevScripterCheckElementStep new 
 		block: anOneArgBlock; 

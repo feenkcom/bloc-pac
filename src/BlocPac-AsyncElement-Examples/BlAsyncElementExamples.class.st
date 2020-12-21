@@ -168,7 +168,7 @@ BlAsyncElementExamples >> lazyElementInScripter_Async_HiddenToUser [
 		at: #scripterSemaphore put: aScripterSempahore;
 		at: #postBuildSemaphore put: aPostBuildSemaphore.
 			
-	aScripter substep: 'Trigger background task' do: [ :aStep | 
+	aScripter substep: 'Lazy element in non-visible area' do: [ :aStep | 
 
 		aStep check 
 			label: 'Check lazy element does not need update';
@@ -176,7 +176,7 @@ BlAsyncElementExamples >> lazyElementInScripter_Async_HiddenToUser [
 			description: [ 'Lazy element must not need to update' ].
 
 		aStep check 
-			label: 'Check final child element';
+			label: 'Check lazy element keeps the temporary child element';
 			value: [ :anElement | (anElement childAt: 1) text asString ]
 			equals: self temporaryString.
 
@@ -193,21 +193,21 @@ BlAsyncElementExamples >> lazyElementInScripter_Async_RelocateHiddenElementToVis
 	aScripterSemaphore := aScripter userData at: #scripterSemaphore.
 	aPostBuildSemaphore := aScripter userData at: #postBuildSemaphore.
 	
-	aScripter substep: 'Relocate hidden lazy element' do: [ :aStep | 
+	aScripter substep: 'Move the lazy element into a visible area' do: [ :aStep | 
 
 		aStep do
-			label: 'Relocate lazy element';
+			label: 'Relocate the lazy element';
 			block: [ :anElement | anElement relocate: 0@0 ].
 	
 		aStep do pulse.
 					
 		aStep check 
-			label: 'Check lazy element needs update';
+			label: 'Check that the lazy element needs update';
 			satisfies: [ :anElement | anElement needsUpdate ]
 			description: [ 'Lazy element must need to update' ].
 
 		aStep do
-			label: 'Signal scripter semaphore';
+			label: 'Allow background lazy element content computation';
 			block: [ :anElement | aScripterSemaphore signal ].
 		
 		aStep wait forEnqueuedSpaceTask.
@@ -220,7 +220,7 @@ BlAsyncElementExamples >> lazyElementInScripter_Async_RelocateHiddenElementToVis
 		aStep wait forEmptySpaceTaskQueue.
 		
 		aStep wait
-			label: 'Wait for lazy element post action';
+			label: 'Wait for lazy element post-build action';
 			forSemaphore: aPostBuildSemaphore timeoutSeconds: 5.
 			
 		aStep wait forEmptySpaceTaskQueue.
