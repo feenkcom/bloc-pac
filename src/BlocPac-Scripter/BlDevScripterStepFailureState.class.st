@@ -6,7 +6,8 @@ Class {
 
 { #category : #accessing }
 BlDevScripterStepFailureState >> color [
-	^ BrGlamorousColors errorBackgroundColor
+	"BrGlamorousColors errorBackgroundColor"
+	^ (Color r: 1.0 g: 0.4701857282502444 b: 0.458455522971652 alpha: 1.0)
 ]
 
 { #category : #accessing }

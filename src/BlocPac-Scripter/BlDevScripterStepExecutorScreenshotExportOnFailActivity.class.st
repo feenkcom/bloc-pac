@@ -17,10 +17,9 @@ BlDevScripterStepExecutorScreenshotExportOnFailActivity >> executePostPlayOnStep
 
 		aDirectory ensureCreateDirectory.
 		aScreenshotName := aFileName, '.png'.
-		
-		(anExecutor scripter gtSpaceFor: GtPhlowEmptyView new) asElementDo: [ :aPreview |
-			BlExporter png
-				fileName: aDirectory / aScreenshotName;
-				element: aPreview;
-				export ] ]
+
+		BlExporter png
+			fileName: aDirectory / aScreenshotName;
+			element: anExecutor scripter space root;
+			export ]
 ]
