@@ -8,12 +8,14 @@ Class {
 BaselineOfBlocPacInfinite >> baseline: spec [
 	<baseline>
 	spec for: #'common' do: [
-		spec baseline: 'BlocCore' with: [
-				spec repository: 'github://feenkcom/Bloc:v0.8.121/src' ].
+		spec 
+			baseline: 'BlocCore' with: [
+				self repository: 'github://feenkcom/Bloc/src' for: spec ];
+			baseline: 'BlocPacScrollable' with: [
+				self thisRepositoryFor: spec ].
 		spec 
 			package: #'BlocPac-Infinite' with: [
-				spec requires: #('BlocCore' ). ];
+				spec requires: #(#'BlocCore' #'BlocPacScrollable') ];
 			package: #'BlocPac-Infinite-Layouts' with: [
-				spec requires: #('BlocCore' #'BlocPac-Infinite' ). ]. ].
-
+				spec requires: #(#'BlocCore' #'BlocPac-Infinite') ] ].
 ]
