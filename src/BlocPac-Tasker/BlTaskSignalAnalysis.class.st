@@ -9,7 +9,7 @@ BlSignalAnalysis provides summary information and various views into a log of th
 To start an in-memory logger (before the event to be analysed occurs :-)):
 
 [[[
-BlSignalAnalysis startDefaultSampling.
+BlTaskSignalAnalysis startDefaultSampling.
 ]]]
 
 If the expected number of events is large the circular buffer size can be increased, e.g.:
@@ -21,7 +21,7 @@ CircularMemoryLogger entryCount: 15000.
 Once the event that is of interest has occurred:
 
 [[[
-BlSignalAnalysis stopAndInspect.
+BlTaskSignalAnalysis stopAndInspect.
 ]]]
 
 
@@ -30,14 +30,14 @@ BlSignalAnalysis stopAndInspect.
 If the system is remote, or the UI is locking up as part of the issue, it is also possible to save information to disk for later analysis:
 
 [[[
-BlSignalAnalysis startDefaultSampling.
+BlTaskSignalAnalysis startDefaultSampling.
 CircularMemoryLogger startAutoSaving.
 ]]]
 
 Will save a snapshot of the logger each minute.  The log file can then be inspected with (substituting the appropriate file name):
 
 [[[
-BlSignalAnalysis gtInspectFile: 'CircularMemoryLogger.stgz'
+BlTaskSignalAnalysis gtInspectFile: 'CircularMemoryLogger.stgz'
 ]]]
 
  
