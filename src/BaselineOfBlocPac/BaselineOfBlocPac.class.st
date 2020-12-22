@@ -61,8 +61,6 @@ BaselineOfBlocPac >> baseline: spec [
 				spec requires: #(#'Bloc' 'BlocPac-Overlay') ];
 			package: #'BlocPac-Scalable' with: [
 				spec requires: #(#'Bloc') ];
-			package: #'BlocPac-Scripter' with: [
-				spec requires: #(#'Bloc' 'BlocPac-Geometry') ];
 			
 			package: #'BlocPac-Scrollable' with: [
 				spec requires: #(#'Bloc' #'BlocPac-PullAndSlide') ];
