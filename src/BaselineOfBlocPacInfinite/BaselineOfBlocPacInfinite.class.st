@@ -10,9 +10,9 @@ BaselineOfBlocPacInfinite >> baseline: spec [
 	spec for: #'common' do: [
 		spec 
 			baseline: 'BlocCore' with: [
-				self repository: 'github://feenkcom/Bloc/src' for: spec ];
+				spec repository: 'github://feenkcom/Bloc/src' ];
 			baseline: 'BlocPacScrollable' with: [
-				self thisRepositoryFor: spec ].
+				spec repository: 'github://feenkcom/bloc-pac:main/src' ].
 		spec 
 			package: #'BlocPac-Infinite' with: [
 				spec requires: #(#'BlocCore' #'BlocPacScrollable') ];
