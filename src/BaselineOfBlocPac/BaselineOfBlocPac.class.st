@@ -25,12 +25,14 @@ BaselineOfBlocPac >> baseline: spec [
 
 		spec 
 			package: #'BlocPac-AsyncElement' with: [
-				spec requires: #(#'Bloc' #'BlocPac-Tasker') ];
+				spec requires: #(#'Bloc' #'BlocPac-Tasker' #'BlocPac-ErrorHandling') ];
 			package: #'BlocPac-AsyncElement-Examples' with: [
 				spec requires: #(#'Beacon' #'Bloc' #'BlocPac-AsyncElement'  #'BlocPac-Tasker') ];
 			package: #'BlocPac-DragAndDrop' with: [
 				spec requires: #(#'Bloc') ];
 			package: #'BlocPac-ElementQuery' with: [
+				spec requires: #(#'Bloc') ];
+			package: #'BlocPac-ErrorHandling' with: [
 				spec requires: #(#'Bloc') ];
 			package: #'BlocPac-FocusFinder' with: [
 				spec requires: #(#'Bloc') ];
