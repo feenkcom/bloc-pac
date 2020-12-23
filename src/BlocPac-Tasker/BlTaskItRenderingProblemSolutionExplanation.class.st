@@ -23,7 +23,7 @@ It is possible that the symptoms could be triggered by other causes:
 There are a number of tools that have been developed along the way to help identify issues:
 
 - ${class:BlTaskItStatus}$ gives an overview of the Bloc-related TaskIt queues. Although there is a ${class:GtInspector}$ view that displays this information, the system is normally not responding when this is required, so it is more useful to write the string to a file.
-- See also the class comments for: ${class:BlPulseStatSignal}$, ${class:CurrentProcessSignal}$ & ${class:BlSignalAnalysis}$
+- See also the class comments for: ${class:BlPulseStatSignal}$, ${class:CurrentProcessSignal}$ & ${class:BlTaskSignalAnalysis}$
 
 "
 Class {
