@@ -15,9 +15,9 @@ BaselineOfBlocPacTasker >> baseline: spec [
 
 		spec 
 			baseline: 'BlocCore' with: [
-				self repository: 'github://feenkcom/Bloc/src' for: spec ];
+				spec repository: 'github://feenkcom/Bloc/src' ];
 			baseline: 'TaskIt' with: [
-				self repository: 'github://feenkcom/taskit:feenk102' for: spec ].
+				spec repository: 'github://feenkcom/taskit:feenk102' ].
 		spec 
 			package: #'BlocPac-Tasker' with: [
 				spec requires: #(#'BlocCore' #'TaskIt') ] ].

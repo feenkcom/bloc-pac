@@ -10,9 +10,9 @@ BaselineOfBlocPacDragAndDrop >> baseline: spec [
 	spec for: #'common' do: [
 		spec 
 			baseline: 'BlocCore' with: [
-				self repository: 'github://feenkcom/Bloc/src' for: spec ];
+				spec repository: 'github://feenkcom/Bloc/src' ];
 			baseline: 'BlocAnimation' with: [
-				self repository: 'github://feenkcom/Bloc/src' for: spec ].
+				spec repository: 'github://feenkcom/Bloc/src' ].
 		spec 
 			package: #'BlocPac-DragAndDrop' with: [
 				spec requires: #(#'BlocCore' #'BlocAnimation') ] ].
