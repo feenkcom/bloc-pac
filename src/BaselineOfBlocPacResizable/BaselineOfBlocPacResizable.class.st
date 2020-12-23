@@ -10,9 +10,9 @@ BaselineOfBlocPacResizable >> baseline: spec [
 	spec for: #'common' do: [
 		spec 
 			baseline: 'BlocCore' with: [
-				self repository: 'github://feenkcom/Bloc/src' for: spec ];
+				spec repository: 'github://feenkcom/Bloc/src' ];
 			baseline: 'BlocPacOverlay' with: [
-				self thisRepositoryFor: spec ].
+				spec repository: 'github://feenkcom/bloc-pac:main/src' ].
 		spec 
 			package: #'BlocPac-Resizable' with: [
 				spec requires: #(#'BlocCore' #'BlocPacOverlay') ] ]
