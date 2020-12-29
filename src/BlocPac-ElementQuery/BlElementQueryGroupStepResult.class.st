@@ -29,6 +29,16 @@ BlElementQueryGroupStepResult >> do: aBlock deep: isDeep [
 		ifFalse: [ elements do: [ :eachElement | eachElement childrenDo: aBlock ] ]
 ]
 
+{ #category : #'gt-extensions' }
+BlElementQueryGroupStepResult >> gtResultFor: aView [
+	<gtView>
+	self result ifNil: [ ^ aView empty ].
+	^ aView list
+		title: 'Result';
+		priority: 10;
+		items: [ self result ]
+]
+
 { #category : #initialization }
 BlElementQueryGroupStepResult >> initialize [
 	super initialize.
