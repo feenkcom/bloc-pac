@@ -17,7 +17,15 @@ BaselineOfBlocPacExamples >> baseline: spec [
 		spec 
 			package: #'BlocPac-AsyncElement-Examples' with: [
 				spec requires: #(#'BlocPac') ];
+			package: #'BlocPac-FocusFinder-Examples' with: [
+				spec requires: #(#'BlocPac') ];
 			package: #'BlocPac-Geometry-Examples' with: [
+				spec requires: #(#'BlocPac') ];
+			package: #'BlocPac-Imager-Examples' with: [
+				spec requires: #(#'BlocPac') ];
+			package: #'BlocPac-Infinite-Examples' with: [
+				spec requires: #(#'BlocPac') ];
+			package: #'BlocPac-Overlay-Examples' with: [
 				spec requires: #(#'BlocPac') ];
 			package: #'BlocPac-PannableAndZoomable-Examples' with: [
 				spec requires: #(#'BlocPac') ];
