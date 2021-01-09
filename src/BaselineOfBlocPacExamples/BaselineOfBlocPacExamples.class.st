@@ -32,5 +32,8 @@ BaselineOfBlocPacExamples >> baseline: spec [
 			package: #'BlocPac-PullAndSlide-Examples' with: [
 				spec requires: #(#'BlocPac' #'BlocExamples') ];
 			package: #'BlocPac-Scrollable-Examples' with: [
+				spec requires: #(#'BlocPac') ];
+			
+			package: #'BlocPac-Demos' with: [
 				spec requires: #(#'BlocPac') ] ].
 ]
