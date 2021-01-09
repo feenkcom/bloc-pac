@@ -17,8 +17,8 @@ Class {
 	#name : #BlPullHandler,
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
+		'dragStartGlobalPosition',
 		'originalPosition',
-		'dragStartPosition',
 		'allowedOutOfBounds',
 		'direction'
 	],
@@ -91,15 +91,20 @@ BlPullHandler >> dragEndEvent: anEvent [
 
 { #category : #'event handling' }
 BlPullHandler >> dragEvent: anEvent [
-	| dragPosition dragDelta aNewPosition |
+	| aStartPosition aCurrentPosition aPreviosPosition dragDelta aNewPosition |
+	
+	dragStartGlobalPosition ifNil: [ dragStartGlobalPosition := anEvent position ].
+	
+	aCurrentPosition := anEvent currentTarget globalPointToParent: anEvent position.
+	aStartPosition := anEvent currentTarget globalPointToParent: dragStartGlobalPosition.
 
-	dragPosition := anEvent currentTarget globalPointToParent: anEvent position.
-	dragDelta := dragPosition - (dragStartPosition ifNil: [ dragStartPosition := dragPosition ]).
+	dragDelta := aCurrentPosition - aStartPosition.
 	
-	dragDelta := self computePullDelta: dragDelta.
+	dragDelta := (self computePullDelta: dragDelta) rounded.
 	
-	aNewPosition := ((originalPosition ifNil: [ originalPosition := anEvent currentTarget position ]) + dragDelta).
-	
+	aNewPosition := ((originalPosition ifNil: [ originalPosition := anEvent currentTarget constraints position ]) + dragDelta).
+	aPreviosPosition := anEvent currentTarget constraints position.
+
 	allowedOutOfBounds ifFalse: [
 		| aMaxPosition |
 
@@ -113,7 +118,7 @@ BlPullHandler >> dragEvent: anEvent [
 
 	anEvent currentTarget dispatchEvent: (BlPullEvent new
 		initialPosition: originalPosition;
-		oldPosition: dragPosition;
+		oldPosition: aPreviosPosition;
 		newPosition: aNewPosition;
 		delta: dragDelta)
 ]
@@ -122,11 +127,11 @@ BlPullHandler >> dragEvent: anEvent [
 BlPullHandler >> dragStartEvent: anEvent [
 	anEvent consumed: true.
 
-	"drag start position in parent"
-	dragStartPosition := anEvent currentTarget globalPointToParent: anEvent position.
+	"drag start position in space coordinates"
+	dragStartGlobalPosition := anEvent position.
 
 	"element position in parent"
-	originalPosition := anEvent currentTarget position.
+	originalPosition := anEvent currentTarget constraints position.
 
 	anEvent currentTarget dispatchEvent: BlPullStartEvent new
 ]
