@@ -75,6 +75,37 @@ BlZoomableElementExamples >> zoomableElementBottomRightZoomCenter [
 	^ aZoomableElement
 ]
 
+{ #category : #'examples - zoom' }
+BlZoomableElementExamples >> zoomableElementFitContentWithContentZoomedOut [
+	<gtExample>
+	| aZoomableElement |
+	
+	aZoomableElement := self zoomableElement.
+	aZoomableElement constraintsDo: [ :c |
+		c horizontal fitContent.
+		c vertical fitContent ].
+	aZoomableElement zoomLevel: 0.5.
+	aZoomableElement border: (BlBorder paint: Color gray width: 1).
+	aZoomableElement addChild: self contentElement.
+	
+	self assert: aZoomableElement hasContentElement.
+	self assert: aZoomableElement hasZoomLevel.
+	self assert: aZoomableElement zoomCenter equals: 0.5 asPoint.
+	
+	aZoomableElement forceLayout.
+	
+	self assert: aZoomableElement extent equals: (150@100).
+	self assert: aZoomableElement zoomLevel equals: 0.5.
+	self assert: aZoomableElement zoomCenter equals: 0.5 asPoint.
+	
+	self assert: aZoomableElement contentElement extent equals: 300@200.
+	self assert: aZoomableElement contentElement position equals: (-75.0@ -50.0).
+	self assert: aZoomableElement contentElement transformation matrix decomposition scale asPoint equals: 0.5 asPoint.
+	self assert: aZoomableElement contentElement transformation matrix decomposition translation asPoint equals: 75@50.
+	
+	^ aZoomableElement
+]
+
 { #category : #'examples - zoom center' }
 BlZoomableElementExamples >> zoomableElementMiddleZoomCenter [
 	<gtExample>
@@ -190,6 +221,22 @@ BlZoomableElementExamples >> zoomableElementWithContent [
 	
 	aZoomableElement := self zoomableElement.
 	aZoomableElement addChild: self contentElement.
+	
+	self assert: aZoomableElement hasContentElement.
+	self assert: aZoomableElement hasZoomLevel not.
+	self assert: aZoomableElement zoomCenter equals: 0.5 asPoint.
+	
+	^ aZoomableElement
+]
+
+{ #category : #'examples - zoom' }
+BlZoomableElementExamples >> zoomableElementWithContentMatchParentNoUserZoom [
+	<gtExample>
+	| aZoomableElement |
+	
+	aZoomableElement := self zoomableElement.
+	aZoomableElement addChild: self contentElement.
+	aZoomableElement border: (BlBorder paint: Color gray width: 1).
 	
 	self assert: aZoomableElement hasContentElement.
 	self assert: aZoomableElement hasZoomLevel not.

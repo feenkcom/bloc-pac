@@ -1,3 +1,8 @@
+"
+! Pannable element
+Extends ${class:BlZoomableElement}$ or ${class:BlPinchableElement}$ by adding panning support - an ability to drag the content element around within the bounds of the pannable element.
+${example:BlPannableElementExamples>>#pannableWithForm|previewExpanded=true|codeExpanded=false}$.
+"
 Class {
 	#name : #BlPannableElement,
 	#superclass : #BlElement,
@@ -77,6 +82,11 @@ BlPannableElement >> zoomLevel [
 ]
 
 { #category : #'api - zooming' }
+BlPannableElement >> zoomLevel: aZoomFactor [
+	self zoomableElement zoomLevel: aZoomFactor
+]
+
+{ #category : #'api - zooming' }
 BlPannableElement >> zoomOut [
 	self zoomableElement zoomOut
 ]
@@ -87,18 +97,13 @@ BlPannableElement >> zoomStep: aNumber [
 ]
 
 { #category : #'api - zooming' }
-BlPannableElement >> zoomTo: aZoomFactor [
-	self zoomableElement zoomLevel: aZoomFactor
-]
-
-{ #category : #'api - zooming' }
 BlPannableElement >> zoomToActualSize [
-	self zoomTo: 1
+	self zoomableElement zoomToActualSize
 ]
 
 { #category : #'api - zooming' }
 BlPannableElement >> zoomToFit [
-	self zoomableElement zoomReset
+	self zoomableElement zoomToFit
 ]
 
 { #category : #accessing }
@@ -106,4 +111,13 @@ BlPannableElement >> zoomableElement [
 	<return: #BlZoomableElement>
 	
 	^ zoomableElement
+]
+
+{ #category : #accessing }
+BlPannableElement >> zoomableElement: aZoomableElement [
+	| aPreviousZoomableElement |
+	
+	aPreviousZoomableElement := zoomableElement.
+	zoomableElement := aZoomableElement.
+	self replaceChild: aPreviousZoomableElement with: aZoomableElement
 ]
