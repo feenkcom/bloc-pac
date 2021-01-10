@@ -1,5 +1,18 @@
 "
-I am an extended version of a scalable element with zoom support
+!Zoomable element
+Allows users to scale the content of the zoomable element but not the zoomable element itself, in contrast to the ${class:BlPinchableElement}$ which scales itself.
+The zoomable element's layout constraints are set to fit content, the layout bounds will take the scaling transformation of the content into account.
+!! Default state
+By default, zoomable element matches parent and does not have a fixed zoomLevel, which means that the content element is scaled in such a way that it occupies all available space withing the zoomable element.
+The ==zoomCenter== is set to 0.5, meaning that the center of the content element matches the center of the zoomable element.
+In the example below, the border around the zoomable element indicate its match parent bounds. As you can see, the content is aligned in the center of the zoomable element:
+${example:BlZoomableElementExamples>>#zoomableElementWithContentMatchParentNoUserZoom|previewExpanded=true|codeExpanded=false}$
+!! Fit content
+In graphical frameworks, the element transformations do not normally affect the layout bounds, which allows users to implement some interesting animation effects. However, it is sometimes necessary to make sure that transformation is taken into account. A zoomable element allows us just that when its layout constraints are set to ==fitContent==.
+In the following example, the zoomable is zoomed out and fits content, notice how the gray border now encompasses the content element, meaning that the transformation is correctly taken into account:
+${example:BlZoomableElementExamples>>#zoomableElementFitContentWithContentZoomedOut|previewExpanded=true|codeExpanded=false}$
+!! As pannnable element
+A zoomable element can be transformed into a ${class:BlPannableElement}$ by sending a ==convertion== message ${method:BlZoomableElement>>#asPannableElement}$
 "
 Class {
 	#name : #BlZoomableElement,
@@ -12,6 +25,11 @@ Class {
 	],
 	#category : #'BlocPac-PannableAndZoomable'
 }
+
+{ #category : #converting }
+BlZoomableElement >> asPannableElement [
+	^ BlPannableElement new zoomableElement: self
+]
 
 { #category : #converting }
 BlZoomableElement >> asScalableElement [
@@ -176,7 +194,6 @@ BlZoomableElement >> onMeasure: anExtentMeasurementSpec [
 
 	self contentElement
 		transformDo: [ :t |
-			"t origin: (BlAffineTransformationNormalizedPositionOrigin position: (1 - zoomCenter))."
 			t scaleBy: aScaleFactor asPoint ].
 
 	aTransformedExtent := self contentElement measuredBounds transformed extent.
@@ -229,16 +246,6 @@ BlZoomableElement >> zoomOut [
 	self zoomLevel: self zoomLevel - self zoomStep
 ]
 
-{ #category : #zooming }
-BlZoomableElement >> zoomReset [
-	zoomLevel := nil.
-	zoomCenter := 0.5 asPoint.
-	self requestLayout.
-	self constraintsDo: [ :c |
-		c horizontal matchParent.
-		c vertical matchParent ]
-]
-
 { #category : #accessing }
 BlZoomableElement >> zoomStep [
 	^ zoomStep
@@ -247,4 +254,16 @@ BlZoomableElement >> zoomStep [
 { #category : #accessing }
 BlZoomableElement >> zoomStep: aNumber [
 	zoomStep := aNumber
+]
+
+{ #category : #zooming }
+BlZoomableElement >> zoomToActualSize [
+	self zoomLevel: 1
+]
+
+{ #category : #zooming }
+BlZoomableElement >> zoomToFit [
+	zoomLevel := nil.
+	zoomCenter := 0.5 asPoint.
+	self requestLayout
 ]

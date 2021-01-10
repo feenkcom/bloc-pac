@@ -5,7 +5,7 @@ Class {
 		'image1200',
 		'image400'
 	],
-	#category : #'BlocPac-Imager-Examples'
+	#category : #'BlocPac-Imager-Examples-Examples'
 }
 
 { #category : #tests }

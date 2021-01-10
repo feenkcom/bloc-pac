@@ -1,7 +1,7 @@
 Class {
 	#name : #GToolkitImagesExamples,
 	#superclass : #Object,
-	#category : #'BlocPac-Imager-Examples'
+	#category : #'BlocPac-Imager-Examples-Examples'
 }
 
 { #category : #examples }
@@ -54,30 +54,6 @@ GToolkitImagesExamples >> gridSpaceForDirectory: aFileReference [
 ]
 
 { #category : #examples }
-GToolkitImagesExamples >> gtBlUrlImageElement [
-	<gtExample>
-
-	| file element |
-
-	file := GtResourcesUtility resourceAtPath: Path * 'feenkcom' / 'gtoolkit-inspector' / 'doc' / 'gt.png'.
-	element := BlFileImageElement file: file.
-	^element
-]
-
-{ #category : #examples }
-GToolkitImagesExamples >> gtBlUrlImageSpace [
-	<gtExample>
-
-	| space |
-
-	space := BlSpace new.
-	space root addChild: self gtBlUrlImageElement.
-	space title: 'GT Logo' translated.
-	space show.
-	^space
-]
-
-{ #category : #examples }
 GToolkitImagesExamples >> imageInSpace: aFileReference [
 
 	| element space |
@@ -100,7 +76,7 @@ GToolkitImagesExamples >> urlGrid [
 	<gtExample>
 	<noTest>
 
-	| images gridElement scrollPane space previewSize children |
+	| images gridElement scrollPane previewSize children |
 
 	images := STONJSON fromString: 'https://unsplash.it/list' asUrl retrieveContents.
 
@@ -124,18 +100,14 @@ GToolkitImagesExamples >> urlGrid [
 		c vertical matchParent ].
 	scrollPane addChild: gridElement.
 
-	space := BlSpace new.
-	space root addChild: scrollPane.
-	space title: 'Gallery thanks to https://unsplash.it'.
-	space show.
-	^space
+	^ scrollPane
 ]
 
 { #category : #examples }
-GToolkitImagesExamples >> urlImageInSpace [
+GToolkitImagesExamples >> urlImage [
 	<gtExample>
-
-	| url element space |
+	<noTest>
+	| url element |
 
 	url := 'https://picsum.photos/200/100'.
 
@@ -144,9 +116,5 @@ GToolkitImagesExamples >> urlImageInSpace [
 		c horizontal matchParent.
 		c vertical matchParent ].
 
-	space := BlSpace new.
-	space root addChild: element.
-	space title: url.
-	space show.
-	^space
+	^ element
 ]
