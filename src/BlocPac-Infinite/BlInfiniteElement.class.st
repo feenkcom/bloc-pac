@@ -1281,19 +1281,20 @@ BlInfiniteElement >> notifyScrolled: aPoint [
 
 { #category : #'children - geometry' }
 BlInfiniteElement >> offsetChildrenHorizontallyBy: aNumber [
-	
 	childrenManager childrenDo: [ :anElement |
-		| previousPosition newPosition |
+		| previousPosition newPosition aBlBoundsUpdater |
 		previousPosition := anElement position.
 		newPosition := (previousPosition x + aNumber) @ previousPosition y.
+	
+		aBlBoundsUpdater := BlElementBoundsUpdater new.
 		
 		self flag: 'Implement BlElement>>#moveTo:'.
 		anElement measuredBounds position: newPosition.
-		anElement position: newPosition extent: anElement extent.
-		anElement commitChanges.
+		anElement position: newPosition extent: anElement extent context: aBlBoundsUpdater.
+		aBlBoundsUpdater commitChanges.
 		
 		self
-			assert: [ newPosition closeTo: anElement position epsilon: BlElementChange epsilon ]
+			assert: [ newPosition closeTo: anElement position epsilon: BlElement epsilon ]
 			description: [ 'Position didn''t change as expected! It is super important for scrolling, since we assume that I DO offset children by a number regardless of anything' ] ]
 ]
 
@@ -1301,18 +1302,19 @@ BlInfiniteElement >> offsetChildrenHorizontallyBy: aNumber [
 BlInfiniteElement >> offsetChildrenVerticallyBy: aNumber [
 	
 	childrenManager childrenDo: [ :anElement |
-		| previousPosition newPosition |
+		| previousPosition newPosition aBlBoundsUpdater |
 
 		previousPosition := anElement position.
 		newPosition := previousPosition x @ (previousPosition y + aNumber).
-
+		aBlBoundsUpdater := BlElementBoundsUpdater new.
+		
 		self flag: 'Implement BlElement>>#moveTo:'.
 		anElement measuredBounds position: newPosition.
-		anElement position: newPosition extent: anElement extent.
-		anElement commitChanges.
+		anElement position: newPosition extent: anElement extent context: aBlBoundsUpdater.
+		aBlBoundsUpdater commitChanges.
 
 		self
-			assert: [ newPosition closeTo: anElement position epsilon: BlElementChange epsilon ]
+			assert: [ newPosition closeTo: anElement position epsilon: BlElement epsilon ]
 			description: [ 'Position didn''t change as expected! It is super important for scrolling, since we assume that I DO offset children by a number regardless of anything' ] ]
 ]
 
@@ -1432,11 +1434,11 @@ BlInfiniteElement >> onExitLayoutOrScroll [
 ]
 
 { #category : #layout }
-BlInfiniteElement >> onLayout: aBounds [
+BlInfiniteElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
 	self dispatchLayout.
 	firstLayoutComplete := true.
 	
-	self layout layoutIgnored: self
+	self layout layoutIgnored: self context: aBlElementBoundsUpdateContext
 ]
 
 { #category : #'hooks - state' }

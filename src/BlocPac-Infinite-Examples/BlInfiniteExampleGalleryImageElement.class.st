@@ -12,8 +12,8 @@ Class {
 }
 
 { #category : #layout }
-BlInfiniteExampleGalleryImageElement >> applyLayoutIn: aBounds [
-	super applyLayoutIn: aBounds.
+BlInfiniteExampleGalleryImageElement >> applyLayoutIn: aBounds context: aBlElementBoundsUpdateContext [
+	super applyLayoutIn: aBounds context: aBlElementBoundsUpdateContext.
 	self loadImage
 ]
 

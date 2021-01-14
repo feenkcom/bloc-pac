@@ -8,8 +8,8 @@ Class {
 }
 
 { #category : #layout }
-BlGeometryElement >> applyLayoutIn: aBounds [
-	super applyLayoutIn: self layoutBounds
+BlGeometryElement >> applyLayoutIn: aBounds context: aBlElementBoundsUpdateContext [
+	super applyLayoutIn: self layoutBounds context: aBlElementBoundsUpdateContext
 ]
 
 { #category : #initialization }

@@ -324,7 +324,10 @@ BlInfiniteLinearLayout >> extraLayoutSpace [
 { #category : #layout }
 BlInfiniteLinearLayout >> fillLayout: shouldStopOnFocusable [
 	<return: #Number>
-	| aStart aRemainingSpace aBreak |
+	| aStart aRemainingSpace aBreak aBoundsUpdater |
+	
+	aBoundsUpdater := BlElementBoundsUpdater new.
+
 	aStart := layoutState availableSpace.
 	"We can only recycle if scrolling offset is set"
 	layoutState hasScrollingOffset
@@ -342,7 +345,7 @@ BlInfiniteLinearLayout >> fillLayout: shouldStopOnFocusable [
 			layoutState hasMoreItems: self state ] ] ]
 		whileTrue: [ 
 			| aResult |
-			aResult := self layoutChunk.
+			aResult := self layoutChunkContext: aBoundsUpdater.
 			aResult finished
 				ifTrue: [ aBreak := true ]
 				ifFalse: [ 
@@ -352,6 +355,8 @@ BlInfiniteLinearLayout >> fillLayout: shouldStopOnFocusable [
 	
 	"Make sure that class invariant is fulfilled"
 	self validateChildrenOrder.
+	
+	aBoundsUpdater commitChanges.
 	
 	^ aStart - layoutState availableSpace
 ]
@@ -818,39 +823,6 @@ BlInfiniteLinearLayout >> layoutChildrenIn: aBlInfiniteRecycler state: aBlInfini
 ]
 
 { #category : #layout }
-BlInfiniteLinearLayout >> layoutChunk [
-	<return: #BlInfiniteLinearLayoutChunkResult>
-	| aResult anElement anElementBounds anInfiniteConstraints |
-	
-	aResult := BlInfiniteLinearLayoutChunkResult new.
-
-	(layoutState hasMoreItems: self state)
-		ifFalse: [ ^ aResult finished: true ].
-
-	infiniteElement telemetry
-		timeSync: [ 'Chunk add ', self class name ]
-		during: [ anElement := self layoutChunkAdd ].
-
-	infiniteElement telemetry
-		timeSync: [ 'Chunk measure ', anElement class name ]
-		during: [ anElementBounds := self layoutChunkMeasure: anElement result: aResult. ].
-	
-	"We calculate everything with Element's bounding box (which includes decor and margins)
-	To calculate correct layout position, we subtract margins."
-	infiniteElement telemetry
-		timeSync: [ 'Chunk layout ', anElement class name ]
-		during: [ self layoutDecoratedWithMargins: anElement in: anElementBounds. ].
-	
-	anInfiniteConstraints := anElement constraints infinite.
-	"Consume the available space if the element is not removed OR changed"
-	(anInfiniteConstraints isItemRemoved or: [ anInfiniteConstraints isItemChanged ])
-		ifTrue: [ aResult ignoreConsumed: true ].
-
-	aResult focusable: anElement isFocusable.
-	^ aResult
-]
-
-{ #category : #layout }
 BlInfiniteLinearLayout >> layoutChunkAdd [
 	<return: #BlElement>
 	| anElement |
@@ -904,6 +876,39 @@ BlInfiniteLinearLayout >> layoutChunkAdd [
 		during: [ self notifyChunkAdded: anElement. ].
 	
 	^ anElement
+]
+
+{ #category : #layout }
+BlInfiniteLinearLayout >> layoutChunkContext: aBlElementBoundsUpdateContext [
+	<return: #BlInfiniteLinearLayoutChunkResult>
+	| aResult anElement anElementBounds anInfiniteConstraints |
+	
+	aResult := BlInfiniteLinearLayoutChunkResult new.
+
+	(layoutState hasMoreItems: self state)
+		ifFalse: [ ^ aResult finished: true ].
+
+	infiniteElement telemetry
+		timeSync: [ 'Chunk add ', self class name ]
+		during: [ anElement := self layoutChunkAdd ].
+
+	infiniteElement telemetry
+		timeSync: [ 'Chunk measure ', anElement class name ]
+		during: [ anElementBounds := self layoutChunkMeasure: anElement result: aResult. ].
+	
+	"We calculate everything with Element's bounding box (which includes decor and margins)
+	To calculate correct layout position, we subtract margins."
+	infiniteElement telemetry
+		timeSync: [ 'Chunk layout ', anElement class name ]
+		during: [ self layoutDecoratedWithMargins: anElement in: anElementBounds context: aBlElementBoundsUpdateContext ].
+	
+	anInfiniteConstraints := anElement constraints infinite.
+	"Consume the available space if the element is not removed OR changed"
+	(anInfiniteConstraints isItemRemoved or: [ anInfiniteConstraints isItemChanged ])
+		ifTrue: [ aResult ignoreConsumed: true ].
+
+	aResult focusable: anElement isFocusable.
+	^ aResult
 ]
 
 { #category : #layout }
