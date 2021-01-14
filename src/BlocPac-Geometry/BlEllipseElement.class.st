@@ -12,7 +12,7 @@ Class {
 		'majorRadius',
 		'minorRadius'
 	],
-	#category : #'BlocPac-Geometry-Ellipse'
+	#category : #'BlocPac-Geometry-Figures'
 }
 
 { #category : #'instance creation' }
