@@ -25,7 +25,7 @@ BlSvgPathBuilder >> A [
 { #category : #commands }
 BlSvgPathBuilder >> C [
 
-	^ self absolute; cubicBezier 
+	^ self absolute; cubicBezier
 ]
 
 { #category : #commands }

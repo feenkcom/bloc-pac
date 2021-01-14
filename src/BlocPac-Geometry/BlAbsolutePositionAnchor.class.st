@@ -57,3 +57,13 @@ BlAbsolutePositionAnchor >> position [
 BlAbsolutePositionAnchor >> position: aPoint [
 	position := aPoint
 ]
+
+{ #category : #printing }
+BlAbsolutePositionAnchor >> printOn: aStream [
+	"Append a sequence of characters to aStream that identify the receiver."
+
+	super printOn: aStream.
+	aStream
+		nextPutAll: ' position: ';
+		print: position
+]
