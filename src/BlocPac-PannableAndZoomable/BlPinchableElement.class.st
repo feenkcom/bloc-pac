@@ -118,7 +118,15 @@ BlPinchableElement >> zoomStep: aNumber [
 
 { #category : #'api - zooming' }
 BlPinchableElement >> zoomToActualSize [
-	self zoomLevel: 1
+	"I position my content element to the center of the canvas: the offset is the difference between my center and the content's center, minus the content's current position."
+
+	self zoomLevel: 1.
+	self
+		relocate:
+			(self transformation
+				transformPoint:
+					(self extent - self contentElement extent) / 2
+						- self contentElement bounds inParent position)
 ]
 
 { #category : #'api - zooming' }
