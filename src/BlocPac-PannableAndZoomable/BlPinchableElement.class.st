@@ -118,7 +118,15 @@ BlPinchableElement >> zoomStep: aNumber [
 
 { #category : #'api - zooming' }
 BlPinchableElement >> zoomToActualSize [
-	self zoomLevel: 1
+	self zoomLevel: 1.
+	self
+		relocate:
+			(self transformation
+				transformPoint:
+					self contentElement bounds inParent position
+						+
+							((self contentElement extent - self  extent) / 2))
+				negated
 ]
 
 { #category : #'api - zooming' }
