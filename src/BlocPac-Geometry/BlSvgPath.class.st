@@ -1,5 +1,5 @@
 "
-I am the BlGeometry used to represent a SVG Path, which allows to make complex drawings.
+I am the ${class:BlElementVectorGeometry}$ used to represent a SVG Path, which allows to make complex drawings.
 
 A SVG Path is obtained through successives commands, which each symbolizes a movement of the virtual pen drawing the path.
 My instance variable'pathData' stores the list of commands used to obtain my final drawing.
@@ -8,7 +8,7 @@ To instanciate myself I use the BlSvgPathConverter class, which will allow me to
 To calculate my extent I use the BlSvgPathExtentResolver class, which calculates my extent when I set my 'pathData' instance variable.
 
 Instance creation examples:
-	- BlSvgPath fromStream: 'M100,200 C100,100 250,100 250,200 S400,300 400,200' 
+	- BlSvgPath new svg: 'M100,200 C100,100 250,100 250,200 S400,300 400,200' viewbox: (0@0 extent: 4000@400) 
 "
 Class {
 	#name : #BlSvgPath,
@@ -24,11 +24,6 @@ Class {
 { #category : #'instance creation' }
 BlSvgPath class >> build: aBlock [
 	^ self new build: aBlock
-]
-
-{ #category : #'instance creation' }
-BlSvgPath class >> fromStream: aStream [
-	^ self new fromStream: aStream
 ]
 
 { #category : #initialization }
