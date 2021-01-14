@@ -193,10 +193,10 @@ BlScrollableElement >> onChildAdded: anElement [
 ]
 
 { #category : #layout }
-BlScrollableElement >> onLayout: aBounds [
+BlScrollableElement >> onLayout: aBounds context: aBlElementBoundsUpdater [
 	| aPreviousScrollPosition aLayoutNode |
 	self scrollFlinger isIdle
-		ifFalse: [ ^ super onLayout: aBounds ].
+		ifFalse: [ ^ super onLayout: aBounds context: aBlElementBoundsUpdater ].
 		
 	self hasScrolledElement
 		ifFalse: [ ^ self ].
@@ -216,7 +216,7 @@ BlScrollableElement >> onLayout: aBounds [
 	"then we allign content if it is smaller than the scrollpane"
 	self layoutApplyAlignment: aLayoutNode.
 
-	super onLayout: aBounds.
+	super onLayout: aBounds context: aBlElementBoundsUpdater.
 	
 	self dispatchOnScrolled: scrollPosition - aPreviousScrollPosition
 ]

@@ -166,7 +166,7 @@ BlScalableElement >> onChildAdded: anElement [
 ]
 
 { #category : #layout }
-BlScalableElement >> onLayout: aBounds [
+BlScalableElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
 	| aContentBounds |
 
 	self hasContentElement
@@ -175,7 +175,7 @@ BlScalableElement >> onLayout: aBounds [
 	aContentBounds := BlBounds origin: 0.0@0.0 extent: self contentElement measuredExtent.
 	aContentBounds translateBy: (self measuredExtent - aContentBounds extent) / 2.0.
 	
-	self contentElement applyLayoutIn: aContentBounds
+	self contentElement applyLayoutIn: aContentBounds context: aBlElementBoundsUpdateContext
 ]
 
 { #category : #layout }

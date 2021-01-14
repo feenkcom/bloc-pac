@@ -32,10 +32,8 @@ Class {
 }
 
 { #category : #layout }
-BlAsyncImageElement >> applyLayoutIn: aBlBounds [
-
-	
-	super applyLayoutIn: aBlBounds.
+BlAsyncImageElement >> applyLayoutIn: aBlBounds context: aBlElementBoundsUpdateContext [
+	super applyLayoutIn: aBlBounds context: aBlElementBoundsUpdateContext.
 	self queueAsyncUpdate
 ]
 

@@ -10,7 +10,7 @@ Class {
 }
 
 { #category : #layout }
-BlGeometryLayout >> layout: anElement in: aRectangle [
+BlGeometryLayout >> layout: anElement in: aRectangle context: aBlElementBoundsUpdateContext [
 	| anElementTopLeft anElementBottomRight |
 	
 	anElementTopLeft := anElement insets topLeft.
@@ -27,9 +27,9 @@ BlGeometryLayout >> layout: anElement in: aRectangle [
 			aChildCorner := aChildBounds corner min: anElementBottomRight - aChild outsets bottomRight.
 			aChildPosition := (aChildCorner - aChildBounds extent) max: aMinTopLeft.		
 			
-			aChild applyLayoutIn: (aChildPosition extent: aChildBounds extent) ].
+			aChild applyLayoutIn: (aChildPosition extent: aChildBounds extent) context: aBlElementBoundsUpdateContext ].
 	
-	self layoutIgnored: anElement
+	self layoutIgnored: anElement context: aBlElementBoundsUpdateContext
 ]
 
 { #category : #measure }

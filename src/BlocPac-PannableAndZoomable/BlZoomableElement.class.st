@@ -166,7 +166,7 @@ BlZoomableElement >> onChildAdded: anElement [
 ]
 
 { #category : #layout }
-BlZoomableElement >> onLayout: aBounds [
+BlZoomableElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
 	| aContentBounds |
 
 	self hasContentElement
@@ -177,7 +177,7 @@ BlZoomableElement >> onLayout: aBounds [
 	aContentBounds translateBy: (self measuredExtent) * ((0.5 asPoint - zoomCenter)) * self zoomLevel.
 	aContentBounds translateBy: ((aContentBounds extent - self measuredExtent)) * (0.5 - zoomCenter) * self zoomLevel.
 	
-	self contentElement applyLayoutIn: aContentBounds
+	self contentElement applyLayoutIn: aContentBounds context: aBlElementBoundsUpdateContext
 ]
 
 { #category : #layout }
