@@ -159,12 +159,12 @@ BlInfiniteRecyclerController >> onElementHolderRecycled: anElementHolder [
 
 { #category : #'scrap fetcher -> recycler' }
 BlInfiniteRecyclerController >> quickRecycleScrap: anElement [
-	^ self shouldBeImplemented
+	self recycler quickRecycleScrap: anElement
 ]
 
 { #category : #'scrap fetcher -> recycler' }
 BlInfiniteRecyclerController >> recycleCachedAt: anIndex [
-	^ self shouldBeImplemented
+	self recycler recycleCachedAt: anIndex
 ]
 
 { #category : #'scrap fetcher -> recycler' }
