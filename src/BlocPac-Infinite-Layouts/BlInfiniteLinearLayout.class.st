@@ -857,7 +857,7 @@ BlInfiniteLinearLayout >> layoutChunkAdd [
 					infiniteElement telemetry
 						timeSync: [ 'Compute chunk style {1}' format: { anElement } ]
 						during: [
-							anElement layout ignoreRequestLayoutDuring: [
+							anElement ignoreRequestLayoutDuring: [
 								infiniteElement space doStyle: anElement ] ] ] ].
 	
 	"we should check if an element is attached to the scene graph again, because styles may remove it from the space"
@@ -868,7 +868,7 @@ BlInfiniteLinearLayout >> layoutChunkAdd [
 					infiniteElement telemetry
 						timeSync: [ 'Compute chunk properties {1}' format: { anElement } ]
 						during: [
-							anElement layout ignoreRequestLayoutDuring: [
+							anElement ignoreRequestLayoutDuring: [
 								infiniteElement space doComputePropertiesOf: { anElement } ] ] ] ].
 
 	infiniteElement telemetry
