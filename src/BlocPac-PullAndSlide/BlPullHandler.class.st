@@ -91,7 +91,7 @@ BlPullHandler >> dragEndEvent: anEvent [
 
 { #category : #'event handling' }
 BlPullHandler >> dragEvent: anEvent [
-	| aStartPosition aCurrentPosition aPreviosPosition dragDelta aNewPosition |
+	| aStartPosition aCurrentPosition aPreviousPosition dragDelta aNewPosition |
 	
 	dragStartGlobalPosition ifNil: [ dragStartGlobalPosition := anEvent position ].
 	
@@ -103,7 +103,7 @@ BlPullHandler >> dragEvent: anEvent [
 	dragDelta := (self computePullDelta: dragDelta) rounded.
 	
 	aNewPosition := ((originalPosition ifNil: [ originalPosition := anEvent currentTarget constraints position ]) + dragDelta).
-	aPreviosPosition := anEvent currentTarget constraints position.
+	aPreviousPosition := anEvent currentTarget constraints position.
 
 	allowedOutOfBounds ifFalse: [
 		| aMaxPosition |
@@ -118,7 +118,7 @@ BlPullHandler >> dragEvent: anEvent [
 
 	anEvent currentTarget dispatchEvent: (BlPullEvent new
 		initialPosition: originalPosition;
-		oldPosition: aPreviosPosition;
+		oldPosition: aPreviousPosition;
 		newPosition: aNewPosition;
 		delta: dragDelta)
 ]
