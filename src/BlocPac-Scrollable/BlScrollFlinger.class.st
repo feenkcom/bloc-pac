@@ -10,9 +10,8 @@ Class {
 		'lastFlingY',
 		'step',
 		'eatRunOnAnimationRequest',
-		'reSchedulePostAnimationCallback',
 		'scrollable',
-		'requeue'
+		'shouldRequeueTask'
 	],
 	#category : #'BlocPac-Scrollable-Core'
 }
@@ -83,8 +82,7 @@ BlScrollFlinger >> defaultInterpolator [
 
 { #category : #'private - scheduling' }
 BlScrollFlinger >> disableRunOnAnimationRequests [
-	
-	reSchedulePostAnimationCallback := false.
+	shouldRequeueTask := false.
 	eatRunOnAnimationRequest := true
 ]
 
@@ -100,9 +98,8 @@ BlScrollFlinger >> distanceInfluenceForSnapDuration: aFactorNumber [
 
 { #category : #'private - scheduling' }
 BlScrollFlinger >> enableRunOnAnimationRequests [
-
 	eatRunOnAnimationRequest := false.
-	reSchedulePostAnimationCallback
+	shouldRequeueTask
 		ifTrue: [ self postOnAnimation ]
 ]
 
@@ -134,8 +131,7 @@ BlScrollFlinger >> initialize [
 	interpolator := self defaultInterpolator.
 	scroller := self createScrollerFor: interpolator.
 	eatRunOnAnimationRequest := false.
-	reSchedulePostAnimationCallback := false.
-	requeue := false.
+	shouldRequeueTask := false.
 ]
 
 { #category : #initialization }
@@ -213,23 +209,25 @@ BlScrollFlinger >> onSmoothScrolled [
 
 { #category : #scheduling }
 BlScrollFlinger >> postOnAnimation [
-	| space |
-
 	self
 		assert: [ scrollable isNotNil ]
 		description: [ 'Can not post on animation if I am not attached to a scrollable' ].
 
-	eatRunOnAnimationRequest ifTrue: 
-		[ reSchedulePostAnimationCallback := true ]
-	ifFalse:
-		[ self isNew ifTrue: 
-			[ self scrollable enqueueTask: self ]
-		ifFalse: [ self isExecuting ifTrue: 
-			[ requeue := true ]
-		ifFalse: 	[ self isComplete ifTrue: 
-			[ self setNew.
-			requeue := false.
-			self scrollable enqueueTask: self ] ] ] ].
+	eatRunOnAnimationRequest 
+		ifTrue: [ 
+			shouldRequeueTask := true ]
+		ifFalse:[ 
+			self isNew 
+				ifTrue: [ self scrollable enqueueTask: self ]
+				ifFalse: [ 
+					self isExecuting 
+						ifTrue: [ shouldRequeueTask := true ]
+						ifFalse: [ 
+							self isComplete 
+								ifTrue: [ 
+									self setNew.
+									shouldRequeueTask := false.
+									self scrollable enqueueTask: self ] ] ] ].
 ]
 
 { #category : #running }
@@ -243,7 +241,7 @@ BlScrollFlinger >> pulse [
 BlScrollFlinger >> requeueTaskAfterExecution [
 	"Answer a boolean indicating whether the receiver should be requeued after execution."
 
-	^ requeue
+	^ shouldRequeueTask
 ]
 
 { #category : #running }
@@ -282,7 +280,7 @@ BlScrollFlinger >> run [
 		aSmoothScroller isPendingInitialRun
 			ifTrue: [ aSmoothScroller onScrollBy: 0@0 ].
 		"stop if it does not trigger any scroll"
-		reSchedulePostAnimationCallback
+		shouldRequeueTask
 			ifFalse: [ aSmoothScroller stop ] ].
 		
 	self enableRunOnAnimationRequests
