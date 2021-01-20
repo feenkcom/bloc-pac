@@ -30,7 +30,7 @@ BlMouseScrollHorizontalDirection >> canScrollRight: anInfiniteElement [
 	aLastChild
 		ifNil: [ ^ true ].
 
-	aLastChild bounds inParent right > (anInfiniteElement weight - anInfiniteElement layout paddingRight) 
+	aLastChild bounds inParent right > (anInfiniteElement width - anInfiniteElement layout paddingRight) 
 		ifTrue: [ ^ true ].
 
 	^ false
