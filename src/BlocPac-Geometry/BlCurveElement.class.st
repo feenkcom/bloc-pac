@@ -204,6 +204,8 @@ BlCurveElement >> hasToHead [
 BlCurveElement >> initialize [
 	super initialize.
 	
+	self constraintsDo: [ :c | c ignoreByLayout ].
+	
 	visuals := BlCustomVisuals new
 		geometry: self defaultGeometry;
 		outskirts: self defaultOutskirts.
