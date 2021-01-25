@@ -16,8 +16,8 @@ BlSlideHandler >> dragEvent: anEvent [
 	
 	aTargetElement := targetElement ifNil: anEvent currentTarget.
 
-	aStartPosition := aTargetElement globalPointToLocal: dragStartPosition.
-	aCurrentPosition := aTargetElement globalPointToLocal: anEvent position.
+	aStartPosition := aTargetElement globalPointToChildren: dragStartPosition.
+	aCurrentPosition := aTargetElement globalPointToChildren: anEvent position.
 
 	aDelta := (aCurrentPosition - aStartPosition) rounded.
 
@@ -35,7 +35,7 @@ BlSlideHandler >> dragEvent: anEvent [
 BlSlideHandler >> dragStartEvent: anEvent [
 	anEvent consumed: true.
 
-	"drag start position in local"
+	"drag start position in space"
 	dragStartPosition := anEvent position.
 	
 	(targetElement ifNil: anEvent currentTarget) children accountedByLayout

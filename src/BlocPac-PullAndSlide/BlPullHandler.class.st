@@ -96,7 +96,12 @@ BlPullHandler >> dragEvent: anEvent [
 	dragStartGlobalPosition ifNil: [ dragStartGlobalPosition := anEvent position ].
 	
 	aCurrentPosition := anEvent currentTarget globalPointToParent: anEvent position.
+	anEvent currentTarget hasParent
+		ifTrue: [ aCurrentPosition := anEvent currentTarget parent localPointToChildren: aCurrentPosition ].
+	
 	aStartPosition := anEvent currentTarget globalPointToParent: dragStartGlobalPosition.
+	anEvent currentTarget hasParent
+		ifTrue: [ aStartPosition := anEvent currentTarget parent localPointToChildren: aStartPosition ].
 
 	dragDelta := aCurrentPosition - aStartPosition.
 	
