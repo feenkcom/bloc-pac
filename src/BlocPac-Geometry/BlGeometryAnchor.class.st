@@ -30,7 +30,7 @@ BlGeometryAnchor >> computePositionWithin: aGeometryElement [
 	"Return anchor position within a given geometry element in its parent bounds"
 	<return: #Point>
 
-	^ aGeometryElement globalPointToParent: (self globalPositionWithin: aGeometryElement)
+	^ aGeometryElement globalPointToParentChildren: (self globalPositionWithin: aGeometryElement)
 ]
 
 { #category : #accessing }
@@ -125,5 +125,5 @@ BlGeometryAnchor >> selfPositionsWithin: aGeometryElement and: anAnotherAnchor [
 	<return: #Collection of: #Point>
 	
 	^ (self globalSelfPositionsWithin: aGeometryElement and: anAnotherAnchor)
-			collect: [ :aPoint | aGeometryElement globalPointToParent: aPoint ]
+			collect: [ :aPoint | aGeometryElement globalPointToParentChildren: aPoint ]
 ]
