@@ -39,5 +39,5 @@ BlFocusExampleNavigationListener >> keyDownEvent: anEvent [
 			root: root;
 			referenceElement: focused;
 			nextFocusDo: #yourself ifNone: [ nil ] ].
-	next ifNotNil: #transferFocus
+	next ifNotNil: #requestFocus
 ]
