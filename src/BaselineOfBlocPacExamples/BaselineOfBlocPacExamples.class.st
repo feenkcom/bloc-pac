@@ -10,7 +10,7 @@ BaselineOfBlocPacExamples >> baseline: spec [
 	spec for: #'common' do: [
 		spec 
 			baseline: 'BlocPac' with: [
-				spec repository: 'github://feenkcom/bloc-pac:v0.6.51/src' ];
+				spec repository: 'github://feenkcom/bloc-pac:v0.6.52/src' ];
 			baseline: 'BlocExamples' with: [
 				spec repository: 'github://feenkcom/Bloc:v0.8.165/src' ].
 		spec 
