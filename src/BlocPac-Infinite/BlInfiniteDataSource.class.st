@@ -17,6 +17,11 @@ Class {
 }
 
 { #category : #'instance creation' }
+BlInfiniteDataSource class >> noId [
+	^ NoId
+]
+
+{ #category : #'instance creation' }
 BlInfiniteDataSource >> bindHolder: anElementHolder at: aPosition [
 
 	anElementHolder position: aPosition.
