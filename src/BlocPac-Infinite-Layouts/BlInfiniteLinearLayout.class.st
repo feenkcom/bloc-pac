@@ -981,6 +981,13 @@ BlInfiniteLinearLayout >> layoutCompleted [
 	anchorInfo reset
 ]
 
+{ #category : #orientation }
+BlInfiniteLinearLayout >> mouseWheelEvent: anEvent [
+	"${method:BlInfiniteMouseScrollOrientationLimitedListener>>#mouseWheelEvent:}$
+	dispatches mouse wheel event processing to layouts. Layouts decides whether and how to scroll items."
+	self orientation mouseWheelEvent: anEvent
+]
+
 { #category : #'layout - notifying' }
 BlInfiniteLinearLayout >> notifyAvailableSpaceChanged: aNumber [
 	self announcer announce: (BlInfiniteLinearLayoutAvailableSpaceChanged new availableSpace: aNumber)

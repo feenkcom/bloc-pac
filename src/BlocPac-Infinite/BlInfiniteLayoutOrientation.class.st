@@ -130,6 +130,15 @@ BlInfiniteLayoutOrientation >> measurementSpecInOther [
 	^ self subclassResponsibility
 ]
 
+{ #category : #'mouse handlers' }
+BlInfiniteLayoutOrientation >> mouseWheelEvent: anEvent [
+	"Scroll an infinite element to a direction indicated by the event.
+	The ${method:BlInfiniteMouseScrollOrientationLimitedListener>>#mouseWheelEvent:}$
+	dispatches mouse wheel event processing to layouts. Layouts decides whether and how to scroll items.
+	See ${method:BlInfiniteLinearLayout>>#mouseWheelEvent:}$"
+	self subclassResponsibility
+]
+
 { #category : #'children - geometry' }
 BlInfiniteLayoutOrientation >> moveChild: anElement by: aNumber [
 	"Move a child element by offsetting its position by the given amount"
