@@ -89,6 +89,7 @@ BlAsyncImageElement >> entry: aBlImageCacheEntry [
 		self enqueueTask: (BlTaskAction new action: [ 
 			self 
 				removeChildren;
+				requestLayout;
 				invalidate ]) ]
 
 ]
@@ -106,7 +107,9 @@ BlAsyncImageElement >> needsUpdate [
 
 	self exception ifNotNil: [ ^false ].
 	currentExtent := self extent.
-	noExtent := currentExtent isNil or: [ currentExtent = (0@0) ].
+	noExtent := (currentExtent isNil or: [ currentExtent = (0@0) ]) and:
+		[ self constraints vertical resizer isFitContent not and:
+			[ self constraints horizontal resizer isFitContent not ] ].
 	"If not pre-loading, and the image is zero size, no need to update"
 	(preLoad isNil and: [ noExtent ]) ifTrue: [ ^false ].
 	entry ifNil: [ ^true ].
@@ -118,6 +121,19 @@ BlAsyncImageElement >> needsUpdate [
 	cache := BlLocalImageCache current.
 	^ (cache cacheSizeFor: imageSize) ~= (cache cacheSizeFor: currentSize).
 
+]
+
+{ #category : #layout }
+BlAsyncImageElement >> onMeasure: anExtentMeasurementSpec [
+	| clampedSize measured |
+
+	entry ifNil: [ ^ super onMeasure: anExtentMeasurementSpec ].
+	measured := anExtentMeasurementSpec sizeFor: entry width @ entry height.
+	clampedSize := measured min: self constraints maxWidth @ self constraints maxHeight.
+	clampedSize := clampedSize max: self constraints minWidth @ self constraints minHeight.
+	self measuredExtent: clampedSize.
+	"this will measure my potential children"
+	super onMeasure: (BlExtentMeasurementSpec exact: clampedSize)
 ]
 
 { #category : #accessing }
