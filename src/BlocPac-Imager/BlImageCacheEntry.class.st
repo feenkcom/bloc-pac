@@ -23,10 +23,22 @@ Class {
 	#instVars : [
 		'image',
 		'isSmallest',
-		'isOriginal'
+		'isOriginal',
+		'width',
+		'height'
 	],
 	#category : #'BlocPac-Imager-Cache'
 }
+
+{ #category : #accessing }
+BlImageCacheEntry >> height [
+	^ height
+]
+
+{ #category : #accessing }
+BlImageCacheEntry >> height: anObject [
+	height := anObject
+]
 
 { #category : #accessing }
 BlImageCacheEntry >> image [
@@ -56,4 +68,14 @@ BlImageCacheEntry >> isSmallest [
 { #category : #accessing }
 BlImageCacheEntry >> isSmallest: anObject [
 	isSmallest := anObject
+]
+
+{ #category : #accessing }
+BlImageCacheEntry >> width [
+	^ width
+]
+
+{ #category : #accessing }
+BlImageCacheEntry >> width: anObject [
+	width := anObject
 ]

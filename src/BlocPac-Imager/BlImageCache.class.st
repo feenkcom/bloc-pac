@@ -27,12 +27,14 @@ Class {
 }
 
 { #category : #private }
-BlImageCache >> answerImage: aForm size: aSize isOriginal: isOriginal [
+BlImageCache >> answerImage: anImage size: aSize isOriginal: isOriginal [
 
 	^BlImageCacheEntry new
 		isSmallest: (aSize <= imageSizes first);
 		isOriginal: isOriginal;
-		image: aForm;
+		image: anImage;
+		width: anImage width;
+		height: anImage height;
 		yourself
 ]
 

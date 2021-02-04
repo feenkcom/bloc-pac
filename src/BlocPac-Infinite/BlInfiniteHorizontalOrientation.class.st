@@ -4,6 +4,38 @@ Class {
 	#category : #'BlocPac-Infinite-Layout'
 }
 
+{ #category : #testing }
+BlInfiniteHorizontalOrientation >> canScrollLeft: anInfiniteElement [
+	"Return true if an infinite element can be scrolled left"
+	<return: #Boolean>	
+	| aFirstChild |
+
+	aFirstChild := anInfiniteElement layout childAtPosition: 1.
+	aFirstChild
+		ifNil: [ ^ true ].
+		
+	aFirstChild position x < (anInfiniteElement layout paddingLeft) 
+		ifTrue: [ ^ true ].
+		
+	^ false
+]
+
+{ #category : #testing }
+BlInfiniteHorizontalOrientation >> canScrollRight: anInfiniteElement [
+	"Return true if an infinite element can be scrolled to the right"
+	<return: #Boolean>	
+	| aLastChild |
+	
+	aLastChild := anInfiniteElement layout childAtPosition: anInfiniteElement layout itemCount.
+	aLastChild
+		ifNil: [ ^ true ].
+
+	aLastChild bounds inParent right > (anInfiniteElement width - anInfiniteElement layout paddingRight) 
+		ifTrue: [ ^ true ].
+
+	^ false
+]
+
 { #category : #'children - geometry' }
 BlInfiniteHorizontalOrientation >> decoratedEnd: anElement [
 	^ (self layout decoratedRight: anElement) + anElement constraints margin right
@@ -73,6 +105,31 @@ BlInfiniteHorizontalOrientation >> measurementSpec [
 { #category : #'children - geometry' }
 BlInfiniteHorizontalOrientation >> measurementSpecInOther [
 	^ self layout heightSpec
+]
+
+{ #category : #'mouse handlers' }
+BlInfiniteHorizontalOrientation >> mouseWheelEvent: anEvent [
+	| dX anInfiniteElement isHorizontal |
+
+	anEvent vector isZero
+		ifTrue: [ ^ self ].
+
+	anInfiniteElement := anEvent currentTarget.
+	
+	isHorizontal := anEvent vector x abs > anEvent vector y abs.
+	
+	isHorizontal ifFalse: [ ^ self ].
+
+	dX := (anEvent isScrollLeft and: [ self canScrollLeft: anInfiniteElement ])
+				ifTrue: [ anEvent vector length negated ]
+				ifFalse: [ (anEvent isScrollRight and: [ self canScrollRight: anInfiniteElement ])
+					ifTrue: [ anEvent vector length ]
+					ifFalse: [ 0 ] ].
+
+	dX isZero ifTrue: [ ^ self ].
+
+	anInfiniteElement smoothScrollBy: (dX @ 0) * 10.
+	anEvent consumed: true
 ]
 
 { #category : #'children - geometry' }
