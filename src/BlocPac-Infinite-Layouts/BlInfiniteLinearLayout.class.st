@@ -859,22 +859,24 @@ BlInfiniteLinearLayout >> layoutChunkAdd [
 						during: [
 							anElement ignoreRequestLayoutDuring: [
 								infiniteElement space doStyle: anElement ] ] ] ].
-	
+
 	"we should check if an element is attached to the scene graph again, because styles may remove it from the space"
 	(infiniteElement isAttachedToSceneGraph and: [ infiniteElement space notNil ])
 		ifTrue: [ 
-			((infiniteElement space canComputeProperties: anElement) and: [ infiniteElement space needsPropertiesComputation: anElement ])
+			self flag: #TODO.
+			"revisit needsPropertiesComputation:"
+			((infiniteElement space canComputeProperties: anElement) and: [ true"infiniteElement space needsPropertiesComputation: anElement" ])
 				ifTrue: [
 					infiniteElement telemetry
 						timeSync: [ 'Compute chunk properties {1}' format: { anElement } ]
 						during: [
-							anElement ignoreRequestLayoutDuring: [
+							infiniteElement ignoreRequestLayoutDuring: [
 								infiniteElement space doComputePropertiesOf: { anElement } ] ] ] ].
 
 	infiniteElement telemetry
 		timeSync: [ 'Notify chunk added {1}' format: { anElement } ]
-		during: [ self notifyChunkAdded: anElement. ].
-	
+		during: [ self notifyChunkAdded: anElement ].
+
 	^ anElement
 ]
 
