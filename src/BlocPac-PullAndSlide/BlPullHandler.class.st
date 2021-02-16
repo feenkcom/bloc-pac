@@ -127,13 +127,13 @@ BlPullHandler >> dragEvent: anEvent [
 BlPullHandler >> dragStartEvent: anEvent [
 	anEvent consumed: true.
 
+	anEvent currentTarget dispatchEvent: BlPullStartEvent new.
+
 	"drag start position in space coordinates"
 	dragStartGlobalPosition := anEvent position.
 
 	"element position in parent"
-	originalPosition := anEvent currentTarget constraints position.
-
-	anEvent currentTarget dispatchEvent: BlPullStartEvent new
+	originalPosition := anEvent currentTarget constraints position
 ]
 
 { #category : #'api - accessing' }
