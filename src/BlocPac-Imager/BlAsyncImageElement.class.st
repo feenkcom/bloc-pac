@@ -51,11 +51,14 @@ BlAsyncImageElement >> drawOnSpartaCanvas: aCanvas [
 	entry
 		ifNil: [ ^ self ].
 
+	(self width isZero or: [ self height isZero ])
+		ifTrue: [ ^ self ].	
+
 	image := entry image.
 	
 	(image width isZero or: [ image height isZero ])
 		ifTrue: [ ^ self ].
-	
+		
 	ratio := (self extent / image extent) min asFloat.
 
 	imageExtent := image extent * ratio.
