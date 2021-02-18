@@ -115,12 +115,13 @@ BlPullHandler >> dragEvent: anEvent [
 
 	anEvent currentTarget relocate: aNewPosition.
 	anEvent consumed: true.
-
-	anEvent currentTarget dispatchEvent: (BlPullEvent new
-		initialPosition: originalPosition;
-		oldPosition: aPreviousPosition;
-		newPosition: aNewPosition;
-		delta: dragDelta)
+	
+	self
+		onPulled: anEvent currentTarget
+		from: aPreviousPosition
+		to: aNewPosition
+		by: dragDelta
+		starting: originalPosition
 ]
 
 { #category : #'event handling' }
@@ -147,4 +148,13 @@ BlPullHandler >> initialize [
 	
 	allowedOutOfBounds := true.
 	direction := Any
+]
+
+{ #category : #'event handling' }
+BlPullHandler >> onPulled: aPulledElement from: aPreviousPosition to: aNewPosition  by: aDragDelta starting: anOriginalPosition [
+	aPulledElement dispatchEvent: (BlPullEvent new
+		initialPosition: anOriginalPosition;
+		oldPosition: aPreviousPosition;
+		newPosition: aNewPosition;
+		delta: aDragDelta)
 ]
