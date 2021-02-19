@@ -128,12 +128,24 @@ BlAsyncImageElement >> needsUpdate [
 
 { #category : #layout }
 BlAsyncImageElement >> onMeasure: anExtentMeasurementSpec [
-	| clampedSize measured |
-
+	| clampedSize measured ratioPoint imageExtent |
+	
 	entry ifNil: [ ^ super onMeasure: anExtentMeasurementSpec ].
+	
 	measured := anExtentMeasurementSpec sizeFor: entry width @ entry height.
+
+	"Compute image extent of the same proportion"
+	ratioPoint := (measured / entry extent) asFloatPoint.
+	(ratioPoint x > ratioPoint y) ifTrue: [ imageExtent := (measured x * ratioPoint y) @ (measured y) ].
+	(ratioPoint x < ratioPoint y) ifTrue: [ imageExtent := measured x @ (measured y * ratioPoint x) ].
+
+	"update the measured extent for computed image extent"
+	imageExtent ifNotNil: [ 
+		measured := anExtentMeasurementSpec sizeFor: imageExtent ].
+
 	clampedSize := measured min: self constraints maxWidth @ self constraints maxHeight.
 	clampedSize := clampedSize max: self constraints minWidth @ self constraints minHeight.
+	
 	self measuredExtent: clampedSize.
 	"this will measure my potential children"
 	super onMeasure: (BlExtentMeasurementSpec exact: clampedSize)
