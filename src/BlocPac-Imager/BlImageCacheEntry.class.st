@@ -31,6 +31,11 @@ Class {
 }
 
 { #category : #accessing }
+BlImageCacheEntry >> extent [
+	^ self width @ self height
+]
+
+{ #category : #accessing }
 BlImageCacheEntry >> height [
 	^ height
 ]

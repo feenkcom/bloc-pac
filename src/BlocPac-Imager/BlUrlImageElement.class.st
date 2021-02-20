@@ -37,6 +37,11 @@ BlUrlImageElement class >> url: aZnUrl [
 	^self new url: aZnUrl
 ]
 
+{ #category : #testing }
+BlUrlImageElement >> needsUpdate [
+	^ self url isNotNil and: [ super needsUpdate ]
+]
+
 { #category : #'async processing' }
 BlUrlImageElement >> queueEntry [
 	"Answer a TaskIt valuable that will update the receiver."
