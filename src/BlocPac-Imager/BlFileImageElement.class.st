@@ -51,6 +51,11 @@ BlFileImageElement >> file: aFileReference [
 	self queueAsyncUpdate
 ]
 
+{ #category : #testing }
+BlFileImageElement >> needsUpdate [
+	^ self file isNotNil and: [ super needsUpdate ]
+]
+
 { #category : #accessing }
 BlFileImageElement >> queueEntry [
 	"Answer a TaskIt valuable that will update the receiver."
