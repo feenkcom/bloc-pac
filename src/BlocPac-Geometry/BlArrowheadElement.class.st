@@ -23,7 +23,7 @@ BlArrowheadElement >> beForZeroWidth [
 
 { #category : #initialization }
 BlArrowheadElement >> defaultOutskirts [
-	^ BlOutskirts centered
+	^ BlOutskirts inside
 ]
 
 { #category : #'geometry hooks' }

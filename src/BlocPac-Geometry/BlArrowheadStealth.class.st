@@ -1,16 +1,5 @@
-"
-I am a simple arrow-like arrowhead.
-Both my size and arrow length depend on the curve width.
-
-It is possible hovewer to customize a length fraction - how long should be the outer ""arrow"" compared to the length of the side of a nose triangle.
-
-Users can also customise nose angle that tells how wide should the arrow lines be spread.
-The with of the outer arrows can be specified by changing border width of a simple arrow arrowhead.
-
-I support both background and border paint and can have hollow inner triangle.
-"
 Class {
-	#name : #BlArrowheadSimpleArrow,
+	#name : #BlArrowheadStealth,
 	#superclass : #BlArrowheadElement,
 	#instVars : [
 		'arrowLengthFraction',
@@ -21,28 +10,28 @@ Class {
 }
 
 { #category : #accessing }
-BlArrowheadSimpleArrow >> arrowLengthFraction [
+BlArrowheadStealth >> arrowLengthFraction [
 	<return: #Number>
 	
 	^ arrowLengthFraction
 ]
 
 { #category : #accessing }
-BlArrowheadSimpleArrow >> arrowLengthFraction: aNumber [
+BlArrowheadStealth >> arrowLengthFraction: aNumber [
 	
 	arrowLengthFraction := aNumber.
 	self geometryChanged
 ]
 
 { #category : #accessing }
-BlArrowheadSimpleArrow >> arrowNoseAngle [
+BlArrowheadStealth >> arrowNoseAngle [
 	<return: #Number>
 
 	^ arrowNoseAngle
 ]
 
 { #category : #accessing }
-BlArrowheadSimpleArrow >> arrowNoseAngle: anAngleInDegrees [
+BlArrowheadStealth >> arrowNoseAngle: anAngleInDegrees [
 
 	self
 		assert: [ anAngleInDegrees > 0 and: [ anAngleInDegrees < 180 ] ]
@@ -53,7 +42,7 @@ BlArrowheadSimpleArrow >> arrowNoseAngle: anAngleInDegrees [
 ]
 
 { #category : #initialization }
-BlArrowheadSimpleArrow >> createShapeForWidth: aNumber [
+BlArrowheadStealth >> createShapeForWidth: aNumber [
 	| wingAngle aShape |
 
 	wingAngle := 180 - ((540 - 180 - arrowNoseAngle) / 2.0).
@@ -79,7 +68,7 @@ BlArrowheadSimpleArrow >> createShapeForWidth: aNumber [
 ]
 
 { #category : #initialization }
-BlArrowheadSimpleArrow >> defaultGeometry [
+BlArrowheadStealth >> defaultGeometry [
 	^ BlPolygon vertices: {
 		0@0.
 		60@30.
@@ -90,7 +79,7 @@ BlArrowheadSimpleArrow >> defaultGeometry [
 ]
 
 { #category : #initialization }
-BlArrowheadSimpleArrow >> initialize [
+BlArrowheadStealth >> initialize [
 	super initialize.
 
 	arrowLengthFraction := 2.5.
@@ -99,13 +88,13 @@ BlArrowheadSimpleArrow >> initialize [
 ]
 
 { #category : #changes }
-BlArrowheadSimpleArrow >> onWidthChanged: aNumber [
+BlArrowheadStealth >> onWidthChanged: aNumber [
 	arrowShape := self createShapeForWidth: aNumber.
 	self size: arrowShape boundingBox extent.
 	self geometry: (BlShaperGeometry new shape: arrowShape)
 ]
 
 { #category : #'geometry hooks' }
-BlArrowheadSimpleArrow >> updateMargin [
+BlArrowheadStealth >> updateMargin [
 	self margin: (BlInsets right: (arrowShape edgeAt: 5) middle x negated)
 ]

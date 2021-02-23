@@ -6,31 +6,31 @@ ${example:BlRectangleShapeWithArrowExplanation>>#elementWithTopArrowGeometry|noC
 
 A traditional way to implement such geometry is to create a subclass of ${class:BlElementVectorGeometry}$,  override ${method:BlElementVectorGeometry>>#buildPathOnSpartaCanvas:}$ and implement quite a cumbersome algorithm that computes the location of each point and then connects those points using the ==moveTo:== and ==lineTo:== commands provided by ==PathBuilder==. The problem with such a solution is its exponential increase in complexity each time we would like to parametrize and customize the resulting geometry, for example the size of the arrow or its horizontal position. Even more complex would be to implement support for positioning the arrow on different edges (e.g. left, bottom) or the ability to have multiple arrows on separate edges.
 
-This is where a ${class:BlVectorShape}$ comes-in handy.
+This is where a ${class:TBlShaperFigure}$ comes-in handy.
 
 !! Creating a rectangle shape
 
-We will start with the creation of the rectangle shape, a ${class:BlRectangleShape}$:
+We will start with the creation of the rectangle shape, a ${class:BlShaperPolygon}$:
 ${example:BlRectangleShapeWithArrowExplanation>>#rectangleShape|previewShow=#gtLiveFor:|previewExpanded=true|previewHeight=250}$
 
 !! Translating the top edge
 
-In order to give the protruding arrow enough space we should move the top edge of the rectangle down by the length of the arrow. First of all, we should ask the rectangle shape to give us its top edge via ${method:BlRectangleShape>>#topEdge}$. By default, the ==topEdge== of the rectangle is an instance of ${class:BlLineShape}$ which can be translated by sending ${method:BlLineShape>>#moveBy:}$ to the ==topEdge==, as shown below.
+In order to give the protruding arrow enough space we should move the top edge of the rectangle down by the length of the arrow. First of all, we should ask the rectangle shape to give us its top edge via ${method:BlShaperPolygon>>#edgeAt:}$. By default, the ==topEdge== of the rectangle is an instance of ${class:BlShaperLine}$ which can be translated by sending ${method:BlShaperLine>>#moveBy:}$ to the ==topEdge==, as shown below.
 ${example:BlRectangleShapeWithArrowExplanation>>#rectangleWithTranslatedTopEdge|previewShow=#gtLiveFor:|previewExpanded=true|previewHeight=250}$
 
 !! Injecting a line inside of the top edge
 
-The next step on our way to the arrow is to inject a line segment equal to the length of the arrow in the middle of the ==topEdge==. It can be done by sending ${method:BlLineShape>>#injectLineAt:length:}$ to the ==topEdge==. Since we want to inject a line right in the middle of the edge, we pass ==0.5== as the line location:
+The next step on our way to the arrow is to inject a line segment equal to the length of the arrow in the middle of the ==topEdge==. It can be done by sending ${method:BlShaperLine>>#injectLineAt:length:}$ to the ==topEdge==. Since we want to inject a line right in the middle of the edge, we pass ==0.5== as the line location:
 ${example:BlRectangleShapeWithArrowExplanation>>#rectangleWithTopInjectedLine|previewShow=#gtLiveFor:|previewExpanded=true|previewHeight=250}$
 
 !! Splitting the injected line
 
-We are almost ready to create our arrow. We just need to split the injected line in half in order to create the point of the arrow. We can do so by sending ${method:BlLineShape>>#splitAt:}$ to the (now) middle section of the ==topEdge==, which was created by the previous line injection step:
+We are almost ready to create our arrow. We just need to split the injected line in half in order to create the point of the arrow. We can do so by sending ${method:BlShaperLine>>#splitAt:}$ to the (now) middle section of the ==topEdge==, which was created by the previous line injection step:
 ${example:BlRectangleShapeWithArrowExplanation>>#rectangleWithTopPolylineSplitInHalf|previewShow=#gtLiveFor:|previewExpanded=true|previewHeight=250}$
 
 !! Moving the top of the triangle
 
-Once we have everything we need for the arrow triangle we can move its top up by the length of the arrow. To do so, we should send ${method:BlPointShape>>#moveBy:}$ to the connection point of the split line in the middle of the ==topEdge==. After doing so, we get the expected vector shape that we can later use with ${class:BlShapeGeometry}$:
+Once we have everything we need for the arrow triangle we can move its top up by the length of the arrow. To do so, we should send ${method:BlShaperVertex>>#moveBy:}$ to the connection point of the split line in the middle of the ==topEdge==. After doing so, we get the expected vector shape that we can later use with ${class:BlShaperGeometry}$:
 ${example:BlRectangleShapeWithArrowExplanation>>#rectangleWithTopArrow|previewExpanded=true|previewHeight=350}$
 
 
@@ -51,7 +51,7 @@ BlRectangleShapeWithArrowExplanation >> elementTallWithTopArrowGeometry [
 	<gtExample>
 	
 	^ BlElement new
-		geometry: (BlShapeGeometry new shape: (self rectangleWithTopArrow));
+		geometry: (BlShaperGeometry new shape: (self rectangleWithTopArrow));
 		size: 300@400;
 		background: (Color veryVeryLightGray);
 		border: (BlBorder paint: Color black width: 2)
@@ -62,7 +62,7 @@ BlRectangleShapeWithArrowExplanation >> elementWithTopArrowGeometry [
 	<gtExample>
 	
 	^ BlElement new
-		geometry: (BlShapeGeometry new shape: (self rectangleWithTopArrow));
+		geometry: (BlShaperGeometry new shape: (self rectangleWithTopArrow));
 		size: 300@200;
 		background: (Color veryVeryLightGray);
 		border: (BlBorder paint: Color lightGray width: 10)
@@ -73,11 +73,9 @@ BlRectangleShapeWithArrowExplanation >> rectangleShape [
 	<gtExample>
 	| aRectangle |
 	
-	aRectangle := BlRectangleShape rectangle: (50@50 extent: 250@150).
+	aRectangle := BlShaperPolygon rectangle: (50@50 extent: 250@150).
 
-	self assert: aRectangle hasParent not.
-	self assert: aRectangle attributes isEmpty.
-	self assert: aRectangle shapes size equals: 4.
+	self assert: aRectangle edges size equals: 4.
 
 	^ aRectangle
 ]
@@ -88,7 +86,7 @@ BlRectangleShapeWithArrowExplanation >> rectangleWithTopArrow [
 	| aRectangle |
 	
 	aRectangle := self rectangleWithTopPolylineSplitInHalf.
-	aRectangle topEdge middle connection moveBy: 0 @ self arrowLength negated.
+	(aRectangle edgeAt: 2) toVertex moveBy: 0 @ self arrowLength negated.
 
 	^ aRectangle
 ]
@@ -99,7 +97,7 @@ BlRectangleShapeWithArrowExplanation >> rectangleWithTopInjectedLine [
 	| aRectangle |
 	
 	aRectangle := self rectangleWithTranslatedTopEdge.
-	aRectangle topEdge
+	(aRectangle edgeAt: 1)
 		injectLineAt: 0.5 length: self arrowLength.
 
 	^ aRectangle
@@ -111,7 +109,7 @@ BlRectangleShapeWithArrowExplanation >> rectangleWithTopPolylineSplitInHalf [
 	| aRectangle |
 	
 	aRectangle := self rectangleWithTopInjectedLine.
-	aRectangle topEdge middle splitAt: 0.5.
+	(aRectangle edgeAt: 2) splitAt: 0.5.
 
 	^ aRectangle
 ]
@@ -122,7 +120,7 @@ BlRectangleShapeWithArrowExplanation >> rectangleWithTranslatedTopEdge [
 	| aRectangle |
 	
 	aRectangle := self rectangleShape.
-	aRectangle topEdge moveBy: (0@ self arrowLength).
+	(aRectangle edgeAt: 1) moveBy: (0@ self arrowLength).
 
 	^ aRectangle
 ]
