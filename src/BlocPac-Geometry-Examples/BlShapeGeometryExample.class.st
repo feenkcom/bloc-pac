@@ -8,12 +8,12 @@ Class {
 BlShapeGeometryExample >> defaultGeometry [
 	<gtExample>
 	| geometry |
-	geometry := BlShapeGeometry new.
+	geometry := BlShaperGeometry new.
 	
 	self assert: geometry hasShapeBuilder.
 	self assert: geometry extent equals: 150@100.
 	self assert: geometry createVectorShape notNil.
-	self assert: geometry createVectorShape class equals: BlRectangleShape.
+	self assert: geometry createVectorShape class equals: BlShaperPolygon.
 	
 	^ geometry
 ]
@@ -56,16 +56,19 @@ BlShapeGeometryExample >> geometryWithRectangleShapeWithArrow [
 	geometry := self defaultGeometry.
 	geometry 	shape: [ :aRectangle |
 		| aShape |
-		aShape := BlRectangleShape rectangle: aRectangle.
-		aShape rightEdge moveBy: (40 @ 0).
-		aShape rightEdge injectLineAt: 0.5 length: 20.
-		aShape rightEdge middle splitAt: 0.5.
-		aShape rightEdge middle connection moveBy: (40 @ -20).
+		aShape := BlShaperPolygon rectangle: aRectangle.
+		aShape quadrilateral rightEdge
+			moveBy: (40 @ 0);
+			injectLineAt: 0.5 length: 20.
+		
+		(aShape edgeAt: 2) splitAt: 0.5.
+		(aShape edgeAt: 3) toVertex moveBy: (40 @ -20).
+
 		aShape ].
-		
+
 	self assert: geometry hasShapeBuilder.
-	self assert: geometry createVectorShape class equals: BlRectangleShape.
-		
+	self assert: geometry createVectorShape class equals: BlShaperPolygon.
+
 	^ geometry
 ]
 
@@ -75,13 +78,13 @@ BlShapeGeometryExample >> geometryWithRectangleShareInstance [
 	| geometry |
 	
 	geometry := self defaultGeometry.
-	geometry shape: (BlRectangleShape 
+	geometry shape: (BlShaperPolygon 
 		rectangle: (0@0 corner: 50@50)).
 		
 	self assert: geometry hasShapeBuilder.
 	self 
 		assert: geometry createVectorShape class 
-		equals: BlRectangleShape.
+		equals: BlShaperPolygon.
 		
 	^ geometry
 ]
@@ -91,13 +94,13 @@ BlShapeGeometryExample >> geometryWithSimpleRectangleShape [
 	<gtExample>
 	| geometry |
 	
-	geometry := BlShapeGeometry new.
+	geometry := BlShaperGeometry new.
 	geometry shape: [ :aRectangle |
-		BlRectangleShape rectangle: aRectangle ].
+		BlShaperPolygon rectangle: aRectangle ].
 	
 	self assert: geometry hasShapeBuilder.
 	self assert: geometry createVectorShape notNil.
-	self assert: geometry createVectorShape class equals: BlRectangleShape.
+	self assert: geometry createVectorShape class equals: BlShaperPolygon.
 	
 	^ geometry
 ]
