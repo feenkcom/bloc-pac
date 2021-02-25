@@ -17,7 +17,7 @@ BlNearestPositionBoundsAnchor >> globalPositionWithin: aGeometryElement [
 	"Compute and return a global position (in space) of this anchor"
 
 	<return: #Point>
-	| br edges path |
+	| br edges path result |
 	br := self referenceElement boundsInSpace.
 	edges := {(BlLine from: br topLeft to: br topRight).
 	(BlLine from: br topRight to: br bottomRight).
@@ -26,8 +26,10 @@ BlNearestPositionBoundsAnchor >> globalPositionWithin: aGeometryElement [
 	path := BlLine
 		from: br center
 		to: self nearestToElement boundsInSpace center.
-	^ (edges collect: [ :each | each intersectionWith: path ])
-		detect: #isNotNil
+	^ edges
+		detect: [ :each | 
+			result := each intersectionWith: path.
+			result isNotNil ]
+		ifFound: [ result ]
 		ifNone: [ br center ]
-
 ]
