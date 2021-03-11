@@ -5,9 +5,15 @@ TKTRunningTaskState >> terminateTaskExecution: aTaskExecution reason: aReason [
 
 	| cancelState taskProcess activeContext timeoutContext |
 
-	cancelState := BlTktExplicitlyTerminatedTaskState new reason: aReason.
-
 	taskProcess := aTaskExecution executionProcess.
+	"#isSuspended may be too broad, ideally we should have something like #isBeingDebugged.
+	The suspended check prevents errors when terminating a task that is debugged or suspended due to an exception.
+	See https://github.com/feenkcom/gtoolkit/issues/1823"
+	taskProcess isSuspended
+		ifTrue: [ ^ self ].
+	
+	cancelState := BlTktExplicitlyTerminatedTaskState new reason: aReason.
+	
 	taskProcess == Processor activeProcess ifTrue: [ 
 		aTaskExecution setExplicitlyTerminatedStateWithReason: aReason.
 		BlTaskItSelfTerminatedCommandSignal emitValuable: aTaskExecution task message: #selfTerminated.
