@@ -85,6 +85,6 @@ BlExampleAtomElement >> velocity [
 ]
 
 { #category : #accessing }
-BlExampleAtomElement >> velocity: anObject [
-	velocity := anObject
+BlExampleAtomElement >> velocity: aPoint [
+	velocity := aPoint
 ]
