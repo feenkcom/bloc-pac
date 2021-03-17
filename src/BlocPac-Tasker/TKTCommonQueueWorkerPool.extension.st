@@ -44,6 +44,12 @@ TKTCommonQueueWorkerPool >> poolMaxSize [
 ]
 
 { #category : #'*BlocPac-Tasker' }
+TKTCommonQueueWorkerPool >> removeFailedTasks [
+	<return: #Integer>
+	failedTasks ifNotNil: #removeAll
+]
+
+{ #category : #'*BlocPac-Tasker' }
 TKTCommonQueueWorkerPool >> taskQueue [ 
 
 	^taskQueue

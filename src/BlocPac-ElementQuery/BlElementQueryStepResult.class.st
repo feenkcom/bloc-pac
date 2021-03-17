@@ -13,13 +13,34 @@ BlElementQueryStepResult >> addElement: aFoundElement [
 ]
 
 { #category : #accessing }
+BlElementQueryStepResult >> all [
+	"Return all results"
+
+	^ self subclassResponsibility
+]
+
+{ #category : #accessing }
+BlElementQueryStepResult >> anyOne [
+	"Return the first result value"
+
+	^ self subclassResponsibility
+]
+
+{ #category : #accessing }
 BlElementQueryStepResult >> at: anIndex [
 	^ self subclassResponsibility
 ]
 
 { #category : #enumerating }
 BlElementQueryStepResult >> do: aBlock deep: isDeep [
+	"Iterate over children of each element in the result"
 	self subclassResponsibility
+]
+
+{ #category : #enumerating }
+BlElementQueryStepResult >> forEach: aBlock [
+	"Iterate over each element in the result"
+	1 to: self size do: [ :eachIndex | aBlock value: (self at: eachIndex) ]
 ]
 
 { #category : #initialization }

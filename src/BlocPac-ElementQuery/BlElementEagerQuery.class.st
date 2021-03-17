@@ -13,6 +13,20 @@ Class {
 }
 
 { #category : #accessing }
+BlElementEagerQuery >> all [
+	"Return an array wth results if they exist or empty collection"
+
+	^ result lastResult all
+]
+
+{ #category : #accessing }
+BlElementEagerQuery >> anyOne [
+	"Return just one element (or nil)"
+
+	^ result lastResult anyOne
+]
+
+{ #category : #accessing }
 BlElementEagerQuery >> forMany: anElement [
 	result := BlElementQueryResult new.
 	result prepareForGroup: anElement
