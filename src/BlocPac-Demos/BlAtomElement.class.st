@@ -1,13 +1,13 @@
 "
-I am an atom that bounces inside a ${class:name=BlExampleBouncingAtomsElement}$. 
+I am an atom that bounces inside a ${class:name=BlBouncingAtomsElement}$. 
 For a demo, inspect:
 [[[
-BlExampleBouncingAtomsElement demo
+BlBouncingAtomsElement demo
 ]]]
 
 "
 Class {
-	#name : #BlExampleAtomElement,
+	#name : #BlAtomElement,
 	#superclass : #BlElement,
 	#instVars : [
 		'velocity'
@@ -16,12 +16,12 @@ Class {
 }
 
 { #category : #accessing }
-BlExampleAtomElement class >> defaultSize [
+BlAtomElement class >> defaultSize [
 	^ 8 @ 7
 ]
 
 { #category : #private }
-BlExampleAtomElement >> bounceIn: aRect [
+BlAtomElement >> bounceIn: aRect [
 	"Move this atom one step along its velocity vector and make it bounce if it goes outside the given rectangle. Return true if it is bounced."
 	| p vx vy px py bounced |
 
@@ -51,13 +51,18 @@ BlExampleAtomElement >> bounceIn: aRect [
 		vy := velocity y negated.
 		bounced := true].
 	self relocate: px @ py.
-	bounced ifTrue: [self velocity: vx @ vy].
+	bounced ifTrue: [self velocity: vx @ vy.
+	vx < 0 
+		ifTrue: [self background: Color blue]
+		ifFalse: [self background: Color orange]
+	
+	].
 	^ bounced
 
 ]
 
 { #category : #drawing }
-BlExampleAtomElement >> fullDrawOnSpartaCanvas: aCanvas [
+BlAtomElement >> fullDrawOnSpartaCanvas: aCanvas [
 	aCanvas fill
 		path: (self bounds inParent asRectangle);
 		paint: Color blue;
@@ -65,7 +70,7 @@ BlExampleAtomElement >> fullDrawOnSpartaCanvas: aCanvas [
 ]
 
 { #category : #private }
-BlExampleAtomElement >> initialize [
+BlAtomElement >> initialize [
 	"Make a new atom with a random position and velocity."
 
 	super initialize.
@@ -80,11 +85,11 @@ BlExampleAtomElement >> initialize [
 ]
 
 { #category : #accessing }
-BlExampleAtomElement >> velocity [
+BlAtomElement >> velocity [
 	^ velocity
 ]
 
 { #category : #accessing }
-BlExampleAtomElement >> velocity: aPoint [
+BlAtomElement >> velocity: aPoint [
 	velocity := aPoint
 ]
