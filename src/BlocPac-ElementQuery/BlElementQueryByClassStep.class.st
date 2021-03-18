@@ -19,7 +19,7 @@ BlElementQueryByClassStep >> elementClass: anObject [
 
 { #category : #'api - query' }
 BlElementQueryByClassStep >> matchesElement: anElement [
-	^ anElement class = self elementClass
+	^ anElement isKindOf: self elementClass
 ]
 
 { #category : #printing }

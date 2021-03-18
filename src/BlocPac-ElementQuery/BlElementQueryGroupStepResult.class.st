@@ -13,6 +13,22 @@ BlElementQueryGroupStepResult >> addElement: aFoundElement [
 ]
 
 { #category : #accessing }
+BlElementQueryGroupStepResult >> all [
+	"Return all results"
+
+	^ self result asArray
+]
+
+{ #category : #accessing }
+BlElementQueryGroupStepResult >> anyOne [
+	"Return the first result value"
+
+	^ self result
+		ifEmpty: [ nil ]
+		ifNotEmpty: [ :theResults | theResults first ]
+]
+
+{ #category : #accessing }
 BlElementQueryGroupStepResult >> at: anIndex [
 	^ elements at: anIndex
 ]

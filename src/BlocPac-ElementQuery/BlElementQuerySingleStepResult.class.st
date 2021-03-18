@@ -13,6 +13,22 @@ BlElementQuerySingleStepResult >> addElement: aFoundElement [
 ]
 
 { #category : #accessing }
+BlElementQuerySingleStepResult >> all [
+	"Return all results"
+
+	^ self result
+		ifNil: [ #() ]
+		ifNotNil: [ :aResult | { aResult } ]
+]
+
+{ #category : #accessing }
+BlElementQuerySingleStepResult >> anyOne [
+	"Return the first result value"
+
+	^ self result
+]
+
+{ #category : #accessing }
 BlElementQuerySingleStepResult >> at: anIndex [
 	anIndex = 1
 		ifFalse: [ SubscriptOutOfBounds signalFor: anIndex ].
