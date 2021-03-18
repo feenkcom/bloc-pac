@@ -3,12 +3,12 @@ I am a port of the old BouncingAtomsMorph demo.
 
 The following will open a demo in a new window:
 [[[
-BlExampleBouncingAtomsElement open
+BlBouncingAtomsElement open
 ]]]
 
 Alternatively inspect the following:
 [[[
-BlExampleBouncingAtomsElement demo 
+BlBouncingAtomsElement demo 
 ]]]
 
 For a demo, open a new Inspector window.
@@ -18,37 +18,37 @@ Query and set its velocity to 0@0 and 20@20, and its size to 10@10.
 
 "
 Class {
-	#name : #BlExampleBouncingAtomsElement,
+	#name : #BlBouncingAtomsElement,
 	#superclass : #BlElement,
 	#traits : 'TBlExample',
 	#classTraits : 'TBlExample classTrait',
 	#instVars : [
-		'damageReported'
+		'damageReported',
+		'task'
 	],
 	#category : #'BlocPac-Demos-Bouncing atoms'
 }
 
 { #category : #accessing }
-BlExampleBouncingAtomsElement class >> demo [
+BlBouncingAtomsElement class >> demo [
 	<script: 'self demo'>
 	^ self new
 		background: Color lightGreen;
-		border: (BlBorder paint: Color green width: 1);
 		initializeWith: 300 ofSize: 5 @ 5 within: 400 @ 300
 ]
 
 { #category : #'instance creation' }
-BlExampleBouncingAtomsElement class >> open [
+BlBouncingAtomsElement class >> open [
 	<script: 'self open'>
 
 	self
-		openInWindow: (self new initializeWith: 3000 ofSize: 5@5 within: 1200@800)
+		openInWindow: (self new initializeWith: 1000 ofSize: 5@5 within: 800@600)
 		named: 'Bouncing Atoms'
-		extent: 1200@800
+		extent: 800@600
 ]
 
 { #category : #initialization }
-BlExampleBouncingAtomsElement >> addAtoms: aCollectionOfAtomElements ofSize: anAtomSize within: anSceneExtent [
+BlBouncingAtomsElement >> addAtoms: aCollectionOfAtomElements ofSize: anAtomSize within: anSceneExtent [
 	"Add a bunch of new atoms."
 
 	aCollectionOfAtomElements do: [ :anAtomElement |
@@ -63,27 +63,30 @@ BlExampleBouncingAtomsElement >> addAtoms: aCollectionOfAtomElements ofSize: anA
 ]
 
 { #category : #initialization }
-BlExampleBouncingAtomsElement >> drawMeAndChildrenOnSpartaCanvas: aCanvas [
+BlBouncingAtomsElement >> drawMeAndChildrenOnSpartaCanvas: aCanvas [
 	super drawMeAndChildrenOnSpartaCanvas: aCanvas.
 	damageReported := false
 ]
 
 { #category : #initialization }
-BlExampleBouncingAtomsElement >> go [
+BlBouncingAtomsElement >> go [
 	"Start the animation"
-	
-	self enqueueTask: (BlRepeatedTaskAction new delay: 0 milliSeconds; action: [ self step ]).
+
+	task := BlRepeatedTaskAction new
+		delay: 0 milliSeconds;
+		action: [ self step ].
+	self enqueueTask: task.
 	damageReported := false
 ]
 
 { #category : #initialization }
-BlExampleBouncingAtomsElement >> initialize [
+BlBouncingAtomsElement >> initialize [
 	super initialize.
 	self go
 ]
 
 { #category : #initialization }
-BlExampleBouncingAtomsElement >> initializeWith: aNumberOfAtoms ofSize: anAtomExtent within: aSceneExtent [
+BlBouncingAtomsElement >> initializeWith: aNumberOfAtoms ofSize: anAtomExtent within: aSceneExtent [
 	self size: aSceneExtent.
 	self
 		addAtoms: (aNumberOfAtoms timesCollect: [ self newAtom ])
@@ -92,7 +95,7 @@ BlExampleBouncingAtomsElement >> initializeWith: aNumberOfAtoms ofSize: anAtomEx
 ]
 
 { #category : #'change reporting' }
-BlExampleBouncingAtomsElement >> invalidRect: aBlBounds from: anElement [
+BlBouncingAtomsElement >> invalidRect: aBlBounds from: anElement [
 	damageReported
 		ifTrue: [ ^ self ].
 
@@ -102,12 +105,21 @@ BlExampleBouncingAtomsElement >> invalidRect: aBlBounds from: anElement [
 ]
 
 { #category : #'instance creation' }
-BlExampleBouncingAtomsElement >> newAtom [
-	^ BlExampleAtomElement new
+BlBouncingAtomsElement >> newAtom [
+	^ BlAtomElement new
+]
+
+{ #category : #accessing }
+BlBouncingAtomsElement >> onAddedToSceneGraph [
+	"Workaround to restart the animation when it is back in focus."
+
+	super onAddedToSceneGraph.
+	self task isRunning
+		ifFalse: [ self go ]
 ]
 
 { #category : #initialization }
-BlExampleBouncingAtomsElement >> randomizePositionOf: anAtomElement in: aRectangle maxVelocity: maxVelocity extent: anAtomExtent [
+BlBouncingAtomsElement >> randomizePositionOf: anAtomElement in: aRectangle maxVelocity: maxVelocity extent: anAtomExtent [
 	"Give this atom a random position and velocity"
 	| anExtent |
 
@@ -118,11 +130,16 @@ BlExampleBouncingAtomsElement >> randomizePositionOf: anAtomElement in: aRectang
 ]
 
 { #category : #'stepping and presenter' }
-BlExampleBouncingAtomsElement >> step [
+BlBouncingAtomsElement >> step [
 	"Bounce those atoms!"
 
 	| r |
 	r := self measuredBounds topLeft
-		corner: self bounds extent - BlExampleAtomElement defaultSize.
+		corner: self bounds extent - BlAtomElement defaultSize.
 	self childrenDo: [ :m | m bounceIn: r ]
+]
+
+{ #category : #accessing }
+BlBouncingAtomsElement >> task [
+^ task
 ]
