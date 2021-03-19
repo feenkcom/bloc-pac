@@ -51,12 +51,7 @@ BlAtomElement >> bounceIn: aRect [
 		vy := velocity y negated.
 		bounced := true].
 	self relocate: px @ py.
-	bounced ifTrue: [self velocity: vx @ vy.
-	vx < 0 
-		ifTrue: [self background: Color blue]
-		ifFalse: [self background: Color orange]
-	
-	].
+	bounced ifTrue: [self velocity: vx @ vy].
 	^ bounced
 
 ]
