@@ -2,14 +2,19 @@ Class {
 	#name : #BlElementQueryGroupStepResult,
 	#superclass : #BlElementQueryStepResult,
 	#instVars : [
-		'elements'
+		'elements',
+		'elementsSet'
 	],
 	#category : #'BlocPac-ElementQuery-Steps'
 }
 
 { #category : #adding }
 BlElementQueryGroupStepResult >> addElement: aFoundElement [
-	elements add: aFoundElement
+	(elementsSet includes: aFoundElement)
+		ifTrue: [ ^ self ].
+
+	elements add: aFoundElement.
+	elementsSet add: aFoundElement
 ]
 
 { #category : #accessing }
@@ -59,7 +64,10 @@ BlElementQueryGroupStepResult >> gtResultFor: aView [
 BlElementQueryGroupStepResult >> initialize [
 	super initialize.
 	
-	elements := OrderedCollection new
+	elements := OrderedCollection new.
+	
+	"used to make sure we do not have duplicates"
+	elementsSet := Set new
 ]
 
 { #category : #accessing }

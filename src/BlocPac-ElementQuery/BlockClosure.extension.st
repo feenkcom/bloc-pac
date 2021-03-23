@@ -2,5 +2,10 @@ Extension { #name : #BlockClosure }
 
 { #category : #'*BlocPac-ElementQuery' }
 BlockClosure >> asElementQueryPredicate [
-	^ BlElementQueryByElementPredicate new element: self
+	^ BlElementQueryByBlockClosurePredicate new blockClosure: self
+]
+
+{ #category : #'*BlocPac-ElementQuery' }
+BlockClosure >> asElementQuerySelector [
+	^ BlElementQueryByBlockClosureStep new blockClosure: self
 ]
