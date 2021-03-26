@@ -166,8 +166,12 @@ BlCanvassableElement >> zoomLevel [
 
 { #category : #'api - zooming' }
 BlCanvassableElement >> zoomLevel: aNumber [
+	(zoomLevel closeTo: aNumber)
+		ifTrue: [ ^ self ].
+
 	zoomLevel := aNumber max: 0.001.
-	self childrenTransformDo: [ :t | t scaleBy: zoomLevel ]
+	self childrenTransformDo: [ :t | t scaleBy: zoomLevel ].
+	self dispatchEvent: (BlCanvassableZoomLevelChanged new)
 ]
 
 { #category : #'api - zooming' }
