@@ -213,14 +213,13 @@ BlInfiniteDataSource >> notifyItemsRemoved: anInterval [
 
 { #category : #'event firing' }
 BlInfiniteDataSource >> notifyWithEvent: anEvent [
-	"Fire a given event ensuring that it will happen in UI Thread"
+	"Dispatch a given event assuming that it will happen in a UI Thread.
+	Note that it is a responsibility of a user to #notify* change events from within the UI
+	process of a space in which an infinite element resides. Not managing to do so may trigger
+	a UI update from outside of the UI process which is undefined behavior.
+	Consider notifying the datasource changes from within an enqueued task BlElement>>#enqueueTask:"
 
-
-	self flag: 'Find a solution'.
-
-	BlUniverse default isUIProcess
-		ifTrue: [ self dispatchEvent: anEvent ]
-		ifFalse: [ self dispatchEvent: anEvent ]
+	self dispatchEvent: anEvent
 ]
 
 { #category : #hooks }
