@@ -16,7 +16,12 @@ Class {
 	#instVars : [
 		'position',
 		'segments',
-		'viewbox'
+		'viewbox',
+		'fillRule'
+	],
+	#classVars : [
+		'EvenOdd',
+		'Winding'
 	],
 	#category : #'BlocPac-Geometry-SVG'
 }
@@ -24,6 +29,12 @@ Class {
 { #category : #'instance creation' }
 BlSvgPath class >> build: aBlock [
 	^ self new build: aBlock
+]
+
+{ #category : #'class initialization' }
+BlSvgPath class >> initialize [
+	EvenOdd := #evenOdd.
+	Winding := #winding
 ]
 
 { #category : #initialization }
@@ -39,9 +50,21 @@ BlSvgPath >> build: aBlock viewbox: aRectangle [
 BlSvgPath >> buildPathOnSpartaCanvas: aCanvas [
 	| pathBuilder|
 
-	pathBuilder := aCanvas path.
-	segments do: [ :each |  each executeOn: pathBuilder ].
+	pathBuilder := fillRule = Winding
+		ifTrue: [ aCanvas path: SpartaFillRule winding ]
+		ifFalse: [ aCanvas path: SpartaFillRule evenOdd ].
+
+	segments do: [ :each |
+		each isAbsolute
+			ifTrue: [ pathBuilder absolute ]
+			ifFalse: [ pathBuilder relative ].
+		each executeOn: pathBuilder ].
 	^ pathBuilder finish
+]
+
+{ #category : #accessing }
+BlSvgPath >> evenOdd [
+	fillRule := EvenOdd
 ]
 
 { #category : #accessing }
@@ -57,7 +80,8 @@ BlSvgPath >> initialize [
 	super initialize.
 	
 	segments := #().
-	viewbox := 0.0@0.0 extent: 50.0@50.0
+	viewbox := 0.0@0.0 extent: 50.0@50.0.
+	fillRule := Winding
 ]
 
 { #category : #accessing }
@@ -69,4 +93,9 @@ BlSvgPath >> matchExtent: anExtent [
 BlSvgPath >> svg: anSvgString viewbox: aRectangle [
 	segments := (BlSvgPathBuilder fromStream: anSvgString readStream) segments.
 	viewbox := aRectangle asBlocFloatRectangle
+]
+
+{ #category : #accessing }
+BlSvgPath >> winding [
+	fillRule := Winding
 ]

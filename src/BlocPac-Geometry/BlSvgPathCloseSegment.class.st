@@ -23,3 +23,9 @@ BlSvgPathCloseSegment >> executeOn: aBuilder [
 BlSvgPathCloseSegment >> hash [
 	^ self class hash bitXor: self isAbsolute hash
 ]
+
+{ #category : #printing }
+BlSvgPathCloseSegment >> printOn: aStream [
+	aStream
+		nextPutAll: 'Close'
+]
