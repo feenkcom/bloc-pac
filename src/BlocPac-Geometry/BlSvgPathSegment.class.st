@@ -44,6 +44,11 @@ BlSvgPathSegment >> isAbsolute: aBoolean [
 	isAbsolute := aBoolean
 ]
 
+{ #category : #testing }
+BlSvgPathSegment >> isCubicBezier [
+	^ false
+]
+
 { #category : #printing }
 BlSvgPathSegment >> printAbsolute [
 	^ self isAbsolute

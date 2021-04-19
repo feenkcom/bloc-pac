@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'firstViaPoint',
 		'secondViaPoint',
-		'curveTo'
+		'curveTo',
+		'lastControlPoint'
 	],
 	#category : #'BlocPac-Geometry-SVG'
 }
@@ -35,7 +36,11 @@ BlSvgPathCubicBezierSegment >> curveTo: anObject [
 
 { #category : #executing }
 BlSvgPathCubicBezierSegment >> executeOn: aBuilder [
-	aBuilder curveVia: self firstViaPoint and: self secondViaPoint to: self curveTo 
+	lastControlPoint := self isAbsolute
+		ifTrue: [ self secondViaPoint ]
+		ifFalse: [ aBuilder currentPoint + self secondViaPoint ].
+
+	aBuilder curveVia: self firstViaPoint and: self secondViaPoint to: self curveTo
 ]
 
 { #category : #accessing }
@@ -51,6 +56,31 @@ BlSvgPathCubicBezierSegment >> firstViaPoint: anObject [
 { #category : #comparing }
 BlSvgPathCubicBezierSegment >> hash [
 	^ ((self isAbsolute hash bitXor: self curveTo hash) bitXor: self firstViaPoint hash) bitXor: self secondViaPoint hash
+]
+
+{ #category : #testing }
+BlSvgPathCubicBezierSegment >> isCubicBezier [
+	^ true
+]
+
+{ #category : #accessing }
+BlSvgPathCubicBezierSegment >> lastControlPoint [
+	"Return an absolute position of the second control point. It is used to implement reflected cubic bezier"
+
+	^ lastControlPoint
+]
+
+{ #category : #printing }
+BlSvgPathCubicBezierSegment >> printOn: aStream [
+	aStream
+		nextPutAll: 'Cubic bezier ';
+		nextPutAll: self printAbsolute;
+		nextPutAll: ' from ';
+		print: self firstViaPoint;
+		nextPutAll: ' via ';
+		print: self secondViaPoint;
+		nextPutAll: ' to ';
+		print: self curveTo
 ]
 
 { #category : #accessing }
