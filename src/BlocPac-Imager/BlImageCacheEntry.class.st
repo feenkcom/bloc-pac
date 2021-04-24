@@ -30,6 +30,12 @@ Class {
 	#category : #'BlocPac-Imager-Cache'
 }
 
+{ #category : #converting }
+BlImageCacheEntry >> asForm [ 
+
+	^ image asForm
+]
+
 { #category : #accessing }
 BlImageCacheEntry >> extent [
 	^ self width @ self height

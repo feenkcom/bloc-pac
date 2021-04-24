@@ -59,5 +59,5 @@ BlSvgPathLineSegment >> printOn: aStream [
 		nextPutAll: 'Line ';
 		nextPutAll: self printAbsolute;
 		nextPutAll: ' to ';
-		printOn: self lineTo
+		print: self lineTo
 ]
