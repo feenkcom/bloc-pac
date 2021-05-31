@@ -142,6 +142,27 @@ BlSigmoidElementExamples >> sigmoidHorizontal [
 		addChildren: { aSigmoid . attachFrom . attachTo }
 ]
 
+{ #category : #'examples - orientation' }
+BlSigmoidElementExamples >> sigmoidHorizontalLine [
+	<gtExample>	
+	| aSigmoid attachFrom attachTo |
+	
+	aSigmoid := self newSigmoid.
+	aSigmoid beHorizontal.
+	
+	attachFrom := self attachPoint.
+	attachFrom relocate: 100 @ 100.
+
+	attachTo := self attachPoint.
+	attachTo relocate: 450 @ 100.
+
+	aSigmoid fromAnchor: (BlElementCenterAnchor element: attachFrom).
+	aSigmoid toAnchor: (BlElementCenterAnchor element: attachTo).
+
+	^ self container
+		addChildren: { aSigmoid . attachFrom . attachTo }
+]
+
 { #category : #'examples - sharpness' }
 BlSigmoidElementExamples >> sigmoidSharp [
 	<gtExample>
