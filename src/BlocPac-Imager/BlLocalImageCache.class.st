@@ -387,7 +387,11 @@ BlLocalImageCache >> url: aUrl size: minImageSize for: anObject [
 		"Workaround for ZnEasy not being completely general
 		(it doesn't handle #file scheme)"
 		[ content := znUrl scheme = #file ifTrue: 
-			[ znUrl asFileReference gtBinaryContents ]
+			[ | znFileReference |
+			znFileReference := znUrl asFileReference.
+			znFileReference exists ifFalse: [ self error: znFileReference fullName, ' doesn''t exist' ].
+			znFileReference isDirectory ifTrue: [ self error: znFileReference fullName, ' is a directory' ].
+			znFileReference gtBinaryContents ]
 		ifFalse: 
 			[ | entity |
 			 entity := (ZnEasy get: znUrl) entity.
