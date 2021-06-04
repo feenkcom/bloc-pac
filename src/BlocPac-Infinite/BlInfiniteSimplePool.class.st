@@ -1,5 +1,6 @@
 "
 I am a non-synchronized concrete pool implementation
+
 "
 Class {
 	#name : #BlInfiniteSimplePool,

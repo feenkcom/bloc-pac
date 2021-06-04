@@ -1,11 +1,12 @@
 "
-! Recycler pool
+# Recycler pool
 
-I let users to share Elements between multiple ${class:BlInfiniteElement}$.
+I let users to share Elements between multiple {{gtClass:BlInfiniteElement}}.
 
-If you want to recycle elements across ==InfiniteElement==, create an instance of ==RecyclerPool== and use ${method:BlInfiniteElement>>#recyclerPool:}$.
+If you want to recycle elements across `InfiniteElement`, create an instance of `RecyclerPool` and use {{gtMethod:BlInfiniteElement>>#recyclerPool:}}.
 
-==InfiniteElement== automatically creates a pool for itself if you don't provide one.
+`InfiniteElement` automatically creates a pool for itself if you don't provide one.
+
 "
 Class {
 	#name : #BlInfiniteRecyclerPool,

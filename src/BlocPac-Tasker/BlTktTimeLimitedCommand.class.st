@@ -2,6 +2,7 @@
 I allow a command execution for a given allowed duration.
 I terminate myself if I am not finished withing the allowed time.
 
+
 "
 Class {
 	#name : #BlTktTimeLimitedCommand,

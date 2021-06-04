@@ -1,5 +1,6 @@
 "
 I am an observer for watching changes to an DataSource
+
 "
 Class {
 	#name : #BlInfiniteDataSourceObserver,

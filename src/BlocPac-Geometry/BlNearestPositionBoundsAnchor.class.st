@@ -1,5 +1,6 @@
 "
 I find the nearest point that lies on bounds rectangle of a reference element to the center of the given element
+
 "
 Class {
 	#name : #BlNearestPositionBoundsAnchor,

@@ -1,6 +1,7 @@
 "
 I do not generate any preview. 
-I am a default ${class:BlAsyncElement}$ preview strategy set in the ${method:BlAsyncElement>>#defaultPreviewStrategy}$ method.
+I am a default {{gtClass:BlAsyncElement}} preview strategy set in the {{gtMethod:BlAsyncElement>>#defaultPreviewStrategy}} method.
+
 
 "
 Class {

@@ -1,5 +1,5 @@
 "
-BlImageCacheEntry is used to return a ${class:name=Form}$ from the ${class:name=BlLocalImageCache}$.
+BlImageCacheEntry is used to return a {{gtClass:name=Form}} from the {{gtClass:name=BlLocalImageCache}}.
 
 It includes two flags:
 
@@ -8,9 +8,9 @@ It includes two flags:
 
 These allow the user to determine whether it is worthwhile attempting to get a smaller or larger version of the form from the cache.
 
-!!Internal Representation and Key Implementation Points.
+## Internal Representation and Key Implementation Points.
 
-!!!Instance Variables
+### Instance Variables
 	image:				<SkImage>
 	isOriginal:		<Boolean>
 	isSmallest:		<Boolean>

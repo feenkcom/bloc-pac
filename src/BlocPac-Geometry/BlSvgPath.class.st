@@ -1,5 +1,5 @@
 "
-I am the ${class:BlElementVectorGeometry}$ used to represent a SVG Path, which allows to make complex drawings.
+I am the {{gtClass:BlElementVectorGeometry}} used to represent a SVG Path, which allows to make complex drawings.
 
 A SVG Path is obtained through successives commands, which each symbolizes a movement of the virtual pen drawing the path.
 My instance variable'pathData' stores the list of commands used to obtain my final drawing.
@@ -9,6 +9,7 @@ To calculate my extent I use the BlSvgPathExtentResolver class, which calculates
 
 Instance creation examples:
 	- BlSvgPath new svg: 'M100,200 C100,100 250,100 250,200 S400,300 400,200' viewbox: (0@0 extent: 4000@400) 
+
 "
 Class {
 	#name : #BlSvgPath,

@@ -1,7 +1,8 @@
 "
-If I am used, a ${class:BlAsyncElement}$ instance is never updated.
-To use me, call ${method:BlAsyncElement>>#neverUpdate}$.
+If I am used, a {{gtClass:BlAsyncElement}} instance is never updated.
+To use me, call {{gtMethod:BlAsyncElement>>#neverUpdate}}.
 This is a special case, when an instance is updated differently.
+
 
 "
 Class {

@@ -1,5 +1,6 @@
 "
-BlUrlImageLoadValuable is responsible for loading a single image at the supplied URL.  This is done by passing the request on to ${method:name=BlLocalImageCache class>>#current}$.  
+BlUrlImageLoadValuable is responsible for loading a single image at the supplied URL.  This is done by passing the request on to {{gtMethod:name=BlLocalImageCache class>>#current}}.  
+
 
 "
 Class {

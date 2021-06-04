@@ -1,6 +1,7 @@
 "
-If I am used, a ${class:BlAsyncElement}$ instance is updated when visible on the screen.
-To use me, call ${method:BlAsyncElement>>#updateWhenVisible}$.
+If I am used, a {{gtClass:BlAsyncElement}} instance is updated when visible on the screen.
+To use me, call {{gtMethod:BlAsyncElement>>#updateWhenVisible}}.
+
 "
 Class {
 	#name : #BlUpdateWhenVisibleStrategy,

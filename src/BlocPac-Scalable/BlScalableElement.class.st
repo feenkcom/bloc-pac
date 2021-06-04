@@ -1,9 +1,9 @@
 "
 I'm a helper element that transforms its #contentElement in order to exactly #scaleTo:  my size.
 
-!! Example:
+## Example:
 
-[[[
+```
 	| content scalable |
 	
 	content := BlElement new 
@@ -21,7 +21,8 @@ I'm a helper element that transforms its #contentElement in order to exactly #sc
 
 	scalable contentElement: content.
 	scalable
-]]]
+```
+
 "
 Class {
 	#name : #BlScalableElement,

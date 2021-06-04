@@ -8,6 +8,7 @@ I support background and border paints.
  - For hollow arrowhead let background be transparent.
  - For solid arrowhead make background paint be the same as border paint.
  	(it is possible to specify different paints for border and background)
+
 "
 Class {
 	#name : #BlArrowheadTriangle,

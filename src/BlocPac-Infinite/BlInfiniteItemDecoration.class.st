@@ -1,5 +1,6 @@
 "
 I allow users to add a special drawing and layout offset to specific item elements from the data set. This can be useful for drawing dividers between items, highlights, visual grouping boundaries and more.
+
 "
 Class {
 	#name : #BlInfiniteItemDecoration,

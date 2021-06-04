@@ -1,5 +1,6 @@
 "
 I am a data source of a color spectrum
+
 "
 Class {
 	#name : #BlInfiniteExampleColorsDataSource,

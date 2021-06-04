@@ -1,19 +1,20 @@
 "
-I am a geometry that uses a ${class:TBlShaperFigure}$ object to specify a geometrical area. I can match the extend of the element to which I am attached, when this extent changes.
+I am a geometry that uses a {{gtClass:TBlShaperFigure}} object to specify a geometrical area. I can match the extend of the element to which I am attached, when this extent changes.
 
-!!Initialization
-Users should use the method ${method:BlShaperGeometry>>#shape:}$ to specify a custom builder for creating ${class:TBlShaperFigure}$ objects having a given extent. I use this builder to update the geometry when the extent of the attached element changes (${method:BlShaperGeometry>>#extent:}$).
-${example:BlShapeGeometryExample>>#geometryWithSimpleRectangleShape|previewExpanded=false|previewHeight=250}$
+## Initialization
+Users should use the method {{gtMethod:BlShaperGeometry>>#shape:}} to specify a custom builder for creating {{gtClass:TBlShaperFigure}} objects having a given extent. I use this builder to update the geometry when the extent of the attached element changes ({{gtMethod:BlShaperGeometry>>#extent:}}).
+{{gtExample:BlShapeGeometryExample>>#geometryWithSimpleRectangleShape|previewExpanded=false|previewHeight=250}}
 
-By default, in case no builder is provided, I use a builder that create an ${class:BlShaperPolygon}$ object. Hence, the previous example is equivalent to simply instantiating a ${class:BlShaperGeometry}$ (${method:BlShapeGeometryExample>>#defaultGeometry}$).
+By default, in case no builder is provided, I use a builder that create an {{gtClass:BlShaperPolygon}} object. Hence, the previous example is equivalent to simply instantiating a {{gtClass:BlShaperGeometry}} ({{gtMethod:BlShapeGeometryExample>>#defaultGeometry}}).
 
-Since ${class:TBlShaperFigure}$ objects are polymorphic with blocks and can fit to fit a given rectangle, instances of ${class:TBlShaperFigure}$ can also directly be passed to ${method:BlShaperGeometry>>#shape:}$. In this case the extent used to instantiate the shape object is not take into account (${method:BlShapeGeometryExample>>#geometryWithRectangleShareInstance}$).
+Since {{gtClass:TBlShaperFigure}} objects are polymorphic with blocks and can fit to fit a given rectangle, instances of {{gtClass:TBlShaperFigure}} can also directly be passed to {{gtMethod:BlShaperGeometry>>#shape:}}. In this case the extent used to instantiate the shape object is not take into account ({{gtMethod:BlShapeGeometryExample>>#geometryWithRectangleShareInstance}}).
 
-!!Usage
-I can be directly attached to any graphical element, like any other geometry, and I will match the extend of the element. For example, below there are two examples, where the same ${class:BlShaperGeometry}$ is attached to two elements having a different extent.
+## Usage
+I can be directly attached to any graphical element, like any other geometry, and I will match the extend of the element. For example, below there are two examples, where the same {{gtClass:BlShaperGeometry}} is attached to two elements having a different extent.
 
-${example:BlShapeGeometryExample>>#elementWithRectangleGeometry|previewExpanded=true|previewHeight=250}$
-${example:BlShapeGeometryExample>>#elementLargeWithRectangleGeometry|previewExpanded=true|previewHeight=250}$
+{{gtExample:BlShapeGeometryExample>>#elementWithRectangleGeometry|previewExpanded=true|previewHeight=250}}
+{{gtExample:BlShapeGeometryExample>>#elementLargeWithRectangleGeometry|previewExpanded=true|previewHeight=250}}
+
 "
 Class {
 	#name : #BlShaperGeometry,

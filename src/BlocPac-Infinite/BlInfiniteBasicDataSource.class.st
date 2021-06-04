@@ -1,5 +1,6 @@
 "
 I am an empty data source used by default by infinite element
+
 "
 Class {
 	#name : #BlInfiniteBasicDataSource,

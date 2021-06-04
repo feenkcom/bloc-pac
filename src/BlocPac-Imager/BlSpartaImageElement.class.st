@@ -7,14 +7,15 @@ As the content is generated after the element tree is constructed, decoding erro
 
 A BlSpartaImage only ever has one child, the back-end specific element for displaying the image or an element displaying an error.
 
-!!Internal Representation and Key Implementation Points.
+## Internal Representation and Key Implementation Points.
 
-!!!Instance Variables
+### Instance Variables
 
 	image:		<BlElement>
 
 
-!!!Implementation Points
+### Implementation Points
+
 "
 Class {
 	#name : #BlSpartaImageElement,

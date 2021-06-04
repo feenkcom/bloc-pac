@@ -1,10 +1,11 @@
 "
-I am a ${class:BlAsyncElement}$ preview strategy.
-I know how to render a preview that is displayed while waiting to calculate an expected ${class:BlElement}$.
+I am a {{gtClass:BlAsyncElement}} preview strategy.
+I know how to render a preview that is displayed while waiting to calculate an expected {{gtClass:BlElement}}.
 
-My subclasses needs to implement ${method:BlAsyncPreviewStrategy>>#schedulePreviewIn:}$.
+My subclasses needs to implement {{gtMethod:BlAsyncPreviewStrategy>>#schedulePreviewIn:}}.
 
-See my subclasses for more details: ${class:BlAsyncPreviewStrategy|show=#gtSubclassesFor:|height=150|expanded=true}$
+See my subclasses for more details: {{gtClass:BlAsyncPreviewStrategy|show=#gtSubclassesFor:|height=150|expanded=true}}
+
 
 "
 Class {

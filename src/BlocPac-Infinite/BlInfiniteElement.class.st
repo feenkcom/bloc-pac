@@ -10,6 +10,7 @@ My main collaborators are:
  - BlInfiniteLayout
  - BlInfiniteRecycler
  - BlInfiniteState
+
 "
 Class {
 	#name : #BlInfiniteElement,

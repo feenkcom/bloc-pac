@@ -1,5 +1,6 @@
 "
-I contain examples and a few usecases of ===BlArcElement===
+I contain examples and a few usecases of `=BlArcElement`=
+
 "
 Class {
 	#name : #BlParabollaArcElementExamples,

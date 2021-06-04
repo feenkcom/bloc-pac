@@ -1,5 +1,6 @@
 "
 I am an example of an analog clock element
+
 "
 Class {
 	#name : #BlClockExample,

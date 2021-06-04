@@ -12,6 +12,7 @@ Example:
 infiniteElement dataSource
 	addEventHandlerOn: BlInfiniteDataSourceChanged
 	do: [ self inform: 'Data source changed!' ]
+
 "
 Class {
 	#name : #BlInfiniteDataSourceChanged,

@@ -1,5 +1,6 @@
 "
 I bind a color to its visual representation - a colored rectangle element
+
 "
 Class {
 	#name : #BlInfiniteExampleColorsElementHolder,

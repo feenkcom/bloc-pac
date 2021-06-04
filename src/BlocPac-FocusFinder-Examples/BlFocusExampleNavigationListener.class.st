@@ -1,5 +1,6 @@
 "
 I am a keyboard arrow press listener used by focus examples in order to move focus between cell elements
+
 "
 Class {
 	#name : #BlFocusExampleNavigationListener,

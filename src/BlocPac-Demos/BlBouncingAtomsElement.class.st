@@ -2,19 +2,20 @@
 I am a port of the old BouncingAtomsMorph demo.
 
 The following will open a demo in a new window:
-[[[
+```
 BlBouncingAtomsElement open
-]]]
+```
 
 Alternatively inspect the following:
-[[[
+```
 BlBouncingAtomsElement demo 
-]]]
+```
 
 For a demo, open a new Inspector window.
 Inspect the children and select a random one.
 Set its background color to blue (self background: Color blue).
 Query and set its velocity to 0@0 and 20@20, and its size to 10@10.
+
 
 "
 Class {

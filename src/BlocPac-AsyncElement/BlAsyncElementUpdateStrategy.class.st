@@ -1,8 +1,9 @@
 "
 I am an abstract class.
-I define when a ${class:BlAsyncElement}$ should be updated.
+I define when a {{gtClass:BlAsyncElement}} should be updated.
 
-See my subclasses for more details: ${class:BlAsyncElementUpdateStrategy|show=#gtSubclassesFor:|expanded=true|height=150}$.
+See my subclasses for more details: {{gtClass:BlAsyncElementUpdateStrategy|show=#gtSubclassesFor:|expanded=true|height=150}}.
+
 
 "
 Class {

@@ -1,6 +1,7 @@
 "
-If I am used, a ${class:BlAsyncElement}$ instance is updated when attached to a scene (it can still be invisible to a user).
-To use me, call ${method:BlAsyncElement>>#updateWhenInScene}$.
+If I am used, a {{gtClass:BlAsyncElement}} instance is updated when attached to a scene (it can still be invisible to a user).
+To use me, call {{gtMethod:BlAsyncElement>>#updateWhenInScene}}.
+
 "
 Class {
 	#name : #BlUpdateWhenInSceneStrategy,

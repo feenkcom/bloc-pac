@@ -35,18 +35,19 @@ Public API and Key Messages
 
    One simple example is simply gorgeous.
  
-!Internal Representation and Key Implementation Points.
+# Internal Representation and Key Implementation Points.
 
-!!Instance Variables
+## Instance Variables
 
 	priority:						<Integer>  An optional manually set priority at relative to other BlAsyncElements. 0 is highest priority.
 	visibleElement:	<BlElement> The dynamic priority will be based on whether the receiver is visible within the visibleElement.
 	taskitRunner:		<Object> The object that is used to schedule tasks.  The default is BlAsyncUIWorkerPool, but this can be replaced with TKTLocalProcessTaskRunner to facilitate testing.
 	errorStencil:			<BrStencil> The stencil used to display errors that occurred while processing the element asynchronously.  It takes a single argument, the exception that occurred while processing.
 
-!!Implementation Points
+## Implementation Points
 
 - BlAsyncElement relies on subclasses to send #queueAsyncUpdate due to the conflicting requirements on when to submit the task, e.g. BlLazyElement defers task submission until it has been drawn the first time, while many elements want to render as soon as they are attached to a scene graph.
+
 "
 Class {
 	#name : #BlAsyncElement,

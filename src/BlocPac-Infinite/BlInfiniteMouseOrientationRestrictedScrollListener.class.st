@@ -1,11 +1,12 @@
 "
-I am a ${class:BlBasicEventHandler}$.
-I dispatch mouse scroll events to element layouts, see ${method:BlInfiniteMouseScrollOrientationLimitedListener>>#mouseWheelEvent:}$.
-By dispaching the scroll event to ${class:BlLayout}$ instances, horizontal infinite elements (lists) can ignore vertical scrolls, and vertical infinite elements can ignore horizontal scrolls.
+I am a {{gtClass:BlBasicEventHandler}}.
+I dispatch mouse scroll events to element layouts, see {{gtMethod:BlInfiniteMouseScrollOrientationLimitedListener>>#mouseWheelEvent:}}.
+By dispaching the scroll event to {{gtClass:BlLayout}} instances, horizontal infinite elements (lists) can ignore vertical scrolls, and vertical infinite elements can ignore horizontal scrolls.
 
-In case of ${method:BlInfiniteLinearLayout>>#mouseWheelEvent:}$, the scroll happens in ${method:BlInfiniteLayoutOrientation>>#mouseWheelEvent:}$. 
+In case of {{gtMethod:BlInfiniteLinearLayout>>#mouseWheelEvent:}}, the scroll happens in {{gtMethod:BlInfiniteLayoutOrientation>>#mouseWheelEvent:}}. 
 
-Other layouts ignore the dispatch by defalt, see ${method:BlLayout>>#mouseWheelEvent:}$.
+Other layouts ignore the dispatch by defalt, see {{gtMethod:BlLayout>>#mouseWheelEvent:}}.
+
 
 "
 Class {

@@ -1,7 +1,8 @@
 "
-! Pannable element
-Extends ${class:BlZoomableElement}$ or ${class:BlPinchableElement}$ by adding panning support - an ability to drag the content element around within the bounds of the pannable element.
-${example:BlPannableElementExamples>>#pannableWithForm|previewExpanded=true|codeExpanded=false}$.
+# Pannable element
+Extends {{gtClass:BlZoomableElement}} or {{gtClass:BlPinchableElement}} by adding panning support - an ability to drag the content element around within the bounds of the pannable element.
+{{gtExample:BlPannableElementExamples>>#pannableWithForm|previewExpanded=true|codeExpanded=false}}.
+
 "
 Class {
 	#name : #BlPannableElement,

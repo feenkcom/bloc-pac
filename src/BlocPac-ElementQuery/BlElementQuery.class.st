@@ -1,8 +1,9 @@
 "
-!Element query
-Provides a domain specific language for quering a scene graph of elements in an ==XPath== style
+# Element query
+Provides a domain specific language for quering a scene graph of elements in an `XPath` style
 
-There are two types of queries: ${class:BlElementLazyQuery|label=Lazy}$ and eager ${class:BlElementEagerQuery|label=Eager}$
+There are two types of queries: {{gtClass:BlElementLazyQuery|label=Lazy}} and eager {{gtClass:BlElementEagerQuery|label=Eager}}
+
 "
 Class {
 	#name : #BlElementQuery,

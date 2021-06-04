@@ -1,5 +1,6 @@
 "
 I am a static anchor that does not move and is independent from geometry element or other anchors.
+
 "
 Class {
 	#name : #BlAbsolutePositionAnchor,

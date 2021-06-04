@@ -2,14 +2,15 @@
 BlSkiaImageElement can be used to directly display a SkiaImage in Bloc.
 
  
-!!Internal Representation and Key Implementation Points.
+## Internal Representation and Key Implementation Points.
 
-!!!Instance Variables
+### Instance Variables
 
 	image:		<SkiaImage>
 
 
-!!!Implementation Points
+### Implementation Points
+
 "
 Class {
 	#name : #BlSkiaImageElement,

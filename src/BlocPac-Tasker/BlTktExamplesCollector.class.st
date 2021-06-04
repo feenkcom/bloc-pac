@@ -1,8 +1,9 @@
 "
-I collect objects to an ${class:OrderedCollection}$, using ${class:Mutex}$ to ensure unique access and data consistency.
+I collect objects to an {{gtClass:OrderedCollection}}, using {{gtClass:Mutex}} to ensure unique access and data consistency.
 I am useful for testing purpose, e.g., checking right values and execution order.
 
-Someone can add object to the collection using either a generic method ${method:BlTktExamplesCollector>>#add:}$ or ${method:BlTktExamplesCollector>>#increment}$ to add numbers.
+Someone can add object to the collection using either a generic method {{gtMethod:BlTktExamplesCollector>>#add:}} or {{gtMethod:BlTktExamplesCollector>>#increment}} to add numbers.
+
 "
 Class {
 	#name : #BlTktExamplesCollector,

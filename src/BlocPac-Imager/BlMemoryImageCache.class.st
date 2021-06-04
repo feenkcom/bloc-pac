@@ -5,24 +5,25 @@ BlMemoryImageCache provides a cache of file system and network images at specifi
 - Cache entries are created lazily, i.e. only when a cache entry of the specified size is requested.
 - If the original image size is smaller than the cache size, the original will be returned (i.e. images are never extended, only shrunk).
 
-!!Public API and Key Messages
+## Public API and Key Messages
 
 - maxCacheSize: 	Set the number of entries held in memory.  See #initialize for the default.
 
  
-!!Internal Representation and Key Implementation Points.
+## Internal Representation and Key Implementation Points.
 
-!!!Instance Variables
+### Instance Variables
 
 	cache:			<Array of Association>
 	cacheIndex:		<Object>
 
 
-!!!Implementation Points
+### Implementation Points
 
 The cache is expected to be fairly small, e.g. 5 - 10 entries.  If a large cache is desired BlLocalImageCache will normally be used instead.
 
 Since the cache is small, a simple array is used instead of a dictionary.  Possibly SmallDictionary should be used instead.
+
 "
 Class {
 	#name : #BlMemoryImageCache,

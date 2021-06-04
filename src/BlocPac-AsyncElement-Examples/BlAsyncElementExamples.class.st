@@ -1,5 +1,6 @@
 "
-I exemplify ${class:BlLazyElement}$.
+I exemplify {{gtClass:BlLazyElement}}.
+
 "
 Class {
 	#name : #BlAsyncElementExamples,

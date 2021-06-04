@@ -1,9 +1,9 @@
 "
-I am an atom that bounces inside a ${class:name=BlBouncingAtomsElement}$. 
+I am an atom that bounces inside a {{gtClass:name=BlBouncingAtomsElement}}. 
 For a demo, inspect:
-[[[
+```
 BlBouncingAtomsElement demo
-]]]
+```
 
 "
 Class {

@@ -1,25 +1,26 @@
 "
 BlAsyncImageElement is an abstract class that provides a framework for Bloc elements that display an image that should be loaded in a background processes (to leave the UI responsive).
 
-Each subclass BlAsyncImageElement requires a matching ${class:name=BlAsyncElementValuable}$ that is responsible for doing the work of retrieving the ${class:name=Form}$ and updating the receiver.
+Each subclass BlAsyncImageElement requires a matching {{gtClass:name=BlAsyncElementValuable}} that is responsible for doing the work of retrieving the {{gtClass:name=Form}} and updating the receiver.
 
-BlAsyncImageElement minimises memory and CPU usage by ensuring that the ${class:name=Form}$ held in memory is approximately the same size as the on-screen display size.  This ensures that memory is not wasted in the case where the form is much larger than the on-screen area, and that image quality is not compromised in the case where the form is much smaller than the on-screen display size.  See ${method:name=BlAsyncImageElement>>#needsUpdate}$.
+BlAsyncImageElement minimises memory and CPU usage by ensuring that the {{gtClass:name=Form}} held in memory is approximately the same size as the on-screen display size.  This ensures that memory is not wasted in the case where the form is much larger than the on-screen area, and that image quality is not compromised in the case where the form is much smaller than the on-screen display size.  See {{gtMethod:name=BlAsyncImageElement>>#needsUpdate}}.
 
-Subclasses of BlAsyncImageElement are responsible for holding the details of how to retrieve the image and answering their valuable, see ${method:name=BlAsyncImageElement>>#queueEntry}$ and  ${method:name=BlAsyncElementValuable>>#updateElement}$.
+Subclasses of BlAsyncImageElement are responsible for holding the details of how to retrieve the image and answering their valuable, see {{gtMethod:name=BlAsyncImageElement>>#queueEntry}} and  {{gtMethod:name=BlAsyncElementValuable>>#updateElement}}.
 
-!!Public API and Key Messages
+## Public API and Key Messages
 
 BlAsyncImageElement has the same public API as BlElement.  As an abstract class, it shouldn't be instantiated.
 
  
-!!Internal Representation and Key Implementation Points
+## Internal Representation and Key Implementation Points
 
-!!!Instance Variables
+### Instance Variables
 	bitmap:		<MozSurface>  Moz2D representation of the form.
 	form:			<Form>  The image being displayed.
 
 
-!!Implementation Points
+## Implementation Points
+
 "
 Class {
 	#name : #BlAsyncImageElement,

@@ -1,5 +1,6 @@
 "
 My position is equal to the bottom center of a reference element
+
 "
 Class {
 	#name : #BlElementBottomCenterAnchor,

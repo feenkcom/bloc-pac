@@ -1,7 +1,8 @@
 "
 I represent a curve element that is rendered between two provided anchors via additional control anchors.
 
-See ${class:BlBezierElementExamples}$.
+See {{gtClass:BlBezierElementExamples}}.
+
 "
 Class {
 	#name : #BlBezierElement,

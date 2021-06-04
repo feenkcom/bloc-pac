@@ -1,5 +1,6 @@
 "
 BlMobilePhone open
+
 "
 Class {
 	#name : #BlMobilePhone,
