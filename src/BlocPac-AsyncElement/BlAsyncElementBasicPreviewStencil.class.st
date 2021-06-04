@@ -1,7 +1,8 @@
 "
-I represent a basic preview stencil for ${class:BlAsyncDelayedPreviewStrategy}$. 
+I represent a basic preview stencil for {{gtClass:BlAsyncDelayedPreviewStrategy}}. 
 
-I generate the following preview: ${example:BlAsyncElementExamples>>#previewStencil|codeExpanded=false|previewExpanded=true}$
+I generate the following preview: {{gtExample:BlAsyncElementExamples>>#previewStencil|codeExpanded=false|previewExpanded=true}}
+
 "
 Class {
 	#name : #BlAsyncElementBasicPreviewStencil,

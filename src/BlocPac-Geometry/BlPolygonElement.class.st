@@ -1,14 +1,15 @@
 "
-! Polygon element
+# Polygon element
 The element's position and size is determined by a collection of attached anchors.
-!! Triangle
-${example:BlPolygonElementExamples>>#triangle|codeExpanded=false|previewExpanded=true|previewShow=#gtLiveFor:|previewHeight=200}$
-!! Square
-${example:BlPolygonElementExamples>>#square|codeExpanded=false|previewExpanded=true|previewShow=#gtLiveFor:|previewHeight=150}$
-!! Rectangle
-${example:BlPolygonElementExamples>>#rectangle|codeExpanded=false|previewExpanded=true|previewShow=#gtLiveFor:|previewHeight=150}$
-!! Octagon
-${example:BlPolygonElementExamples>>#octagon|codeExpanded=false|previewExpanded=true|previewShow=#gtLiveFor:|previewHeight=200}$
+## Triangle
+{{gtExample:BlPolygonElementExamples>>#triangle|codeExpanded=false|previewExpanded=true|previewShow=#gtLiveFor:|previewHeight=200}}
+## Square
+{{gtExample:BlPolygonElementExamples>>#square|codeExpanded=false|previewExpanded=true|previewShow=#gtLiveFor:|previewHeight=150}}
+## Rectangle
+{{gtExample:BlPolygonElementExamples>>#rectangle|codeExpanded=false|previewExpanded=true|previewShow=#gtLiveFor:|previewHeight=150}}
+## Octagon
+{{gtExample:BlPolygonElementExamples>>#octagon|codeExpanded=false|previewExpanded=true|previewShow=#gtLiveFor:|previewHeight=200}}
+
 "
 Class {
 	#name : #BlPolygonElement,

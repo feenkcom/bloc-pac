@@ -5,9 +5,9 @@ Since this is typically required when the UI is failing to update the output is 
 
 To view the current status:
 
-[[[
+```
 BlTaskItStatus new
-]]]
+```
 
 "
 Class {

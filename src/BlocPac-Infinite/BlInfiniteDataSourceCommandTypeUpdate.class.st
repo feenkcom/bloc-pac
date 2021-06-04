@@ -1,5 +1,6 @@
 "
 I represent a concrete ""update"" command type
+
 "
 Class {
 	#name : #BlInfiniteDataSourceCommandTypeUpdate,

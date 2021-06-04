@@ -1,5 +1,6 @@
 "
 I am a single red chicken leg with two toes
+
 "
 Class {
 	#name : #BlChickenLeg,

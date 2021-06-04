@@ -1,10 +1,11 @@
 "
-BlWorkerImageCache provides the same capabilities as ${class:name=BlLocalImageCache}$ but delegates the work of populating the cache to slave pharo processes. 
+BlWorkerImageCache provides the same capabilities as {{gtClass:name=BlLocalImageCache}} but delegates the work of populating the cache to slave pharo processes. 
 
 
-!!Public API and Key Messages
+## Public API and Key Messages
 
-The public API is the same as for ${class:name=BlLocalImageCache}$.
+The public API is the same as for {{gtClass:name=BlLocalImageCache}}.
+
 
 "
 Class {

@@ -1,6 +1,7 @@
 "
-I hold couple of ${class:Semaphore}$ that can by used to exemplify (test) particular behavior, involving various processes.
+I hold couple of {{gtClass:Semaphore}} that can by used to exemplify (test) particular behavior, involving various processes.
  
+
 "
 Class {
 	#name : #BlTktExamplesSignaler,

@@ -1,5 +1,6 @@
 "
 I process  appearing/disappearing element records
+
 "
 Class {
 	#name : #BlInfiniteElementInfoStoreDefaultProcessor,

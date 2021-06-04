@@ -4,14 +4,15 @@ Note, that some layout do not allow elements to have custom positions which mean
 
 Example:
 
-[[[
+```
 | element |
 
 element := BlElement new.
 element background: Color red.
 element size: 75@75.
 element addEventHandler: BlPullHandler new.	
-]]]
+```
+
 "
 Class {
 	#name : #BlPullHandler,

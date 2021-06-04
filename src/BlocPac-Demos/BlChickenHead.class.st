@@ -1,5 +1,6 @@
 "
 I am a chicken hed with eyes and pecker
+
 "
 Class {
 	#name : #BlChickenHead,

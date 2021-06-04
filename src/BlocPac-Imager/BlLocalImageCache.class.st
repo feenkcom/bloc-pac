@@ -27,7 +27,7 @@ Internal Representation and Key Implementation Points.
 	misses:						<Integer>
 
 
-!!!Implementation Points
+### Implementation Points
 
 To allow lookup in the file system cache to be quick either an index has to be held in memory or the cache entries found quickly.
 
@@ -42,6 +42,7 @@ So we want the cache structure to allow lookup to be determined on the basis of 
 The directory containing the cache entries can then easily be tested for existence.
 
 To maximise the cache speed, no attempt is made to the cache thread safe.  The side affect is that the cache sizes are approximate and that the cache may actually grow larger than the specified constraints in a busy system.
+
 "
 Class {
 	#name : #BlLocalImageCache,

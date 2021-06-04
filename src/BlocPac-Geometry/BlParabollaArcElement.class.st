@@ -1,5 +1,6 @@
 "
 I represent an arc element that is rendered between two provided anchors and has configurable curvature, which can be absolute or relative (fraction)
+
 "
 Class {
 	#name : #BlParabollaArcElement,

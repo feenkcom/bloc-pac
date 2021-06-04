@@ -1,5 +1,6 @@
 "
 GtInspector openOn: BlTaskItDemoCommand new
+
 "
 Class {
 	#name : #BlTktDemoResponsiveCommand,

@@ -1,5 +1,6 @@
 "
 I contain exmples of infinite element
+
 "
 Class {
 	#name : #BlInfiniteExample,

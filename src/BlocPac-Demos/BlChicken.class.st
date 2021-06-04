@@ -2,7 +2,8 @@
 How to run:
 
 
-==BlChicken open==
+`BlChicken open`
+
 "
 Class {
 	#name : #BlChicken,

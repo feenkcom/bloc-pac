@@ -1,5 +1,6 @@
 "
 I help to manage children (add / remove) and used as mediator between infinite element and data source.
+
 "
 Class {
 	#name : #BlInfiniteChildrenManager,

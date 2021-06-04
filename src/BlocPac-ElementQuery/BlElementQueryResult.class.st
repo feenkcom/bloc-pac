@@ -1,6 +1,7 @@
 "
-!Query result
+# Query result
 A place where a result of the query is stored as well as the intermidiate step results so that users can always backtrack the evaluation and understand when something went wrong
+
 "
 Class {
 	#name : #BlElementQueryResult,

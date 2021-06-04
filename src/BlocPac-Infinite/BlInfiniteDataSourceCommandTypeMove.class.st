@@ -1,5 +1,6 @@
 "
 I represent a concrete ""move"" command type
+
 "
 Class {
 	#name : #BlInfiniteDataSourceCommandTypeMove,

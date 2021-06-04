@@ -1,9 +1,10 @@
 "
-! Pinchable element
-Allows users to scale a pinchable element itself, in contrast to the ${class:BlZoomableElement}$ which scales its content.
+# Pinchable element
+Allows users to scale a pinchable element itself, in contrast to the {{gtClass:BlZoomableElement}} which scales its content.
 When zooming in or out, the pinchable element's layout bounds are not affected by the scaling transformation.
-!! As pannnable element
-A zoomable element can be transformed into a ${class:BlPannableElement}$ by sending a ==convertion== message ${method:BlZoomableElement>>#asPannableElement}$
+## As pannnable element
+A zoomable element can be transformed into a {{gtClass:BlPannableElement}} by sending a `convertion` message {{gtMethod:BlZoomableElement>>#asPannableElement}}
+
 "
 Class {
 	#name : #BlPinchableElement,

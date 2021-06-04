@@ -1,5 +1,6 @@
 "
-I contain examples and a few usecases of ===BlLineElement===
+I contain examples and a few usecases of `=BlLineElement`=
+
 "
 Class {
 	#name : #BlLineExamples,

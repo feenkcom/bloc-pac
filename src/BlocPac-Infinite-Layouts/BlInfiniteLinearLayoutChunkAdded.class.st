@@ -1,5 +1,6 @@
 "
 Is sent when linear layouts adds a new chunk element during the layout process
+
 "
 Class {
 	#name : #BlInfiniteLinearLayoutChunkAdded,

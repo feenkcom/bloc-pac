@@ -7,6 +7,7 @@ Add command describes insertion of one or multiple items in data source.
 Move command describes a position change of existing item in data source.
 Remove command describes deletion of one or multiple items from data source.
 Update command describes content or value change of one or multiple items in data source.
+
 "
 Class {
 	#name : #BlInfiniteDataSourceCommand,

@@ -1,5 +1,6 @@
 "
-I contain examples of different types of ==BlArrowheadElement==
+I contain examples of different types of `BlArrowheadElement`
+
 "
 Class {
 	#name : #BlArrowheadExamples,

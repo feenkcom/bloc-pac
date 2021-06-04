@@ -1,5 +1,6 @@
 "
 I define an api of info store records processor
+
 "
 Class {
 	#name : #BlInfiniteElementInfoStoreProcessor,

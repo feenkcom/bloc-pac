@@ -1,20 +1,25 @@
 "
-${class:BlTktWorkerProvider}$ provides a number of convenience methods for submitting tasks at different priorities.  The intention is that the supplied set of queues will be sufficient when submitting tasks in all cases but a few exceptions.
+{{gtClass:BlTktWorkerProvider}} provides a number of convenience methods for submitting tasks at different priorities.  The intention is that the supplied set of queues will be sufficient when submitting tasks in all cases but a few exceptions.
 
-The main UI processing process runs at priority 40 (${method:name=ProcessorScheduler>>#userSchedulingPriority}$ (39 during development).  The design goal is to be keep the UI responsive by reducing the work done by the UI process to responding to user input and any other processing that is restricted to the UI process for thread safety reasons.
+The main UI processing process runs at priority 40 ({{gtMethod:name=ProcessorScheduler>>#userSchedulingPriority}} (39 during development).  The design goal is to be keep the UI responsive by reducing the work done by the UI process to responding to user input and any other processing that is restricted to the UI process for thread safety reasons.
 
 The supported worker pools and their expected uses are:
 
-;#highUICPUBoundPool
-:This is used for background rendering of views where the processing time is reasonably short and the process is CPU constrained.
-;#highUIExternalResourceBoundPool
-:This is used for background rendering of views where the process is expected to spend significant time waiting on external resources, e.g. retrieving a file over the network.
-;#lowUIUserExecutionPool
-:This is used for background processing where the execution time may be arbitrary, e.g. evaluation of user code in a playground.
-;#nonUISinglePool
-:This is used for background processing that won't be directly used by the user, e.g. cache management, and only a single instance should be run at a time.
-;#nonUIMultiPool
-:This is used for background processing that won't be directly used by the user and multiple instances may be run concurrently.
+- #highUICPUBoundPool
+
+- This is used for background rendering of views where the processing time is reasonably short and the process is CPU constrained.
+- #highUIExternalResourceBoundPool
+
+- This is used for background rendering of views where the process is expected to spend significant time waiting on external resources, e.g. retrieving a file over the network.
+- #lowUIUserExecutionPool
+
+- This is used for background processing where the execution time may be arbitrary, e.g. evaluation of user code in a playground.
+- #nonUISinglePool
+
+- This is used for background processing that won't be directly used by the user, e.g. cache management, and only a single instance should be run at a time.
+- #nonUIMultiPool
+
+- This is used for background processing that won't be directly used by the user and multiple instances may be run concurrently.
 
 For detailed pool configuration information, e.g. process priority, maximum pool size and queue priority, see the associated instance methods.
 

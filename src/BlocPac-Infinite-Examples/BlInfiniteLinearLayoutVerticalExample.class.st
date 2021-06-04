@@ -1,5 +1,6 @@
 "
 I contain examples of a vertical linear layout
+
 "
 Class {
 	#name : #BlInfiniteLinearLayoutVerticalExample,

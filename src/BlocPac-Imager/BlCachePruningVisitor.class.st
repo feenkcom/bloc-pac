@@ -8,9 +8,9 @@ Public API and Key Messages
 - on: aBlImageCacheHousekeeper
 - delete: actually remove the files chosen during the scan
  
-!!Internal Representation and Key Implementation Points.
+## Internal Representation and Key Implementation Points.
 
-!!!Instance Variables
+### Instance Variables
 	count:							<Integer> The number of files visited - statistic only
 	housekeeper:		<BlImageCacheHousekeeper>
 	newestOldestTime:		<DateAndTime> The timestamp of the newest file in the oldest collection.  Files that are older than this will be added to the oldest collection.
@@ -20,7 +20,8 @@ Public API and Key Messages
 	targetSize:		<Integer>  The target size of the cache in bytes.
 
 
-!!!Implementation Points
+### Implementation Points
+
 "
 Class {
 	#name : #BlCachePruningVisitor,

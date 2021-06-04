@@ -1,5 +1,6 @@
 "
 I am a default item type
+
 "
 Class {
 	#name : #BlInfiniteInvalidItemType,

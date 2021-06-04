@@ -1,18 +1,19 @@
 "
-!Bezier curves
+# Bezier curves
 
 There are two kinds of Bezier curves supported:
 - quadratic
 - cubic
 
-!!Quadratic Bezier curves
+## Quadratic Bezier curves
 
-${example:BlBezierElementExamples>>#quadraticCurveWithAnchors|previewExpanded|noCode=|previewShow=gtLiveFor:}$
+{{gtExample:BlBezierElementExamples>>#quadraticCurveWithAnchors|previewExpanded|noCode=|previewShow=gtLiveFor:}}
 
 
-!!Cubic Bezier curves
+## Cubic Bezier curves
 
-${example:BlBezierElementExamples>>#curveWithAnchors|previewExpanded|noCode=|previewShow=#gtLiveFor:}$
+{{gtExample:BlBezierElementExamples>>#curveWithAnchors|previewExpanded|noCode=|previewShow=#gtLiveFor:}}
+
 
 "
 Class {

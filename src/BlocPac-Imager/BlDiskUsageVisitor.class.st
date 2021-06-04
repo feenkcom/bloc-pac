@@ -7,14 +7,15 @@ Public API and Key Messages
 - total
 - entryCount
 
-!!Internal Representation and Key Implementation Points.
+## Internal Representation and Key Implementation Points.
 
-!!!Instance Variables
+### Instance Variables
 	entryCount:		<Integer> The number of files visited
 	total:		<Integer> The total size of the cache in bytes
 
 
-!!Implementation Points
+## Implementation Points
+
 "
 Class {
 	#name : #BlDiskUsageVisitor,

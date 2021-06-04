@@ -1,5 +1,6 @@
 "
 I am a null command and do nothing
+
 "
 Class {
 	#name : #BlInfiniteDataSourceCommandTypeNull,

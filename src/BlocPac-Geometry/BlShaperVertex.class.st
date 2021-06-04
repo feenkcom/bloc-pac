@@ -1,6 +1,7 @@
 "
-!Vertex
+# Vertex
 Connects two edges
+
 "
 Class {
 	#name : #BlShaperVertex,

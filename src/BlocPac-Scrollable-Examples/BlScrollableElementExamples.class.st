@@ -1,22 +1,23 @@
 "
-! Scrollable element
+# Scrollable element
 
 Scrollable element allows users to display a larger element in a smaller frame (so called ""window"") with the ability to scroll the content both veritcally and horizontally.
 
-Let's start by creating a content element which in our case will be a list of all subclasses of ${class:SequenceableCollection}$. As you can see it is a quite tall element and it does not fit on a screen:
-${example:BlScrollableElementExamples>>#scrollableContentInScalableElement|previewShow=#gtLiveFor:|previewHeight=250|previewExpanded|noCode}$
+Let's start by creating a content element which in our case will be a list of all subclasses of {{gtClass:SequenceableCollection}}. As you can see it is a quite tall element and it does not fit on a screen:
+{{gtExample:BlScrollableElementExamples>>#scrollableContentInScalableElement|previewShow=#gtLiveFor:|previewHeight=250|previewExpanded|noCode}}
 
-Therefore we want to wrap such large element in a new instance of ${class:BlScrollableElement}$
-${example:BlScrollableElementExamples>>#scrollableElement|previewShow=#gtLiveFor:|previewHeight=100}$
+Therefore we want to wrap such large element in a new instance of {{gtClass:BlScrollableElement}}
+{{gtExample:BlScrollableElementExamples>>#scrollableElement|previewShow=#gtLiveFor:|previewHeight=100}}
 
-Once the ==scrollable== element is instantiated we can add our previously created content as a direct child to the scrollable element with ${method:BlElement>>#addChild:}$
-${example:BlScrollableElementExamples>>#scrollableElementWithContent|previewShow=#gtLiveFor:|previewHeight=75|previewExpanded}$
+Once the `scrollable` element is instantiated we can add our previously created content as a direct child to the scrollable element with {{gtMethod:BlElement>>#addChild:}}
+{{gtExample:BlScrollableElementExamples>>#scrollableElementWithContent|previewShow=#gtLiveFor:|previewHeight=75|previewExpanded}}
 
-We quickly notice that the ==scrollable== element does not have nice dimensions. We can fix it by asking the ==scrollable== element to match it's parent.
-${example:BlScrollableElementExamples>>#scrollableMatchParent|previewShow=#gtLiveFor:|previewHeight=300|previewExpanded}$
+We quickly notice that the `scrollable` element does not have nice dimensions. We can fix it by asking the `scrollable` element to match it's parent.
+{{gtExample:BlScrollableElementExamples>>#scrollableMatchParent|previewShow=#gtLiveFor:|previewHeight=300|previewExpanded}}
 
-While being the most common use case, match parent is not the only resizing strategy supported by a ==scrollable element==. Together with ==maxHeight:== constraint a scrollable element can be used with ==fit content==, which means that a scrollable element will grow in size to accommodate the scrolled element until reaching the limit set using `maxHeight:` or `maxWidth:`
-${example:BlScrollableElementExamples>>#scrollableFitContentWithMaxHeight|previewShow=#gtLiveFor:|previewHeight=400|previewExpanded}$
+While being the most common use case, match parent is not the only resizing strategy supported by a `scrollable element`. Together with `maxHeight:` constraint a scrollable element can be used with `fit content`, which means that a scrollable element will grow in size to accommodate the scrolled element until reaching the limit set using `maxHeight:` or `maxWidth:`
+{{gtExample:BlScrollableElementExamples>>#scrollableFitContentWithMaxHeight|previewShow=#gtLiveFor:|previewHeight=400|previewExpanded}}
+
 "
 Class {
 	#name : #BlScrollableElementExamples,

@@ -9,6 +9,7 @@ Example:
 infiniteElement
 	addEventHandlerOn: BlInfiniteElementAttachedEvent
 	do: [ :event | self inform: 'Atatched:  ', event element asString ]
+
 "
 Class {
 	#name : #BlInfiniteElementAttachedEvent,

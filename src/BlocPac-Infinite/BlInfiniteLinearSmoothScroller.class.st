@@ -1,5 +1,6 @@
 "
 I am a SmoothScroller implementation which uses a LinearInterpolator until the target position becomes a child of the InfiniteElement and then uses a DecelerateInterpolator to slowly approach to target position.
+
 "
 Class {
 	#name : #BlInfiniteLinearSmoothScroller,

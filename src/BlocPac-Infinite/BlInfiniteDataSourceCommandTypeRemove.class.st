@@ -1,5 +1,6 @@
 "
 I represent a concrete ""remove"" command type
+
 "
 Class {
 	#name : #BlInfiniteDataSourceCommandTypeRemove,

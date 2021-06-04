@@ -1,5 +1,6 @@
 "
-BlFileImageLoadValuable is responsible for loading a single image from disk by passing the request on to ${method:name=BlLocalImageCache class>>#current}$.  
+BlFileImageLoadValuable is responsible for loading a single image from disk by passing the request on to {{gtMethod:name=BlLocalImageCache class>>#current}}.  
+
 
 "
 Class {

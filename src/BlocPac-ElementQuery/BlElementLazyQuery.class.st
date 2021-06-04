@@ -1,7 +1,8 @@
 "
-!Lazy element query
+# Lazy element query
 Evaluates a query lazily, allowing users to construct it first and then perform a single computation.
-For eager query construction take a look at ${class:BlElementEagerQuery}$
+For eager query construction take a look at {{gtClass:BlElementEagerQuery}}
+
 "
 Class {
 	#name : #BlElementLazyQuery,

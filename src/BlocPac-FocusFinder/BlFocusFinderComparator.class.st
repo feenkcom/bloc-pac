@@ -1,5 +1,6 @@
 "
 I sort element according to their visual layout and geometry
+
 "
 Class {
 	#name : #BlFocusFinderComparator,

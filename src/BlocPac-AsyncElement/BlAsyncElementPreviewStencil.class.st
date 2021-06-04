@@ -1,8 +1,9 @@
 "
-I represent an abstract preview stencil for ${class:BlAsyncDelayedPreviewStrategy}$. 
-I am here more for documentation purposes as the ${method:BlAsyncDelayedPreviewStrategy>>#previewStencil:}$ can receive any stencil that understands the ${method:BrStencil>>#asElement|label=#selector}$ method.
+I represent an abstract preview stencil for {{gtClass:BlAsyncDelayedPreviewStrategy}}. 
+I am here more for documentation purposes as the {{gtMethod:BlAsyncDelayedPreviewStrategy>>#previewStencil:}} can receive any stencil that understands the {{gtMethod:BrStencil>>#asElement|label=#selector}} method.
  
-See ${class:BlAsyncDelayedPreviewStrategy}$ and my subclasses for more details: ${class:BlAsyncElementPreviewStencil|show=#gtSubclassesFor:|expanded=true|height=150}$
+See {{gtClass:BlAsyncDelayedPreviewStrategy}} and my subclasses for more details: {{gtClass:BlAsyncElementPreviewStencil|show=#gtSubclassesFor:|expanded=true|height=150}}
+
 "
 Class {
 	#name : #BlAsyncElementPreviewStencil,

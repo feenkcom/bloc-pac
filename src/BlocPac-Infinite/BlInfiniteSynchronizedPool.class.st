@@ -1,5 +1,6 @@
 "
 I am synchronized pool
+
 "
 Class {
 	#name : #BlInfiniteSynchronizedPool,

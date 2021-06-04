@@ -1,5 +1,6 @@
 "
 I am a root class of geometry elements - elements driven by geometry anchors.
+
 "
 Class {
 	#name : #BlGeometryElement,

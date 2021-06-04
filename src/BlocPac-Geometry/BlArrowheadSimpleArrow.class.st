@@ -8,6 +8,7 @@ Users can also customise nose angle that tells how wide should the arrow lines b
 The with of the outer arrows can be specified by changing border width of a simple arrow arrowhead.
 
 I support both background and border paint and can have hollow inner triangle.
+
 "
 Class {
 	#name : #BlArrowheadSimpleArrow,

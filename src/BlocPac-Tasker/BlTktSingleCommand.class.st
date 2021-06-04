@@ -9,20 +9,21 @@ Public API and Key Messages
 
 Commands are typically given an identifier with something like:
 
-[[[
+```
 aBlTktCommand asBlTktSingleCommand identifier: self
-]]]
+```
 
 where self is the object submitting the command for execution.
 
-!!Internal Representation and Key Implementation Points.
+## Internal Representation and Key Implementation Points.
 
-!!!Instance Variables
+### Instance Variables
 
 	identifier:		<Object>	the object used for entry identity comparison
 
 
-!!!Implementation Points
+### Implementation Points
+
 "
 Class {
 	#name : #BlTktSingleCommand,
