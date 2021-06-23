@@ -200,6 +200,7 @@ BlAsyncElementExamples >> lazyElementInScripter_Async_HiddenToUser [
 { #category : #'examples - lazy element in scripter' }
 BlAsyncElementExamples >> lazyElementInScripter_Async_RelocateHiddenElementToVisibleArea [
 	<gtExample>
+	<noTest>
 	| aScripter aPostBuildSemaphore aScripterSemaphore |
 	aScripter := self lazyElementInScripter_Async_HiddenToUser.
 	aScripterSemaphore := aScripter userData at: #scripterSemaphore.
