@@ -28,6 +28,7 @@ BlAsyncElementExamples >> assertTextElement: aBlTextElement string: aString [
 { #category : #'examples -  lazy element with preview' }
 BlAsyncElementExamples >> asyncDelayedPreviewStrategy [
 	<gtExample>
+	<noTest>
 	| aStrategy |
 	aStrategy := BlAsyncDelayedPreviewStrategy new.
 	self assert: aStrategy previewDelay isNotNil.
@@ -38,12 +39,14 @@ BlAsyncElementExamples >> asyncDelayedPreviewStrategy [
 { #category : #'examples -  lazy element with preview' }
 BlAsyncElementExamples >> asyncDelayedPreviewStrategyDelay [
 	<gtExample>
+	<noTest>
 	^ self asyncDelayedPreviewStrategy previewDelay
 ]
 
 { #category : #'examples - lazy element in space' }
 BlAsyncElementExamples >> asyncLazyElementInSpace [
 	<gtExample>
+	<noTest>
 	| anElement aSpace aSemaphore aTimeout |
 	aSemaphore := Semaphore new.
 	aSpace := self lazyElementInSpace.
@@ -70,6 +73,7 @@ BlAsyncElementExamples >> asyncLazyElementInSpace [
 { #category : #'examples - lazy element' }
 BlAsyncElementExamples >> basicLazyElement [
 	<gtExample>
+	<noTest>
 	| anElement |
 	anElement := BlLazyElement new.
 	anElement
@@ -87,6 +91,7 @@ BlAsyncElementExamples >> basicLazyElement [
 { #category : #'examples -  lazy element with preview' }
 BlAsyncElementExamples >> basicLazyPreviewedElement [
 	<gtExample>
+	<noTest>
 	| anElement |
 	anElement := BlLazyElement new.
 	self assert: anElement previewStrategy isNotNil.
@@ -96,6 +101,7 @@ BlAsyncElementExamples >> basicLazyPreviewedElement [
 { #category : #'examples - children' }
 BlAsyncElementExamples >> finalElement [
 	<gtExample>
+	<noTest>
 	| anElement aText |
 	anElement := BlTextElement new
 		padding: (BlInsets all: 3);
@@ -113,6 +119,7 @@ BlAsyncElementExamples >> finalElement [
 { #category : #'examples - children' }
 BlAsyncElementExamples >> finalElementBuilder [
 	<gtExample>
+	<noTest>
 	| aBuilder |
 	aBuilder := [ self finalElement ].
 	self assert: (aBuilder value isKindOf: BlElement).
@@ -122,12 +129,14 @@ BlAsyncElementExamples >> finalElementBuilder [
 { #category : #'examples - children' }
 BlAsyncElementExamples >> finalString [
 	<gtExample>
+	<noTest>
 	^ 'Final element (computed in background)'
 ]
 
 { #category : #'examples - lazy element' }
 BlAsyncElementExamples >> lazyElement [
 	<gtExample>
+	<noTest>
 	| anElement aBuilder |
 	anElement := self lazyElementWithTemporaryChild.
 	aBuilder := self finalElementBuilder.
@@ -141,6 +150,7 @@ BlAsyncElementExamples >> lazyElement [
 { #category : #'examples - lazy element in scripter' }
 BlAsyncElementExamples >> lazyElementInScripter [
 	<gtExample>
+	<noTest>
 	| anElement aScripter |
 	anElement := self lazyElement.
 	aScripter := self scripter element: anElement.
@@ -152,6 +162,7 @@ BlAsyncElementExamples >> lazyElementInScripter [
 { #category : #'examples - lazy element in scripter' }
 BlAsyncElementExamples >> lazyElementInScripter_Async_HiddenToUser [
 	<gtExample>
+	<noTest>
 	| aScripter aPostBuildSemaphore aScripterSempahore |
 	aPostBuildSemaphore := Semaphore new.
 	aScripterSempahore := Semaphore new.
@@ -189,6 +200,7 @@ BlAsyncElementExamples >> lazyElementInScripter_Async_HiddenToUser [
 { #category : #'examples - lazy element in scripter' }
 BlAsyncElementExamples >> lazyElementInScripter_Async_RelocateHiddenElementToVisibleArea [
 	<gtExample>
+	<noTest>
 	| aScripter aPostBuildSemaphore aScripterSemaphore |
 	aScripter := self lazyElementInScripter_Async_HiddenToUser.
 	aScripterSemaphore := aScripter userData at: #scripterSemaphore.
@@ -238,6 +250,7 @@ BlAsyncElementExamples >> lazyElementInScripter_Async_RelocateHiddenElementToVis
 { #category : #'examples - lazy element in scripter' }
 BlAsyncElementExamples >> lazyElementInScripter_Async_VisibleToUser [
 	<gtExample>
+	<noTest>
 	| aScripter aPostBuildSemaphore aScripterSemaphore |
 	aPostBuildSemaphore := Semaphore new.
 	aScripterSemaphore := Semaphore new.
@@ -289,6 +302,7 @@ BlAsyncElementExamples >> lazyElementInScripter_Async_VisibleToUser [
 { #category : #'examples - lazy element in space' }
 BlAsyncElementExamples >> lazyElementInSpace [
 	<gtExample>
+	<noTest>
 	| anElement aSpace |
 	anElement := self lazyElement.
 	anElement forceLayout.
@@ -300,6 +314,7 @@ BlAsyncElementExamples >> lazyElementInSpace [
 { #category : #'examples - children' }
 BlAsyncElementExamples >> lazyElementWithTemporaryChild [
 	<gtExample>
+	<noTest>
 	| anElement aChild |
 	anElement := self basicLazyElement.
 	aChild := self temporaryElement.
@@ -312,6 +327,7 @@ BlAsyncElementExamples >> lazyElementWithTemporaryChild [
 { #category : #'examples -  lazy element with preview' }
 BlAsyncElementExamples >> lazyPreviewedElement [
 	<gtExample>
+	<noTest>
 	| anElement |
 	anElement := self basicLazyPreviewedElement.
 	anElement
@@ -329,6 +345,7 @@ BlAsyncElementExamples >> lazyPreviewedElement [
 { #category : #'instance creation' }
 BlAsyncElementExamples >> newSpace [
 	<gtExample>
+	<noTest>
 	| aSpace |
 	aSpace := BlSpace new.
 	aSpace host: BlHeadlessHost new.
@@ -341,6 +358,7 @@ BlAsyncElementExamples >> newSpace [
 { #category : #'examples -  lazy element with preview' }
 BlAsyncElementExamples >> previewStencil [
 	<gtExample>
+	<noTest>
 	| aStencil |
 	aStencil := BlAsyncElementBasicPreviewStencil new.
 	self assert: (aStencil asElement isKindOf: BlElement).
@@ -350,6 +368,7 @@ BlAsyncElementExamples >> previewStencil [
 { #category : #utility }
 BlAsyncElementExamples >> putInSpace: aBlElement [
 	<gtExample>
+	<noTest>
 	| aSpace |
 	self 
 		assert: [ aBlElement isNotNil ]
@@ -359,9 +378,79 @@ BlAsyncElementExamples >> putInSpace: aBlElement [
 	^ aSpace
 ]
 
+{ #category : #'examples - scripter' }
+BlAsyncElementExamples >> scripter [
+	<gtExample>
+	<noTest>
+	| aScripter |
+	aScripter := BlDevScripter new.
+	
+	self assert: aScripter events isEmpty.
+	
+	^ aScripter
+]
+
+{ #category : #'examples - scripter' }
+BlAsyncElementExamples >> scripter: aScripter withModel: aModelBlock [
+	<gtExample>
+	<noTest>
+	^ self 
+		scripter: aScripter 
+		withModel: aModelBlock 
+		element: [ :aModel | aModel asElement ]
+]
+
+{ #category : #'examples - scripter' }
+BlAsyncElementExamples >> scripter: aScripter withModel: aModelBlock element: anElementBlock [
+	<gtExample>
+	<noTest>
+	aScripter substep: 'Initialize Model and UI' do: [ :aStep | 
+		aStep set 
+			label: 'Initialize Model';
+			model: aModelBlock.
+		aStep set 
+			label: 'Initialize UI';
+			element: anElementBlock;
+			onModel.
+		aStep wait forEmptySpaceTaskQueue.		
+	].
+	^ aScripter syncContinue
+]
+
+{ #category : #'examples - scripter' }
+BlAsyncElementExamples >> scripterWithElement: anElementBlock [
+	<gtExample>
+	<noTest>
+	^ self 
+		scripter: self scripter 
+		withModel: [ nil ] 
+		element: anElementBlock
+]
+
+{ #category : #'examples - scripter' }
+BlAsyncElementExamples >> scripterWithModel: aModelBlock [
+	<gtExample>
+	<noTest>
+	^ self 
+		scripter: self scripter 
+		withModel: aModelBlock 
+		element: [ :aModel | aModel asElement ]
+]
+
+{ #category : #'examples - scripter' }
+BlAsyncElementExamples >> scripterWithModel: aModelBlock element: anElementBlock [
+	<gtExample>
+	<noTest>
+	^ self 
+		scripter: self scripter 
+		withModel: aModelBlock 
+		element: anElementBlock
+]
+
 { #category : #'examples - lazy element' }
 BlAsyncElementExamples >> syncLazyElement [
 	<gtExample>
+	<noTest>
 	| anElement aBuilder |
 	anElement := self lazyElementWithTemporaryChild.
 	aBuilder := self finalElementBuilder.
@@ -377,6 +466,7 @@ BlAsyncElementExamples >> syncLazyElement [
 { #category : #'examples - lazy element in space' }
 BlAsyncElementExamples >> syncLazyElementInSpace [
 	<gtExample>
+	<noTest>
 	| anElement aSpace |
 	anElement := self lazyElement.
 	aSpace := self putInSpace: anElement.
@@ -396,6 +486,7 @@ BlAsyncElementExamples >> syncLazyElementInSpace [
 { #category : #'examples - children' }
 BlAsyncElementExamples >> temporaryElement [
 	<gtExample>
+	<noTest>
 	| anElement aText |
 	anElement := BlTextElement new.
 	anElement padding: (BlInsets all: 3).
@@ -407,6 +498,5 @@ BlAsyncElementExamples >> temporaryElement [
 
 { #category : #'examples - children' }
 BlAsyncElementExamples >> temporaryString [
-	<gtExample>
 	^ 'Temporary (displaying progress) element...'
 ]
