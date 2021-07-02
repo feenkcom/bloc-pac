@@ -12,7 +12,6 @@ Class {
 { #category : #'examples - task terminations' }
 BlTktExamples >> basicCommandTaskExecution [
 	<gtExample>
-	<noTest>
 	| anExecution |
 	anExecution := BlTktCommandTaskExecution new.
 	self assert: anExecution state class equals: TKTReadyTaskState.
@@ -30,7 +29,6 @@ BlTktExamples >> collector [
 { #category : #'examples - commands' }
 BlTktExamples >> executeResponsiveValuableCommand [
 	<gtExample>
-	<noTest>
 	| aCommand aResult |
 	aCommand := self responsiveValuableCommand.
 	aResult := aCommand value.
@@ -43,7 +41,6 @@ BlTktExamples >> executeResponsiveValuableCommand [
 { #category : #'examples - task terminations' }
 BlTktExamples >> executeTerminatedTerminableUnresponsiveValuableCommandInCancelledState [
 	<gtExample>
-	<noTest>
 	| aCommand aResult |
 	aCommand := self terminateTerminableUnresponsiveValuableCommandInCancelledState.
 	aResult := [ aCommand taskExecution executeTask ] 
@@ -58,7 +55,6 @@ BlTktExamples >> executeTerminatedTerminableUnresponsiveValuableCommandInCancell
 { #category : #'examples - task terminations' }
 BlTktExamples >> executeTerminatedTerminableUnresponsiveValuableCommandInFinishedState [
 	<gtExample>
-	<noTest>
 	| aCommand aResult |
 	aCommand := self terminateTerminableUnresponsiveValuableCommandInFinishedState.
 	aResult := [ aCommand taskExecution executeTask ] 
@@ -73,7 +69,6 @@ BlTktExamples >> executeTerminatedTerminableUnresponsiveValuableCommandInFinishe
 { #category : #'examples - task terminations' }
 BlTktExamples >> executeTerminatedTerminableUnresponsiveValuableCommandInReadyState [
 	<gtExample>
-	<noTest>
 	| aCommand aResult |
 	aCommand := self terminateTerminableUnresponsiveValuableCommandInReadyState.
 	aResult := aCommand taskExecution executeTask.
@@ -85,7 +80,6 @@ BlTktExamples >> executeTerminatedTerminableUnresponsiveValuableCommandInReadySt
 { #category : #'examples - task terminations' }
 BlTktExamples >> executeTerminatedTerminableUnresponsiveValuableCommandInRunningState [
 	<gtExample>
-	<noTest>
 
 	| aCommand aResult |
 	aCommand := self terminateTerminableUnresponsiveValuableCommandInRunningState.
@@ -98,7 +92,6 @@ BlTktExamples >> executeTerminatedTerminableUnresponsiveValuableCommandInRunning
 { #category : #'examples - task terminations' }
 BlTktExamples >> executeTerminatedTerminableUnresponsiveValuableCommandInTerminatedState [
 	<gtExample>
-	<noTest>
 	| aCommand aResult |
 	aCommand := self terminateTerminableUnresponsiveValuableCommandInTerminatedState.
 	aResult := aCommand taskExecution executeTask.
@@ -110,7 +103,6 @@ BlTktExamples >> executeTerminatedTerminableUnresponsiveValuableCommandInTermina
 { #category : #'examples - commands' }
 BlTktExamples >> executeUnresponsiveValuableCommand [
 	<gtExample>
-	<noTest>
 	| aCommand aResult |
 	aCommand := self unresponsiveValuableCommand.
 	aResult := aCommand value.
@@ -121,7 +113,6 @@ BlTktExamples >> executeUnresponsiveValuableCommand [
 { #category : #'examples - task futures' }
 BlTktExamples >> failedFutureTerminableUnresponsiveValuableCommandTaskTerminatingInTheMiddle [
 	<gtExample>
-	<noTest>
 	| aFuture aResult |
 	aFuture := self futureTerminableUnresponsiveValuableCommandTaskTerminatingInTheMiddle.
 	aFuture onSuccessDo: [ :aFutureResult | aResult := #success. self signaler signalTaskSemaphore ].
@@ -136,7 +127,6 @@ BlTktExamples >> failedFutureTerminableUnresponsiveValuableCommandTaskTerminatin
 { #category : #'examples - task futures' }
 BlTktExamples >> futureResponsiveValuableCommandTask [
 	<gtExample>
-	<noTest>
 	| aTask aPool aFuture aResult |
 	aTask := self responsiveValuableCommandTask.
 	aPool := self uiWorkerPool.
@@ -149,7 +139,6 @@ BlTktExamples >> futureResponsiveValuableCommandTask [
 { #category : #'examples - task futures' }
 BlTktExamples >> futureTerminableResponsiveValuableCommandTask [
 	<gtExample>
-	<noTest>
 	| aTask aPool aFuture aResult |
 	aTask := self terminableResponsiveValuableCommandTask.
 	aPool := self uiWorkerPool.
@@ -162,7 +151,6 @@ BlTktExamples >> futureTerminableResponsiveValuableCommandTask [
 { #category : #'examples - task futures' }
 BlTktExamples >> futureTerminableUnresponsiveValuableCommandTask [
 	<gtExample>
-	<noTest>
 	| aTask aPool aFuture aResult |
 	aTask := self terminableUnresponsiveValuableCommandTask.
 	aPool := self uiWorkerPool.
@@ -175,7 +163,6 @@ BlTktExamples >> futureTerminableUnresponsiveValuableCommandTask [
 { #category : #'examples - task futures' }
 BlTktExamples >> futureTerminableUnresponsiveValuableCommandTaskTerminatingInTheMiddle [
 	<gtExample>
-	<noTest>
 	| aTask aPool aFuture aResult |
 	aTask := self terminableUnresponsiveValuableCommandTaskTerminatingInTheMiddle.
 	aPool := self uiWorkerPool.
@@ -211,7 +198,6 @@ BlTktExamples >> initialize [
 { #category : #'examples - workers' }
 BlTktExamples >> newUIWorkerPool [
 	<gtExample>
-	<noTest>
 	| aWorkerPool |
 	aWorkerPool := BlTktWorkerProvider new highUICPUBoundPool; exemplify; poolMaxSize: 1; pool.
 	self assert: aWorkerPool name isNotNil.
@@ -223,7 +209,6 @@ BlTktExamples >> newUIWorkerPool [
 { #category : #'examples - commands' }
 BlTktExamples >> responsiveDemoCommand [
 	<gtExample>
-	<noTest>
 	| aCommand |
 	aCommand := BlTktDemoResponsiveCommand new.
 	self assert: aCommand shouldTerminate not.
@@ -236,7 +221,6 @@ BlTktExamples >> responsiveDemoCommand [
 { #category : #'examples - commands' }
 BlTktExamples >> responsiveValuableCommand [
 	<gtExample>
-	<noTest>
 	| aBlock aCommand |
 	aBlock := [ :aRequests | self collector increment ].
 	aCommand := aBlock asBlTktCommand.
@@ -249,7 +233,6 @@ BlTktExamples >> responsiveValuableCommand [
 { #category : #'examples - command tasks' }
 BlTktExamples >> responsiveValuableCommandTask [
 	<gtExample>
-	<noTest>
 	| aCommand aTask |
 	aCommand := self responsiveValuableCommand.
 	aTask := aCommand asTask.
@@ -260,7 +243,6 @@ BlTktExamples >> responsiveValuableCommandTask [
 { #category : #'examples - task schedules' }
 BlTktExamples >> scheduleTerminableUnresponsiveValuableTaskTerminatingInTheMiddle [
 	<gtExample>
-	<noTest>
 
 	| aCommand aTask aWorkerPool aFuture aResult |
 	aCommand := self terminableUnresponsiveValuableCommandTerminatingInTheMiddle.
@@ -300,7 +282,6 @@ BlTktExamples >> stopUIWorkerPool [
 { #category : #'examples - commands' }
 BlTktExamples >> terminableResponsiveValuableCommand [
 	<gtExample>
-	<noTest>
 	| aCommand aTerminableCommand |
 	aCommand := self responsiveValuableCommand.
 	aTerminableCommand := aCommand asBlTktTerminableCommand.
@@ -315,7 +296,6 @@ BlTktExamples >> terminableResponsiveValuableCommand [
 { #category : #'examples - command tasks' }
 BlTktExamples >> terminableResponsiveValuableCommandTask [
 	<gtExample>
-	<noTest>
 	| aCommand aTask |
 	aCommand := self terminableResponsiveValuableCommand.
 	aTask := aCommand asTask.
@@ -326,7 +306,6 @@ BlTktExamples >> terminableResponsiveValuableCommandTask [
 { #category : #'examples - commands' }
 BlTktExamples >> terminableUnresponsiveValuableCommand [
 	<gtExample>
-	<noTest>
 	| aCommand aTerminableCommand |
 	aCommand := self unresponsiveValuableCommand.
 	aTerminableCommand := aCommand asBlTktTerminableCommand.
@@ -341,7 +320,6 @@ BlTktExamples >> terminableUnresponsiveValuableCommand [
 { #category : #'examples - command tasks' }
 BlTktExamples >> terminableUnresponsiveValuableCommandTask [
 	<gtExample>
-	<noTest>
 	| aCommand aTask |
 	aCommand := self terminableUnresponsiveValuableCommand.
 	aTask := aCommand asTask.
@@ -352,7 +330,6 @@ BlTktExamples >> terminableUnresponsiveValuableCommandTask [
 { #category : #'examples - command tasks' }
 BlTktExamples >> terminableUnresponsiveValuableCommandTaskTerminatingInTheMiddle [
 	<gtExample>
-	<noTest>
 	| aCommand aTask |
 	aCommand := self terminableUnresponsiveValuableCommandTerminatingInTheMiddle.
 	aTask := aCommand asTask.
@@ -363,7 +340,6 @@ BlTktExamples >> terminableUnresponsiveValuableCommandTaskTerminatingInTheMiddle
 { #category : #'examples - commands' }
 BlTktExamples >> terminableUnresponsiveValuableCommandTerminatingInTheMiddle [
 	<gtExample>
-	<noTest>
 	| aCommand aTerminableCommand |
 	aCommand := self unresponsiveValuableCommandTerminatingInTheMiddle.
 	aTerminableCommand := aCommand asBlTktTerminableCommand.
@@ -378,7 +354,6 @@ BlTktExamples >> terminableUnresponsiveValuableCommandTerminatingInTheMiddle [
 { #category : #'examples - task terminations' }
 BlTktExamples >> terminateTerminableUnresponsiveValuableCommandInCancelledState [
 	<gtExample>
-	<noTest>
 	| aCommand anExecution |
 	aCommand := self terminableUnresponsiveValuableCommand.
 	anExecution := self basicCommandTaskExecution.
@@ -393,7 +368,6 @@ BlTktExamples >> terminateTerminableUnresponsiveValuableCommandInCancelledState 
 { #category : #'examples - task terminations' }
 BlTktExamples >> terminateTerminableUnresponsiveValuableCommandInFinishedState [
 	<gtExample>
-	<noTest>
 	| aCommand anExecution |
 	aCommand := self terminableUnresponsiveValuableCommand.
 	anExecution := self basicCommandTaskExecution.
@@ -408,7 +382,6 @@ BlTktExamples >> terminateTerminableUnresponsiveValuableCommandInFinishedState [
 { #category : #'examples - task terminations' }
 BlTktExamples >> terminateTerminableUnresponsiveValuableCommandInReadyState [
 	<gtExample>
-	<noTest>
 	| aCommand anExecution |
 	aCommand := self terminableUnresponsiveValuableCommand.
 	anExecution := self basicCommandTaskExecution.
@@ -422,7 +395,6 @@ BlTktExamples >> terminateTerminableUnresponsiveValuableCommandInReadyState [
 { #category : #'examples - task terminations' }
 BlTktExamples >> terminateTerminableUnresponsiveValuableCommandInRunningState [
 	<gtExample>
-	<noTest>
 
 	| aCommand anExecution |
 	aCommand := [ 1000 timesRepeat: [ 100 milliSeconds wait ] ] asBlTktTerminableCommand.
@@ -438,7 +410,6 @@ BlTktExamples >> terminateTerminableUnresponsiveValuableCommandInRunningState [
 { #category : #'examples - task terminations' }
 BlTktExamples >> terminateTerminableUnresponsiveValuableCommandInTerminatedState [
 	<gtExample>
-	<noTest>
 	| aCommand anExecution |
 	aCommand := self terminableUnresponsiveValuableCommand.
 	anExecution := self basicCommandTaskExecution.
@@ -453,7 +424,6 @@ BlTktExamples >> terminateTerminableUnresponsiveValuableCommandInTerminatedState
 { #category : #'examples - workers' }
 BlTktExamples >> uiWorkerPool [
 	<gtExample>
-	<noTest>
 	<after: #stopUIWorkerPool>
 	uiWorkerPool ifNil: [ uiWorkerPool := self newUIWorkerPool ].
 	self assert: uiWorkerPool isNotNil.
@@ -463,7 +433,6 @@ BlTktExamples >> uiWorkerPool [
 { #category : #'examples - commands' }
 BlTktExamples >> unresponsiveValuableCommand [
 	<gtExample>
-	<noTest>
 	| aBlock aCommand |
 	aBlock := [ self collector increment ].
 	aCommand := aBlock asBlTktCommand.
@@ -476,7 +445,6 @@ BlTktExamples >> unresponsiveValuableCommand [
 { #category : #'examples - commands' }
 BlTktExamples >> unresponsiveValuableCommandTerminatingInTheMiddle [
 	<gtExample>
-	<noTest>
 	| aCommand aBlock |
 	aCommand := BlTktUnresponsiveCommand new.
 	aBlock := [ 
