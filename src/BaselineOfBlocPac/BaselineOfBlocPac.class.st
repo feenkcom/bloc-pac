@@ -14,13 +14,13 @@ BaselineOfBlocPac >> baseline: spec [
 		spec postLoadDoIt: #'postLoadTasker:'.
 		spec 
 			baseline: 'Bloc' with: [
-				spec repository: 'github://feenkcom/Bloc:v0.8.208/src' ];
+				spec repository: 'github://feenkcom/Bloc:v0.8.209/src' ];
 			baseline: 'Beacon' with: [
 				spec repository: 'github://feenkcom/pharo-beacon:a119e739bc378ca2a95883e074090d90fed4edeb/repository' ];
 			baseline: 'SpartaSkia' with: [
-				spec repository: 'github://feenkcom/Sparta:v0.8.52/src' ];
+				spec repository: 'github://feenkcom/Sparta:v0.8.53/src' ];
 			baseline: 'TaskIt' with: [
-				spec repository: 'github://feenkcom/taskit:74cdf447344e710ea8f2b6f0df8ed662de85a711' ].
+				spec repository: 'github://feenkcom/taskit:c985fb6f3fc583598cb48183bee4e26327e505c3' ].
 		spec 
 			package: #'BlocPac-DragAndDrop' with: [
 				spec requires: #('Bloc' ). ];
