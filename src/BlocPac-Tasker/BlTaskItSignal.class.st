@@ -13,7 +13,7 @@ Class {
 BlTaskItSignal class >> emit [ 
 
 	^self new
-		callingMethod: thisContext sender outerMostContext method asRingDefinition;
+		callingMethod: thisContext sender blocMethodDefinition;
 		emit
 ]
 
@@ -22,7 +22,7 @@ BlTaskItSignal class >> emitMessage: aString [
 
 	^self new
 		message: aString;
-		callingMethod: thisContext sender outerMostContext method asRingDefinition;
+		callingMethod: thisContext sender blocMethodDefinition;
 		emit
 ]
 
@@ -31,7 +31,7 @@ BlTaskItSignal class >> emitValuable: aValuable [
 
 	^self new
 		valuable: aValuable;
-		callingMethod: thisContext sender outerMostContext method asRingDefinition;
+		callingMethod: thisContext sender blocMethodDefinition;
 		emit
 ]
 
@@ -41,7 +41,7 @@ BlTaskItSignal class >> emitValuable: aValuable message: aString [
 	^self new
 		valuable: aValuable;
 		message: aString;
-		callingMethod: thisContext sender outerMostContext method asRingDefinition;
+		callingMethod: thisContext sender blocMethodDefinition;
 		emit
 ]
 
