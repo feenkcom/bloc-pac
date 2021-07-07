@@ -1,8 +1,8 @@
 Class {
 	#name : #BlTktCommonQueueWorkerPool,
 	#superclass : #TKTCommonQueueWorkerPool,
-	#traits : '(TBlDebug + TBlTktCommandTaskScheduler) - {#processProvider}',
-	#classTraits : 'TBlDebug classTrait + TBlTktCommandTaskScheduler classTrait',
+	#traits : 'TBlDebug',
+	#classTraits : 'TBlDebug classTrait',
 	#instVars : [
 		'processPriority'
 	],
@@ -35,6 +35,12 @@ BlTktCommonQueueWorkerPool >> ensureIsWorking [
 						traceCr: failedTasks size asString , ' Failed tasks encountered' ].
 			self privateManageWorkersBefore.
 			self privateManageWorkersAfter ]
+]
+
+{ #category : #schedulling }
+BlTktCommonQueueWorkerPool >> future: aTask [
+	<return: #TKTFuture>
+	^ self withConfigurationDo: [ super future: aTask ].
 ]
 
 { #category : #initialization }
@@ -97,6 +103,16 @@ BlTktCommonQueueWorkerPool >> processProvider [
 	^ BlTktProcessProvider new processPriority: self processPriority
 ]
 
+{ #category : #schedulling }
+BlTktCommonQueueWorkerPool >> schedule: aTask [
+	self withConfigurationDo: [ super schedule: aTask ].
+]
+
+{ #category : #schedulling }
+BlTktCommonQueueWorkerPool >> schedule: aTask timeout: aTimeout [
+	self withConfigurationDo: [ super schedule: aTask timeout: aTimeout ].
+]
+
 { #category : #'public - mutexed' }
 BlTktCommonQueueWorkerPool >> scheduleTaskExecution: aTaskExecution [
 
@@ -123,4 +139,11 @@ BlTktCommonQueueWorkerPool >> start [
 	Only start if not already started."
 
 	^dog ifNil: [ super start ]
+]
+
+{ #category : #private }
+BlTktCommonQueueWorkerPool >> withConfigurationDo: aBlock [
+	^ TKTConfiguration 
+		processProvider: self processProvider 
+		during: aBlock
 ]
