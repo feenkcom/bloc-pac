@@ -12,7 +12,7 @@ BlTktLoggingCommand class >> command: aCommand [
 
 	^self new 
 		command: aCommand asBlTktCommand;
-		callingMethod: thisContext sender sender outerMostContext method asRingDefinition;
+		callingMethod: thisContext sender sender blocMethodDefinition;
 		yourself
 ]
 
@@ -21,7 +21,7 @@ BlTktLoggingCommand class >> valuable: aValuable [
 
 	^self new 
 		command: aValuable asBlTktCommand;
-		callingMethod: thisContext sender sender outerMostContext method asRingDefinition;
+		callingMethod: thisContext sender sender blocMethodDefinition;
 		yourself
 ]
 
