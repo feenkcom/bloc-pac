@@ -209,12 +209,12 @@ BlTktWorkerProvider >> lowUIPriority [
 
 { #category : #'configurations - pools' }
 BlTktWorkerProvider >> lowUIUserExecutionPool [
-	"Low Priority Async UI (Playground execution): maxPoolSize: 2, , priority: 33"
+	"Low Priority Async UI (Playground execution): maxPoolSize: 1, , priority: 33"
 
 	self
 		name: self class lowUIUserExecutionPoolName;
 		priorityQueue;
-		poolMaxSize: 2;
+		poolMaxSize: 1;
 		lowUIPriority
 ]
 
