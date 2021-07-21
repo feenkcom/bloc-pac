@@ -17,7 +17,7 @@ Class {
 
 { #category : #defaults }
 BlTktExamplesSignaler >> defaultTimeout [
-	^ 5000 "milliSeconds"
+	^ 60 * 1000 "milliSeconds"
 ]
 
 { #category : #initialization }
