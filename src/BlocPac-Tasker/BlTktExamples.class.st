@@ -185,7 +185,7 @@ BlTktExamples >> futureTerminableUnresponsiveValuableCommandTaskTerminatingInThe
 
 { #category : #'examples - task futures' }
 BlTktExamples >> futureTimeout [
-	^ 5000 milliSeconds
+	^ (60 * 1000) milliSeconds
 ]
 
 { #category : #initialization }
