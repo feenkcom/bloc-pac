@@ -1,1 +1,1 @@
-Package { #name : #BaselineOfBlocPacExamples }
+Package { #name : 'BaselineOfBlocPacExamples' }

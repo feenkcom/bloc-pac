@@ -1,38 +1,39 @@
 Class {
-	#name : #BaselineOfBlocPacExamples,
-	#superclass : #BaselineOf,
-	#category : #BaselineOfBlocPacExamples
+	#name : 'BaselineOfBlocPacExamples',
+	#superclass : 'BaselineOf',
+	#category : 'BaselineOfBlocPacExamples'
 }
 
-{ #category : #baseline }
+{ #category : 'baseline' }
 BaselineOfBlocPacExamples >> baseline: spec [
 	<baseline>
 	spec for: #'common' do: [
-		spec 
+		spec
 			baseline: 'BlocPac' with: [
-				spec repository: 'github://feenkcom/bloc-pac:v0.6.128/src' ];
+				spec repository: 'github://feenkcom/bloc-pac:v0.6.129/src' ].
+		spec
 			baseline: 'BlocExamples' with: [
-				spec repository: 'github://feenkcom/Bloc:v0.8.229/src' ].
-		spec 
-			package: #'BlocPac-AsyncElement-Examples' with: [
-				spec requires: #('BlocPac' ). ];
-			package: #'BlocPac-FocusFinder-Examples' with: [
-				spec requires: #('BlocPac' ). ];
-			package: #'BlocPac-Geometry-Examples' with: [
-				spec requires: #('BlocPac' ). ];
-			package: #'BlocPac-Imager-Examples' with: [
-				spec requires: #('BlocPac' ). ];
-			package: #'BlocPac-Infinite-Examples' with: [
-				spec requires: #('BlocPac' ). ];
-			package: #'BlocPac-Overlay-Examples' with: [
-				spec requires: #('BlocPac' ). ];
-			package: #'BlocPac-PannableAndZoomable-Examples' with: [
-				spec requires: #('BlocPac' ). ];
-			package: #'BlocPac-PullAndSlide-Examples' with: [
-				spec requires: #('BlocPac' 'BlocExamples' ). ];
-			package: #'BlocPac-Scrollable-Examples' with: [
-				spec requires: #('BlocPac' ). ];
-			package: #'BlocPac-Demos' with: [
-				spec requires: #('BlocPac' ). ]. ].
+				spec repository: 'github://feenkcom/Bloc:v0.8.230/src' ].
 
+		spec package: 'BlocPac-AsyncElement-Examples' with: [
+			spec requires: #('BlocPac') ].
+		spec package: 'BlocPac-FocusFinder-Examples' with: [
+			spec requires: #('BlocPac') ].
+		spec package: 'BlocPac-Geometry-Examples' with: [
+			spec requires: #('BlocPac') ].
+		spec package: 'BlocPac-Imager-Examples' with: [
+			spec requires: #('BlocPac') ].
+		spec package: 'BlocPac-Infinite-Examples' with: [
+			spec requires: #('BlocPac') ].
+		spec package: 'BlocPac-Overlay-Examples' with: [
+			spec requires: #('BlocPac') ].
+		spec package: 'BlocPac-PannableAndZoomable-Examples' with: [
+			spec requires: #('BlocPac') ].
+		spec package: 'BlocPac-PullAndSlide-Examples' with: [
+			spec requires: #('BlocPac' 'BlocExamples') ].
+		spec package: 'BlocPac-Scrollable-Examples' with: [
+			spec requires: #('BlocPac') ].
+		spec package: 'BlocPac-Demos' with: [
+			spec requires: #('BlocPac') ].
+	]
 ]
