@@ -1,20 +1,22 @@
 Class {
-	#name : 'BaselineOfBlocPac',
-	#superclass : 'BaselineOf',
+	#name : #BaselineOfBlocPac,
+	#superclass : #BaselineOf,
 	#classVars : [
 		'PostLoaded'
 	],
-	#category : 'BaselineOfBlocPac'
+	#category : #BaselineOfBlocPac
 }
 
-{ #category : 'baseline' }
+{ #category : #baseline }
 BaselineOfBlocPac >> baseline: spec [
 	<baseline>
 	spec for: #'common' do: [
 		spec postLoadDoIt: #'postLoadTasker:'.
 		spec 
 			baseline: 'Bloc' with: [
-				spec repository: 'github://feenkcom/Bloc:main/src' ];		
+				spec repository: 'github://feenkcom/Bloc:main/src' ];
+			baseline: 'Beacon' with: [
+				spec repository: 'github://feenkcom/pharo-beacon/repository' ];
 			baseline: 'SpartaSkia' with: [
 				spec repository: 'github://feenkcom/Sparta:main/src' ];
 			baseline: 'TaskIt' with: [
@@ -43,7 +45,7 @@ BaselineOfBlocPac >> baseline: spec [
 			package: #'BlocPac-Scrollable' with: [
 				spec requires: #('Bloc' #'BlocPac-PullAndSlide' ). ];
 			package: #'BlocPac-Infinite' with: [
-				spec requires: #('Bloc' #'BlocPac-Scrollable' ). ];
+				spec requires: #('Bloc' #'BlocPac-Scrollable' 'Bloc' ). ];
 			package: #'BlocPac-Infinite-Layouts' with: [
 				spec requires: #('Bloc' #'BlocPac-Infinite' ). ];
 			package: #'BlocPac-Tasker' with: [
@@ -51,17 +53,17 @@ BaselineOfBlocPac >> baseline: spec [
 			package: #'BlocPac-AsyncElement' with: [
 				spec requires: #('Bloc' #'BlocPac-Tasker' #'BlocPac-ErrorHandling' ). ];
 			package: #'BlocPac-Imager' with: [
-				spec requires: #('Bloc' 'SpartaSkia' #'BlocPac-AsyncElement' #'BlocPac-Tasker' ). ]. ].
+				spec requires: #('Bloc' 'Beacon' 'SpartaSkia' #'BlocPac-AsyncElement' #'BlocPac-Tasker' ). ]. ].
 
 ]
 
-{ #category : 'post load' }
+{ #category : #'post load' }
 BaselineOfBlocPac >> postLoadDisableTaskItDebugger: spec [
 	(self class environment at: #TKTConfiguration) profileNamed: #gtTest.
 	(self class environment at: #TKTDebugger) disable.
 ]
 
-{ #category : 'post load' }
+{ #category : #'post load' }
 BaselineOfBlocPac >> postLoadTasker: spec [
 	(PostLoaded isNotNil and: [ PostLoaded ])
 		ifTrue: [ ^ self ].
