@@ -1,16 +1,16 @@
 Class {
-	#name : #BlSvgPathCubicBezierSegment,
-	#superclass : #BlSvgPathSegment,
+	#name : 'BlSvgPathCubicBezierSegment',
+	#superclass : 'BlSvgPathSegment',
 	#instVars : [
 		'firstViaPoint',
 		'secondViaPoint',
 		'curveTo',
 		'lastControlPoint'
 	],
-	#category : #'BlocPac-Geometry-SVG'
+	#category : 'BlocPac-Geometry-SVG'
 }
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 BlSvgPathCubicBezierSegment >> = anotherObject [
 
 	self == anotherObject
@@ -24,17 +24,17 @@ BlSvgPathCubicBezierSegment >> = anotherObject [
 				and: [ anotherObject secondViaPoint = self secondViaPoint ] ] ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlSvgPathCubicBezierSegment >> curveTo [
 	^ curveTo
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlSvgPathCubicBezierSegment >> curveTo: anObject [
 	curveTo := anObject
 ]
 
-{ #category : #executing }
+{ #category : 'executing' }
 BlSvgPathCubicBezierSegment >> executeOn: aBuilder [
 	lastControlPoint := self isAbsolute
 		ifTrue: [ self secondViaPoint ]
@@ -43,34 +43,34 @@ BlSvgPathCubicBezierSegment >> executeOn: aBuilder [
 	aBuilder curveVia: self firstViaPoint and: self secondViaPoint to: self curveTo
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlSvgPathCubicBezierSegment >> firstViaPoint [
 	^ firstViaPoint
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlSvgPathCubicBezierSegment >> firstViaPoint: anObject [
 	firstViaPoint := anObject
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 BlSvgPathCubicBezierSegment >> hash [
 	^ ((self isAbsolute hash bitXor: self curveTo hash) bitXor: self firstViaPoint hash) bitXor: self secondViaPoint hash
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 BlSvgPathCubicBezierSegment >> isCubicBezier [
 	^ true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlSvgPathCubicBezierSegment >> lastControlPoint [
 	"Return an absolute position of the second control point. It is used to implement reflected cubic bezier"
 
 	^ lastControlPoint
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 BlSvgPathCubicBezierSegment >> printOn: aStream [
 	aStream
 		nextPutAll: 'Cubic bezier ';
@@ -83,12 +83,12 @@ BlSvgPathCubicBezierSegment >> printOn: aStream [
 		print: self curveTo
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlSvgPathCubicBezierSegment >> secondViaPoint [
 	^ secondViaPoint
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlSvgPathCubicBezierSegment >> secondViaPoint: anObject [
 	secondViaPoint := anObject
 ]

@@ -1,15 +1,15 @@
 Class {
-	#name : #BlShaperPolygon,
-	#superclass : #Object,
+	#name : 'BlShaperPolygon',
+	#superclass : 'Object',
 	#traits : 'TBlShaperFigure + TBlShaperMovable',
 	#classTraits : 'TBlShaperFigure classTrait + TBlShaperMovable classTrait',
 	#instVars : [
 		'edges'
 	],
-	#category : #'BlocPac-Geometry-Shaper'
+	#category : 'BlocPac-Geometry-Shaper'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 BlShaperPolygon class >> points: aCollectionOfPoints [
 	| theVertices theEdges |
 	
@@ -26,7 +26,7 @@ BlShaperPolygon class >> points: aCollectionOfPoints [
 	^ self new edges: theEdges
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 BlShaperPolygon class >> rectangle: aRectangle [
 	^ self points: {
 		aRectangle topLeft.
@@ -36,13 +36,13 @@ BlShaperPolygon class >> rectangle: aRectangle [
 	}
 ]
 
-{ #category : #'api - shape' }
+{ #category : 'api - shape' }
 BlShaperPolygon >> addEdge: aTBlShapeEdge after: anOtherShapeEdge [
 	edges add: aTBlShapeEdge after: anOtherShapeEdge.
 	aTBlShapeEdge figure: self
 ]
 
-{ #category : #converting }
+{ #category : 'converting' }
 BlShaperPolygon >> buildPathOnSpartaCanvas: aCanvas [
 	| aPathBuilder |
 	
@@ -52,18 +52,18 @@ BlShaperPolygon >> buildPathOnSpartaCanvas: aCanvas [
 	^ aPathBuilder finish
 ]
 
-{ #category : #'api - shape' }
+{ #category : 'api - shape' }
 BlShaperPolygon >> edges [
 	^ edges
 ]
 
-{ #category : #'api - shape' }
+{ #category : 'api - shape' }
 BlShaperPolygon >> edges: aCollectionOfEdges [
 	edges := aCollectionOfEdges asOrderedCollection.
 	edges do: [ :eachEdge | eachEdge figure: self ]
 ]
 
-{ #category : #'gt-extension' }
+{ #category : 'gt-extension' }
 BlShaperPolygon >> gtLiveFor: aView [
 	<gtView>
 	
@@ -81,24 +81,24 @@ BlShaperPolygon >> gtLiveFor: aView [
 				border: (BlBorder paint: Color gray width: 2) ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 BlShaperPolygon >> initialize [
 	super initialize.
 	
 	edges := OrderedCollection new
 ]
 
-{ #category : #'api - decorator' }
+{ #category : 'api - decorator' }
 BlShaperPolygon >> quadrilateral [
 	^ BlShaperQuadrilateral new polygon: self
 ]
 
-{ #category : #'api - shape' }
+{ #category : 'api - shape' }
 BlShaperPolygon >> removeEdge: aTBlShapeEdge [
 	edges remove: aTBlShapeEdge
 ]
 
-{ #category : #'api - decorator' }
+{ #category : 'api - decorator' }
 BlShaperPolygon >> triangle [
 	^ BlShaperTriangle new polygon: self
 ]

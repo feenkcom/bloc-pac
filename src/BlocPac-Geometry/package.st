@@ -1,1 +1,1 @@
-Package { #name : #'BlocPac-Geometry' }
+Package { #name : 'BlocPac-Geometry' }

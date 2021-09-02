@@ -5,18 +5,18 @@ I should be common for all line- and curve- based elements that should support a
 
 "
 Class {
-	#name : #BlCurveElement,
-	#superclass : #BlGeometryElement,
+	#name : 'BlCurveElement',
+	#superclass : 'BlGeometryElement',
 	#instVars : [
 		'fromAnchor',
 		'toAnchor',
 		'fromHead',
 		'toHead'
 	],
-	#category : #'BlocPac-Geometry-Curves'
+	#category : 'BlocPac-Geometry-Curves'
 }
 
-{ #category : #'anchor - geometry' }
+{ #category : 'anchor - geometry' }
 BlCurveElement >> decoratedAnchorPositions [
 	<return: #SequenceableCollection of: #Point>
 	
@@ -26,39 +26,39 @@ BlCurveElement >> decoratedAnchorPositions [
 	}
 ]
 
-{ #category : #'anchor - geometry' }
+{ #category : 'anchor - geometry' }
 BlCurveElement >> decoratedFromPosition [
 	^ self fromPosition - ((self fromHeadLength - 1) * (self normalizeDirection: self fromDirection)) asPoint
 ]
 
-{ #category : #'anchor - geometry' }
+{ #category : 'anchor - geometry' }
 BlCurveElement >> decoratedToPosition [
 	^ self toPosition - ((self toHeadLength - 1) * (self normalizeDirection: self toDirection)) asPoint
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 BlCurveElement >> defaultFromAnchor [
 	^ BlAbsolutePositionAnchor position: 0@0
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 BlCurveElement >> defaultGeometry [
 	<return: #BlElementVectorGeometry>
 
 	^ self subclassResponsibility
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 BlCurveElement >> defaultOutskirts [
 	^ BlOutskirts centered
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 BlCurveElement >> defaultToAnchor [
 	^ BlAbsolutePositionAnchor position: 10@10
 ]
 
-{ #category : #drawing }
+{ #category : 'drawing' }
 BlCurveElement >> drawArrowHeadsOnSpartaCanvas: aCanvas [
 
 	aCanvas
@@ -70,7 +70,7 @@ BlCurveElement >> drawArrowHeadsOnSpartaCanvas: aCanvas [
 				ifTrue: [ self toHead fullDrawOnSpartaCanvas: aCanvas ] ]
 ]
 
-{ #category : #drawing }
+{ #category : 'drawing' }
 BlCurveElement >> drawChildrenOnSpartaCanvas: aCanvas [
 
 	"If there are not children no need to draw and clip"
@@ -85,7 +85,7 @@ BlCurveElement >> drawChildrenOnSpartaCanvas: aCanvas [
 				ifFalse: [ anElement fullDrawOnSpartaCanvas: aCanvas ] ]
 ]
 
-{ #category : #drawing }
+{ #category : 'drawing' }
 BlCurveElement >> drawOnSpartaCanvas: aCanvas [
 
 	aCanvas layer
@@ -103,14 +103,14 @@ BlCurveElement >> drawOnSpartaCanvas: aCanvas [
 			self drawArrowHeadsOnSpartaCanvas: aCanvas ]
 ]
 
-{ #category : #'anchor - accessing' }
+{ #category : 'anchor - accessing' }
 BlCurveElement >> fromAnchor [
 	<return: #BlGeometryAnchor>
 
 	^ fromAnchor
 ]
 
-{ #category : #'anchor - accessing' }
+{ #category : 'anchor - accessing' }
 BlCurveElement >> fromAnchor: aBlGeometryAnchor [
 
 	self unregisterAnchor: fromAnchor.
@@ -118,7 +118,7 @@ BlCurveElement >> fromAnchor: aBlGeometryAnchor [
 	self registerAnchor: aBlGeometryAnchor
 ]
 
-{ #category : #'anchor - geometry' }
+{ #category : 'anchor - geometry' }
 BlCurveElement >> fromDirection [
 	"Return a vector representing a direction in which start of the curve is pointing"
 	<return: #BlVector>
@@ -126,7 +126,7 @@ BlCurveElement >> fromDirection [
 	^ self subclassResponsibility
 ]
 
-{ #category : #'heads - accessing' }
+{ #category : 'heads - accessing' }
 BlCurveElement >> fromHead [
 	<return: #BlElement>
 
@@ -137,7 +137,7 @@ BlCurveElement >> fromHead [
 	^ fromHead
 ]
 
-{ #category : #'heads - accessing' }
+{ #category : 'heads - accessing' }
 BlCurveElement >> fromHead: aBlElement [
 	self
 		assert: [ aBlElement isNotNil ]
@@ -151,7 +151,7 @@ BlCurveElement >> fromHead: aBlElement [
 	self addChild: fromHead
 ]
 
-{ #category : #'heads - geometry' }
+{ #category : 'heads - geometry' }
 BlCurveElement >> fromHeadBreadth [
 	"Return a measured breadth of arrowhead on 'from' side of the path"
 	<return: #Number>
@@ -161,7 +161,7 @@ BlCurveElement >> fromHeadBreadth [
 		ifFalse: [ 0.0 ]
 ]
 
-{ #category : #'heads - geometry' }
+{ #category : 'heads - geometry' }
 BlCurveElement >> fromHeadLength [
 	"Return a measured length of arrowhead on 'from' side of the path"
 	<return: #Number>
@@ -171,7 +171,7 @@ BlCurveElement >> fromHeadLength [
 		ifFalse: [ 0.0 ]
 ]
 
-{ #category : #'anchor - geometry' }
+{ #category : 'anchor - geometry' }
 BlCurveElement >> fromPosition [
 	"Return position of fromAnchor in parent coordinates.
 	The actual path may not start from this position if there exist arrow heads"
@@ -180,28 +180,28 @@ BlCurveElement >> fromPosition [
 	^ self fromAnchor positionWithin: self
 ]
 
-{ #category : #'heads - testing' }
+{ #category : 'heads - testing' }
 BlCurveElement >> hasFromHead [
 	<return: #Boolean>
 
 	^ fromHead isNotNil
 ]
 
-{ #category : #'heads - testing' }
+{ #category : 'heads - testing' }
 BlCurveElement >> hasHeads [
 	<return: #Boolean>
 	
 	^ self hasFromHead or: [ self hasToHead ]
 ]
 
-{ #category : #'heads - testing' }
+{ #category : 'heads - testing' }
 BlCurveElement >> hasToHead [
 	<return: #Boolean>
 
 	^ toHead isNotNil
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 BlCurveElement >> initialize [
 	super initialize.
 	
@@ -220,7 +220,7 @@ BlCurveElement >> initialize [
 	toHead := nil
 ]
 
-{ #category : #layout }
+{ #category : 'layout' }
 BlCurveElement >> measureFromHead [
 
 	self
@@ -241,7 +241,7 @@ BlCurveElement >> measureFromHead [
 			translateBy: (self fromHead margin right @ 0) ]
 ]
 
-{ #category : #layout }
+{ #category : 'layout' }
 BlCurveElement >> measureHeads [
 	self hasFromHead
 		ifTrue: [ self measureFromHead ].
@@ -250,7 +250,7 @@ BlCurveElement >> measureHeads [
 		ifTrue: [ self measureToHead ]
 ]
 
-{ #category : #layout }
+{ #category : 'layout' }
 BlCurveElement >> measureToHead [
 
 	self
@@ -272,7 +272,7 @@ BlCurveElement >> measureToHead [
 			translateBy: (self toHead margin left @ 0) ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 BlCurveElement >> normalizeDirection: aVector [
 	<return: #BlVector>
 
@@ -281,14 +281,14 @@ BlCurveElement >> normalizeDirection: aVector [
 		ifFalse: [ aVector normalized ]
 ]
 
-{ #category : #layout }
+{ #category : 'layout' }
 BlCurveElement >> onMeasure: anExtentMeasurementSpec [.
 	self layout measureIgnored: self with: anExtentMeasurementSpec.
 	super onMeasure: anExtentMeasurementSpec.
 	self measureHeads
 ]
 
-{ #category : #'heads - accessing' }
+{ #category : 'heads - accessing' }
 BlCurveElement >> removeFromHead [		
 	self hasFromHead
 		ifFalse: [ ^ self ].
@@ -297,7 +297,7 @@ BlCurveElement >> removeFromHead [
 	fromHead := nil
 ]
 
-{ #category : #'heads - accessing' }
+{ #category : 'heads - accessing' }
 BlCurveElement >> removeToHead [		
 	self hasToHead
 		ifFalse: [ ^ self ].
@@ -306,14 +306,14 @@ BlCurveElement >> removeToHead [
 	toHead := nil
 ]
 
-{ #category : #'anchor - accessing' }
+{ #category : 'anchor - accessing' }
 BlCurveElement >> toAnchor [
 	<return: #BlGeometryAnchor>
 
 	^ toAnchor
 ]
 
-{ #category : #'anchor - accessing' }
+{ #category : 'anchor - accessing' }
 BlCurveElement >> toAnchor: aBlGeometryAnchor [
 
 	self unregisterAnchor: toAnchor.
@@ -321,7 +321,7 @@ BlCurveElement >> toAnchor: aBlGeometryAnchor [
 	self registerAnchor: aBlGeometryAnchor
 ]
 
-{ #category : #'anchor - geometry' }
+{ #category : 'anchor - geometry' }
 BlCurveElement >> toDirection [
 	"Return a vector representing a direction in which end of the curve is pointing"
 	<return: #BlVector>
@@ -329,7 +329,7 @@ BlCurveElement >> toDirection [
 	^ self subclassResponsibility
 ]
 
-{ #category : #'heads - accessing' }
+{ #category : 'heads - accessing' }
 BlCurveElement >> toHead [
 	<return: #BlElement>
 
@@ -340,7 +340,7 @@ BlCurveElement >> toHead [
 	^ toHead
 ]
 
-{ #category : #'heads - accessing' }
+{ #category : 'heads - accessing' }
 BlCurveElement >> toHead: aBlElement [
 	self
 		assert: [ aBlElement isNotNil ]
@@ -354,7 +354,7 @@ BlCurveElement >> toHead: aBlElement [
 	self addChild: toHead
 ]
 
-{ #category : #'heads - geometry' }
+{ #category : 'heads - geometry' }
 BlCurveElement >> toHeadBreadth [
 	"Return a measured breadth of arrowhead on 'to' side of the path"
 	<return: #Number>
@@ -364,7 +364,7 @@ BlCurveElement >> toHeadBreadth [
 		ifFalse: [ 0.0 ]
 ]
 
-{ #category : #'heads - geometry' }
+{ #category : 'heads - geometry' }
 BlCurveElement >> toHeadLength [
 	"Return a measured length of arrowhead on 'to' side of the path"
 	<return: #Number>
@@ -374,7 +374,7 @@ BlCurveElement >> toHeadLength [
 		ifFalse: [ 0.0 ]
 ]
 
-{ #category : #'anchor - geometry' }
+{ #category : 'anchor - geometry' }
 BlCurveElement >> toPosition [
 	"Return position of toAnchor in parent coordinates.
 	The actual path may not end at this position if there exist arrow heads"

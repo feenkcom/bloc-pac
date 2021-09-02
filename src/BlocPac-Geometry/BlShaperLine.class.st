@@ -1,6 +1,6 @@
 Class {
-	#name : #BlShaperLine,
-	#superclass : #Object,
+	#name : 'BlShaperLine',
+	#superclass : 'Object',
 	#traits : 'TBlShaperEdge + TBlShaperMovable',
 	#classTraits : 'TBlShaperEdge classTrait + TBlShaperMovable classTrait',
 	#instVars : [
@@ -8,10 +8,10 @@ Class {
 		'toVertex',
 		'figure'
 	],
-	#category : #'BlocPac-Geometry-Shaper'
+	#category : 'BlocPac-Geometry-Shaper'
 }
 
-{ #category : #'api - shape' }
+{ #category : 'api - shape' }
 BlShaperLine >> appendPathTo: aPathBuilder [
 	(aPathBuilder currentPoint closeTo: self fromVertex point)
 		ifFalse: [ aPathBuilder moveTo: self fromVertex point ].
@@ -19,7 +19,7 @@ BlShaperLine >> appendPathTo: aPathBuilder [
 	aPathBuilder lineTo: self toVertex point
 ]
 
-{ #category : #'api - transformations' }
+{ #category : 'api - transformations' }
 BlShaperLine >> clockwiseRotateAroundEndBy: anAngleDegrees [
 	"rotate the line clockwise around an end vertex by the given amount of degrees"
 	| myVector anAngleInRadians newX newY newEndPoint |
@@ -33,7 +33,7 @@ BlShaperLine >> clockwiseRotateAroundEndBy: anAngleDegrees [
 	self fromVertex point: newEndPoint
 ]
 
-{ #category : #'api - transformations' }
+{ #category : 'api - transformations' }
 BlShaperLine >> clockwiseRotateAroundStartBy: anAngleDegrees [
 	"rotate the line clockwise around a start vertex by the given amount of degrees"
 	| myVector anAngleInRadians newX newY newEndPoint |
@@ -47,7 +47,7 @@ BlShaperLine >> clockwiseRotateAroundStartBy: anAngleDegrees [
 	self toVertex point: newEndPoint
 ]
 
-{ #category : #'api - transformations' }
+{ #category : 'api - transformations' }
 BlShaperLine >> collapse [
 	"Merge the vertices in the center of the line and replace the line with just one point.
 	Return the resulting point"
@@ -71,21 +71,21 @@ BlShaperLine >> collapse [
 	^ newVertex
 ]
 
-{ #category : #'api - transformations' }
+{ #category : 'api - transformations' }
 BlShaperLine >> counterClockwiseRotateAroundEndBy: anAngleDegrees [
 	"rotate the line counter-clockwise around an end vertex by the given amount of degrees"
 	
 	self clockwiseRotateAroundEndBy: anAngleDegrees negated
 ]
 
-{ #category : #'api - transformations' }
+{ #category : 'api - transformations' }
 BlShaperLine >> counterClockwiseRotateAroundStartBy: anAngleDegrees [
 	"rotate the line counter-clockwise around a start vertex by the given amount of degrees"
 	
 	self clockwiseRotateAroundStartBy: anAngleDegrees negated
 ]
 
-{ #category : #'api - transformations' }
+{ #category : 'api - transformations' }
 BlShaperLine >> explodeEndVertex: aLength [
 	"Divide the end vertex (#toVertex) in such a way that:
 	 - the resulting line is perpendicular to me
@@ -102,7 +102,7 @@ BlShaperLine >> explodeEndVertex: aLength [
 	^ aResultingLine
 ]
 
-{ #category : #'api - transformations' }
+{ #category : 'api - transformations' }
 BlShaperLine >> explodeStartVertex: aLength [
 	"Divide the start vertex (#fromVertex) in such a way that:
 	 - the resulting line is perpendicular to me
@@ -119,29 +119,29 @@ BlShaperLine >> explodeStartVertex: aLength [
 	^ aResultingLine
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlShaperLine >> figure [
 	^ figure
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlShaperLine >> figure: anObject [
 	figure := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlShaperLine >> fromVertex [
 	^ fromVertex
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlShaperLine >> fromVertex: aTBlShapeEdge [
 	fromVertex ifNotNil: [ fromVertex removeOutgoingEdge ].
 	fromVertex := aTBlShapeEdge.
 	fromVertex outgoingEdge: self
 ]
 
-{ #category : #'api - transformations' }
+{ #category : 'api - transformations' }
 BlShaperLine >> injectLineAt: aFloat length: aLength [
 	| aLeftSplitPoint aRightSplitPoint aRightLine aLeftLine aCenterLine |
 	
@@ -177,26 +177,26 @@ BlShaperLine >> injectLineAt: aFloat length: aLength [
 		removeEdge: self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlShaperLine >> length [
 	<return: #Number>
 	
 	^ self vector length
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlShaperLine >> middle [
 	<return: #Point>
 
 	^ (self fromVertex point + (self vector normalized * self length / 2.0)) asPoint
 ]
 
-{ #category : #'api - transformations' }
+{ #category : 'api - transformations' }
 BlShaperLine >> moveAlongNormalBy: aLength [
 	self moveBy: (self vector normal * aLength)
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 BlShaperLine >> printOn: aStream [
 	"Append a sequence of characters to aStream that identify the receiver."
 
@@ -211,7 +211,7 @@ BlShaperLine >> printOn: aStream [
 		print: self length
 ]
 
-{ #category : #'api - transformations' }
+{ #category : 'api - transformations' }
 BlShaperLine >> resizeFromEndBy: aNumber [
 	"Move end vertex so that my length increases or decreases by aNumber"
 	self
@@ -219,7 +219,7 @@ BlShaperLine >> resizeFromEndBy: aNumber [
 		alongVectorIfZero: (BlVector x: -1 y: 0)
 ]
 
-{ #category : #'api - transformations' }
+{ #category : 'api - transformations' }
 BlShaperLine >> resizeFromEndTo: aNumber [
 	"Move end vertex so that my length becomes equal to aNumber"
 	self
@@ -227,7 +227,7 @@ BlShaperLine >> resizeFromEndTo: aNumber [
 		alongVectorIfZero: (BlVector x: -1 y: 0)
 ]
 
-{ #category : #'api - transformations' }
+{ #category : 'api - transformations' }
 BlShaperLine >> resizeFromEndTo: aNumber alongVectorIfZero: anIfZeroVector [
 	"Move the end vertex closer to the start so that my length becomes equal to aNumber.
 	If the length of the line is zero use a given vector as a basis for the translation"
@@ -257,7 +257,7 @@ BlShaperLine >> resizeFromEndTo: aNumber alongVectorIfZero: anIfZeroVector [
 	self toVertex moveBy: aTranslationVector 
 ]
 
-{ #category : #'api - transformations' }
+{ #category : 'api - transformations' }
 BlShaperLine >> resizeFromStartBy: aNumber [
 	"Move start vertex so that my length increases or decreases by aNumber"
 	self
@@ -265,7 +265,7 @@ BlShaperLine >> resizeFromStartBy: aNumber [
 		alongVectorIfZero: (BlVector x: -1 y: 0)
 ]
 
-{ #category : #'api - transformations' }
+{ #category : 'api - transformations' }
 BlShaperLine >> resizeFromStartTo: aNumber [
 	"Move start vertex so that my length becomes equal to aNumber"
 	self
@@ -273,7 +273,7 @@ BlShaperLine >> resizeFromStartTo: aNumber [
 		alongVectorIfZero: (BlVector x: -1 y: 0)
 ]
 
-{ #category : #'api - transformations' }
+{ #category : 'api - transformations' }
 BlShaperLine >> resizeFromStartTo: aNumber alongVectorIfZero: anIfZeroVector [
 	"Move the start vertex closer to the end so that my length becomes equal to aNumber.
 	If the length of the line is zero use a given vector as a basis for the translation"
@@ -303,7 +303,7 @@ BlShaperLine >> resizeFromStartTo: aNumber alongVectorIfZero: anIfZeroVector [
 	self fromVertex moveBy: aTranslationVector negated
 ]
 
-{ #category : #'api - transformations' }
+{ #category : 'api - transformations' }
 BlShaperLine >> resizeTo: aNumber [
 	"Move two connection points closer or apart so that my length becomes equal to aNumber"
 	self
@@ -311,7 +311,7 @@ BlShaperLine >> resizeTo: aNumber [
 		alongVectorIfZero: (BlVector x: -1 y: 0)
 ]
 
-{ #category : #'api - transformations' }
+{ #category : 'api - transformations' }
 BlShaperLine >> resizeTo: aNumber alongVectorIfZero: anIfZeroVector [
 	"Move the vertices closer or apart so that my length becomes equal to aNumber.
 	If the length of the line is zero use a given vector as a basis for the translation"
@@ -343,12 +343,12 @@ BlShaperLine >> resizeTo: aNumber alongVectorIfZero: anIfZeroVector [
 	self toVertex moveBy: aTranslationVector 
 ]
 
-{ #category : #'api - transformations' }
+{ #category : 'api - transformations' }
 BlShaperLine >> rotateAroundStartBy: anAngleDegrees [
 	
 ]
 
-{ #category : #'api - transformations' }
+{ #category : 'api - transformations' }
 BlShaperLine >> splitAt: aFloat [
 	| aSplitPoint aLeftLine aRightLine |
 
@@ -368,24 +368,24 @@ BlShaperLine >> splitAt: aFloat [
 		removeEdge: self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlShaperLine >> toVertex [
 	^ toVertex
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlShaperLine >> toVertex: aTBlShapeEdge [
 	toVertex ifNotNil: [ toVertex removeIncomingEdge ].
 	toVertex := aTBlShapeEdge.
 	toVertex incomingEdge: self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlShaperLine >> vector [
 	^ (self toVertex point - self fromVertex point) asBlocVector
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlShaperLine >> vertices [
 	^ { self fromVertex . self toVertex }
 ]

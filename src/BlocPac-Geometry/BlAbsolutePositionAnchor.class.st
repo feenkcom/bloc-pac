@@ -3,15 +3,15 @@ I am a static anchor that does not move and is independent from geometry element
 
 "
 Class {
-	#name : #BlAbsolutePositionAnchor,
-	#superclass : #BlGeometryAnchor,
+	#name : 'BlAbsolutePositionAnchor',
+	#superclass : 'BlGeometryAnchor',
 	#instVars : [
 		'position'
 	],
-	#category : #'BlocPac-Geometry-Anchors'
+	#category : 'BlocPac-Geometry-Anchors'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlAbsolutePositionAnchor class >> position: aPoint [
 	"Create and return a new static line anchor with a given position as a point"
 	
@@ -20,7 +20,7 @@ BlAbsolutePositionAnchor class >> position: aPoint [
 		yourself
 ]
 
-{ #category : #geometry }
+{ #category : 'geometry' }
 BlAbsolutePositionAnchor >> globalPositionWithin: aGeometryElement [
 	"Compute and return a global position (in space) of this anchor"
 	<return: #Point>
@@ -28,38 +28,38 @@ BlAbsolutePositionAnchor >> globalPositionWithin: aGeometryElement [
 	^ aGeometryElement localPointToGlobal: (aGeometryElement parentPointToLocal: self position)
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 BlAbsolutePositionAnchor >> isSelfTo: anAnotherAnchor [
 	<return: #Boolean>
 	
 	^ anAnotherAnchor isSelfToAbsolute: self
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 BlAbsolutePositionAnchor >> isSelfToAbsolute: anAnotherAnchor [
 	<return: #Boolean>
 	
 	^ self position closeTo: anAnotherAnchor position
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 BlAbsolutePositionAnchor >> isSelfToRelative: anAnotherAnchor [
 	<return: #Boolean>
 	
 	^ false
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlAbsolutePositionAnchor >> position [
 	^ position
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlAbsolutePositionAnchor >> position: aPoint [
 	position := aPoint
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 BlAbsolutePositionAnchor >> printOn: aStream [
 	"Append a sequence of characters to aStream that identify the receiver."
 

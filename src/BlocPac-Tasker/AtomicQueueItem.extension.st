@@ -1,6 +1,6 @@
-Extension { #name : #AtomicQueueItem }
+Extension { #name : 'AtomicQueueItem' }
 
-{ #category : #'*BlocPac-Tasker' }
+{ #category : '*BlocPac-Tasker' }
 AtomicQueueItem >> isZombie [
 	"Answer a boolean indicating that the receiver doesn't have a real object.
 	This should really check that the object is the queue's dummy, but since the item doesn't know which queue it is part of, use the object class instead."
@@ -8,7 +8,7 @@ AtomicQueueItem >> isZombie [
 	^object class = self class
 ]
 
-{ #category : #'*BlocPac-Tasker' }
+{ #category : '*BlocPac-Tasker' }
 AtomicQueueItem >> printOn: aStream [
 
 	aStream << 'an Item('.

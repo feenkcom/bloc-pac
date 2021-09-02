@@ -1,6 +1,6 @@
 Class {
-	#name : #BlSvgPathBuilder,
-	#superclass : #Object,
+	#name : 'BlSvgPathBuilder',
+	#superclass : 'Object',
 	#traits : 'TBlDebug',
 	#classTraits : 'TBlDebug classTrait',
 	#instVars : [
@@ -9,36 +9,36 @@ Class {
 		'absolute',
 		'stream'
 	],
-	#category : #'BlocPac-Geometry-SVG'
+	#category : 'BlocPac-Geometry-SVG'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 BlSvgPathBuilder class >> fromStream: aStream [
 	^ self new fromStream: aStream
 ]
 
-{ #category : #commands }
+{ #category : 'commands' }
 BlSvgPathBuilder >> A [
 	self absolute; ellipticalArc
 ]
 
-{ #category : #commands }
+{ #category : 'commands' }
 BlSvgPathBuilder >> C [
 
 	^ self absolute; cubicBezier
 ]
 
-{ #category : #commands }
+{ #category : 'commands' }
 BlSvgPathBuilder >> H [
 	self absolute; hLineTo 
 ]
 
-{ #category : #commands }
+{ #category : 'commands' }
 BlSvgPathBuilder >> L [
 	self absolute; lineTo.
 ]
 
-{ #category : #commands }
+{ #category : 'commands' }
 BlSvgPathBuilder >> M [
 	"move-to absolute"
 	" 
@@ -51,70 +51,70 @@ BlSvgPathBuilder >> M [
 
 ]
 
-{ #category : #commands }
+{ #category : 'commands' }
 BlSvgPathBuilder >> Q [
 	self absolute; quadraticBezier
 ]
 
-{ #category : #commands }
+{ #category : 'commands' }
 BlSvgPathBuilder >> S [
 	self absolute; reflectedCubicBezier
 ]
 
-{ #category : #commands }
+{ #category : 'commands' }
 BlSvgPathBuilder >> T [
 	self absolute; reflectedQuadraticBezier
 ]
 
-{ #category : #commands }
+{ #category : 'commands' }
 BlSvgPathBuilder >> V [
 	self absolute; vLineTo 
 ]
 
-{ #category : #commands }
+{ #category : 'commands' }
 BlSvgPathBuilder >> Z [
 	self close
 ]
 
-{ #category : #commands }
+{ #category : 'commands' }
 BlSvgPathBuilder >> a [
 	self relative; ellipticalArc
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 BlSvgPathBuilder >> absolute [
 	absolute := true
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 BlSvgPathBuilder >> addSegment: aPathSegment [
 	segments add: aPathSegment
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlSvgPathBuilder >> bbox [
 	^ 100@100
 ]
 
-{ #category : #commands }
+{ #category : 'commands' }
 BlSvgPathBuilder >> c [
 
 	^ self relative; cubicBezier 
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 BlSvgPathBuilder >> close [
 	self addSegment: (BlSvgPathCloseSegment absolute: absolute)
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlSvgPathBuilder >> commands [
 	<return: #Dictionary>
 	
 	^ commands
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 BlSvgPathBuilder >> cubicBezier [
 
 
@@ -147,7 +147,7 @@ At the end of the command, the new current point becomes the final (x,y) coordin
 
 ]
 
-{ #category : #'api - builder' }
+{ #category : 'api - builder' }
 BlSvgPathBuilder >> curveVia: aPoint and: aPoint2 to: aPoint3 [ 
 	self addSegment: ((BlSvgPathCubicBezierSegment absolute: absolute)
 		firstViaPoint: aPoint;
@@ -155,14 +155,14 @@ BlSvgPathBuilder >> curveVia: aPoint and: aPoint2 to: aPoint3 [
 		curveTo: aPoint3)
 ]
 
-{ #category : #'api - builder' }
+{ #category : 'api - builder' }
 BlSvgPathBuilder >> curveVia: aPoint to: aPoint2 [ 
 	self addSegment: ((BlSvgPathQuadraticBezierSegment absolute: absolute) 
 		viaPoint: aPoint;
 		curveTo: aPoint2)
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 BlSvgPathBuilder >> ellipticalArc [ 
 
 
@@ -201,19 +201,19 @@ Draws an elliptical arc from the current point to (x, y). The size and orientati
 
 ]
 
-{ #category : #'api - builder' }
+{ #category : 'api - builder' }
 BlSvgPathBuilder >> ellipticalArc: r xrot: xrot large: large sweep: sweep to: pt [
 
 	self halt
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 BlSvgPathBuilder >> fromStream: aStream [
 	stream := aStream.
 	self parsePathCommands
 ]
 
-{ #category : #'gt-extension' }
+{ #category : 'gt-extension' }
 BlSvgPathBuilder >> gtCommandsFor: aView [
 	<gtView>
 
@@ -221,12 +221,12 @@ BlSvgPathBuilder >> gtCommandsFor: aView [
 		title: 'Commands';
 		priority: 2;
 		items: [ self commands associations ];
-		column: 'Letter' item: [ :each | each key ];
-		column: 'Command' item: [ :each | each value ];
+		column: 'Letter' text: [ :each | each key ];
+		column: 'Command' text: [ :each | each value ];
 		send: #value
 ]
 
-{ #category : #'gt-extension' }
+{ #category : 'gt-extension' }
 BlSvgPathBuilder >> gtSegmentsFor: aView [
 	<gtView>
 
@@ -236,12 +236,12 @@ BlSvgPathBuilder >> gtSegmentsFor: aView [
 		items: [ self segments ]
 ]
 
-{ #category : #commands }
+{ #category : 'commands' }
 BlSvgPathBuilder >> h [
 	self relative; hLineTo 
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 BlSvgPathBuilder >> hLineTo [
 "
 H (absolute) h (relative)
@@ -260,12 +260,12 @@ Draws a horizontal line from the current point (cpx, cpy) to (x, cpy). H (upperc
 		whileTrue: [ self hLineTo: x ]
 ]
 
-{ #category : #'api - builder' }
+{ #category : 'api - builder' }
 BlSvgPathBuilder >> hLineTo: aNumber [
 	self addSegment: ((BlSvgPathHorizontalLineSegment absolute: absolute) lineX: aNumber)
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 BlSvgPathBuilder >> initialize [
 	super initialize.
 
@@ -296,12 +296,12 @@ BlSvgPathBuilder >> initialize [
 	commands at: #z put: [ self z ]
 ]
 
-{ #category : #commands }
+{ #category : 'commands' }
 BlSvgPathBuilder >> l [
 	self relative; lineTo.
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 BlSvgPathBuilder >> lineTo [
 " 
 L (absolute) l (relative)
@@ -321,12 +321,12 @@ Draw a line from the current point to the given (x,y) coordinate which becomes t
 	[ pt := self readPoint. pt notNil ] whileTrue: [ self lineTo: pt ]
 ]
 
-{ #category : #'api - builder' }
+{ #category : 'api - builder' }
 BlSvgPathBuilder >> lineTo: aPoint [
 	self addSegment: ((BlSvgPathLineSegment absolute: absolute) lineTo: aPoint)
 ]
 
-{ #category : #commands }
+{ #category : 'commands' }
 BlSvgPathBuilder >> m [
 	"move-to relative"
 	" 
@@ -347,7 +347,7 @@ BlSvgPathBuilder >> m [
 	[ pt := self readPoint. pt notNil ] whileTrue: [ self lineTo: pt ]
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 BlSvgPathBuilder >> moveTo [
 	"move-to"
 	" 
@@ -367,12 +367,12 @@ BlSvgPathBuilder >> moveTo [
 
 ]
 
-{ #category : #'api - builder' }
+{ #category : 'api - builder' }
 BlSvgPathBuilder >> moveTo: aPoint [
 	self addSegment: ((BlSvgPathMoveSegment absolute: absolute) moveTo: aPoint)
 ]
 
-{ #category : #'private - parsing' }
+{ #category : 'private - parsing' }
 BlSvgPathBuilder >> nextNumber [
 	"read the number from stream.
 	or answer nil if not successfull"
@@ -423,13 +423,13 @@ Within the SVG DOM, a <number> is represented as a float or an SVGAnimatedNumber
 
 ]
 
-{ #category : #'private - parsing' }
+{ #category : 'private - parsing' }
 BlSvgPathBuilder >> parsePathCommands [
 	[ self skipBlanks. stream atEnd ]
 		whileFalse: [ self performCommandNamed: stream next asString asSymbol ]
 ]
 
-{ #category : #commands }
+{ #category : 'commands' }
 BlSvgPathBuilder >> performCommandNamed: aSymbol [
 	self commands
 		at: aSymbol
@@ -437,12 +437,12 @@ BlSvgPathBuilder >> performCommandNamed: aSymbol [
 		ifAbsent: [ self error: 'Invalid command - ', aSymbol asString ]
 ]
 
-{ #category : #commands }
+{ #category : 'commands' }
 BlSvgPathBuilder >> q [
 	self relative; quadraticBezier
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 BlSvgPathBuilder >> quadraticBezier [ 
 
 
@@ -470,7 +470,7 @@ Draws a quadratic Bézier curve from the current point to (x,y) using (x1,y1) a
 
 ]
 
-{ #category : #'private - parsing' }
+{ #category : 'private - parsing' }
 BlSvgPathBuilder >> readFraction [
 "
 read fraction, what is after the decimal point:
@@ -491,7 +491,7 @@ read fraction, what is after the decimal point:
 	^ result
 ]
 
-{ #category : #'private - parsing' }
+{ #category : 'private - parsing' }
 BlSvgPathBuilder >> readInteger [
 	| result |
 	(stream atEnd or: [ stream peek isDigit not ]) ifTrue: [ ^ nil ].
@@ -503,7 +503,7 @@ BlSvgPathBuilder >> readInteger [
 	^ result
 ]
 
-{ #category : #'private - parsing' }
+{ #category : 'private - parsing' }
 BlSvgPathBuilder >> readPoint [
 	" A path data permits specifying points without comma separator "
 	| x y pos |
@@ -518,7 +518,7 @@ BlSvgPathBuilder >> readPoint [
 	^ x @ y
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 BlSvgPathBuilder >> reflectedCubicBezier [
 
 "
@@ -546,14 +546,14 @@ cubic Bézier curve from the current point to (x,y). The first control point is 
 
 ]
 
-{ #category : #'api - builder' }
+{ #category : 'api - builder' }
 BlSvgPathBuilder >> reflectedCurveTo: aPoint [
 
 
 	self halt
 ]
 
-{ #category : #'api - builder' }
+{ #category : 'api - builder' }
 BlSvgPathBuilder >> reflectedCurveVia: aPoint to: aPoint2 [ 
 	| aPreviousSegment |
 	
@@ -567,7 +567,7 @@ BlSvgPathBuilder >> reflectedCurveVia: aPoint to: aPoint2 [
 		curveTo: aPoint2)
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 BlSvgPathBuilder >> reflectedQuadraticBezier [
 	
 	
@@ -594,47 +594,47 @@ Draws a quadratic Bézier curve from the current point to (x,y). The control poi
 
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 BlSvgPathBuilder >> relative [
 	absolute := false
 ]
 
-{ #category : #commands }
+{ #category : 'commands' }
 BlSvgPathBuilder >> s [
 	self relative; reflectedCubicBezier
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlSvgPathBuilder >> segments [
 	^ segments
 ]
 
-{ #category : #'private - parsing' }
+{ #category : 'private - parsing' }
 BlSvgPathBuilder >> skipBlanks [
 	[ stream atEnd not and: [ stream peek isSeparator ] ] whileTrue: [ stream next ].
 ]
 
-{ #category : #'private - parsing' }
+{ #category : 'private - parsing' }
 BlSvgPathBuilder >> skipBlanksAndComma [
 	[ stream atEnd not and: [ stream peek isSeparator or: [stream peek =$,]] ] whileTrue: [ stream next ].
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlSvgPathBuilder >> stream [
 	^ stream
 ]
 
-{ #category : #commands }
+{ #category : 'commands' }
 BlSvgPathBuilder >> t [
 	self relative; reflectedQuadraticBezier
 ]
 
-{ #category : #commands }
+{ #category : 'commands' }
 BlSvgPathBuilder >> v [
 	self relative; vLineTo 
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 BlSvgPathBuilder >> vLineTo [
 "
 V (absolute) v (relative)
@@ -652,12 +652,12 @@ Draws a vertical line from the current point (cpx, cpy) to (cpx, y). V (uppercas
 		whileTrue: [ self vLineTo: y ]
 ]
 
-{ #category : #'api - builder' }
+{ #category : 'api - builder' }
 BlSvgPathBuilder >> vLineTo: aNumber [
 	self addSegment: ((BlSvgPathVerticalLineSegment absolute: absolute) lineY: aNumber)
 ]
 
-{ #category : #commands }
+{ #category : 'commands' }
 BlSvgPathBuilder >> z [
 	self close
 ]

@@ -1,10 +1,10 @@
 Class {
-	#name : #BlArrowheadRectangle,
-	#superclass : #BlArrowheadElement,
-	#category : #'BlocPac-Geometry-Arrowheads'
+	#name : 'BlArrowheadRectangle',
+	#superclass : 'BlArrowheadElement',
+	#category : 'BlocPac-Geometry-Arrowheads'
 }
 
-{ #category : #changes }
+{ #category : 'changes' }
 BlArrowheadRectangle >> onWidthChanged: aNumber [
 
 	self size: aNumber * 3 asPoint.

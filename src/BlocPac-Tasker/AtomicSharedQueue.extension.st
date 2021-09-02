@@ -1,6 +1,6 @@
-Extension { #name : #AtomicSharedQueue }
+Extension { #name : 'AtomicSharedQueue' }
 
-{ #category : #'*BlocPac-Tasker' }
+{ #category : '*BlocPac-Tasker' }
 AtomicSharedQueue >> contents [ 
 	"Answer all objects.
 	Provided for compatibility with SharedPriorityUniqueQueue"

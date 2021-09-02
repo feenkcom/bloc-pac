@@ -1,12 +1,12 @@
 Class {
-	#name : #BlTktFutureExecution,
-	#superclass : #TKTFutureExecution,
+	#name : 'BlTktFutureExecution',
+	#superclass : 'TKTFutureExecution',
 	#traits : 'TBlDebug',
 	#classTraits : 'TBlDebug classTrait',
-	#category : #'BlocPac-Tasker-TaskIt Tasks'
+	#category : 'BlocPac-Tasker-TaskIt Tasks'
 }
 
-{ #category : #evaluating }
+{ #category : 'evaluating' }
 BlTktFutureExecution >> doExecuteTask [
 
 	[ future deploySuccess: task value ]

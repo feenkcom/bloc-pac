@@ -1,6 +1,6 @@
-Extension { #name : #WaitfreeQueue }
+Extension { #name : 'WaitfreeQueue' }
 
-{ #category : #'*BlocPac-Tasker' }
+{ #category : '*BlocPac-Tasker' }
 WaitfreeQueue >> itemArray [
 	"Answer an array of the receiver's items, excluding the dummy"
 

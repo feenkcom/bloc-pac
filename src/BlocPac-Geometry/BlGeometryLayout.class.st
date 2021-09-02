@@ -5,12 +5,12 @@ Note, that I don't take element's padding into account when computing it's fitCo
 
 "
 Class {
-	#name : #BlGeometryLayout,
-	#superclass : #BlLayout,
-	#category : #'BlocPac-Geometry'
+	#name : 'BlGeometryLayout',
+	#superclass : 'BlLayout',
+	#category : 'BlocPac-Geometry'
 }
 
-{ #category : #layout }
+{ #category : 'layout' }
 BlGeometryLayout >> layout: anElement in: aRectangle context: aBlElementBoundsUpdateContext [
 	| anElementTopLeft anElementBottomRight |
 	
@@ -33,7 +33,7 @@ BlGeometryLayout >> layout: anElement in: aRectangle context: aBlElementBoundsUp
 	self layoutIgnored: anElement context: aBlElementBoundsUpdateContext
 ]
 
-{ #category : #measure }
+{ #category : 'measure' }
 BlGeometryLayout >> measure: anElement with: anExtentSpec [
 	| maxExtent maxWidth maxHeight |
 
@@ -55,7 +55,7 @@ BlGeometryLayout >> measure: anElement with: anExtentSpec [
 	self measureChildren: anElement with: anExtentSpec
 ]
 
-{ #category : #measure }
+{ #category : 'measure' }
 BlGeometryLayout >> measureChildren: anElement with: anExtentSpec [
 	| availableWidth availableHeight |
 	

@@ -1,16 +1,16 @@
 Class {
-	#name : #BlSvgPathReflectedCurbicBezierSegment,
-	#superclass : #BlSvgPathSegment,
+	#name : 'BlSvgPathReflectedCurbicBezierSegment',
+	#superclass : 'BlSvgPathSegment',
 	#instVars : [
 		'previousCubicBezierSegment',
 		'secondViaPoint',
 		'curveTo',
 		'lastControlPoint'
 	],
-	#category : #'BlocPac-Geometry-SVG'
+	#category : 'BlocPac-Geometry-SVG'
 }
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 BlSvgPathReflectedCurbicBezierSegment >> = anObject [
 	"Answer whether the receiver and anObject represent the same object."
 
@@ -24,17 +24,17 @@ BlSvgPathReflectedCurbicBezierSegment >> = anObject [
 						and: [ secondViaPoint = anObject secondViaPoint ] ] ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlSvgPathReflectedCurbicBezierSegment >> curveTo [
 	^ curveTo
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlSvgPathReflectedCurbicBezierSegment >> curveTo: anObject [
 	curveTo := anObject
 ]
 
-{ #category : #executing }
+{ #category : 'executing' }
 BlSvgPathReflectedCurbicBezierSegment >> executeOn: aBuilder [
 	| aFirstViaPoint |
 	
@@ -59,7 +59,7 @@ BlSvgPathReflectedCurbicBezierSegment >> executeOn: aBuilder [
 	aBuilder curveVia: aFirstViaPoint and: self secondViaPoint to: self curveTo
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 BlSvgPathReflectedCurbicBezierSegment >> hash [
 	"Answer an integer value that is related to the identity of the receiver."
 
@@ -69,29 +69,29 @@ BlSvgPathReflectedCurbicBezierSegment >> hash [
 				bitXor: (previousCubicBezierSegment hash bitXor: secondViaPoint hash))
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 BlSvgPathReflectedCurbicBezierSegment >> isCubicBezier [
 	^ true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlSvgPathReflectedCurbicBezierSegment >> lastControlPoint [
 	"Return an absolute position of the second control point. It is used to implement reflected cubic bezier"
 
 	^ lastControlPoint
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlSvgPathReflectedCurbicBezierSegment >> previousCubicBezierSegment [
 	^ previousCubicBezierSegment
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlSvgPathReflectedCurbicBezierSegment >> previousCubicBezierSegment: anObject [
 	previousCubicBezierSegment := anObject
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 BlSvgPathReflectedCurbicBezierSegment >> printOn: aStream [
 	aStream
 		nextPutAll: 'Reflected cubic bezier ';
@@ -102,12 +102,12 @@ BlSvgPathReflectedCurbicBezierSegment >> printOn: aStream [
 		print: self curveTo
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlSvgPathReflectedCurbicBezierSegment >> secondViaPoint [
 	^ secondViaPoint
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlSvgPathReflectedCurbicBezierSegment >> secondViaPoint: anObject [
 	secondViaPoint := anObject
 ]

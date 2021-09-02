@@ -1,55 +1,55 @@
 Class {
-	#name : #BlSvgPathSegment,
-	#superclass : #Object,
+	#name : 'BlSvgPathSegment',
+	#superclass : 'Object',
 	#instVars : [
 		'isAbsolute'
 	],
-	#category : #'BlocPac-Geometry-SVG'
+	#category : 'BlocPac-Geometry-SVG'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 BlSvgPathSegment class >> absolute [
 	^ self new isAbsolute: true
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 BlSvgPathSegment class >> absolute: aBoolean [
 	^ self new isAbsolute: aBoolean
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 BlSvgPathSegment class >> relative [
 	^ self new isAbsolute: false
 ]
 
-{ #category : #executing }
+{ #category : 'executing' }
 BlSvgPathSegment >> executeOn: aBuilder [
 	self subclassResponsibility
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 BlSvgPathSegment >> initialize [
 	super initialize.
 	
 	isAbsolute := true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlSvgPathSegment >> isAbsolute [
 	^ isAbsolute
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlSvgPathSegment >> isAbsolute: aBoolean [
 	isAbsolute := aBoolean
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 BlSvgPathSegment >> isCubicBezier [
 	^ false
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 BlSvgPathSegment >> printAbsolute [
 	^ self isAbsolute
 		ifTrue: [ 'absolute' ]

@@ -1,18 +1,18 @@
 Class {
-	#name : #BlTktValuableCommand,
-	#superclass : #BlTktCommand,
+	#name : 'BlTktValuableCommand',
+	#superclass : 'BlTktCommand',
 	#instVars : [
 		'valuable'
 	],
-	#category : #'BlocPac-Tasker-Commands'
+	#category : 'BlocPac-Tasker-Commands'
 }
 
-{ #category : #defaults }
+{ #category : 'defaults' }
 BlTktValuableCommand >> defaultValuable [
 	^ self subclassResponsibility
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlTktValuableCommand >> entryIdentifier [
 	"Answer the identity of the receiver for task scheduling.
 	Defer to my valuable."
@@ -20,25 +20,25 @@ BlTktValuableCommand >> entryIdentifier [
 	^ valuable entryIdentifier
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlTktValuableCommand >> entryPriority [
 
 	^ valuable entryPriority
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 BlTktValuableCommand >> initialize [
 	super initialize.
 	self valuable: self defaultValuable.
 	
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlTktValuableCommand >> valuable [
 	^ valuable
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlTktValuableCommand >> valuable: aValuable [
 	self
 		assert: [ aValuable isNotNil ] 

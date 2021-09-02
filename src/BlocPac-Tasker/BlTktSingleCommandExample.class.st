@@ -1,10 +1,10 @@
 Class {
-	#name : #BlTktSingleCommandExample,
-	#superclass : #Object,
-	#category : #'BlocPac-Tasker-Examples'
+	#name : 'BlTktSingleCommandExample',
+	#superclass : 'Object',
+	#category : 'BlocPac-Tasker-Examples'
 }
 
-{ #category : #examples }
+{ #category : 'examples' }
 BlTktSingleCommandExample >> demonstrateSingleQueueOperation [
 	<gtExample>
 	"Demonstrate that adding two queue entries with the same identity results in a single entry on the queue (the first)"

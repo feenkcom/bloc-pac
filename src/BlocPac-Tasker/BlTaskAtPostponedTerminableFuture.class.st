@@ -1,22 +1,22 @@
 Class {
-	#name : #BlTaskAtPostponedTerminableFuture,
-	#superclass : #BlTaskAtPostponedTerminableTask,
+	#name : 'BlTaskAtPostponedTerminableFuture',
+	#superclass : 'BlTaskAtPostponedTerminableTask',
 	#instVars : [
 		'onSuccess',
 		'onFailure',
 		'futureMutex',
 		'future'
 	],
-	#category : #'BlocPac-Tasker-Postponed Tasks'
+	#category : 'BlocPac-Tasker-Postponed Tasks'
 }
 
-{ #category : #handling }
+{ #category : 'handling' }
 BlTaskAtPostponedTerminableFuture >> handleNotScheduledBecauseOfPreviousTask: aBlTaskAtTask [
 	self transferCallbacksTo: aBlTaskAtTask.
 	super handleNotScheduledBecauseOfPreviousTask: aBlTaskAtTask
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 BlTaskAtPostponedTerminableFuture >> initialize [
 	super initialize.
 	onFailure := OrderedCollection new: 2.
@@ -24,13 +24,13 @@ BlTaskAtPostponedTerminableFuture >> initialize [
 	futureMutex := Mutex new.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlTaskAtPostponedTerminableFuture >> onFailure [
 	<return: #Collection>
 	^ onFailure
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlTaskAtPostponedTerminableFuture >> onFailureDo: aBlock [
 	futureMutex critical: [ 
 		future 
@@ -39,13 +39,13 @@ BlTaskAtPostponedTerminableFuture >> onFailureDo: aBlock [
 	]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlTaskAtPostponedTerminableFuture >> onSuccess [
 	<return: #Collection>
 	^ onSuccess
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlTaskAtPostponedTerminableFuture >> onSuccessDo: aBlock [
 	futureMutex critical: [ 
 		future 
@@ -54,7 +54,7 @@ BlTaskAtPostponedTerminableFuture >> onSuccessDo: aBlock [
 	]
 ]
 
-{ #category : #evaluating }
+{ #category : 'evaluating' }
 BlTaskAtPostponedTerminableFuture >> privateExecute [
 	futureMutex critical: [ 
 		future := self pool future: self command.
@@ -65,7 +65,7 @@ BlTaskAtPostponedTerminableFuture >> privateExecute [
 	]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 BlTaskAtPostponedTerminableFuture >> transferCallbacksTo: aBlTaskAtTask [
 	aBlTaskAtTask class = self class ifFalse: [ ^ self ].
 	self onSuccess

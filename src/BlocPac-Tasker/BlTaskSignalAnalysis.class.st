@@ -54,8 +54,8 @@ BlTaskSignalAnalysis gtInspectFile: 'CircularMemoryLogger.stgz'
 
 "
 Class {
-	#name : #BlTaskSignalAnalysis,
-	#superclass : #Object,
+	#name : 'BlTaskSignalAnalysis',
+	#superclass : 'Object',
 	#instVars : [
 		'logger',
 		'pairs',
@@ -63,16 +63,16 @@ Class {
 		'slow',
 		'triggerDuration'
 	],
-	#category : #'BlocPac-Tasker-Signals'
+	#category : 'BlocPac-Tasker-Signals'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlTaskSignalAnalysis class >> logger: aSignalLogger [
 
 	^self new logger: aSignalLogger
 ]
 
-{ #category : #sampling }
+{ #category : 'sampling' }
 BlTaskSignalAnalysis class >> startDefaultSampling [
 	"Convenience method to start recording a useful set of metrics"
 
@@ -80,7 +80,7 @@ BlTaskSignalAnalysis class >> startDefaultSampling [
 	CurrentProcessSignal startSampling.
 ]
 
-{ #category : #sampling }
+{ #category : 'sampling' }
 BlTaskSignalAnalysis class >> stopAndInspect [
 	"Convenience method to stop the collection and inspect the results"
 
@@ -89,7 +89,7 @@ BlTaskSignalAnalysis class >> stopAndInspect [
 	self gtInspectLogger: CircularMemoryLogger instance.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlTaskSignalAnalysis >> cpuConsumption [
 	"Answer the elapsed time of the paired signals, the consumed time and percentage by time"
 
@@ -104,14 +104,14 @@ BlTaskSignalAnalysis >> cpuConsumption [
 	^{ totalTime. consumedTime. percentage. }
 ]
 
-{ #category : #acccessing }
+{ #category : 'acccessing' }
 BlTaskSignalAnalysis >> forcedDelayCount [
 
 	^self pulseStatRecordings inject: 0 into: 
 		[ :s :v | s + v lowPriorityDelayCount ]
 ]
 
-{ #category : #acccessing }
+{ #category : 'acccessing' }
 BlTaskSignalAnalysis >> forcedDelayPercent [
 	"Answer the maximum percentage time lost due to forced delays.
 	The actual time lost will be something less since there was some work done during this time.
@@ -126,7 +126,7 @@ BlTaskSignalAnalysis >> forcedDelayPercent [
 	^(100.0 * forcedDelayTime / elapsedTime) rounded
 ]
 
-{ #category : #acccessing }
+{ #category : 'acccessing' }
 BlTaskSignalAnalysis >> getBlocMainLoopSignals [
 	"Answer the Bloc Main Loop signals"
 
@@ -135,7 +135,7 @@ BlTaskSignalAnalysis >> getBlocMainLoopSignals [
 
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 BlTaskSignalAnalysis >> getCurrentProcessSignals [
 	"Answer the current process signals"
 
@@ -143,7 +143,7 @@ BlTaskSignalAnalysis >> getCurrentProcessSignals [
 
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 BlTaskSignalAnalysis >> getPairs [
 	"Iterate over the records and pair the entries"
 
@@ -174,7 +174,7 @@ BlTaskSignalAnalysis >> getPairs [
 
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 BlTaskSignalAnalysis >> getSlow [
 
 	"Collect tasks that took longer than triggerDuration"
@@ -187,7 +187,7 @@ BlTaskSignalAnalysis >> getSlow [
 				sorted: [ :a :b | a first < b first ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 BlTaskSignalAnalysis >> getSlowPulses [
 	"Select and order the pulse entries by min time (longest first)"
 
@@ -198,7 +198,7 @@ BlTaskSignalAnalysis >> getSlowPulses [
 	^signals first: (30 min: signals size)
 ]
 
-{ #category : #inspecting }
+{ #category : 'inspecting' }
 BlTaskSignalAnalysis >> gtCurrentProcessFor: aView [
 	"Display Tasks that take longer than triggerDuration"
 	<gtView>
@@ -206,24 +206,24 @@ BlTaskSignalAnalysis >> gtCurrentProcessFor: aView [
 		title: 'Current Process' translated;
 		priority: 40;
 		items: [ self getCurrentProcessSignals ];
-		column: 'Signal' translated item: [ :each | each asString ]
+		column: 'Signal' translated text: [ :each | each asString ]
 ]
 
-{ #category : #inspecting }
+{ #category : 'inspecting' }
 BlTaskSignalAnalysis >> gtRecordingsFor: aView [
 	<gtView>
 	^ aView columnedList
 		title: 'Recordings' translated;
 		priority: 50;
 		items: [ self recordings reverse ];
-		column: 'Timestamp' translated item: [ :each | each timestamp asString ];
-		column: 'Process' translated item: [ :each | each processId asString ];
-		column: 'Type' translated item: [ :each | each name ];
-		column: 'Contents' translated item: [ :each | 
+		column: 'Timestamp' translated text: [ :each | each timestamp asString ];
+		column: 'Process' translated text: [ :each | each processId asString ];
+		column: 'Type' translated text: [ :each | each name ];
+		column: 'Contents' translated text: [ :each | 
 			String streamContents: [ :s | each printOneLineContentsOn: s ] ]
 ]
 
-{ #category : #inspecting }
+{ #category : 'inspecting' }
 BlTaskSignalAnalysis >> gtSlowFor: aView [
 	"Display Tasks that take longer than triggerDuration"
 	<gtView>
@@ -231,11 +231,11 @@ BlTaskSignalAnalysis >> gtSlowFor: aView [
 		title: 'Slow Tasks' translated;
 		priority: 40;
 		items: [ self slow ];
-		column: 'Duration' translated item: [ :each | each first asString ];
-		column: 'Target' translated item: [ :each | each second target asString ]
+		column: 'Duration' translated text: [ :each | each first asString ];
+		column: 'Target' translated text: [ :each | each second target asString ]
 ]
 
-{ #category : #inspecting }
+{ #category : 'inspecting' }
 BlTaskSignalAnalysis >> gtSlowPulsesFor: aView [
 	"Display Tasks that take longer than triggerDuration"
 	<gtView>
@@ -243,10 +243,10 @@ BlTaskSignalAnalysis >> gtSlowPulsesFor: aView [
 		title: 'Pulses' translated;
 		priority: 40;
 		items: [ self getSlowPulses ];
-		column: 'Signal' translated item: [ :each | each asString ]
+		column: 'Signal' translated text: [ :each | each asString ]
 ]
 
-{ #category : #inspecting }
+{ #category : 'inspecting' }
 BlTaskSignalAnalysis >> gtSummaryFor: aView [
 	"Display the summary text"
 	<gtView>
@@ -256,28 +256,28 @@ BlTaskSignalAnalysis >> gtSummaryFor: aView [
 		text: [ self summaryText ]
 ]
 
-{ #category : #inspecting }
+{ #category : 'inspecting' }
 BlTaskSignalAnalysis >> gtUnfinishedFor: aView [
 	<gtView>
 	^ aView columnedList
 		title: 'Unfinished' translated;
 		priority: 45;
 		items: [ self unfinished reverse ];
-		column: 'Timestamp' translated item: [ :each | each timestamp asString ]
-		column: 'Process' translated item: [ :each | each processId asString ]
-		column: 'Type' translated item: [ :each | each name ];
-		column: 'Contents' translated item: [ :each | 
+		column: 'Timestamp' translated text: [ :each | each timestamp asString ];
+		column: 'Process' translated text: [ :each | each processId asString ];
+		column: 'Type' translated text: [ :each | each name ];
+		column: 'Contents' translated text: [ :each | 
 			String streamContents: [ :s | each printOneLineContentsOn: s ] ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 BlTaskSignalAnalysis >> initialize [ 
 
 	super initialize.
 	triggerDuration := 16 milliSeconds.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlTaskSignalAnalysis >> l2EntryCount [
 	"Sum the number of times that the Bloc pulse loop wait 2ms or less"
 
@@ -288,14 +288,14 @@ BlTaskSignalAnalysis >> l2EntryCount [
 					into: [ :n :v | n + v l2 ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlTaskSignalAnalysis >> logger: aLogger [
 
 	logger := aLogger.
 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlTaskSignalAnalysis >> maxPulseWaitTime [
 	"Answer the maximum time waited."
 
@@ -307,7 +307,7 @@ BlTaskSignalAnalysis >> maxPulseWaitTime [
 					into: [ :n :v | n max: v max ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlTaskSignalAnalysis >> minPulseWaitTime [
 	"Answer the minimum time waited."
 
@@ -319,13 +319,13 @@ BlTaskSignalAnalysis >> minPulseWaitTime [
 					into: [ :n :v | n min: v min ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlTaskSignalAnalysis >> pairs [
 
 	^pairs ifNil: [ pairs := self getPairs ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlTaskSignalAnalysis >> processBag [
 	"Answer a bag representing each time a process was sampled by CurrentProcessSignal.
 	Signals where the preempted and nextReady processes are the same are only counted once."
@@ -340,26 +340,26 @@ BlTaskSignalAnalysis >> processBag [
 	^processBag
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlTaskSignalAnalysis >> pulseStatRecordings [
 	"Answer the BlPulseStatSignal entries"
 
 	^self recordings select: [ :each | each class = BlPulseStatSignal ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlTaskSignalAnalysis >> recordings [
 
 	^logger recordings
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlTaskSignalAnalysis >> slow [
 
 	^slow ifNil: [ slow := self getSlow ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 BlTaskSignalAnalysis >> summaryOn: aStream [
 
 	"Basic info."
@@ -405,27 +405,27 @@ BlTaskSignalAnalysis >> summaryOn: aStream [
 	aStream cr; cr.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlTaskSignalAnalysis >> summaryText [
 
 	^(String streamContents: [ :stream | self summaryOn: stream ]) asRopedText
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlTaskSignalAnalysis >> taskRecordings [
 	"Answer the recordings that represent Tasks with start and stop entries"
 
 	^self recordings select: [ :each | self taskSignals includes: each class ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlTaskSignalAnalysis >> taskSignals [
 	"Answer the signals that log tasks start and stop"
 
 	^ BlTaskItSignal allSubclasses, { BlSpaceRenderSignal }, { BlTaskExecutionSignal }
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 BlTaskSignalAnalysis >> top5ProcessesOn: aStream [
 	"Print the top 5 sample processes on aStream"
 
@@ -443,7 +443,7 @@ BlTaskSignalAnalysis >> top5ProcessesOn: aStream [
 			cr ].
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlTaskSignalAnalysis >> unfinished [
 	"Answer the Task signals that are unfinished, i.e. have a start log entry, but no corresponding end entry"
 

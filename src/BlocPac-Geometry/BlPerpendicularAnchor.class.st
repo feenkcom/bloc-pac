@@ -5,20 +5,20 @@ The curvature - distance from the line connecting reference anchors is explicite
 
 "
 Class {
-	#name : #BlPerpendicularAnchor,
-	#superclass : #BlAnchorRelativeToAnchor,
+	#name : 'BlPerpendicularAnchor',
+	#superclass : 'BlAnchorRelativeToAnchor',
 	#instVars : [
 		'curvature'
 	],
-	#category : #'BlocPac-Geometry-Anchors'
+	#category : 'BlocPac-Geometry-Anchors'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 BlPerpendicularAnchor class >> curvature: aNumber [
 	^ self new curvature: aNumber
 ]
 
-{ #category : #geometry }
+{ #category : 'geometry' }
 BlPerpendicularAnchor >> computePositionWithin: aGeometryElement [
 	"Return anchor position within a given geometry element in its parent bounds"
 	<return: #Point>
@@ -41,17 +41,17 @@ BlPerpendicularAnchor >> computePositionWithin: aGeometryElement [
 	^ (aMiddle + aPerpendicular) asPoint
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlPerpendicularAnchor >> curvature [
 	^ curvature
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlPerpendicularAnchor >> curvature: anObject [
 	curvature := anObject
 ]
 
-{ #category : #geometry }
+{ #category : 'geometry' }
 BlPerpendicularAnchor >> globalPositionWithin: aGeometryElement [
 	"Compute and return a global position (in space) of this anchor"
 	<return: #Point>
@@ -74,7 +74,7 @@ BlPerpendicularAnchor >> globalPositionWithin: aGeometryElement [
 	^ (aMiddle + aPerpendicular) asPoint
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 BlPerpendicularAnchor >> initialize [
 	super initialize.
 	

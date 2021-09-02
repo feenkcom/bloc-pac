@@ -1,6 +1,6 @@
-Extension { #name : #TKTFinishedTaskState }
+Extension { #name : 'TKTFinishedTaskState' }
 
-{ #category : #'*BlocPac-Tasker' }
+{ #category : '*BlocPac-Tasker' }
 TKTFinishedTaskState >> terminateTaskExecution: aTaskExecution reason: aReason [
 	"do nothing"
 ]

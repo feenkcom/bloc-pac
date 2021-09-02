@@ -25,22 +25,22 @@ To manage and deal with such information, we need to keep a control of it. For e
 
 "
 Class {
-	#name : #BlTaskItGuidelines,
-	#superclass : #Object,
+	#name : 'BlTaskItGuidelines',
+	#superclass : 'Object',
 	#instVars : [
 		'mutex',
 		'collection',
 		'semaphore'
 	],
-	#category : #'BlocPac-Tasker-Examples'
+	#category : 'BlocPac-Tasker-Examples'
 }
 
-{ #category : #'examples - actions' }
+{ #category : 'examples - actions' }
 BlTaskItGuidelines >> addToCollection: anObject [
 	mutex critical: [ collection add: anObject ]
 ]
 
-{ #category : #'examples - basic (non public api)' }
+{ #category : 'examples - basic (non public api)' }
 BlTaskItGuidelines >> asyncUIWorkerPoolWithOneWorker [
 	<gtExample>
 	"Notice that sending #new is not a public API. Check the class comment for more information."
@@ -54,7 +54,7 @@ BlTaskItGuidelines >> asyncUIWorkerPoolWithOneWorker [
 	^ aWorkerPool
 ]
 
-{ #category : #'examples - basic (non public api)' }
+{ #category : 'examples - basic (non public api)' }
 BlTaskItGuidelines >> basicAsyncUIWorkerPool [
 	<gtExample>
 	"Notice that sending #new is not a public API. Check the class comment for more information."
@@ -70,7 +70,7 @@ BlTaskItGuidelines >> basicAsyncUIWorkerPool [
 	^ aWorkerPool
 ]
 
-{ #category : #'examples - basic (non public api)' }
+{ #category : 'examples - basic (non public api)' }
 BlTaskItGuidelines >> basicHousekeepingWorkerPool [
 	<gtExample>
 	"Notice that sending #new is not a public API. Check the class comment for more information."
@@ -86,7 +86,7 @@ BlTaskItGuidelines >> basicHousekeepingWorkerPool [
 	^ aWorkerPool
 ]
 
-{ #category : #'examples - schedule' }
+{ #category : 'examples - schedule' }
 BlTaskItGuidelines >> executeScheduledCounterTaskAsAsyncUI [
 	<gtExample>
 	<noTest>
@@ -104,7 +104,7 @@ BlTaskItGuidelines >> executeScheduledCounterTaskAsAsyncUI [
 	^ aWorkerPool
 ]
 
-{ #category : #'examples - schedule' }
+{ #category : 'examples - schedule' }
 BlTaskItGuidelines >> executeScheduledCounterTaskAsHousekeeping [
 	<gtExample>
 	<noTest>
@@ -123,7 +123,7 @@ BlTaskItGuidelines >> executeScheduledCounterTaskAsHousekeeping [
 	^ aWorkerPool
 ]
 
-{ #category : #'examples - basic (non public api)' }
+{ #category : 'examples - basic (non public api)' }
 BlTaskItGuidelines >> housekeepingWorkerPoolWithOneWorker [
 	<gtExample>
 	"Notice that sending #new is not a public API. Check the class comment for more information."
@@ -137,7 +137,7 @@ BlTaskItGuidelines >> housekeepingWorkerPoolWithOneWorker [
 	^ aWorkerPool
 ]
 
-{ #category : #'examples - actions' }
+{ #category : 'examples - actions' }
 BlTaskItGuidelines >> incrementCounter [
 	<gtExample>
 	| aNewValue |
@@ -150,7 +150,7 @@ BlTaskItGuidelines >> incrementCounter [
 	
 ]
 
-{ #category : #'examples - actions' }
+{ #category : 'examples - actions' }
 BlTaskItGuidelines >> incrementCounterTwice [
 	<gtExample>
 	| aValue |
@@ -161,7 +161,7 @@ BlTaskItGuidelines >> incrementCounterTwice [
 	
 ]
 
-{ #category : #'examples - basic (non public api)' }
+{ #category : 'examples - basic (non public api)' }
 BlTaskItGuidelines >> incrementalCounterTask [
 	<gtExample>
 	| aCommand aTask |
@@ -174,13 +174,13 @@ BlTaskItGuidelines >> incrementalCounterTask [
 	^ aTask 
 ]
 
-{ #category : #'examples - basic (non public api)' }
+{ #category : 'examples - basic (non public api)' }
 BlTaskItGuidelines >> incrementalCounterTaskName [
 	<gtExample>
 	^ 'Counter++'
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 BlTaskItGuidelines >> initialize [
 	super initialize.
 	collection := OrderedCollection new.
@@ -188,7 +188,7 @@ BlTaskItGuidelines >> initialize [
 	semaphore := Semaphore new.
 ]
 
-{ #category : #'examples - schedule with timeout' }
+{ #category : 'examples - schedule with timeout' }
 BlTaskItGuidelines >> scheduleCounterTaskAsAsyncUI [
 	<gtExample>
 	<noTest>
@@ -208,7 +208,7 @@ BlTaskItGuidelines >> scheduleCounterTaskAsAsyncUI [
 	^ aWorkerPool
 ]
 
-{ #category : #'examples - schedule' }
+{ #category : 'examples - schedule' }
 BlTaskItGuidelines >> scheduleCounterTaskAsHousekeeping [
 	<gtExample>
 	| aWorkerPool aTask aNamedTask |
@@ -223,23 +223,23 @@ BlTaskItGuidelines >> scheduleCounterTaskAsHousekeeping [
 	^ aWorkerPool
 ]
 
-{ #category : #'examples - actions' }
+{ #category : 'examples - actions' }
 BlTaskItGuidelines >> signalSemaphore [
 	^ semaphore signal
 ]
 
-{ #category : #'examples - actions' }
+{ #category : 'examples - actions' }
 BlTaskItGuidelines >> signalSemaphoreAction [
 	^ [ self signalSemaphore ]
 ]
 
-{ #category : #'examples - actions' }
+{ #category : 'examples - actions' }
 BlTaskItGuidelines >> storeProcessName [
 	<return: #String or: nil>
 	^ mutex critical: [ collection add: Processor activeProcess gtName ]
 ]
 
-{ #category : #'examples - actions' }
+{ #category : 'examples - actions' }
 BlTaskItGuidelines >> waitForSemaphoreSignal [
 	| aTimeout |
 	aTimeout := semaphore waitTimeoutSeconds: 3.
@@ -247,14 +247,14 @@ BlTaskItGuidelines >> waitForSemaphoreSignal [
 	^ aTimeout
 ]
 
-{ #category : #'examples - actions' }
+{ #category : 'examples - actions' }
 BlTaskItGuidelines >> waitingIncrementCounter [
 	5 seconds wait.
 	^ self incrementCounter.
 	
 ]
 
-{ #category : #'examples - basic (non public api)' }
+{ #category : 'examples - basic (non public api)' }
 BlTaskItGuidelines >> waitingIncrementalCounterTask [
 	<gtExample>
 	| aTask |

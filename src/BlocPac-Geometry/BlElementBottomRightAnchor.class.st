@@ -1,15 +1,15 @@
 Class {
-	#name : #BlElementBottomRightAnchor,
-	#superclass : #BlAnchorRelativeToElementBounds,
-	#category : #'BlocPac-Geometry-Anchors'
+	#name : 'BlElementBottomRightAnchor',
+	#superclass : 'BlAnchorRelativeToElementBounds',
+	#category : 'BlocPac-Geometry-Anchors'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlElementBottomRightAnchor class >> label [
 	^ 'Bottom right'
 ]
 
-{ #category : #geometry }
+{ #category : 'geometry' }
 BlElementBottomRightAnchor >> positionWithinBounds: aParentBounds [
 	"Compute and return a position of this anchor within provided bounds"
 	<return: #Point>

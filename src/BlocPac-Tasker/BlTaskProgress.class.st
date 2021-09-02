@@ -1,10 +1,10 @@
 Class {
-	#name : #BlTaskProgress,
-	#superclass : #Notification,
-	#category : #'BlocPac-Tasker-Signals'
+	#name : 'BlTaskProgress',
+	#superclass : 'Notification',
+	#category : 'BlocPac-Tasker-Signals'
 }
 
-{ #category : #signalling }
+{ #category : 'signalling' }
 BlTaskProgress class >> signal: signalerText amount: amount [
 	"Create and signal progress with amount units transferred out of total.
 	Use an additional signalerText."
@@ -14,7 +14,7 @@ BlTaskProgress class >> signal: signalerText amount: amount [
 				signal: signalerText amount: amount ]
 ]
 
-{ #category : #signalling }
+{ #category : 'signalling' }
 BlTaskProgress class >> signal: signalerText amount: amount total: total [
 	"Create and signal progress with amount units transferred out of total.
 	Use an additional signalerText."
@@ -26,7 +26,7 @@ BlTaskProgress class >> signal: signalerText amount: amount total: total [
 				total: total ]
 ]
 
-{ #category : #signalling }
+{ #category : 'signalling' }
 BlTaskProgress class >> signalAmount: amount [
 	"Create and signal progress with amount units."
 
@@ -35,7 +35,7 @@ BlTaskProgress class >> signalAmount: amount [
 				signalAmount: amount ]
 ]
 
-{ #category : #signalling }
+{ #category : 'signalling' }
 BlTaskProgress class >> signalAmount: amount total: total [
 	"Create and signal progress with amount units transferred out of total."
 	
@@ -45,7 +45,7 @@ BlTaskProgress class >> signalAmount: amount total: total [
 				total: total ]
 ]
 
-{ #category : #signalling }
+{ #category : 'signalling' }
 BlTaskProgress class >> signalEmpty [
 	"Create and signal progress."
 
@@ -53,7 +53,7 @@ BlTaskProgress class >> signalEmpty [
 			BlAnyProgress signal ]
 ]
 
-{ #category : #signalling }
+{ #category : 'signalling' }
 BlTaskProgress class >> signalMessage: signalerText [
 	"Create and signal progress with
 	an additional signalerText."

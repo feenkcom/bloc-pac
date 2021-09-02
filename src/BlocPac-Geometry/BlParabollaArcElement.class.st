@@ -3,15 +3,15 @@ I represent an arc element that is rendered between two provided anchors and has
 
 "
 Class {
-	#name : #BlParabollaArcElement,
-	#superclass : #BlCurveElement,
+	#name : 'BlParabollaArcElement',
+	#superclass : 'BlCurveElement',
 	#instVars : [
 		'curvatureAnchor'
 	],
-	#category : #'BlocPac-Geometry-Curves'
+	#category : 'BlocPac-Geometry-Curves'
 }
 
-{ #category : #'anchor - geometry' }
+{ #category : 'anchor - geometry' }
 BlParabollaArcElement >> anchorPositions [
 	<return: #SequenceableCollection of: #Point>
 
@@ -21,7 +21,7 @@ BlParabollaArcElement >> anchorPositions [
 		aStream nextPut: self toPosition ]
 ]
 
-{ #category : #geometry }
+{ #category : 'geometry' }
 BlParabollaArcElement >> curvature: aNumber [
 	"Set an absolute curvature of the arc"
 
@@ -35,14 +35,14 @@ BlParabollaArcElement >> curvature: aNumber [
 	self registerAnchor: curvatureAnchor
 ]
 
-{ #category : #'anchor - accessing' }
+{ #category : 'anchor - accessing' }
 BlParabollaArcElement >> curvatureAnchor [
 	<return: #BlGeometryAnchor>
 
 	^ curvatureAnchor
 ]
 
-{ #category : #geometry }
+{ #category : 'geometry' }
 BlParabollaArcElement >> curvatureFraction: aNumber [
 	"Set a relative fractional curvature of the arc"
 
@@ -56,7 +56,7 @@ BlParabollaArcElement >> curvatureFraction: aNumber [
 	self registerAnchor: curvatureAnchor
 ]
 
-{ #category : #'anchor - geometry' }
+{ #category : 'anchor - geometry' }
 BlParabollaArcElement >> curvaturePositions [
 	<return: #Collection of: #Point>
 
@@ -66,7 +66,7 @@ BlParabollaArcElement >> curvaturePositions [
 	^ { self curvatureAnchor positionWithin: self }
 ]
 
-{ #category : #'anchor - geometry' }
+{ #category : 'anchor - geometry' }
 BlParabollaArcElement >> decoratedAnchorPositions [
 	<return: #SequenceableCollection of: #Point>
 	
@@ -76,24 +76,24 @@ BlParabollaArcElement >> decoratedAnchorPositions [
 		aStream nextPut: self decoratedToPosition ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 BlParabollaArcElement >> defaultGeometry [
 	^ BlBezierCurve new
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 BlParabollaArcElement >> defaultViaAnchor [
 	^ BlPerpendicularAnchor curvature: 50
 ]
 
-{ #category : #'anchor - accessing' }
+{ #category : 'anchor - accessing' }
 BlParabollaArcElement >> fromAnchor: aBlGeometryAnchor [
 	super fromAnchor: aBlGeometryAnchor.
 	
 	curvatureAnchor referenceAnchors: { self fromAnchor . self toAnchor }
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 BlParabollaArcElement >> fromDirection [
 	"Return a vector representing a direction in which start of the curve is pointing"
 	<return: #BlVector>
@@ -101,28 +101,28 @@ BlParabollaArcElement >> fromDirection [
 	^ (self fromPosition - self curvaturePositions first) asBlocVector
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 BlParabollaArcElement >> initialize [
 	super initialize.
 	
 	curvatureAnchor := self defaultViaAnchor referenceAnchors: { self fromAnchor . self toAnchor }
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 BlParabollaArcElement >> isSelfCurve [
 	<return: #Boolean>
 	
 	^ self fromAnchor isSelfTo: self toAnchor
 ]
 
-{ #category : #layout }
+{ #category : 'layout' }
 BlParabollaArcElement >> layoutBounds [
 	<return: #Rectangle>
 	
 	^ Rectangle encompassing: self anchorPositions
 ]
 
-{ #category : #layout }
+{ #category : 'layout' }
 BlParabollaArcElement >> measureGeometry [
 	| theAnchorPositions aDelta |
 	
@@ -132,14 +132,14 @@ BlParabollaArcElement >> measureGeometry [
 	self geometry controlPoints: (theAnchorPositions collect: [ :aPoint | aPoint - aDelta ])
 ]
 
-{ #category : #'anchor - accessing' }
+{ #category : 'anchor - accessing' }
 BlParabollaArcElement >> toAnchor: aBlGeometryAnchor [
 	super toAnchor: aBlGeometryAnchor.
 
 	curvatureAnchor referenceAnchors: { self fromAnchor . self toAnchor }
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 BlParabollaArcElement >> toDirection [
 	"Return a vector representing a direction in which the end of the curve is pointing"
 	<return: #BlVector>

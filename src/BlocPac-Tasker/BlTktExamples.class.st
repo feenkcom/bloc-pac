@@ -1,15 +1,15 @@
 Class {
-	#name : #BlTktExamples,
-	#superclass : #Object,
+	#name : 'BlTktExamples',
+	#superclass : 'Object',
 	#instVars : [
 		'collector',
 		'signaler',
 		'uiWorkerPool'
 	],
-	#category : #'BlocPac-Tasker-Examples'
+	#category : 'BlocPac-Tasker-Examples'
 }
 
-{ #category : #'examples - task terminations' }
+{ #category : 'examples - task terminations' }
 BlTktExamples >> basicCommandTaskExecution [
 	<gtExample>
 	| anExecution |
@@ -20,13 +20,13 @@ BlTktExamples >> basicCommandTaskExecution [
 	^ anExecution
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlTktExamples >> collector [
 	<return: #BlTktExamplesCollector>
 	^ collector
 ]
 
-{ #category : #'examples - commands' }
+{ #category : 'examples - commands' }
 BlTktExamples >> executeResponsiveValuableCommand [
 	<gtExample>
 	| aCommand aResult |
@@ -38,7 +38,7 @@ BlTktExamples >> executeResponsiveValuableCommand [
 	^ aCommand
 ]
 
-{ #category : #'examples - task terminations' }
+{ #category : 'examples - task terminations' }
 BlTktExamples >> executeTerminatedTerminableUnresponsiveValuableCommandInCancelledState [
 	<gtExample>
 	| aCommand aResult |
@@ -52,7 +52,7 @@ BlTktExamples >> executeTerminatedTerminableUnresponsiveValuableCommandInCancell
 	^ aCommand
 ]
 
-{ #category : #'examples - task terminations' }
+{ #category : 'examples - task terminations' }
 BlTktExamples >> executeTerminatedTerminableUnresponsiveValuableCommandInFinishedState [
 	<gtExample>
 	| aCommand aResult |
@@ -66,7 +66,7 @@ BlTktExamples >> executeTerminatedTerminableUnresponsiveValuableCommandInFinishe
 	^ aCommand
 ]
 
-{ #category : #'examples - task terminations' }
+{ #category : 'examples - task terminations' }
 BlTktExamples >> executeTerminatedTerminableUnresponsiveValuableCommandInReadyState [
 	<gtExample>
 	| aCommand aResult |
@@ -77,7 +77,7 @@ BlTktExamples >> executeTerminatedTerminableUnresponsiveValuableCommandInReadySt
 	^ aCommand
 ]
 
-{ #category : #'examples - task terminations' }
+{ #category : 'examples - task terminations' }
 BlTktExamples >> executeTerminatedTerminableUnresponsiveValuableCommandInRunningState [
 	<gtExample>
 
@@ -89,7 +89,7 @@ BlTktExamples >> executeTerminatedTerminableUnresponsiveValuableCommandInRunning
 	^ aCommand
 ]
 
-{ #category : #'examples - task terminations' }
+{ #category : 'examples - task terminations' }
 BlTktExamples >> executeTerminatedTerminableUnresponsiveValuableCommandInTerminatedState [
 	<gtExample>
 	| aCommand aResult |
@@ -100,7 +100,7 @@ BlTktExamples >> executeTerminatedTerminableUnresponsiveValuableCommandInTermina
 	^ aCommand
 ]
 
-{ #category : #'examples - commands' }
+{ #category : 'examples - commands' }
 BlTktExamples >> executeUnresponsiveValuableCommand [
 	<gtExample>
 	| aCommand aResult |
@@ -110,7 +110,7 @@ BlTktExamples >> executeUnresponsiveValuableCommand [
 	^ aCommand
 ]
 
-{ #category : #'examples - task futures' }
+{ #category : 'examples - task futures' }
 BlTktExamples >> failedFutureTerminableUnresponsiveValuableCommandTaskTerminatingInTheMiddle [
 	<gtExample>
 	| aFuture aResult |
@@ -124,7 +124,7 @@ BlTktExamples >> failedFutureTerminableUnresponsiveValuableCommandTaskTerminatin
 	^ aFuture
 ]
 
-{ #category : #'examples - task futures' }
+{ #category : 'examples - task futures' }
 BlTktExamples >> futureResponsiveValuableCommandTask [
 	<gtExample>
 	| aTask aPool aFuture aResult |
@@ -136,7 +136,7 @@ BlTktExamples >> futureResponsiveValuableCommandTask [
 	^ aFuture
 ]
 
-{ #category : #'examples - task futures' }
+{ #category : 'examples - task futures' }
 BlTktExamples >> futureTerminableResponsiveValuableCommandTask [
 	<gtExample>
 	| aTask aPool aFuture aResult |
@@ -148,7 +148,7 @@ BlTktExamples >> futureTerminableResponsiveValuableCommandTask [
 	^ aFuture
 ]
 
-{ #category : #'examples - task futures' }
+{ #category : 'examples - task futures' }
 BlTktExamples >> futureTerminableUnresponsiveValuableCommandTask [
 	<gtExample>
 	| aTask aPool aFuture aResult |
@@ -160,7 +160,7 @@ BlTktExamples >> futureTerminableUnresponsiveValuableCommandTask [
 	^ aFuture
 ]
 
-{ #category : #'examples - task futures' }
+{ #category : 'examples - task futures' }
 BlTktExamples >> futureTerminableUnresponsiveValuableCommandTaskTerminatingInTheMiddle [
 	<gtExample>
 	| aTask aPool aFuture aResult |
@@ -183,19 +183,19 @@ BlTktExamples >> futureTerminableUnresponsiveValuableCommandTaskTerminatingInThe
 	^ aFuture
 ]
 
-{ #category : #'examples - task futures' }
+{ #category : 'examples - task futures' }
 BlTktExamples >> futureTimeout [
 	^ (60 * 1000) milliSeconds
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 BlTktExamples >> initialize [
 	super initialize.
 	collector := BlTktExamplesCollector new.
 	signaler := BlTktExamplesSignaler new.
 ]
 
-{ #category : #'examples - workers' }
+{ #category : 'examples - workers' }
 BlTktExamples >> newUIWorkerPool [
 	<gtExample>
 	| aWorkerPool |
@@ -206,7 +206,7 @@ BlTktExamples >> newUIWorkerPool [
 	
 ]
 
-{ #category : #'examples - commands' }
+{ #category : 'examples - commands' }
 BlTktExamples >> responsiveDemoCommand [
 	<gtExample>
 	| aCommand |
@@ -218,7 +218,7 @@ BlTktExamples >> responsiveDemoCommand [
 	^ aCommand
 ]
 
-{ #category : #'examples - commands' }
+{ #category : 'examples - commands' }
 BlTktExamples >> responsiveValuableCommand [
 	<gtExample>
 	| aBlock aCommand |
@@ -230,7 +230,7 @@ BlTktExamples >> responsiveValuableCommand [
 	^ aCommand
 ]
 
-{ #category : #'examples - command tasks' }
+{ #category : 'examples - command tasks' }
 BlTktExamples >> responsiveValuableCommandTask [
 	<gtExample>
 	| aCommand aTask |
@@ -240,7 +240,7 @@ BlTktExamples >> responsiveValuableCommandTask [
 	^ aTask
 ]
 
-{ #category : #'examples - task schedules' }
+{ #category : 'examples - task schedules' }
 BlTktExamples >> scheduleTerminableUnresponsiveValuableTaskTerminatingInTheMiddle [
 	<gtExample>
 
@@ -266,20 +266,20 @@ BlTktExamples >> scheduleTerminableUnresponsiveValuableTaskTerminatingInTheMiddl
 	^ aTask
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlTktExamples >> signaler [
 	<return: #BlTktExamplesSignaler>
 	^ signaler
 ]
 
-{ #category : #'examples - workers' }
+{ #category : 'examples - workers' }
 BlTktExamples >> stopUIWorkerPool [
 	uiWorkerPool ifNotNil: [ :aWorkerPool | 
 		aWorkerPool stop.
 		aWorkerPool killWatchDog ].
 ]
 
-{ #category : #'examples - commands' }
+{ #category : 'examples - commands' }
 BlTktExamples >> terminableResponsiveValuableCommand [
 	<gtExample>
 	| aCommand aTerminableCommand |
@@ -293,7 +293,7 @@ BlTktExamples >> terminableResponsiveValuableCommand [
 	^ aTerminableCommand
 ]
 
-{ #category : #'examples - command tasks' }
+{ #category : 'examples - command tasks' }
 BlTktExamples >> terminableResponsiveValuableCommandTask [
 	<gtExample>
 	| aCommand aTask |
@@ -303,7 +303,7 @@ BlTktExamples >> terminableResponsiveValuableCommandTask [
 	^ aTask
 ]
 
-{ #category : #'examples - commands' }
+{ #category : 'examples - commands' }
 BlTktExamples >> terminableUnresponsiveValuableCommand [
 	<gtExample>
 	| aCommand aTerminableCommand |
@@ -317,7 +317,7 @@ BlTktExamples >> terminableUnresponsiveValuableCommand [
 	^ aTerminableCommand
 ]
 
-{ #category : #'examples - command tasks' }
+{ #category : 'examples - command tasks' }
 BlTktExamples >> terminableUnresponsiveValuableCommandTask [
 	<gtExample>
 	| aCommand aTask |
@@ -327,7 +327,7 @@ BlTktExamples >> terminableUnresponsiveValuableCommandTask [
 	^ aTask
 ]
 
-{ #category : #'examples - command tasks' }
+{ #category : 'examples - command tasks' }
 BlTktExamples >> terminableUnresponsiveValuableCommandTaskTerminatingInTheMiddle [
 	<gtExample>
 	| aCommand aTask |
@@ -337,7 +337,7 @@ BlTktExamples >> terminableUnresponsiveValuableCommandTaskTerminatingInTheMiddle
 	^ aTask
 ]
 
-{ #category : #'examples - commands' }
+{ #category : 'examples - commands' }
 BlTktExamples >> terminableUnresponsiveValuableCommandTerminatingInTheMiddle [
 	<gtExample>
 	| aCommand aTerminableCommand |
@@ -351,7 +351,7 @@ BlTktExamples >> terminableUnresponsiveValuableCommandTerminatingInTheMiddle [
 	^ aTerminableCommand
 ]
 
-{ #category : #'examples - task terminations' }
+{ #category : 'examples - task terminations' }
 BlTktExamples >> terminateTerminableUnresponsiveValuableCommandInCancelledState [
 	<gtExample>
 	| aCommand anExecution |
@@ -365,7 +365,7 @@ BlTktExamples >> terminateTerminableUnresponsiveValuableCommandInCancelledState 
 	^ aCommand
 ]
 
-{ #category : #'examples - task terminations' }
+{ #category : 'examples - task terminations' }
 BlTktExamples >> terminateTerminableUnresponsiveValuableCommandInFinishedState [
 	<gtExample>
 	| aCommand anExecution |
@@ -379,7 +379,7 @@ BlTktExamples >> terminateTerminableUnresponsiveValuableCommandInFinishedState [
 	^ aCommand
 ]
 
-{ #category : #'examples - task terminations' }
+{ #category : 'examples - task terminations' }
 BlTktExamples >> terminateTerminableUnresponsiveValuableCommandInReadyState [
 	<gtExample>
 	| aCommand anExecution |
@@ -392,7 +392,7 @@ BlTktExamples >> terminateTerminableUnresponsiveValuableCommandInReadyState [
 	^ aCommand
 ]
 
-{ #category : #'examples - task terminations' }
+{ #category : 'examples - task terminations' }
 BlTktExamples >> terminateTerminableUnresponsiveValuableCommandInRunningState [
 	<gtExample>
 
@@ -407,7 +407,7 @@ BlTktExamples >> terminateTerminableUnresponsiveValuableCommandInRunningState [
 	^ aCommand
 ]
 
-{ #category : #'examples - task terminations' }
+{ #category : 'examples - task terminations' }
 BlTktExamples >> terminateTerminableUnresponsiveValuableCommandInTerminatedState [
 	<gtExample>
 	| aCommand anExecution |
@@ -421,7 +421,7 @@ BlTktExamples >> terminateTerminableUnresponsiveValuableCommandInTerminatedState
 	^ aCommand
 ]
 
-{ #category : #'examples - workers' }
+{ #category : 'examples - workers' }
 BlTktExamples >> uiWorkerPool [
 	<gtExample>
 	<after: #stopUIWorkerPool>
@@ -430,7 +430,7 @@ BlTktExamples >> uiWorkerPool [
 	^ uiWorkerPool
 ]
 
-{ #category : #'examples - commands' }
+{ #category : 'examples - commands' }
 BlTktExamples >> unresponsiveValuableCommand [
 	<gtExample>
 	| aBlock aCommand |
@@ -442,7 +442,7 @@ BlTktExamples >> unresponsiveValuableCommand [
 	^ aCommand
 ]
 
-{ #category : #'examples - commands' }
+{ #category : 'examples - commands' }
 BlTktExamples >> unresponsiveValuableCommandTerminatingInTheMiddle [
 	<gtExample>
 	| aCommand aBlock |

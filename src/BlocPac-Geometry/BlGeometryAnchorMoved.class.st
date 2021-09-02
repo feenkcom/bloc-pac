@@ -3,22 +3,22 @@ I am sent when anchor's position changed
 
 "
 Class {
-	#name : #BlGeometryAnchorMoved,
-	#superclass : #BlEvent,
+	#name : 'BlGeometryAnchorMoved',
+	#superclass : 'BlEvent',
 	#instVars : [
 		'anchor'
 	],
-	#category : #'BlocPac-Geometry-Anchors'
+	#category : 'BlocPac-Geometry-Anchors'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlGeometryAnchorMoved >> anchor [
 	<return: #BlGeometryAnchor>
 
 	^ anchor
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlGeometryAnchorMoved >> anchor: aBlGeometryAnchor [
 	anchor := aBlGeometryAnchor
 ]
