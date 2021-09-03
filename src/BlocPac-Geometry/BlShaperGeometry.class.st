@@ -17,16 +17,16 @@ I can be directly attached to any graphical element, like any other geometry, an
 
 "
 Class {
-	#name : #BlShaperGeometry,
-	#superclass : #BlElementVectorGeometry,
+	#name : 'BlShaperGeometry',
+	#superclass : 'BlElementVectorGeometry',
 	#instVars : [
 		'shapeBuilder',
 		'vectorShape'
 	],
-	#category : #'BlocPac-Geometry-Shaper'
+	#category : 'BlocPac-Geometry-Shaper'
 }
 
-{ #category : #sparta }
+{ #category : 'sparta' }
 BlShaperGeometry >> buildPathOnSpartaCanvas: aCanvas [
 	| aPathBuilder |
 	
@@ -36,12 +36,12 @@ BlShaperGeometry >> buildPathOnSpartaCanvas: aCanvas [
 	^ aPathBuilder finish
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 BlShaperGeometry >> createVectorShape [
 	^ shapeBuilder value: (0@0 extent: extent)
 ]
 
-{ #category : #geometry }
+{ #category : 'geometry' }
 BlShaperGeometry >> extent: aPoint [
 	super extent: aPoint.
 
@@ -49,12 +49,12 @@ BlShaperGeometry >> extent: aPoint [
 	self releaseCache
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 BlShaperGeometry >> hasShapeBuilder [
 	^ shapeBuilder notNil
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 BlShaperGeometry >> initialize [
 	super initialize.
 
@@ -62,12 +62,12 @@ BlShaperGeometry >> initialize [
 	vectorShape := self createVectorShape
 ]
 
-{ #category : #geometry }
+{ #category : 'geometry' }
 BlShaperGeometry >> matchExtent: aPoint [
 	self extent: aPoint
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 BlShaperGeometry >> shape: aBlockOrVectorShape [
 	"Initialize the geometry with a builder used to create a ${class:BlVectorShape}$ object with a given extent. The builder can be any object that understands ==value:==."
 		

@@ -1,13 +1,13 @@
 Class {
-	#name : #BlSvgPathMoveSegment,
-	#superclass : #BlSvgPathSegment,
+	#name : 'BlSvgPathMoveSegment',
+	#superclass : 'BlSvgPathSegment',
 	#instVars : [
 		'moveTo'
 	],
-	#category : #'BlocPac-Geometry-SVG'
+	#category : 'BlocPac-Geometry-SVG'
 }
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 BlSvgPathMoveSegment >> = anotherObject [
 
 	self == anotherObject
@@ -19,36 +19,36 @@ BlSvgPathMoveSegment >> = anotherObject [
 		and: [ anotherObject moveTo = self moveTo ]
 ]
 
-{ #category : #executing }
+{ #category : 'executing' }
 BlSvgPathMoveSegment >> executeOn: aBuilder [
 	aBuilder moveTo: self moveTo
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 BlSvgPathMoveSegment >> hash [
 	^ self isAbsolute hash bitXor: self moveTo hash
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 BlSvgPathMoveSegment >> initialize [
 	super initialize.
 	
 	moveTo := 0@0
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlSvgPathMoveSegment >> moveTo [
 	<return: #Point>
 
 	^ moveTo
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlSvgPathMoveSegment >> moveTo: aPoint [
 	moveTo := aPoint
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 BlSvgPathMoveSegment >> printOn: aStream [
 	aStream
 		nextPutAll: 'Move ';

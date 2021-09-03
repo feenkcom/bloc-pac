@@ -1,36 +1,36 @@
 Class {
-	#name : #BlArrowheadStealth,
-	#superclass : #BlArrowheadElement,
+	#name : 'BlArrowheadStealth',
+	#superclass : 'BlArrowheadElement',
 	#instVars : [
 		'arrowLengthFraction',
 		'arrowNoseAngle',
 		'arrowShape'
 	],
-	#category : #'BlocPac-Geometry-Arrowheads'
+	#category : 'BlocPac-Geometry-Arrowheads'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlArrowheadStealth >> arrowLengthFraction [
 	<return: #Number>
 	
 	^ arrowLengthFraction
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlArrowheadStealth >> arrowLengthFraction: aNumber [
 	
 	arrowLengthFraction := aNumber.
 	self geometryChanged
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlArrowheadStealth >> arrowNoseAngle [
 	<return: #Number>
 
 	^ arrowNoseAngle
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlArrowheadStealth >> arrowNoseAngle: anAngleInDegrees [
 
 	self
@@ -41,7 +41,7 @@ BlArrowheadStealth >> arrowNoseAngle: anAngleInDegrees [
 	self geometryChanged
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 BlArrowheadStealth >> createShapeForWidth: aNumber [
 	| wingAngle aShape |
 
@@ -67,7 +67,7 @@ BlArrowheadStealth >> createShapeForWidth: aNumber [
 	^ aShape
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 BlArrowheadStealth >> defaultGeometry [
 	^ BlPolygon vertices: {
 		0@0.
@@ -78,7 +78,7 @@ BlArrowheadStealth >> defaultGeometry [
 	}
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 BlArrowheadStealth >> initialize [
 	super initialize.
 
@@ -87,14 +87,14 @@ BlArrowheadStealth >> initialize [
 	arrowShape := self createShapeForWidth: 1
 ]
 
-{ #category : #changes }
+{ #category : 'changes' }
 BlArrowheadStealth >> onWidthChanged: aNumber [
 	arrowShape := self createShapeForWidth: aNumber.
 	self size: arrowShape boundingBox extent.
 	self geometry: (BlShaperGeometry new shape: arrowShape)
 ]
 
-{ #category : #'geometry hooks' }
+{ #category : 'geometry hooks' }
 BlArrowheadStealth >> updateMargin [
 	self margin: (BlInsets right: (arrowShape edgeAt: 5) middle x negated)
 ]

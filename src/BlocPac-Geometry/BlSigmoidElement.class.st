@@ -1,45 +1,45 @@
 Class {
-	#name : #BlSigmoidElement,
-	#superclass : #BlCurveElement,
-	#category : #'BlocPac-Geometry-Curves'
+	#name : 'BlSigmoidElement',
+	#superclass : 'BlCurveElement',
+	#category : 'BlocPac-Geometry-Curves'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlSigmoidElement >> beAutomatic [
 	self invalidate.
 	self geometry beAutomatic.
 	self invalidate
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlSigmoidElement >> beHorizontal [
 	self invalidate.
 	self geometry beHorizontal.
 	self invalidate
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlSigmoidElement >> beVertical [
 	self invalidate.
 	self geometry beVertical.
 	self invalidate
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlSigmoidElement >> bendingPoint: aFloatNumber [
 	self invalidate.
 	self geometry bendingPoint: aFloatNumber.
 	self invalidate
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 BlSigmoidElement >> defaultGeometry [
 	<return: #BlElementVectorGeometry>
 
 	^ BlSigmoid new
 ]
 
-{ #category : #'anchor - geometry' }
+{ #category : 'anchor - geometry' }
 BlSigmoidElement >> fromDirection [
 	"Return a vector representing a direction in which start of the curve is pointing"
 	<return: #BlVector>
@@ -47,7 +47,7 @@ BlSigmoidElement >> fromDirection [
 	^ (self fromPosition - self toPosition) asBlocVector
 ]
 
-{ #category : #layout }
+{ #category : 'layout' }
 BlSigmoidElement >> layoutBounds [
 	| anOrigin aCorner |
 	<return: #Rectangle>	
@@ -58,7 +58,7 @@ BlSigmoidElement >> layoutBounds [
 	^ Rectangle encompassing: { anOrigin. aCorner }
 ]
 
-{ #category : #layout }
+{ #category : 'layout' }
 BlSigmoidElement >> measureGeometry [
 	| aDecoratedFromPoint aDecoratedToPoint aDelta |
 
@@ -70,14 +70,14 @@ BlSigmoidElement >> measureGeometry [
 	self geometry from: aDecoratedFromPoint - aDelta to: aDecoratedToPoint - aDelta
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlSigmoidElement >> sharpness: aFloatNumber [
 	self invalidate.
 	self geometry sharpness: aFloatNumber.
 	self invalidate
 ]
 
-{ #category : #'anchor - geometry' }
+{ #category : 'anchor - geometry' }
 BlSigmoidElement >> toDirection [
 	"Return a vector representing a direction in which the end of the curve is pointing"
 	<return: #BlVector>

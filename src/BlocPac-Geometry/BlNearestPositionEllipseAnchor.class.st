@@ -5,17 +5,17 @@ Ellipse radii are computed based as a half of the width and the height of the re
 
 "
 Class {
-	#name : #BlNearestPositionEllipseAnchor,
-	#superclass : #BlNearestPositionAnchor,
-	#category : #'BlocPac-Geometry-Anchors'
+	#name : 'BlNearestPositionEllipseAnchor',
+	#superclass : 'BlNearestPositionAnchor',
+	#category : 'BlocPac-Geometry-Anchors'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlNearestPositionEllipseAnchor class >> label [
 	^ 'Ellipse'
 ]
 
-{ #category : #geometry }
+{ #category : 'geometry' }
 BlNearestPositionEllipseAnchor >> globalPositionWithin: aGeometryElement [
 	"Compute and return a global position (in space) of this anchor"
 	<return: #Point>

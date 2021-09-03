@@ -4,8 +4,8 @@ Connects two edges
 
 "
 Class {
-	#name : #BlShaperVertex,
-	#superclass : #Object,
+	#name : 'BlShaperVertex',
+	#superclass : 'Object',
 	#traits : 'TBlShaperMovable',
 	#classTraits : 'TBlShaperMovable classTrait',
 	#instVars : [
@@ -13,15 +13,15 @@ Class {
 		'incomingEdge',
 		'outgoingEdge'
 	],
-	#category : #'BlocPac-Geometry-Shaper'
+	#category : 'BlocPac-Geometry-Shaper'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlShaperVertex class >> point: aPoint [
 	^ self new point: aPoint
 ]
 
-{ #category : #'api - transformations' }
+{ #category : 'api - transformations' }
 BlShaperVertex >> angleBetweenEdges [
 	| edgeA edgeB anAngle |
 	self assertTwoEdges.
@@ -35,7 +35,7 @@ BlShaperVertex >> angleBetweenEdges [
 		ifFalse: [ anAngle ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 BlShaperVertex >> assertTwoEdges [
 	self
 		assert: [ self outgoingEdge notNil ]
@@ -50,7 +50,7 @@ BlShaperVertex >> assertTwoEdges [
 		description: [ 'Must connect edges from the same figure' ].
 ]
 
-{ #category : #'api - transformations' }
+{ #category : 'api - transformations' }
 BlShaperVertex >> divide [
 	| newFromVertex newToVertex aLine aFigure anIncomingEdge |
 	
@@ -74,27 +74,27 @@ BlShaperVertex >> divide [
 	^ aLine
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlShaperVertex >> incomingEdge [
 	^ incomingEdge
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlShaperVertex >> incomingEdge: anObject [
 	incomingEdge := anObject
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 BlShaperVertex >> initialize [
 	super initialize.
 ]
 
-{ #category : #'api - movable' }
+{ #category : 'api - movable' }
 BlShaperVertex >> moveBy: aPointOrVector [
 	self point: (self point + aPointOrVector) asPoint
 ]
 
-{ #category : #'api - transformations' }
+{ #category : 'api - transformations' }
 BlShaperVertex >> moveToBuildAngle: anAngleInDegrees [
 	| edgeA edgeB edgeC aPerpendicularLength aNewPoint |
 	self assertTwoEdges.
@@ -114,33 +114,33 @@ BlShaperVertex >> moveToBuildAngle: anAngleInDegrees [
 	self point: aNewPoint asPoint
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlShaperVertex >> outgoingEdge [
 	^ outgoingEdge
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlShaperVertex >> outgoingEdge: anObject [
 	outgoingEdge := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlShaperVertex >> point [
 	^ point
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlShaperVertex >> point: anObject [
 	point := anObject
 ]
 
-{ #category : #copying }
+{ #category : 'copying' }
 BlShaperVertex >> postCopy [
 	incomingEdge := nil.
 	outgoingEdge := nil
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 BlShaperVertex >> printOn: aStream [
 	"Append a sequence of characters to aStream that identify the receiver."
 
@@ -150,22 +150,22 @@ BlShaperVertex >> printOn: aStream [
 		print: point
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlShaperVertex >> removeIncomingEdge [
 	incomingEdge := nil
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlShaperVertex >> removeOutgoingEdge [
 	outgoingEdge := nil
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlShaperVertex >> x [
 	^ self point x
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlShaperVertex >> y [
 	^ self point y
 ]

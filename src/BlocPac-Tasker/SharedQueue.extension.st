@@ -1,6 +1,6 @@
-Extension { #name : #SharedQueue }
+Extension { #name : 'SharedQueue' }
 
-{ #category : #'*BlocPac-Tasker' }
+{ #category : '*BlocPac-Tasker' }
 SharedQueue >> itemArray [
 	^ monitor critical: [ items asArray ]
 ]

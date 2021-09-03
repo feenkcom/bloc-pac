@@ -1,6 +1,6 @@
-Extension { #name : #TKTRunningTaskState }
+Extension { #name : 'TKTRunningTaskState' }
 
-{ #category : #'*BlocPac-Tasker' }
+{ #category : '*BlocPac-Tasker' }
 TKTRunningTaskState >> terminateTaskExecution: aTaskExecution reason: aReason [
 
 	| cancelState taskProcess activeContext timeoutContext |

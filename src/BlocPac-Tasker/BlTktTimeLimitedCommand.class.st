@@ -5,25 +5,25 @@ I terminate myself if I am not finished withing the allowed time.
 
 "
 Class {
-	#name : #BlTktTimeLimitedCommand,
-	#superclass : #BlTktDecoratedCommand,
+	#name : 'BlTktTimeLimitedCommand',
+	#superclass : 'BlTktDecoratedCommand',
 	#instVars : [
 		'allowedDuration'
 	],
-	#category : #'BlocPac-Tasker-Commands'
+	#category : 'BlocPac-Tasker-Commands'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlTktTimeLimitedCommand >> allowedDuration [
 	^ allowedDuration
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlTktTimeLimitedCommand >> allowedDuration: anObject [
 	allowedDuration := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlTktTimeLimitedCommand >> command: aCommand [
 	self
 		assert: [ aCommand isNotNil ]
@@ -31,12 +31,12 @@ BlTktTimeLimitedCommand >> command: aCommand [
 	super command: aCommand asBlTktTerminableCommand.
 ]
 
-{ #category : #defaults }
+{ #category : 'defaults' }
 BlTktTimeLimitedCommand >> defaultAllowedDuration [
 	^ 30 seconds
 ]
 
-{ #category : #evaluating }
+{ #category : 'evaluating' }
 BlTktTimeLimitedCommand >> execute [
 	"execute command and return a result"
 	<return: #Object>
@@ -48,13 +48,13 @@ BlTktTimeLimitedCommand >> execute [
 	self command execute.
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 BlTktTimeLimitedCommand >> initialize [
 	super initialize.
 	allowedDuration := self defaultAllowedDuration
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlTktTimeLimitedCommand >> name [
 	<return: #String>
 	^ 'Time limited ', self command name

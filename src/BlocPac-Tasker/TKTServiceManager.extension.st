@@ -1,6 +1,6 @@
-Extension { #name : #TKTServiceManager }
+Extension { #name : 'TKTServiceManager' }
 
-{ #category : #'*BlocPac-Tasker' }
+{ #category : '*BlocPac-Tasker' }
 TKTServiceManager >> poolWorkerNamed: aString [
 	<return: #TKTCommonQueueWorkerPool or: nil>
 	^ self services 

@@ -1,10 +1,10 @@
 Class {
-	#name : #SharedPriorityUniqueQueueExamples,
-	#superclass : #Object,
-	#category : #'BlocPac-Tasker-Examples'
+	#name : 'SharedPriorityUniqueQueueExamples',
+	#superclass : 'Object',
+	#category : 'BlocPac-Tasker-Examples'
 }
 
-{ #category : #tests }
+{ #category : 'tests' }
 SharedPriorityUniqueQueueExamples >> testQueuePriority [
 	<gtExample>
 
@@ -43,7 +43,7 @@ SharedPriorityUniqueQueueExamples >> testQueuePriority [
 	^queue
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 SharedPriorityUniqueQueueExamples >> testQueuePriorityAndIdentity [
 	<gtExample>
 

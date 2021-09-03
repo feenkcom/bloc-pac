@@ -3,22 +3,22 @@ I am a root class of geometry elements - elements driven by geometry anchors.
 
 "
 Class {
-	#name : #BlGeometryElement,
-	#superclass : #BlElement,
-	#category : #'BlocPac-Geometry'
+	#name : 'BlGeometryElement',
+	#superclass : 'BlElement',
+	#category : 'BlocPac-Geometry'
 }
 
-{ #category : #layout }
+{ #category : 'layout' }
 BlGeometryElement >> applyLayoutIn: aBounds context: aBlElementBoundsUpdateContext [
 	super applyLayoutIn: self layoutBounds context: aBlElementBoundsUpdateContext
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 BlGeometryElement >> defaultLayout [
 	^ BlGeometryLayout new
 ]
 
-{ #category : #layout }
+{ #category : 'layout' }
 BlGeometryElement >> layoutBounds [
 	"Compute and return layout bounds based on geometry anchors.
 	The bounds origin describes a position of this geometry element
@@ -28,32 +28,32 @@ BlGeometryElement >> layoutBounds [
 	^ self subclassResponsibility
 ]
 
-{ #category : #layout }
+{ #category : 'layout' }
 BlGeometryElement >> measureGeometry [
 	"Adapt underlying geometry to fit anchor positions"
 
 	self subclassResponsibility
 ]
 
-{ #category : #anchors }
+{ #category : 'anchors' }
 BlGeometryElement >> onAnchorMoved [
 	"I am sent when any of my anchors moved"
 	self requestLayout
 ]
 
-{ #category : #layout }
+{ #category : 'layout' }
 BlGeometryElement >> onMeasure: anExtentMeasurementSpec [
 	self measureGeometry.
 	super onMeasure: anExtentMeasurementSpec
 ]
 
-{ #category : #anchors }
+{ #category : 'anchors' }
 BlGeometryElement >> registerAnchor: aGeometryAnchor [
 	"Register a given geometry anchor as one of my anchors"
 	aGeometryAnchor attachTo: self
 ]
 
-{ #category : #anchors }
+{ #category : 'anchors' }
 BlGeometryElement >> unregisterAnchor: aGeometryAnchor [
 	"Unregister a given geometry anchor from being one of my anchors"
 	aGeometryAnchor detachFrom: self

@@ -1,19 +1,19 @@
 Class {
-	#name : #BlTktWrapperCommand,
-	#superclass : #BlTktCommand,
+	#name : 'BlTktWrapperCommand',
+	#superclass : 'BlTktCommand',
 	#instVars : [
 		'command'
 	],
-	#category : #'BlocPac-Tasker-Commands'
+	#category : 'BlocPac-Tasker-Commands'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlTktWrapperCommand >> command [
 	"Return a command that understands #execute"
 	^ command
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlTktWrapperCommand >> command: aCommand [
 	self
 		assert: [ aCommand isNotNil ]
@@ -21,19 +21,19 @@ BlTktWrapperCommand >> command: aCommand [
 	command := aCommand
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlTktWrapperCommand >> entryIdentifier [
 	^ self command entryIdentifier
 ]
 
-{ #category : #evaluating }
+{ #category : 'evaluating' }
 BlTktWrapperCommand >> execute [
 	"execute command and return a result"
 	<return: #Object>
 	^ self command execute
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlTktWrapperCommand >> name [
 	<return: #String>
 	^ self command printString

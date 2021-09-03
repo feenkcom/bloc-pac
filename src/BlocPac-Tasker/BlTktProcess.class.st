@@ -1,10 +1,10 @@
 Class {
-	#name : #BlTktProcess,
-	#superclass : #TKTProcess,
-	#category : #'BlocPac-Tasker-Processes'
+	#name : 'BlTktProcess',
+	#superclass : 'TKTProcess',
+	#category : 'BlocPac-Tasker-Processes'
 }
 
-{ #category : #private }
+{ #category : 'private' }
 BlTktProcess >> privateCreatePharoProcess [
 	"Return an instance of TKTConfiguration process which is usually Process."
 	<return: #Process>
@@ -16,7 +16,7 @@ BlTktProcess >> privateCreatePharoProcess [
 	^ process
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 BlTktProcess >> task [
 	^ self annotation: #task
 ]

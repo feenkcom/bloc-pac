@@ -26,49 +26,49 @@ where self is the object submitting the command for execution.
 
 "
 Class {
-	#name : #BlTktSingleCommand,
-	#superclass : #BlTktDecoratedCommand,
+	#name : 'BlTktSingleCommand',
+	#superclass : 'BlTktDecoratedCommand',
 	#instVars : [
 		'identifier'
 	],
-	#category : #'BlocPac-Tasker-Commands'
+	#category : 'BlocPac-Tasker-Commands'
 }
 
-{ #category : #converting }
+{ #category : 'converting' }
 BlTktSingleCommand >> asBlTktSingleCommand [
 
 	^self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlTktSingleCommand >> entryIdentifier [ 
 
 	^identifier
 ]
 
-{ #category : #evaluating }
+{ #category : 'evaluating' }
 BlTktSingleCommand >> execute [ 
 
 	^self command execute
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlTktSingleCommand >> identifier [
 	^ identifier
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlTktSingleCommand >> identifier: anObject [
 	identifier := anObject
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 BlTktSingleCommand >> includesSingleCommand [
 
 	^true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlTktSingleCommand >> name [ 
 
 	^self command name

@@ -1,15 +1,15 @@
 Class {
-	#name : #BlShaperTriangle,
-	#superclass : #Object,
+	#name : 'BlShaperTriangle',
+	#superclass : 'Object',
 	#traits : 'TBlShaperFigure + TBlShaperMovable',
 	#classTraits : 'TBlShaperFigure classTrait + TBlShaperMovable classTrait',
 	#instVars : [
 		'polygon'
 	],
-	#category : #'BlocPac-Geometry-Shaper'
+	#category : 'BlocPac-Geometry-Shaper'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 BlShaperTriangle class >> points: aCollectionOfPoints [
 	| theVertices theEdges |
 	
@@ -20,22 +20,22 @@ BlShaperTriangle class >> points: aCollectionOfPoints [
 	^ BlShaperPolygon points: aCollectionOfPoints
 ]
 
-{ #category : #'api - shape' }
+{ #category : 'api - shape' }
 BlShaperTriangle >> addEdge: aTBlShapeEdge after: anOtherShapeEdge [
 	polygon addEdge: aTBlShapeEdge after: anOtherShapeEdge
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlShaperTriangle >> bottomEdge [
 	^ self edges at: 3
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlShaperTriangle >> bottomEdge: aTBlShapeEdge [
 	self edges at: 3 put: aTBlShapeEdge
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlShaperTriangle >> bottomVertex [
 	| allVertices aBottomVertex |
 	
@@ -48,22 +48,22 @@ BlShaperTriangle >> bottomVertex [
 	^ aBottomVertex
 ]
 
-{ #category : #'api - shape' }
+{ #category : 'api - shape' }
 BlShaperTriangle >> edges [
 	^ polygon edges
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlShaperTriangle >> leftEdge [
 	^ self edges at: 1
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlShaperTriangle >> leftEdge: aTBlShapeEdge [
 	self edges at: 1 put: aTBlShapeEdge
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlShaperTriangle >> leftVertex [
 	| allVertices aLeftVertex |
 	
@@ -76,7 +76,7 @@ BlShaperTriangle >> leftVertex [
 	^ aLeftVertex
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 BlShaperTriangle >> polygon: aPolygonShape [
 	self
 		assert: [ aPolygonShape edges size = 3 ]
@@ -85,17 +85,17 @@ BlShaperTriangle >> polygon: aPolygonShape [
 	polygon := aPolygonShape
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlShaperTriangle >> rightEdge [
 	^ self edges at: 2
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlShaperTriangle >> rightEdge: aTBlShapeEdge [
 	self edges at: 2 put: aTBlShapeEdge
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlShaperTriangle >> rightVertex [
 	| allVertices aRightVertex |
 	
@@ -108,7 +108,7 @@ BlShaperTriangle >> rightVertex [
 	^ aRightVertex
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlShaperTriangle >> topVertex [
 	| allVertices aTopVertex |
 	

@@ -3,16 +3,16 @@ Relative anchor takes an arbitrary element as a reference an compute its positio
 
 "
 Class {
-	#name : #BlAnchorRelativeToElement,
-	#superclass : #BlGeometryAnchor,
+	#name : 'BlAnchorRelativeToElement',
+	#superclass : 'BlGeometryAnchor',
 	#instVars : [
 		'moveDispatched',
 		'referenceElement'
 	],
-	#category : #'BlocPac-Geometry-Anchors'
+	#category : 'BlocPac-Geometry-Anchors'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 BlAnchorRelativeToElement class >> element: anElement [
 	<return: #BlAnchorRelativeToElement>
 
@@ -21,14 +21,14 @@ BlAnchorRelativeToElement class >> element: anElement [
 		yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlAnchorRelativeToElement class >> label [
 	<return: #String>
 	
 	^ self subclassResponsibility
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 BlAnchorRelativeToElement class >> referenceElement: anElement relatedTo: anotherElement [
 	"Some types of achors should take other element into account"
 	<return: #BlAnchorRelativeToElement>
@@ -37,7 +37,7 @@ BlAnchorRelativeToElement class >> referenceElement: anElement relatedTo: anothe
 	^ self element: anElement
 ]
 
-{ #category : #'event dispatching' }
+{ #category : 'event dispatching' }
 BlAnchorRelativeToElement >> dispatchMoveEvent [
 	"I dispatch anchor moved event"
 
@@ -49,7 +49,7 @@ BlAnchorRelativeToElement >> dispatchMoveEvent [
 		ensure: [ moveDispatched := false ]
 ]
 
-{ #category : #geometry }
+{ #category : 'geometry' }
 BlAnchorRelativeToElement >> globalPositionWithin: aGeometryElement [
 	"Compute and return a global position (in space) of this anchor"
 	<return: #Point>
@@ -57,7 +57,7 @@ BlAnchorRelativeToElement >> globalPositionWithin: aGeometryElement [
 	^ self subclassResponsibility
 ]
 
-{ #category : #geometry }
+{ #category : 'geometry' }
 BlAnchorRelativeToElement >> globalSelfPositionsWithin: aGeometryElement and: anAnotherAnchor [
 	<return: #Collection of: #Point>
 	| aFromPoint aToPoint theBoundsInSpace aFromRay aToRay aDirectionVector aLength |
@@ -84,42 +84,42 @@ BlAnchorRelativeToElement >> globalSelfPositionsWithin: aGeometryElement and: an
 	}
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 BlAnchorRelativeToElement >> initialize [
 	super initialize.
 
 	moveDispatched := false
 ]
 
-{ #category : #'testing - self anchors' }
+{ #category : 'testing - self anchors' }
 BlAnchorRelativeToElement >> isSelfTo: anAnotherAnchor [
 	<return: #Boolean>
 	
 	^ anAnotherAnchor isSelfToRelative: self
 ]
 
-{ #category : #'testing - self anchors' }
+{ #category : 'testing - self anchors' }
 BlAnchorRelativeToElement >> isSelfToAbsolute: anAnotherAnchor [
 	<return: #Boolean>
 	
 	^ false
 ]
 
-{ #category : #'testing - self anchors' }
+{ #category : 'testing - self anchors' }
 BlAnchorRelativeToElement >> isSelfToRelative: anAnotherAnchor [
 	<return: #Boolean>
 
 	^ self referenceElement = anAnotherAnchor referenceElement
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlAnchorRelativeToElement >> referenceElement [
 	<return: #BlElement>
 
 	^ referenceElement
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlAnchorRelativeToElement >> referenceElement: anElement [
 	self
 		assert: [ anElement isNotNil ]

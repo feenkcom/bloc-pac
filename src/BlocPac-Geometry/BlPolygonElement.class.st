@@ -12,32 +12,32 @@ The element's position and size is determined by a collection of attached anchor
 
 "
 Class {
-	#name : #BlPolygonElement,
-	#superclass : #BlGeometryElement,
+	#name : 'BlPolygonElement',
+	#superclass : 'BlGeometryElement',
 	#instVars : [
 		'anchors'
 	],
-	#category : #'BlocPac-Geometry-Figures'
+	#category : 'BlocPac-Geometry-Figures'
 }
 
-{ #category : #'anchor - geometry' }
+{ #category : 'anchor - geometry' }
 BlPolygonElement >> anchorPositions [	
 	^ self anchors collect: [ :eachAnchor | eachAnchor positionWithin: self ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlPolygonElement >> anchors [
 	^ anchors
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlPolygonElement >> anchors: aCollectionOfAnchors [
 	anchors do: [ :eachAnchor | self unregisterAnchor: eachAnchor ].
 	anchors := aCollectionOfAnchors.
 	anchors do: [ :eachAnchor | self registerAnchor: eachAnchor ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 BlPolygonElement >> initialize [
 	super initialize.
 	
@@ -52,14 +52,14 @@ BlPolygonElement >> initialize [
 	}
 ]
 
-{ #category : #layout }
+{ #category : 'layout' }
 BlPolygonElement >> layoutBounds [
 	<return: #Rectangle>
 	
 	^ Rectangle encompassing: self anchorPositions
 ]
 
-{ #category : #layout }
+{ #category : 'layout' }
 BlPolygonElement >> measureGeometry [
 	| theAnchorPositions	anOrigin |
 
@@ -71,7 +71,7 @@ BlPolygonElement >> measureGeometry [
 	self geometry vertices: (theAnchorPositions collect: [ :eachPosition | eachPosition - anOrigin ])
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlPolygonElement >> vertices: aCollectionOfPoints [
 	self anchors: (aCollectionOfPoints collect: [ :eachPoint | BlAbsolutePositionAnchor position: eachPoint ])
 ]

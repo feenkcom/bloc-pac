@@ -5,15 +5,15 @@ Draw a line from the current point to the given (x,y) coordinate which becomes t
 
 "
 Class {
-	#name : #BlSvgPathLineSegment,
-	#superclass : #BlSvgPathSegment,
+	#name : 'BlSvgPathLineSegment',
+	#superclass : 'BlSvgPathSegment',
 	#instVars : [
 		'lineTo'
 	],
-	#category : #'BlocPac-Geometry-SVG'
+	#category : 'BlocPac-Geometry-SVG'
 }
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 BlSvgPathLineSegment >> = anotherObject [
 
 	self == anotherObject
@@ -25,36 +25,36 @@ BlSvgPathLineSegment >> = anotherObject [
 		and: [ anotherObject lineTo = self lineTo ]
 ]
 
-{ #category : #executing }
+{ #category : 'executing' }
 BlSvgPathLineSegment >> executeOn: aBuilder [
 	aBuilder lineTo: self lineTo
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 BlSvgPathLineSegment >> hash [
 	^ self isAbsolute hash bitXor: self lineTo hash
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 BlSvgPathLineSegment >> initialize [
 	super initialize.
 	
 	lineTo := 0@0
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlSvgPathLineSegment >> lineTo [
 	<return: #Point>
 
 	^ lineTo
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlSvgPathLineSegment >> lineTo: aPoint [
 	lineTo := aPoint
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 BlSvgPathLineSegment >> printOn: aStream [
 	aStream
 		nextPutAll: 'Line ';

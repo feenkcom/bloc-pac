@@ -3,54 +3,54 @@ I am an event listener that listens Anchor Moved event send by Anchor
 
 "
 Class {
-	#name : #BlGeometryAnchorListener,
-	#superclass : #BlBasicEventHandler,
+	#name : 'BlGeometryAnchorListener',
+	#superclass : 'BlBasicEventHandler',
 	#instVars : [
 		'geometryElement'
 	],
-	#category : #'BlocPac-Geometry-Anchors'
+	#category : 'BlocPac-Geometry-Anchors'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 BlGeometryAnchorListener class >> for: aGeometryElement [
 	<return: #BlGeometryAnchorListener>
 
 	^ self new geometryElement: aGeometryElement
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlGeometryAnchorListener >> eventClass [
 	^ BlGeometryAnchorMoved
 ]
 
-{ #category : #'api - accessing' }
+{ #category : 'api - accessing' }
 BlGeometryAnchorListener >> eventsToHandle [
 	^ { self eventClass }
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlGeometryAnchorListener >> geometryElement [
 	<return: #BlElement>
 
 	^ geometryElement
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlGeometryAnchorListener >> geometryElement: aBlElement [
 	geometryElement := aBlElement
 ]
 
-{ #category : #events }
+{ #category : 'events' }
 BlGeometryAnchorListener >> handleEvent: anEvent [
 	self onAnchorMoved: anEvent anchor
 ]
 
-{ #category : #anchors }
+{ #category : 'anchors' }
 BlGeometryAnchorListener >> onAnchorMoved [
 	self geometryElement onAnchorMoved
 ]
 
-{ #category : #anchors }
+{ #category : 'anchors' }
 BlGeometryAnchorListener >> onAnchorMoved: aBlGeometryAnchor [
 	| aPosition |
 	
@@ -62,12 +62,12 @@ BlGeometryAnchorListener >> onAnchorMoved: aBlGeometryAnchor [
 	self onAnchorMoved
 ]
 
-{ #category : #installation }
+{ #category : 'installation' }
 BlGeometryAnchorListener >> onInstalledIn: anObject [
 	self onAnchorMoved
 ]
 
-{ #category : #events }
+{ #category : 'events' }
 BlGeometryAnchorListener >> wantsEvent: anEvent [
 	^ anEvent class == self eventClass or: [ anEvent class inheritsFrom: self eventClass ]
 ]

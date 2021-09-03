@@ -9,41 +9,41 @@ I support background and border paints.
 
 "
 Class {
-	#name : #BlArrowheadCircle,
-	#superclass : #BlArrowheadElement,
+	#name : 'BlArrowheadCircle',
+	#superclass : 'BlArrowheadElement',
 	#instVars : [
 		'scale'
 	],
-	#category : #'BlocPac-Geometry-Arrowheads'
+	#category : 'BlocPac-Geometry-Arrowheads'
 }
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 BlArrowheadCircle >> defaultGeometry [
 	^ BlEllipseGeometry new
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 BlArrowheadCircle >> initialize [
 	super initialize.
 	
 	scale := 3.0
 ]
 
-{ #category : #changes }
+{ #category : 'changes' }
 BlArrowheadCircle >> onWidthChanged: aNumber [
 
 	self size: aNumber * self scale asPoint.
 	self border: (self border copyWithWidth: aNumber)
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlArrowheadCircle >> scale [
 	<return: #Number>
 
 	^ scale
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlArrowheadCircle >> scale: aNumber [
 	self
 		assert: [ aNumber isNotNil ]

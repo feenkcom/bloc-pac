@@ -1,1 +1,1 @@
-Package { #name : #'BlocPac-Tasker' }
+Package { #name : 'BlocPac-Tasker' }
