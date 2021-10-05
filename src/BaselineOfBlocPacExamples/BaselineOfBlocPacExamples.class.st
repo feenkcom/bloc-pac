@@ -1,19 +1,19 @@
 Class {
-	#name : 'BaselineOfBlocPacExamples',
-	#superclass : 'BaselineOf',
-	#category : 'BaselineOfBlocPacExamples'
+	#name : #BaselineOfBlocPacExamples,
+	#superclass : #BaselineOf,
+	#category : #BaselineOfBlocPacExamples
 }
 
-{ #category : 'baseline' }
+{ #category : #baseline }
 BaselineOfBlocPacExamples >> baseline: spec [
 	<baseline>
 	spec for: #'common' do: [
 		spec
 			baseline: 'BlocPac' with: [
-				spec repository: 'github://feenkcom/bloc-pac:v0.6.135/src' ].
+				spec repository: 'github://feenkcom/bloc-pac:v0.6.136/src' ].
 		spec
 			baseline: 'BlocExamples' with: [
-				spec repository: 'github://feenkcom/Bloc:v0.8.236/src' ].
+				spec repository: 'github://feenkcom/Bloc:v0.8.237/src' ].
 
 		spec package: 'BlocPac-AsyncElement-Examples' with: [
 			spec requires: #('BlocPac') ].
