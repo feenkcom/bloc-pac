@@ -1,12 +1,17 @@
 Class {
 	#name : #BlCanvassableElement,
 	#superclass : #BlElement,
+	#traits : 'TBlZoomable',
+	#classTraits : 'TBlZoomable classTrait',
 	#instVars : [
 		'childrenTransformation',
-		'zoomLevel',
-		'zoomStep'
+		'autoScaleEnabled',
+		'childrenScaleFactor',
+		'childrenTranslationFactor',
+		'automaticScaleFactor',
+		'automaticTranslationFactor'
 	],
-	#category : #'BlocPac-PannableAndZoomable'
+	#category : #'BlocPac-PannableAndZoomable-Core'
 }
 
 { #category : #converting }
@@ -36,6 +41,21 @@ BlCanvassableElement >> childrenPointToLocal: aPoint [
 	<return: #Point>
 
 	^ self childrenTransformation transformPoint: aPoint
+]
+
+{ #category : #accessing }
+BlCanvassableElement >> childrenScaleFactor [
+	^ childrenScaleFactor
+]
+
+{ #category : #accessing }
+BlCanvassableElement >> childrenScaleFactor: aNumber [
+	(childrenScaleFactor closeTo: aNumber)
+		ifTrue: [ ^ self ].
+
+	childrenScaleFactor := aNumber max: 0.001.
+	self updateChildrenTransformation.
+	self dispatchEvent: (BlCanvassableZoomLevelChanged new)
 ]
 
 { #category : #transformations }
@@ -75,6 +95,37 @@ BlCanvassableElement >> childrenTransformation: anElementTransformation [
 	self onTransformationChanged
 ]
 
+{ #category : #accessing }
+BlCanvassableElement >> childrenTranslationFactor [
+	^ childrenTranslationFactor
+]
+
+{ #category : #accessing }
+BlCanvassableElement >> childrenTranslationFactor: aPoint [
+	(childrenTranslationFactor closeTo: aPoint)
+		ifTrue: [ ^ self ].
+
+	childrenTranslationFactor := aPoint.
+	self updateChildrenTransformation.
+]
+
+{ #category : #'api - zooming' }
+BlCanvassableElement >> defaultZoomStep [
+	^ 0.2
+]
+
+{ #category : #'api - zooming' }
+BlCanvassableElement >> disableAutoScale [
+	autoScaleEnabled := false.
+	self requestLayout
+]
+
+{ #category : #'api - zooming' }
+BlCanvassableElement >> enableAutoScale [
+	autoScaleEnabled := true.
+	self requestLayout
+]
+
 { #category : #'gt-extension' }
 BlCanvassableElement >> gtLiveFor: aView [
 	<gtView>
@@ -104,9 +155,30 @@ BlCanvassableElement >> initialize [
 	super initialize.
 
 	childrenTransformation := BlElementIdentityTransformation uniqueInstance asCachedTransformation.
+
+	childrenScaleFactor := 1.
+	childrenTranslationFactor := 0@0.
+	zoomStep := 0.1.
+	automaticScaleFactor := (0@0) -> 1.
+	automaticTranslationFactor := 0@0.
+	autoScaleEnabled := false.
 	
-	zoomLevel := 1.
-	zoomStep := 0.1
+	self addEventHandler: BlCanvassableElementSlideHandler new
+]
+
+{ #category : #'geometry bounds' }
+BlCanvassableElement >> invalidationBounds [
+	^ (self invalidationBounds: BlBounds new) asRectangle
+]
+
+{ #category : #'geometry bounds' }
+BlCanvassableElement >> invalidationBounds: aBounds [
+	| anInvalidationBounds |
+
+	anInvalidationBounds := (super invalidationBounds: aBounds).
+	anInvalidationBounds merge: (self childrenTransformation inverseTransformBounds: aBounds copy).
+	
+	^ anInvalidationBounds
 ]
 
 { #category : #'geometry bounds convertion' }
@@ -128,6 +200,40 @@ BlCanvassableElement >> localPointToChildren: aPoint [
 	^ self childrenTransformation inverseTransformPoint: aPoint
 ]
 
+{ #category : #layout }
+BlCanvassableElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
+	| aMyExtent aChildrenBoundingBox aChildrenExtent aNewScaleFactor |
+	super onLayout: aBounds context: aBlElementBoundsUpdateContext.
+
+	aMyExtent := self extent.
+
+	(aMyExtent closeTo: automaticScaleFactor key)
+		ifTrue: [ ^ self ].
+	
+	aChildrenBoundingBox := self children accountedByLayout
+		ifEmpty: [ 0@0 extent: 0@0 ]
+		ifNotEmpty: [ :theChildren |
+			| theBounds |
+			theBounds := theChildren first bounds bounds.
+			theChildren do: [ :eachChild | theBounds merge: eachChild bounds bounds ].
+			theBounds asRectangle ].
+	
+	aChildrenBoundingBox := self padding expand: aChildrenBoundingBox.
+	
+	aChildrenExtent := aChildrenBoundingBox extent.
+	((aChildrenExtent x closeTo: 0) or: [ (aChildrenExtent y closeTo: 0) ])
+		ifTrue: [ ^ self ].
+
+	aNewScaleFactor := (aMyExtent / aChildrenExtent) min.
+	automaticScaleFactor := aMyExtent -> aNewScaleFactor.
+	automaticTranslationFactor := (aMyExtent / 2.0) - aChildrenBoundingBox center.
+	
+	self childrenTransformDo: [ :t |
+		t
+			translateBy: automaticTranslationFactor;
+			scaleBy: childrenScaleFactor * automaticScaleFactor value ].
+]
+
 { #category : #drawing }
 BlCanvassableElement >> paintChildrenOn: aCompositorPainter offset: anOffset [
 
@@ -144,6 +250,14 @@ BlCanvassableElement >> paintChildrenOn: aCompositorPainter offset: anOffset [
 ]
 
 { #category : #transformations }
+BlCanvassableElement >> updateChildrenTransformation [
+	self childrenTransformDo: [ :t |
+		t
+			translateBy: automaticTranslationFactor + childrenTranslationFactor;
+			scaleBy: childrenScaleFactor * automaticScaleFactor value ]
+]
+
+{ #category : #transformations }
 BlCanvassableElement >> updateTransformationBounds [
 	"Update the bounds of the cached transformation in order to recompute its matrix
 	since transformation origin depends on the element's bounds"
@@ -153,40 +267,26 @@ BlCanvassableElement >> updateTransformationBounds [
 ]
 
 { #category : #'api - zooming' }
-BlCanvassableElement >> zoomIn [
-	self zoomLevel: self zoomLevel + self zoomStep
-]
-
-{ #category : #'api - zooming' }
 BlCanvassableElement >> zoomLevel [
 	<return: #Number>
 
-	^ zoomLevel
+	^ self childrenScaleFactor
 ]
 
 { #category : #'api - zooming' }
 BlCanvassableElement >> zoomLevel: aNumber [
-	(zoomLevel closeTo: aNumber)
-		ifTrue: [ ^ self ].
+	| anAnimation |
+	
+	anAnimation := BlNumberTransition new
+		onStepDo: [ :aScaleFactor | self childrenScaleFactor: aScaleFactor ];
+		from: self childrenScaleFactor;
+		to: aNumber;
+		duration: 250 milliSeconds.
 
-	zoomLevel := aNumber max: 0.001.
-	self childrenTransformDo: [ :t | t scaleBy: zoomLevel ].
-	self dispatchEvent: (BlCanvassableZoomLevelChanged new)
+	self addAnimation: anAnimation
 ]
 
 { #category : #'api - zooming' }
-BlCanvassableElement >> zoomOut [
-	self zoomLevel: self zoomLevel - self zoomStep
-]
-
-{ #category : #'api - zooming' }
-BlCanvassableElement >> zoomStep [
-	^ zoomStep
-]
-
-{ #category : #'api - zooming' }
-BlCanvassableElement >> zoomToActualSize [
-	"I position my content element to the center of the canvas: the offset is the difference between my center and the content's center, minus the content's current position."
-
-	self zoomLevel: 1
+BlCanvassableElement >> zoomToFit [
+	
 ]

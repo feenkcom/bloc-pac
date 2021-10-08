@@ -18,13 +18,14 @@ A zoomable element can be transformed into a {{gtClass:BlPannableElement}} by se
 Class {
 	#name : #BlZoomableElement,
 	#superclass : #BlElement,
+	#traits : 'TBlZoomable',
+	#classTraits : 'TBlZoomable classTrait',
 	#instVars : [
 		'zoomLevel',
 		'zoomCenter',
-		'zoomStep',
 		'contentElement'
 	],
-	#category : #'BlocPac-PannableAndZoomable'
+	#category : #'BlocPac-PannableAndZoomable-Core'
 }
 
 { #category : #converting }
@@ -222,12 +223,7 @@ BlZoomableElement >> zoomCenter: aPoint [
 	self requestLayout
 ]
 
-{ #category : #zooming }
-BlZoomableElement >> zoomIn [
-	self zoomLevel: self zoomLevel + self zoomStep
-]
-
-{ #category : #accessing }
+{ #category : #'api - zooming' }
 BlZoomableElement >> zoomLevel [
 	<return: #Number>
 
@@ -236,33 +232,13 @@ BlZoomableElement >> zoomLevel [
 		ifFalse: [ self computeZoomLevel ]
 ]
 
-{ #category : #accessing }
+{ #category : #'api - zooming' }
 BlZoomableElement >> zoomLevel: aNumber [
 	zoomLevel := aNumber max: 0.001.
 	self requestLayout
 ]
 
-{ #category : #zooming }
-BlZoomableElement >> zoomOut [
-	self zoomLevel: self zoomLevel - self zoomStep
-]
-
-{ #category : #accessing }
-BlZoomableElement >> zoomStep [
-	^ zoomStep
-]
-
-{ #category : #accessing }
-BlZoomableElement >> zoomStep: aNumber [
-	zoomStep := aNumber
-]
-
-{ #category : #zooming }
-BlZoomableElement >> zoomToActualSize [
-	self zoomLevel: 1
-]
-
-{ #category : #zooming }
+{ #category : #'api - zooming' }
 BlZoomableElement >> zoomToFit [
 	zoomLevel := nil.
 	zoomCenter := 0.5 asPoint.
