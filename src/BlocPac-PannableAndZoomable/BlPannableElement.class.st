@@ -7,10 +7,12 @@ Extends {{gtClass:BlZoomableElement}} or {{gtClass:BlPinchableElement}} by addin
 Class {
 	#name : #BlPannableElement,
 	#superclass : #BlElement,
+	#traits : 'TBlZoomable',
+	#classTraits : 'TBlZoomable classTrait',
 	#instVars : [
 		'zoomableElement'
 	],
-	#category : #'BlocPac-PannableAndZoomable'
+	#category : #'BlocPac-PannableAndZoomable-Core'
 }
 
 { #category : #conversion }
@@ -90,6 +92,11 @@ BlPannableElement >> zoomLevel: aZoomFactor [
 { #category : #'api - zooming' }
 BlPannableElement >> zoomOut [
 	self zoomableElement zoomOut
+]
+
+{ #category : #'api - zooming' }
+BlPannableElement >> zoomStep [
+	^ self zoomableElement zoomStep
 ]
 
 { #category : #'api - zooming' }

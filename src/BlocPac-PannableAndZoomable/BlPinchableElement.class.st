@@ -9,12 +9,13 @@ A zoomable element can be transformed into a {{gtClass:BlPannableElement}} by se
 Class {
 	#name : #BlPinchableElement,
 	#superclass : #BlElement,
+	#traits : 'TBlZoomable',
+	#classTraits : 'TBlZoomable classTrait',
 	#instVars : [
 		'zoomLevel',
-		'zoomStep',
 		'contentElement'
 	],
-	#category : #'BlocPac-PannableAndZoomable'
+	#category : #'BlocPac-PannableAndZoomable-Core'
 }
 
 { #category : #converting }
@@ -85,36 +86,16 @@ BlPinchableElement >> onChildAdded: anElement [
 ]
 
 { #category : #'api - zooming' }
-BlPinchableElement >> zoomIn [
-	self zoomLevel: self zoomLevel + self zoomStep
-]
-
-{ #category : #accessing }
 BlPinchableElement >> zoomLevel [
 	<return: #Number>
 
 	^ zoomLevel
 ]
 
-{ #category : #accessing }
+{ #category : #'api - zooming' }
 BlPinchableElement >> zoomLevel: aNumber [
 	zoomLevel := aNumber max: 0.001.
 	self transformDo: [ :t | t scaleBy: zoomLevel ].
-]
-
-{ #category : #'api - zooming' }
-BlPinchableElement >> zoomOut [
-	self zoomLevel: self zoomLevel - self zoomStep
-]
-
-{ #category : #accessing }
-BlPinchableElement >> zoomStep [
-	^ zoomStep
-]
-
-{ #category : #accessing }
-BlPinchableElement >> zoomStep: aNumber [
-	zoomStep := aNumber
 ]
 
 { #category : #'api - zooming' }

@@ -1,5 +1,5 @@
 Class {
 	#name : #BlCanvassableZoomLevelChanged,
 	#superclass : #BlEvent,
-	#category : #'BlocPac-PannableAndZoomable'
+	#category : #'BlocPac-PannableAndZoomable-Utiltities'
 }
