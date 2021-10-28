@@ -1,6 +1,6 @@
 Class {
-	#name : 'BlTktPreservingResultCommand',
-	#superclass : 'BlTktDecoratedCommand',
+	#name : #BlTktPreservingResultCommand,
+	#superclass : #BlTktDecoratedCommand,
 	#instVars : [
 		'result',
 		'hasResult'
@@ -8,13 +8,13 @@ Class {
 	#category : 'BlocPac-Tasker-Commands'
 }
 
-{ #category : 'converting' }
+{ #category : #converting }
 BlTktPreservingResultCommand >> asResultPreservingCommand [
 	<return: #BlTktPreservingResultCommand>
 	^ self
 ]
 
-{ #category : 'evaluating' }
+{ #category : #evaluating }
 BlTktPreservingResultCommand >> execute [
 	"execute command and return a result"
 	<return: #Object>
@@ -23,26 +23,26 @@ BlTktPreservingResultCommand >> execute [
 		ifTrue: [ result ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlTktPreservingResultCommand >> hasResult [
 	<return: #Boolean>
 	^ hasResult
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 BlTktPreservingResultCommand >> initialize [
 	super initialize.
 	hasResult := false.
 	result := nil.
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlTktPreservingResultCommand >> name [
 	<return: #String>
 	^ 'Preserving result ', self name
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlTktPreservingResultCommand >> result [
 	^ result
 ]

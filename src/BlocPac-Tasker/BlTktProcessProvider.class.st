@@ -1,6 +1,6 @@
 Class {
-	#name : 'BlTktProcessProvider',
-	#superclass : 'TKTTaskItProcessProvider',
+	#name : #BlTktProcessProvider,
+	#superclass : #TKTTaskItProcessProvider,
 	#instVars : [
 		'processPriority',
 		'processClass'
@@ -8,7 +8,7 @@ Class {
 	#category : 'BlocPac-Tasker-Processes'
 }
 
-{ #category : 'instance-creation' }
+{ #category : #'instance-creation' }
 BlTktProcessProvider >> createProcessDoing: aValuable named: aName [
 	^ (self processClass send: #value to: aValuable)
 		annotate: #task with: aValuable;
@@ -17,30 +17,30 @@ BlTktProcessProvider >> createProcessDoing: aValuable named: aName [
 		run
 ]
 
-{ #category : 'defaults' }
+{ #category : #defaults }
 BlTktProcessProvider >> defaultProcessClass [
 	^ BlTktProcess
 ]
 
-{ #category : 'defaults' }
+{ #category : #defaults }
 BlTktProcessProvider >> defaultProcessPriority [
 	^ Processor userSchedulingPriority
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 BlTktProcessProvider >> initialize [
 	super initialize.
 	self processClass: self defaultProcessClass.
 	self processPriority: self defaultProcessPriority.
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlTktProcessProvider >> processClass [
 	<return: #Process>
 	^ processClass
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlTktProcessProvider >> processClass: aClass [
 	self 
 		assert: [ aClass isNotNil ]
@@ -48,13 +48,13 @@ BlTktProcessProvider >> processClass: aClass [
 	processClass := aClass
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlTktProcessProvider >> processPriority [
 	<return: #Integer>
 	^ processPriority
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlTktProcessProvider >> processPriority: anInteger [
 	self 
 		assert: [ anInteger isInteger and: [ anInteger > 0 ] ]

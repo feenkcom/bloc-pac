@@ -1,6 +1,6 @@
 Class {
-	#name : 'BlTktTerminableCommand',
-	#superclass : 'BlTktDecoratedCommand',
+	#name : #BlTktTerminableCommand,
+	#superclass : #BlTktDecoratedCommand,
 	#instVars : [
 		'taskExecution',
 		'skipExecution'
@@ -8,17 +8,17 @@ Class {
 	#category : 'BlocPac-Tasker-Commands'
 }
 
-{ #category : 'converting' }
+{ #category : #converting }
 BlTktTerminableCommand >> asBlTktTerminableCommand [
 	^ self
 ]
 
-{ #category : 'actions' }
+{ #category : #actions }
 BlTktTerminableCommand >> cancel [
 	self cancelWithReason: 'Termination requested at ', DateAndTime now asString.
 ]
 
-{ #category : 'actions' }
+{ #category : #actions }
 BlTktTerminableCommand >> cancelWithReason: aReason [
 	self 
 		assert: [ aReason isNotNil ]
@@ -29,32 +29,32 @@ BlTktTerminableCommand >> cancelWithReason: aReason [
 	taskExecution cancelWithReason: aReason
 ]
 
-{ #category : 'evaluating' }
+{ #category : #evaluating }
 BlTktTerminableCommand >> execute [
 	"execute command and return a result"
 	<return: #Object>
 	^ self command execute
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 BlTktTerminableCommand >> includesTerminableCommand [
 	<return: #Boolean>
 	^ true
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlTktTerminableCommand >> name [
 	<return: #String>
 	^ 'Terminable ', self command name
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlTktTerminableCommand >> taskExecution [
 	<return: #TKTTaskExecution>
 	^ taskExecution
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlTktTerminableCommand >> taskExecution: anExecution [
 	self 
 		assert: [ taskExecution isNil ]
@@ -66,12 +66,12 @@ BlTktTerminableCommand >> taskExecution: anExecution [
 	super taskExecution: anExecution.
 ]
 
-{ #category : 'actions' }
+{ #category : #actions }
 BlTktTerminableCommand >> terminate [
 	self terminateWithReason: 'Termination requested at ', DateAndTime now asString.
 ]
 
-{ #category : 'actions' }
+{ #category : #actions }
 BlTktTerminableCommand >> terminateWithReason: aReason [
 	self 
 		assert: [ aReason isNotNil ]

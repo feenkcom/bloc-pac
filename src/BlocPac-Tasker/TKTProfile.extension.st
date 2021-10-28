@@ -1,6 +1,6 @@
-Extension { #name : 'TKTProfile' }
+Extension { #name : #TKTProfile }
 
-{ #category : '*BlocPac-Tasker' }
+{ #category : #'*BlocPac-Tasker' }
 TKTProfile class >> gtDevelopment [
 	<profile: #gtDevelopment>
 	^ TKTProfile
@@ -14,7 +14,7 @@ TKTProfile class >> gtDevelopment [
 			(#serviceManager -> TKTServiceManager new)} asDictionary
 ]
 
-{ #category : '*BlocPac-Tasker' }
+{ #category : #'*BlocPac-Tasker' }
 TKTProfile class >> gtTest [
 	<profile: #gtTest>
 	^ TKTProfile
@@ -28,7 +28,7 @@ TKTProfile class >> gtTest [
 			(#serviceManager -> TKTServiceManager new)} asDictionary
 ]
 
-{ #category : '*BlocPac-Tasker' }
+{ #category : #'*BlocPac-Tasker' }
 TKTProfile >> values: aDictionary [
 	"Set the receiver's values from the supplied dictionary"
 

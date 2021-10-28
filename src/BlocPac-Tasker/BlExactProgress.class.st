@@ -1,6 +1,6 @@
 Class {
-	#name : 'BlExactProgress',
-	#superclass : 'BlTaskProgress',
+	#name : #BlExactProgress,
+	#superclass : #BlTaskProgress,
 	#instVars : [
 		'amount',
 		'total'
@@ -8,7 +8,7 @@ Class {
 	#category : 'BlocPac-Tasker-Signals'
 }
 
-{ #category : 'signalling' }
+{ #category : #signalling }
 BlExactProgress class >> signal: signalerText amount: amount total: total [
 	"Create and signal progress with amount units transferred out of total.
 	Use an additional signalerText."
@@ -18,7 +18,7 @@ BlExactProgress class >> signal: signalerText amount: amount total: total [
 		signal: signalerText
 ]
 
-{ #category : 'signalling' }
+{ #category : #signalling }
 BlExactProgress class >> signalAmount: amount total: total [
 	"Create and signal progress with amount units transferred out of total."
 	
@@ -27,13 +27,13 @@ BlExactProgress class >> signalAmount: amount total: total [
 		signal
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlExactProgress >> amount [
 	<return: #Number>
 	^ amount
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlExactProgress >> amount: anAmountNumber total: aTotalNumber [
 	self
 		assert: [ anAmountNumber notNil and: [ aTotalNumber notNil ] ]
@@ -46,14 +46,14 @@ BlExactProgress >> amount: anAmountNumber total: aTotalNumber [
 	total := aTotalNumber.
 ]
 
-{ #category : 'accessing-computed' }
+{ #category : #'accessing-computed' }
 BlExactProgress >> fraction [
 	"Answer the fraction of total that has already been transferred.
 	Should be between 0 and 1."
 	^ self amount / self total
 ]
 
-{ #category : 'accessing-computed' }
+{ #category : #'accessing-computed' }
 BlExactProgress >> fraction: aNumber [
 	self 
 		assert: [ aNumber notNil ]
@@ -64,26 +64,26 @@ BlExactProgress >> fraction: aNumber [
 	self amount: aNumber * 100 total: 100
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 BlExactProgress >> initialize [
 	super initialize.
 	amount := 0.
 	total := 100.
 ]
 
-{ #category : 'accessing-computed' }
+{ #category : #'accessing-computed' }
 BlExactProgress >> percentage [
 	"Answer the percentage of total that has already been transferred.
 	Should be between 0 and 100."
 	^ self fraction * 100
 ]
 
-{ #category : 'accessing-computed' }
+{ #category : #'accessing-computed' }
 BlExactProgress >> percentage: aNumber [
 	self amount: aNumber total: 100
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlExactProgress >> total [
 	^ total
 ]

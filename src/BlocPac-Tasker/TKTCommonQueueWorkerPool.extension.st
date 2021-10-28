@@ -1,6 +1,6 @@
-Extension { #name : 'TKTCommonQueueWorkerPool' }
+Extension { #name : #TKTCommonQueueWorkerPool }
 
-{ #category : '*BlocPac-Tasker' }
+{ #category : #'*BlocPac-Tasker' }
 TKTCommonQueueWorkerPool >> finalize [ 
 
 	self stop.
@@ -8,7 +8,7 @@ TKTCommonQueueWorkerPool >> finalize [
 
 ]
 
-{ #category : '*BlocPac-Tasker' }
+{ #category : #'*BlocPac-Tasker' }
 TKTCommonQueueWorkerPool >> gtWorkersFor: aView [
 	<gtView>
 	self workers ifNil: [ ^ aView empty ].
@@ -20,36 +20,36 @@ TKTCommonQueueWorkerPool >> gtWorkersFor: aView [
 		column: 'Is Running' text: [ :aWorker | aWorker isRunning ] width: 80
 ]
 
-{ #category : '*BlocPac-Tasker' }
+{ #category : #'*BlocPac-Tasker' }
 TKTCommonQueueWorkerPool >> isFree [
 	<return: #Boolean>
 	^ taskQueue isEmpty and: [ workers allSatisfy: [ :each | each isFree ] ]
 ]
 
-{ #category : '*BlocPac-Tasker' }
+{ #category : #'*BlocPac-Tasker' }
 TKTCommonQueueWorkerPool >> killWatchDog [
 	dog ifNotNil: [ :aWatchDog | aWatchDog kill ]
 ]
 
-{ #category : '*BlocPac-Tasker' }
+{ #category : #'*BlocPac-Tasker' }
 TKTCommonQueueWorkerPool >> numberOfFailedTasks [
 	<return: #Integer>
 	^ failedTasks ifNotNil: #size ifNil: 0
 ]
 
-{ #category : '*BlocPac-Tasker' }
+{ #category : #'*BlocPac-Tasker' }
 TKTCommonQueueWorkerPool >> poolMaxSize [
 
 	^poolMaxSize
 ]
 
-{ #category : '*BlocPac-Tasker' }
+{ #category : #'*BlocPac-Tasker' }
 TKTCommonQueueWorkerPool >> removeFailedTasks [
 	<return: #Integer>
 	failedTasks ifNotNil: #removeAll
 ]
 
-{ #category : '*BlocPac-Tasker' }
+{ #category : #'*BlocPac-Tasker' }
 TKTCommonQueueWorkerPool >> taskQueue [ 
 
 	^taskQueue

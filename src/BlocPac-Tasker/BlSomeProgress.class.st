@@ -1,13 +1,13 @@
 Class {
-	#name : 'BlSomeProgress',
-	#superclass : 'BlTaskProgress',
+	#name : #BlSomeProgress,
+	#superclass : #BlTaskProgress,
 	#instVars : [
 		'amount'
 	],
 	#category : 'BlocPac-Tasker-Signals'
 }
 
-{ #category : 'signalling' }
+{ #category : #signalling }
 BlSomeProgress class >> signal: signalerText amount: amount [
 	"Create and signal progress with amount units transferred out of total.
 	Use an additional signalerText."
@@ -17,7 +17,7 @@ BlSomeProgress class >> signal: signalerText amount: amount [
 		signal: signalerText
 ]
 
-{ #category : 'signalling' }
+{ #category : #signalling }
 BlSomeProgress class >> signalAmount: amount [
 	"Create and signal progress with amount units."
 	
@@ -26,13 +26,13 @@ BlSomeProgress class >> signalAmount: amount [
 		signal
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlSomeProgress >> amount [
 	<return: #Number>
 	^ amount
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlSomeProgress >> amount: anAmountNumber [
 	self
 		assert: [ anAmountNumber notNil ]
@@ -44,7 +44,7 @@ BlSomeProgress >> amount: anAmountNumber [
 	amount := anAmountNumber.
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 BlSomeProgress >> initialize [
 	super initialize.
 	amount := 0.

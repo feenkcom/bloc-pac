@@ -1,5 +1,5 @@
 Class {
-	#name : 'BlTaskItCommandSignal',
-	#superclass : 'BlTaskItSignal',
+	#name : #BlTaskItCommandSignal,
+	#superclass : #BlTaskItSignal,
 	#category : 'BlocPac-Tasker-Beacon'
 }

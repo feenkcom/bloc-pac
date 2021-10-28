@@ -1,49 +1,49 @@
 Class {
-	#name : 'BlTktNullCommand',
-	#superclass : 'BlTktProtoCommand',
+	#name : #BlTktNullCommand,
+	#superclass : #BlTktProtoCommand,
 	#classInstVars : [
 		'uniqueInstance'
 	],
 	#category : 'BlocPac-Tasker-Commands'
 }
 
-{ #category : 'cleanup' }
+{ #category : #cleanup }
 BlTktNullCommand class >> cleanUp [
 	self resetUniqueInstance
 ]
 
-{ #category : 'cleanup' }
+{ #category : #cleanup }
 BlTktNullCommand class >> resetUniqueInstance [
 	uniqueInstance := nil
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlTktNullCommand class >> uniqueInstance [
 	^ uniqueInstance ifNil: [ uniqueInstance := self new ]
 ]
 
-{ #category : 'execution' }
+{ #category : #execution }
 BlTktNullCommand >> execute [
 	self error: 'You should define what to execute in advance'
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlTktNullCommand >> name [
 	<return: #String>
 	^ 'NULL command'
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlTktNullCommand >> name: aString [
 	"ignore"
 ]
 
-{ #category : 'api - execution' }
+{ #category : #'api - execution' }
 BlTktNullCommand >> terminationRequested [
 	"I silently ignore the cancel request as I do not execute anything."
 ]
 
-{ #category : 'api - testing' }
+{ #category : #'api - testing' }
 BlTktNullCommand >> wasCanceled [
 	"I cannot be canceled"
 	^ false
