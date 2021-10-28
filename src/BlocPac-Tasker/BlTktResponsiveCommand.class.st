@@ -1,19 +1,19 @@
 Class {
-	#name : 'BlTktResponsiveCommand',
-	#superclass : 'BlTktValuableCommand',
+	#name : #BlTktResponsiveCommand,
+	#superclass : #BlTktValuableCommand,
 	#instVars : [
 		'request'
 	],
 	#category : 'BlocPac-Tasker-Commands'
 }
 
-{ #category : 'taskit' }
+{ #category : #taskit }
 BlTktResponsiveCommand >> canHandleTerminationRequest [
 	<return: #Boolean>
 	^ true
 ]
 
-{ #category : 'defaults' }
+{ #category : #defaults }
 BlTktResponsiveCommand >> defaultValuable [
 	^ [ :aBlTktRequest | 
 			"do nothing, en example how to use the request variable"
@@ -22,31 +22,31 @@ BlTktResponsiveCommand >> defaultValuable [
 				ifFalse: [ aBlTktRequest terminate. 'executing' ] ]
 ]
 
-{ #category : 'evaluating' }
+{ #category : #evaluating }
 BlTktResponsiveCommand >> execute [
 	"execute command and return a result"
 	<return: #Object>
 	^ self valuable value: request.
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 BlTktResponsiveCommand >> includesTerminableCommand [
 	<return: #Boolean>
 	^ true
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 BlTktResponsiveCommand >> initialize [
 	super initialize.
 	request := BlTktRequest new.
 ]
 
-{ #category : 'taskit' }
+{ #category : #taskit }
 BlTktResponsiveCommand >> terminate [
 	request terminate
 ]
 
-{ #category : 'taskit' }
+{ #category : #taskit }
 BlTktResponsiveCommand >> terminateWithReason: aReason [
 	request terminate
 ]

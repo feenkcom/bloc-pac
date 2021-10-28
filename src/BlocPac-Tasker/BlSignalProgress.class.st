@@ -1,10 +1,10 @@
 Class {
-	#name : 'BlSignalProgress',
-	#superclass : 'DynamicVariable',
+	#name : #BlSignalProgress,
+	#superclass : #DynamicVariable,
 	#category : 'BlocPac-Tasker-Signals'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlSignalProgress class >> enabled [
 	"Answer if Task progress should be signalled.
 	The default is false."
@@ -14,7 +14,7 @@ BlSignalProgress class >> enabled [
 		ifNotNil: [ :value | value ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlSignalProgress class >> ifEnabledDo: aBlock [
 	"Evaluate the block if Task progress should be signalled.
 	The default is no evaluation."

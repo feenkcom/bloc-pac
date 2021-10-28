@@ -1,6 +1,6 @@
-Extension { #name : 'TKTConfiguration' }
+Extension { #name : #TKTConfiguration }
 
-{ #category : '*BlocPac-Tasker' }
+{ #category : #'*BlocPac-Tasker' }
 TKTConfiguration class >> settingsOn: aBuilder [
 	<systemsettings>
 	(aBuilder group: #taskitExecution)

@@ -1,15 +1,15 @@
 Class {
-	#name : 'BlTktUnresponsiveCommand',
-	#superclass : 'BlTktValuableCommand',
+	#name : #BlTktUnresponsiveCommand,
+	#superclass : #BlTktValuableCommand,
 	#category : 'BlocPac-Tasker-Commands'
 }
 
-{ #category : 'defaults' }
+{ #category : #defaults }
 BlTktUnresponsiveCommand >> defaultValuable [
 	^ [ "do nothing" ]
 ]
 
-{ #category : 'evaluating' }
+{ #category : #evaluating }
 BlTktUnresponsiveCommand >> execute [
 	"execute command and return a result"
 	<return: #Object>

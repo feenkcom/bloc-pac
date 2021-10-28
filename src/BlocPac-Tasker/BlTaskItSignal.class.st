@@ -1,6 +1,6 @@
 Class {
-	#name : 'BlTaskItSignal',
-	#superclass : 'BeaconSignal',
+	#name : #BlTaskItSignal,
+	#superclass : #BeaconSignal,
 	#instVars : [
 		'callingMethod',
 		'valuable',
@@ -9,7 +9,7 @@ Class {
 	#category : 'BlocPac-Tasker-Beacon'
 }
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 BlTaskItSignal class >> emit [ 
 
 	^self new
@@ -17,7 +17,7 @@ BlTaskItSignal class >> emit [
 		emit
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 BlTaskItSignal class >> emitMessage: aString [
 
 	^self new
@@ -26,7 +26,7 @@ BlTaskItSignal class >> emitMessage: aString [
 		emit
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 BlTaskItSignal class >> emitValuable: aValuable [
 
 	^self new
@@ -35,7 +35,7 @@ BlTaskItSignal class >> emitValuable: aValuable [
 		emit
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 BlTaskItSignal class >> emitValuable: aValuable message: aString [
 
 	^self new
@@ -45,7 +45,7 @@ BlTaskItSignal class >> emitValuable: aValuable message: aString [
 		emit
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 BlTaskItSignal class >> emitValuable: aValuable message: aString callingMethod: aMethod [
 
 	^self new
@@ -55,7 +55,7 @@ BlTaskItSignal class >> emitValuable: aValuable message: aString callingMethod: 
 		emit
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 BlTaskItSignal class >> fromSton: stonReader [
 
 	| signal |
@@ -73,13 +73,13 @@ BlTaskItSignal class >> fromSton: stonReader [
 	^signal
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlTaskItSignal >> action [
 
 	^message
 ]
 
-{ #category : 'ston persistence' }
+{ #category : #'ston persistence' }
 BlTaskItSignal >> asDictionary [
 
 	^super asDictionary 
@@ -89,27 +89,27 @@ BlTaskItSignal >> asDictionary [
 		yourself.
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlTaskItSignal >> callingMethod [
 	^ callingMethod
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlTaskItSignal >> callingMethod: anObject [
 	callingMethod := anObject
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlTaskItSignal >> message [
 	^ message
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlTaskItSignal >> message: anObject [
 	message := anObject
 ]
 
-{ #category : 'printing' }
+{ #category : #printing }
 BlTaskItSignal >> printOneLineContentsOn: stream [
 
 	message ifNotNil: [ 
@@ -125,18 +125,18 @@ BlTaskItSignal >> printOneLineContentsOn: stream [
 	
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlTaskItSignal >> target [
 
 	^valuable
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlTaskItSignal >> valuable [
 	^ valuable
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlTaskItSignal >> valuable: anObject [
 	valuable := anObject
 ]

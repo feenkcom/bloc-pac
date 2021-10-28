@@ -1,10 +1,10 @@
 Class {
-	#name : 'BlTktUsageExamples',
-	#superclass : 'Object',
+	#name : #BlTktUsageExamples,
+	#superclass : #Object,
 	#category : 'BlocPac-Tasker-Workers'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : #'as yet unclassified' }
 BlTktUsageExamples >> highUICPUBoundPool [
 	<gtExample>
 	| aPool |
@@ -16,7 +16,7 @@ BlTktUsageExamples >> highUICPUBoundPool [
 	^ aPool
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : #'as yet unclassified' }
 BlTktUsageExamples >> workerProvider [
 	<gtExample>
 	| aProvider |

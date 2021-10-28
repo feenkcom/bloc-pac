@@ -1,15 +1,15 @@
 Class {
-	#name : 'BlTaskAtNotScheduledRegularExecutionHandler',
-	#superclass : 'BlTaskAtNotScheduledHandler',
+	#name : #BlTaskAtNotScheduledRegularExecutionHandler,
+	#superclass : #BlTaskAtNotScheduledHandler,
 	#category : 'BlocPac-Tasker-Postponed Tasks'
 }
 
-{ #category : 'handling' }
+{ #category : #handling }
 BlTaskAtNotScheduledRegularExecutionHandler >> notScheduled: aNotScheduleTask becauseOf: aScheduledTask [
 	"do nothing - it implies that aScheduledTask will be executed at its scheduled time"
 ]
 
-{ #category : 'handling' }
+{ #category : #handling }
 BlTaskAtNotScheduledRegularExecutionHandler >> notScheduledBecauseOf: aBlTaskAtTask [
 	"do nothing - it implies that aBlTaskAtTask will be executed at its scheduled time"
 ]

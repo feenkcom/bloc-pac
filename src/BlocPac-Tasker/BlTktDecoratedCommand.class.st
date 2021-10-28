@@ -1,56 +1,56 @@
 Class {
-	#name : 'BlTktDecoratedCommand',
-	#superclass : 'BlTktProtoCommand',
+	#name : #BlTktDecoratedCommand,
+	#superclass : #BlTktProtoCommand,
 	#instVars : [
 		'command'
 	],
 	#category : 'BlocPac-Tasker-Commands'
 }
 
-{ #category : 'testing' }
+{ #category : #testing }
 BlTktDecoratedCommand class >> isAbstract [
 	^ self name = #BlTktDecoratedCommand 
 ]
 
-{ #category : 'converting' }
+{ #category : #converting }
 BlTktDecoratedCommand >> asBlTktLoggingCommand [
 	^ self includesLoggingCommand 
 		ifFalse: [ BlTktLoggingCommand command: self ]
 		ifTrue: [ self ]
 ]
 
-{ #category : 'converting' }
+{ #category : #converting }
 BlTktDecoratedCommand >> asBlTktSingleCommand [
 	^ self includesSingleCommand 
 		ifFalse: [ BlTktSingleCommand new command: self ]
 		ifTrue: [ self ]
 ]
 
-{ #category : 'converting' }
+{ #category : #converting }
 BlTktDecoratedCommand >> asBlTktTerminableCommand [
 	^ self includesTerminableCommand 
 		ifFalse: [ super asBlTktTerminableCommand ]
 		ifTrue: [ self ]
 ]
 
-{ #category : 'taskit' }
+{ #category : #taskit }
 BlTktDecoratedCommand >> canHandleTerminationRequest [
 	<return: #Boolean>
 	^ self command canHandleTerminationRequest
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlTktDecoratedCommand >> catchingErrors [
 	^ command catchingErrors
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlTktDecoratedCommand >> command [
 	<return: #BlTktProtoCommand>
 	^ command
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlTktDecoratedCommand >> command: aCommand [
 	self
 		assert: [ aCommand isNotNil ]
@@ -58,7 +58,7 @@ BlTktDecoratedCommand >> command: aCommand [
 	command := aCommand
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlTktDecoratedCommand >> entryIdentifier [
 	"Answer the identity of the receiver for task scheduling.
 	Defer to my command."
@@ -66,7 +66,7 @@ BlTktDecoratedCommand >> entryIdentifier [
 	^command entryIdentifier
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlTktDecoratedCommand >> entryPriority [
 	"Answer the priority of the receiver for task scheduling.
 	Defer to my command."
@@ -74,51 +74,51 @@ BlTktDecoratedCommand >> entryPriority [
 	^command entryPriority
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 BlTktDecoratedCommand >> includesLoggingCommand [
 	<return: #Boolean>
 	^ self command includesLoggingCommand
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 BlTktDecoratedCommand >> includesSingleCommand [
 	<return: #Boolean>
 	^ self command includesSingleCommand
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 BlTktDecoratedCommand >> includesTerminableCommand [
 	<return: #Boolean>
 	^ self command includesTerminableCommand
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 BlTktDecoratedCommand >> initialize [
 	super initialize.
 	command := BlTktCommand null.
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlTktDecoratedCommand >> name: aString [
 	self command name: aString
 ]
 
-{ #category : 'taskit' }
+{ #category : #taskit }
 BlTktDecoratedCommand >> taskExecution: anExecution [
 	self command taskExecution: anExecution
 ]
 
-{ #category : 'actions' }
+{ #category : #actions }
 BlTktDecoratedCommand >> terminate [
 	self command terminate
 ]
 
-{ #category : 'actions' }
+{ #category : #actions }
 BlTktDecoratedCommand >> terminateWithReason: aReason [
 	self command terminateWithReason: aReason
 ]
 
-{ #category : 'taskit' }
+{ #category : #taskit }
 BlTktDecoratedCommand >> wasCanceled [
 	<return: #Boolean>
 	^ self command wasCanceled

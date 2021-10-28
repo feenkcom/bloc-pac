@@ -1,18 +1,18 @@
-Extension { #name : 'TKTWorkerProcess' }
+Extension { #name : #TKTWorkerProcess }
 
-{ #category : '*BlocPac-Tasker' }
+{ #category : #'*BlocPac-Tasker' }
 TKTWorkerProcess >> entryIdentifier [ 
 
 	^currentTaskExecution entryIdentifier
 ]
 
-{ #category : '*BlocPac-Tasker' }
+{ #category : #'*BlocPac-Tasker' }
 TKTWorkerProcess >> isSuspended [
 
 	^process isSuspended
 ]
 
-{ #category : '*BlocPac-Tasker' }
+{ #category : #'*BlocPac-Tasker' }
 TKTWorkerProcess >> taskName [
 
 	^currentTaskExecution

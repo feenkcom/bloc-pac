@@ -6,8 +6,8 @@ Someone can add object to the collection using either a generic method {{gtMetho
 
 "
 Class {
-	#name : 'BlTktExamplesCollector',
-	#superclass : 'Object',
+	#name : #BlTktExamplesCollector,
+	#superclass : #Object,
 	#traits : 'TBlDebug',
 	#classTraits : 'TBlDebug classTrait',
 	#instVars : [
@@ -17,17 +17,17 @@ Class {
 	#category : 'BlocPac-Tasker-Examples'
 }
 
-{ #category : 'adding' }
+{ #category : #adding }
 BlTktExamplesCollector >> add: anObject [
 	mutex critical: [ collection add: anObject ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlTktExamplesCollector >> collection [
 	^ collection
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlTktExamplesCollector >> increment [
 	<return: #Integer>
 	^ mutex critical: [ 
@@ -37,7 +37,7 @@ BlTktExamplesCollector >> increment [
 		aNumber ]
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 BlTktExamplesCollector >> initialize [
 	super initialize.
 	mutex := Mutex new.

@@ -1,6 +1,6 @@
-Extension { #name : 'BlockClosure' }
+Extension { #name : #BlockClosure }
 
-{ #category : '*BlocPac-Tasker' }
+{ #category : #'*BlocPac-Tasker' }
 BlockClosure >> asBlTktCommand [
 	<return: #BlTktValuableCommand>
 	self numArgs = 0 ifTrue: [ ^ BlTktUnresponsiveCommand new valuable: self; name: 'BlockClosure without arguments' ].
@@ -8,19 +8,19 @@ BlockClosure >> asBlTktCommand [
 	self error: 'BlockClosure must have zero or one argument'
 ]
 
-{ #category : '*BlocPac-Tasker' }
+{ #category : #'*BlocPac-Tasker' }
 BlockClosure >> asBlTktTerminableCommand [
 	^ BlTktTerminableCommand new command: self asBlTktCommand
 ]
 
-{ #category : '*BlocPac-Tasker' }
+{ #category : #'*BlocPac-Tasker' }
 BlockClosure >> entryPriority [
 	"Answer the priority of the receiver when submitted as a task to TaskIt. 0 is highest priority"
 
 	^0
 ]
 
-{ #category : '*BlocPac-Tasker' }
+{ #category : #'*BlocPac-Tasker' }
 BlockClosure >> valueWithoutTermination [
 	"Evaluate the receiver ensuring that it can't be terminated by another process.
 	This relies on the VM allowing #ensure: blocks to complete before continuing terminating the process."
@@ -31,7 +31,7 @@ BlockClosure >> valueWithoutTermination [
 	^result
 ]
 
-{ #category : '*BlocPac-Tasker' }
+{ #category : #'*BlocPac-Tasker' }
 BlockClosure >> valueWithoutUserInterruption [
 	"Evaluate the receiver (block), without the possibility of preemption by other normal user priority processes.
 	This raises the priority to #userInterruptPriority+1 to prevent preemption by other user processes.  Processes such as those running at I/O or timing priority will still get priority"

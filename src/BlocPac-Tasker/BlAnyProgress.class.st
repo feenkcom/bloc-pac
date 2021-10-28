@@ -1,5 +1,5 @@
 Class {
-	#name : 'BlAnyProgress',
-	#superclass : 'BlTaskProgress',
+	#name : #BlAnyProgress,
+	#superclass : #BlTaskProgress,
 	#category : 'BlocPac-Tasker-Signals'
 }
