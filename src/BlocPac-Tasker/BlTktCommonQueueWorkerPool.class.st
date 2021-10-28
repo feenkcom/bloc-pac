@@ -30,9 +30,9 @@ BlTktCommonQueueWorkerPool >> ensureIsWorking [
 					failedTasks add: worker currentTaskExecution.
 					worker stopAfterTaskCompleted.
 					workers remove: worker ].
-			failedTasks
-				ifNotEmpty: [ self
-						traceCr: failedTasks size asString , ' Failed tasks encountered' ].
+			failedTasks ifNotEmpty: 
+				[ BlTaskItTaskExecutionSignal emitMessage:
+					failedTasks size asString , ' Failed tasks encountered' ].
 			self privateManageWorkersBefore.
 			self privateManageWorkersAfter ]
 ]
