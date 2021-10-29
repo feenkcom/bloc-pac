@@ -8,25 +8,25 @@ In order to have pixel perfect connection of the arrowhead with its curve I am t
 
 "
 Class {
-	#name : 'BlArrowheadElement',
-	#superclass : 'BlElement',
+	#name : #BlArrowheadElement,
+	#superclass : #BlElement,
 	#instVars : [
 		'borderListener'
 	],
 	#category : 'BlocPac-Geometry-Arrowheads'
 }
 
-{ #category : 'changes' }
+{ #category : #changes }
 BlArrowheadElement >> beForZeroWidth [
 	self size: 0@0
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 BlArrowheadElement >> defaultOutskirts [
 	^ BlOutskirts inside
 ]
 
-{ #category : 'geometry hooks' }
+{ #category : #'geometry hooks' }
 BlArrowheadElement >> geometryChanged [
 
 	self hasParent
@@ -35,7 +35,7 @@ BlArrowheadElement >> geometryChanged [
 	self handleWidthChanged: self parent border width
 ]
 
-{ #category : 'changes' }
+{ #category : #changes }
 BlArrowheadElement >> handleWidthChanged: aWidth [
 	"Is sent when the width of a curve changed to a given number.
 	Arrowhead should adapt its geometry to match new properties"
@@ -45,7 +45,7 @@ BlArrowheadElement >> handleWidthChanged: aWidth [
 		ifFalse: [ self onWidthChanged: aWidth ]
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 BlArrowheadElement >> initialize [
 	super initialize.
 	visuals := BlCustomVisuals new
@@ -55,7 +55,7 @@ BlArrowheadElement >> initialize [
 		do: [ :anEvent | self handleWidthChanged: anEvent currentTarget border width ]
 ]
 
-{ #category : 'children hooks' }
+{ #category : #'children hooks' }
 BlArrowheadElement >> onAddedToParent [
 	super onAddedToParent.
 	
@@ -63,21 +63,21 @@ BlArrowheadElement >> onAddedToParent [
 	self geometryChanged
 ]
 
-{ #category : 'geometry hooks' }
+{ #category : #'geometry hooks' }
 BlArrowheadElement >> onExtentChanged [
 	super onExtentChanged.
 	
 	self updateMargin
 ]
 
-{ #category : 'children hooks' }
+{ #category : #'children hooks' }
 BlArrowheadElement >> onRemovedFromParent: aParentElement [
 	super onRemovedFromParent: aParentElement.
 	
 	aParentElement removeEventHandler: borderListener
 ]
 
-{ #category : 'changes' }
+{ #category : #changes }
 BlArrowheadElement >> onWidthChanged: aNumber [
 	"Is sent when the width of a curve changed to a given number.
 	Arrowhead should adapt its geometry to match new properties.
@@ -86,7 +86,7 @@ BlArrowheadElement >> onWidthChanged: aNumber [
 	self subclassResponsibility
 ]
 
-{ #category : 'geometry hooks' }
+{ #category : #'geometry hooks' }
 BlArrowheadElement >> updateMargin [
 	self margin: (BlInsets left: (self visualBounds right - self geometryBounds right))
 ]

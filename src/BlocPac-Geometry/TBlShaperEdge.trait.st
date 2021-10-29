@@ -1,14 +1,14 @@
 Trait {
-	#name : 'TBlShaperEdge',
+	#name : #TBlShaperEdge,
 	#category : 'BlocPac-Geometry-Shaper'
 }
 
-{ #category : 'api - shape' }
+{ #category : #'api - shape' }
 TBlShaperEdge >> appendPathTo: aPathBuilder [
 	self explicitRequirement
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 TBlShaperEdge >> vertices [
 	^ self explicitRequirement
 ]

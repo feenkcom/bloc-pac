@@ -1,10 +1,10 @@
 Class {
-	#name : 'BlAnchorRelativeToElementBounds',
-	#superclass : 'BlAnchorRelativeToElement',
+	#name : #BlAnchorRelativeToElementBounds,
+	#superclass : #BlAnchorRelativeToElement,
 	#category : 'BlocPac-Geometry-Anchors'
 }
 
-{ #category : 'geometry' }
+{ #category : #geometry }
 BlAnchorRelativeToElementBounds >> computePositionWithin: aGeometryElement [
 	"Compute and return a position of this anchor in parent coordinates of the *anchor* element
 	taking into account a given geometry element"
@@ -16,7 +16,7 @@ BlAnchorRelativeToElementBounds >> computePositionWithin: aGeometryElement [
 		ifNone: [ 0.0@0.0 ]
 ]
 
-{ #category : 'geometry' }
+{ #category : #geometry }
 BlAnchorRelativeToElementBounds >> globalPositionWithin: aGeometryElement [
 	"Compute and return a global position (in space) of this anchor"
 	<return: #Point>
@@ -24,7 +24,7 @@ BlAnchorRelativeToElementBounds >> globalPositionWithin: aGeometryElement [
 	^ self positionWithinBounds: self referenceElement bounds inSpace
 ]
 
-{ #category : 'geometry' }
+{ #category : #geometry }
 BlAnchorRelativeToElementBounds >> positionWithinBounds: aParentBounds [
 	"Compute and return a position of this anchor within provided bounds"
 	<return: #Point>

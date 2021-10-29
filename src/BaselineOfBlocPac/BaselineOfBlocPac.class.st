@@ -22,6 +22,8 @@ BaselineOfBlocPac >> baseline: spec [
 			baseline: 'TaskIt' with: [
 				spec repository: 'github://feenkcom/taskit:feenk102' ].
 		spec 
+			package: #'BlocPac-CommonParent' with: [
+				spec requires: #('Bloc' ). ];
 			package: #'BlocPac-DragAndDrop' with: [
 				spec requires: #('Bloc' ). ];
 			package: #'BlocPac-ElementQuery' with: [
@@ -37,7 +39,7 @@ BaselineOfBlocPac >> baseline: spec [
 			package: #'BlocPac-PannableAndZoomable' with: [
 				spec requires: #('Bloc' #'BlocPac-PullAndSlide' ). ];
 			package: #'BlocPac-Geometry' with: [
-				spec requires: #('Bloc' #'BlocPac-PullAndSlide' ). ];
+				spec requires: #('Bloc' #'BlocPac-PullAndSlide' #'BlocPac-CommonParent'). ];
 			package: #'BlocPac-Resizable' with: [
 				spec requires: #('Bloc' #'BlocPac-Overlay' ). ];
 			package: #'BlocPac-Scalable' with: [

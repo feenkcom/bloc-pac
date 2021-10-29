@@ -12,8 +12,8 @@ Instance creation examples:
 
 "
 Class {
-	#name : 'BlSvgPath',
-	#superclass : 'BlElementVectorGeometry',
+	#name : #BlSvgPath,
+	#superclass : #BlElementVectorGeometry,
 	#instVars : [
 		'position',
 		'segments',
@@ -27,18 +27,18 @@ Class {
 	#category : 'BlocPac-Geometry-SVG'
 }
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 BlSvgPath class >> build: aBlock [
 	^ self new build: aBlock
 ]
 
-{ #category : 'class initialization' }
+{ #category : #'class initialization' }
 BlSvgPath class >> initialize [
 	EvenOdd := #evenOdd.
 	Winding := #winding
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 BlSvgPath >> build: aBlock viewbox: aRectangle [
 	| aPathbuilder |
 	aPathbuilder := BlSvgPathBuilder new.
@@ -47,7 +47,7 @@ BlSvgPath >> build: aBlock viewbox: aRectangle [
 	viewbox := aRectangle
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlSvgPath >> buildPathOnSpartaCanvas: aCanvas [
 	| pathBuilder|
 
@@ -63,12 +63,12 @@ BlSvgPath >> buildPathOnSpartaCanvas: aCanvas [
 	^ pathBuilder finish
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlSvgPath >> evenOdd [
 	fillRule := EvenOdd
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlSvgPath >> gtSegmentsFor: aView [
 	<gtView>
 	^ aView list
@@ -76,7 +76,7 @@ BlSvgPath >> gtSegmentsFor: aView [
 		items: [segments]
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 BlSvgPath >> initialize [
 	super initialize.
 	
@@ -85,18 +85,18 @@ BlSvgPath >> initialize [
 	fillRule := Winding
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlSvgPath >> matchExtent: anExtent [
 	extent := anExtent
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 BlSvgPath >> svg: anSvgString viewbox: aRectangle [
 	segments := (BlSvgPathBuilder fromStream: anSvgString readStream) segments.
 	viewbox := aRectangle asBlocFloatRectangle
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlSvgPath >> winding [
 	fillRule := Winding
 ]

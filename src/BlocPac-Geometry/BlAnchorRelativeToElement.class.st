@@ -3,16 +3,15 @@ Relative anchor takes an arbitrary element as a reference an compute its positio
 
 "
 Class {
-	#name : 'BlAnchorRelativeToElement',
-	#superclass : 'BlGeometryAnchor',
+	#name : #BlAnchorRelativeToElement,
+	#superclass : #BlGeometryAnchor,
 	#instVars : [
-		'moveDispatched',
 		'referenceElement'
 	],
-	#category : 'BlocPac-Geometry-Anchors'
+	#category : #'BlocPac-Geometry-Anchors'
 }
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 BlAnchorRelativeToElement class >> element: anElement [
 	<return: #BlAnchorRelativeToElement>
 
@@ -21,14 +20,14 @@ BlAnchorRelativeToElement class >> element: anElement [
 		yourself
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlAnchorRelativeToElement class >> label [
 	<return: #String>
 	
 	^ self subclassResponsibility
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 BlAnchorRelativeToElement class >> referenceElement: anElement relatedTo: anotherElement [
 	"Some types of achors should take other element into account"
 	<return: #BlAnchorRelativeToElement>
@@ -37,19 +36,17 @@ BlAnchorRelativeToElement class >> referenceElement: anElement relatedTo: anothe
 	^ self element: anElement
 ]
 
-{ #category : 'event dispatching' }
-BlAnchorRelativeToElement >> dispatchMoveEvent [
-	"I dispatch anchor moved event"
-
-	moveDispatched
-		ifTrue: [ ^ self ].
-	moveDispatched := true.
-	
-	[ self dispatchEvent: (BlGeometryAnchorMoved new anchor: self) ]
-		ensure: [ moveDispatched := false ]
+{ #category : #start }
+BlAnchorRelativeToElement >> attachToAnchoredElement: aGeometryElement [
+	aGeometryElement registerDependentElement: self referenceElement
 ]
 
-{ #category : 'geometry' }
+{ #category : #start }
+BlAnchorRelativeToElement >> detachFromAnchoredElement: aGeometryElement [
+	aGeometryElement unregisterDependentElement: self referenceElement
+]
+
+{ #category : #geometry }
 BlAnchorRelativeToElement >> globalPositionWithin: aGeometryElement [
 	"Compute and return a global position (in space) of this anchor"
 	<return: #Point>
@@ -57,7 +54,7 @@ BlAnchorRelativeToElement >> globalPositionWithin: aGeometryElement [
 	^ self subclassResponsibility
 ]
 
-{ #category : 'geometry' }
+{ #category : #geometry }
 BlAnchorRelativeToElement >> globalSelfPositionsWithin: aGeometryElement and: anAnotherAnchor [
 	<return: #Collection of: #Point>
 	| aFromPoint aToPoint theBoundsInSpace aFromRay aToRay aDirectionVector aLength |
@@ -84,42 +81,35 @@ BlAnchorRelativeToElement >> globalSelfPositionsWithin: aGeometryElement and: an
 	}
 ]
 
-{ #category : 'initialization' }
-BlAnchorRelativeToElement >> initialize [
-	super initialize.
-
-	moveDispatched := false
-]
-
-{ #category : 'testing - self anchors' }
+{ #category : #'testing - self anchors' }
 BlAnchorRelativeToElement >> isSelfTo: anAnotherAnchor [
 	<return: #Boolean>
 	
 	^ anAnotherAnchor isSelfToRelative: self
 ]
 
-{ #category : 'testing - self anchors' }
+{ #category : #'testing - self anchors' }
 BlAnchorRelativeToElement >> isSelfToAbsolute: anAnotherAnchor [
 	<return: #Boolean>
 	
 	^ false
 ]
 
-{ #category : 'testing - self anchors' }
+{ #category : #'testing - self anchors' }
 BlAnchorRelativeToElement >> isSelfToRelative: anAnotherAnchor [
 	<return: #Boolean>
 
 	^ self referenceElement = anAnotherAnchor referenceElement
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlAnchorRelativeToElement >> referenceElement [
 	<return: #BlElement>
 
 	^ referenceElement
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlAnchorRelativeToElement >> referenceElement: anElement [
 	self
 		assert: [ anElement isNotNil ]
@@ -129,14 +119,5 @@ BlAnchorRelativeToElement >> referenceElement: anElement [
 		assert: [ referenceElement isNil ]
 		description: [ 'Reference element can not be changed once set' ].
 
-	referenceElement := anElement.
-	referenceElement
-		addEventHandlerOn: BlElementPositionInSpaceChangedEvent
-		do: [ :anEvent | self dispatchMoveEvent ].
-	referenceElement
-		addEventHandlerOn: BlElementExtentChangedEvent
-		do: [ :anEvent | self dispatchMoveEvent ].
-	referenceElement
-		addEventHandlerOn: BlElementTransformationInSpaceChangedEvent
-		do: [ :anEvent | self dispatchMoveEvent ]
+	referenceElement := anElement
 ]

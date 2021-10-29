@@ -1,6 +1,6 @@
-Extension { #name : 'BlBezierCurve' }
+Extension { #name : #BlBezierCurve }
 
-{ #category : '*BlocPac-Geometry' }
+{ #category : #'*BlocPac-Geometry' }
 BlBezierCurve >> asElement [
 	<return: #BlElement>
 

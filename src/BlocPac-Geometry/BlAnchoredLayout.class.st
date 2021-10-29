@@ -5,13 +5,13 @@ Note, that I don't take element's padding into account when computing it's fitCo
 
 "
 Class {
-	#name : 'BlGeometryLayout',
-	#superclass : 'BlLayout',
-	#category : 'BlocPac-Geometry'
+	#name : #BlAnchoredLayout,
+	#superclass : #BlLayout,
+	#category : #'BlocPac-Geometry-Base'
 }
 
-{ #category : 'layout' }
-BlGeometryLayout >> layout: anElement in: aRectangle context: aBlElementBoundsUpdateContext [
+{ #category : #layout }
+BlAnchoredLayout >> layout: anElement in: aRectangle context: aBlElementBoundsUpdateContext [
 	| anElementTopLeft anElementBottomRight |
 	
 	anElementTopLeft := anElement insets topLeft.
@@ -33,8 +33,8 @@ BlGeometryLayout >> layout: anElement in: aRectangle context: aBlElementBoundsUp
 	self layoutIgnored: anElement context: aBlElementBoundsUpdateContext
 ]
 
-{ #category : 'measure' }
-BlGeometryLayout >> measure: anElement with: anExtentSpec [
+{ #category : #measure }
+BlAnchoredLayout >> measure: anElement with: anExtentSpec [
 	| maxExtent maxWidth maxHeight |
 
 	"By definition geometry layout relies on element's geometry bounds
@@ -55,8 +55,8 @@ BlGeometryLayout >> measure: anElement with: anExtentSpec [
 	self measureChildren: anElement with: anExtentSpec
 ]
 
-{ #category : 'measure' }
-BlGeometryLayout >> measureChildren: anElement with: anExtentSpec [
+{ #category : #measure }
+BlAnchoredLayout >> measureChildren: anElement with: anExtentSpec [
 	| availableWidth availableHeight |
 	
 	availableWidth := anElement measuredWidth - anElement insets width.
