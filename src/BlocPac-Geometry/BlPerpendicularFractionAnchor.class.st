@@ -5,20 +5,20 @@ The curvature - distance from the line connecting reference anchors is defined a
 
 "
 Class {
-	#name : 'BlPerpendicularFractionAnchor',
-	#superclass : 'BlAnchorRelativeToAnchor',
+	#name : #BlPerpendicularFractionAnchor,
+	#superclass : #BlAnchorRelativeToAnchor,
 	#instVars : [
 		'curvatureFraction'
 	],
 	#category : 'BlocPac-Geometry-Anchors'
 }
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 BlPerpendicularFractionAnchor class >> fraction: aNumber [
 	^ self new curvatureFraction: aNumber
 ]
 
-{ #category : 'geometry' }
+{ #category : #geometry }
 BlPerpendicularFractionAnchor >> computePositionWithin: aGeometryElement [
 	"Return anchor position within a given geometry element in its parent bounds"
 	<return: #Point>
@@ -38,7 +38,7 @@ BlPerpendicularFractionAnchor >> computePositionWithin: aGeometryElement [
 	^ (aMiddle + aPerpendicular) asPoint
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlPerpendicularFractionAnchor >> curvatureFraction [
 	"How long should perpendicular vector be compared to the distance between reference anchors.
 	If fraction is set to 1.0 the length is equal to the distance between anchors"
@@ -47,12 +47,12 @@ BlPerpendicularFractionAnchor >> curvatureFraction [
 	^ curvatureFraction
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlPerpendicularFractionAnchor >> curvatureFraction: aNumber [
 	curvatureFraction := aNumber
 ]
 
-{ #category : 'geometry' }
+{ #category : #geometry }
 BlPerpendicularFractionAnchor >> globalPositionWithin: aGeometryElement [
 	"Compute and return a global position (in space) of this anchor"
 	<return: #Point>
@@ -72,7 +72,7 @@ BlPerpendicularFractionAnchor >> globalPositionWithin: aGeometryElement [
 	^ (aMiddle + aPerpendicular) asPoint
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 BlPerpendicularFractionAnchor >> initialize [
 	super initialize.
 	

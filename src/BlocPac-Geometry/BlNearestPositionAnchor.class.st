@@ -3,15 +3,15 @@ I choose a point on a geometry path of the reference element which is the neares
 
 "
 Class {
-	#name : 'BlNearestPositionAnchor',
-	#superclass : 'BlAnchorRelativeToElement',
+	#name : #BlNearestPositionAnchor,
+	#superclass : #BlAnchorRelativeToElement,
 	#instVars : [
 		'nearestToElement'
 	],
-	#category : 'BlocPac-Geometry-Anchors'
+	#category : #'BlocPac-Geometry-Anchors'
 }
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 BlNearestPositionAnchor class >> nearestTo: aNearestElement from: aReferenceElement [
 	<return: #BlNearestPositionAnchor>
 
@@ -20,7 +20,7 @@ BlNearestPositionAnchor class >> nearestTo: aNearestElement from: aReferenceElem
 		nearestToElement: aNearestElement
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 BlNearestPositionAnchor class >> referenceElement: anElement relatedTo: anotherElement [
 	"Some types of achors should take other element into account"
 	<return: #BlAnchorRelativeToElement>
@@ -28,25 +28,28 @@ BlNearestPositionAnchor class >> referenceElement: anElement relatedTo: anotherE
 	^ self nearestTo: anotherElement from: anElement
 ]
 
-{ #category : 'accessing' }
+{ #category : #start }
+BlNearestPositionAnchor >> attachToAnchoredElement: aGeometryElement [
+	super attachToAnchoredElement: aGeometryElement.
+	
+	aGeometryElement registerDependentElement: nearestToElement
+]
+
+{ #category : #start }
+BlNearestPositionAnchor >> detachFromAnchoredElement: aGeometryElement [
+	super detachFromAnchoredElement: aGeometryElement.
+	
+	aGeometryElement unregisterDependentElement: nearestToElement
+]
+
+{ #category : #accessing }
 BlNearestPositionAnchor >> nearestToElement [
 	<return: #BlElement>
 
 	^ nearestToElement
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlNearestPositionAnchor >> nearestToElement: anElement [
-	nearestToElement := anElement.
-	nearestToElement := anElement.
-
-	nearestToElement
-		addEventHandlerOn: BlElementPositionInSpaceChangedEvent
-		do: [ :anEvent | self dispatchMoveEvent ].
-	nearestToElement
-		addEventHandlerOn: BlElementExtentChangedEvent
-		do: [ :anEvent | self dispatchMoveEvent ].
-	nearestToElement
-		addEventHandlerOn: BlElementTransformationInSpaceChangedEvent
-		do: [ :anEvent | self dispatchMoveEvent ]
+	nearestToElement := anElement
 ]

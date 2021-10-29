@@ -3,17 +3,17 @@ I represent a line element that is rendered between two provided position or att
 
 "
 Class {
-	#name : 'BlLineElement',
-	#superclass : 'BlCurveElement',
+	#name : #BlLineElement,
+	#superclass : #BlCurveElement,
 	#category : 'BlocPac-Geometry-Curves'
 }
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 BlLineElement >> defaultGeometry [
 	^ BlLine new
 ]
 
-{ #category : 'anchor - geometry' }
+{ #category : #'anchor - geometry' }
 BlLineElement >> fromDirection [
 	"Return a vector representing a direction in which start of the curve is pointing"
 	<return: #BlVector>
@@ -21,7 +21,7 @@ BlLineElement >> fromDirection [
 	^ (self fromPosition - self toPosition) asBlocVector
 ]
 
-{ #category : 'layout' }
+{ #category : #layout }
 BlLineElement >> layoutBounds [
 	| anOrigin aCorner |
 	<return: #Rectangle>	
@@ -32,7 +32,7 @@ BlLineElement >> layoutBounds [
 	^ Rectangle encompassing: { anOrigin. aCorner }
 ]
 
-{ #category : 'layout' }
+{ #category : #layout }
 BlLineElement >> measureGeometry [
 	| aDecoratedFromPoint aDecoratedToPoint aDelta |
 
@@ -46,7 +46,7 @@ BlLineElement >> measureGeometry [
 		to: aDecoratedToPoint - aDelta
 ]
 
-{ #category : 'anchor - geometry' }
+{ #category : #'anchor - geometry' }
 BlLineElement >> toDirection [
 	"Return a vector representing a direction in which the end of the curve is pointing"
 	<return: #BlVector>

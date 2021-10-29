@@ -3,15 +3,15 @@ Anchor relative anchor computes its position based on other anchors
 
 "
 Class {
-	#name : 'BlAnchorRelativeToAnchor',
-	#superclass : 'BlGeometryAnchor',
+	#name : #BlAnchorRelativeToAnchor,
+	#superclass : #BlGeometryAnchor,
 	#instVars : [
 		'referenceAnchors'
 	],
 	#category : 'BlocPac-Geometry-Anchors'
 }
 
-{ #category : 'geometry' }
+{ #category : #geometry }
 BlAnchorRelativeToAnchor >> globalPositionWithin: aGeometryElement [
 	"Compute and return a global position (in space) of this anchor"
 	<return: #Point>
@@ -19,19 +19,19 @@ BlAnchorRelativeToAnchor >> globalPositionWithin: aGeometryElement [
 	^ self subclassResponsibility
 ]
 
-{ #category : 'geometry' }
+{ #category : #geometry }
 BlAnchorRelativeToAnchor >> positionWithin: aGeometryElement [
 	^ self computePositionWithin: aGeometryElement
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlAnchorRelativeToAnchor >> referenceAnchors [
 	<return: #SequenceableCollection of: #BlGeometryAnchor>
 
 	^ referenceAnchors
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlAnchorRelativeToAnchor >> referenceAnchors: anObject [
 	referenceAnchors := anObject
 ]

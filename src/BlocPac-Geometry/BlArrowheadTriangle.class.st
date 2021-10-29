@@ -11,8 +11,8 @@ I support background and border paints.
 
 "
 Class {
-	#name : 'BlArrowheadTriangle',
-	#superclass : 'BlArrowheadElement',
+	#name : #BlArrowheadTriangle,
+	#superclass : #BlArrowheadElement,
 	#instVars : [
 		'scale',
 		'borderFraction'
@@ -20,14 +20,14 @@ Class {
 	#category : 'BlocPac-Geometry-Arrowheads'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlArrowheadTriangle >> borderFraction [
 	<return: #Number>
 
 	^ borderFraction
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlArrowheadTriangle >> borderFraction: aNumber [
 	self
 		assert: [ aNumber isNotNil ]
@@ -41,7 +41,7 @@ BlArrowheadTriangle >> borderFraction: aNumber [
 	self geometryChanged
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 BlArrowheadTriangle >> defaultGeometry [
 	^ BlPolygon vertices: {
 		0@0.
@@ -50,7 +50,7 @@ BlArrowheadTriangle >> defaultGeometry [
 	}
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 BlArrowheadTriangle >> initialize [
 	super initialize.
 	
@@ -58,7 +58,7 @@ BlArrowheadTriangle >> initialize [
 	borderFraction := 1.0
 ]
 
-{ #category : 'changes' }
+{ #category : #changes }
 BlArrowheadTriangle >> onWidthChanged: aNumber [
 	| aScaledWidth |
 	
@@ -74,14 +74,14 @@ BlArrowheadTriangle >> onWidthChanged: aNumber [
 	})
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlArrowheadTriangle >> scale [
 	<return: #Number>
 
 	^ scale
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlArrowheadTriangle >> scale: aNumber [
 	self
 		assert: [ aNumber isNotNil ]

@@ -11,8 +11,8 @@ I support both background and border paint and can have hollow inner triangle.
 
 "
 Class {
-	#name : 'BlArrowheadSimpleArrow',
-	#superclass : 'BlArrowheadElement',
+	#name : #BlArrowheadSimpleArrow,
+	#superclass : #BlArrowheadElement,
 	#instVars : [
 		'arrowLengthFraction',
 		'arrowNoseAngle',
@@ -21,28 +21,28 @@ Class {
 	#category : 'BlocPac-Geometry-Arrowheads'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlArrowheadSimpleArrow >> arrowLengthFraction [
 	<return: #Number>
 	
 	^ arrowLengthFraction
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlArrowheadSimpleArrow >> arrowLengthFraction: aNumber [
 	
 	arrowLengthFraction := aNumber.
 	self geometryChanged
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlArrowheadSimpleArrow >> arrowNoseAngle [
 	<return: #Number>
 
 	^ arrowNoseAngle
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlArrowheadSimpleArrow >> arrowNoseAngle: anAngleInDegrees [
 
 	self
@@ -53,7 +53,7 @@ BlArrowheadSimpleArrow >> arrowNoseAngle: anAngleInDegrees [
 	self geometryChanged
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 BlArrowheadSimpleArrow >> createShapeForWidth: aNumber [
 	| wingAngle aShape |
 
@@ -79,7 +79,7 @@ BlArrowheadSimpleArrow >> createShapeForWidth: aNumber [
 	^ aShape
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 BlArrowheadSimpleArrow >> defaultGeometry [
 	^ BlPolygon vertices: {
 		0@0.
@@ -90,7 +90,7 @@ BlArrowheadSimpleArrow >> defaultGeometry [
 	}
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 BlArrowheadSimpleArrow >> initialize [
 	super initialize.
 
@@ -99,14 +99,14 @@ BlArrowheadSimpleArrow >> initialize [
 	arrowShape := self createShapeForWidth: 1
 ]
 
-{ #category : 'changes' }
+{ #category : #changes }
 BlArrowheadSimpleArrow >> onWidthChanged: aNumber [
 	arrowShape := self createShapeForWidth: aNumber.
 	self size: arrowShape boundingBox extent.
 	self geometry: (BlShaperGeometry new shape: arrowShape)
 ]
 
-{ #category : 'geometry hooks' }
+{ #category : #'geometry hooks' }
 BlArrowheadSimpleArrow >> updateMargin [
 	self margin: (BlInsets right: (arrowShape edgeAt: 5) middle x negated)
 ]

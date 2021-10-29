@@ -1,6 +1,6 @@
 Class {
-	#name : 'BlSvgPathQuadraticBezierSegment',
-	#superclass : 'BlSvgPathSegment',
+	#name : #BlSvgPathQuadraticBezierSegment,
+	#superclass : #BlSvgPathSegment,
 	#instVars : [
 		'viaPoint',
 		'curveTo'
@@ -8,7 +8,7 @@ Class {
 	#category : 'BlocPac-Geometry-SVG'
 }
 
-{ #category : 'comparing' }
+{ #category : #comparing }
 BlSvgPathQuadraticBezierSegment >> = anotherObject [
 
 	self == anotherObject
@@ -21,32 +21,32 @@ BlSvgPathQuadraticBezierSegment >> = anotherObject [
 			and: [ anotherObject viaPoint = self viaPoint ] ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlSvgPathQuadraticBezierSegment >> curveTo [
 	^ curveTo
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlSvgPathQuadraticBezierSegment >> curveTo: anObject [
 	curveTo := anObject
 ]
 
-{ #category : 'executing' }
+{ #category : #executing }
 BlSvgPathQuadraticBezierSegment >> executeOn: aBuilder [
 	aBuilder curveVia: self viaPoint to: self curveTo 
 ]
 
-{ #category : 'comparing' }
+{ #category : #comparing }
 BlSvgPathQuadraticBezierSegment >> hash [
 	^ (self isAbsolute hash bitXor: self curveTo hash) bitXor: self viaPoint hash
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlSvgPathQuadraticBezierSegment >> viaPoint [
 	^ viaPoint
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlSvgPathQuadraticBezierSegment >> viaPoint: anObject [
 	viaPoint := anObject
 ]

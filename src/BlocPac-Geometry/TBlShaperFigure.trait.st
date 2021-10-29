@@ -1,19 +1,19 @@
 Trait {
-	#name : 'TBlShaperFigure',
+	#name : #TBlShaperFigure,
 	#category : 'BlocPac-Geometry-Shaper'
 }
 
-{ #category : 'api - shape' }
+{ #category : #'api - shape' }
 TBlShaperFigure >> addEdge: aTBlShapeEdge after: anOtherShapeEdge [
 	self explicitRequirement
 ]
 
-{ #category : 'api - shape' }
+{ #category : #'api - shape' }
 TBlShaperFigure >> appendPathTo: aPathBuilder [
 	self edges do: [ :eachEdge | eachEdge appendPathTo: aPathBuilder ]
 ]
 
-{ #category : 'api - shape' }
+{ #category : #'api - shape' }
 TBlShaperFigure >> boundingBox [
 	<return: #Rectangle>
 	| allVertices theBounds |
@@ -26,17 +26,17 @@ TBlShaperFigure >> boundingBox [
 	^ theBounds asRectangle
 ]
 
-{ #category : 'api - shape' }
+{ #category : #'api - shape' }
 TBlShaperFigure >> edgeAt: anIndex [
 	^ self edges at: anIndex
 ]
 
-{ #category : 'api - shape' }
+{ #category : #'api - shape' }
 TBlShaperFigure >> edges [
 	^ self explicitRequirement
 ]
 
-{ #category : 'gt-extension' }
+{ #category : #'gt-extension' }
 TBlShaperFigure >> gtLiveFor: aView [
 	<gtView>
 	
@@ -52,12 +52,12 @@ TBlShaperFigure >> gtLiveFor: aView [
 				border: (BlBorder paint: Color gray width: 2) ]
 ]
 
-{ #category : 'api - shape' }
+{ #category : #'api - shape' }
 TBlShaperFigure >> value: anObject [
 	^ self
 ]
 
-{ #category : 'api - shape' }
+{ #category : #'api - shape' }
 TBlShaperFigure >> vertices [
 	| theVertices |
 	

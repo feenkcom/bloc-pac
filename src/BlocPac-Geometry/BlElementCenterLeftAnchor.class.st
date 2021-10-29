@@ -3,17 +3,17 @@ My position is equal to the left center of a reference element
 
 "
 Class {
-	#name : 'BlElementCenterLeftAnchor',
-	#superclass : 'BlAnchorRelativeToElementBounds',
+	#name : #BlElementCenterLeftAnchor,
+	#superclass : #BlAnchorRelativeToElementBounds,
 	#category : 'BlocPac-Geometry-Anchors'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlElementCenterLeftAnchor class >> label [
 	^ 'Center left'
 ]
 
-{ #category : 'geometry' }
+{ #category : #geometry }
 BlElementCenterLeftAnchor >> positionWithinBounds: aParentBounds [
 	"Compute and return a position of this anchor within provided bounds"
 	<return: #Point>

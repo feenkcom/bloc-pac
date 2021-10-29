@@ -5,15 +5,15 @@ Draws a horizontal line from the current point (cpx, cpy) to (x, cpy). H (upperc
 
 "
 Class {
-	#name : 'BlSvgPathHorizontalLineSegment',
-	#superclass : 'BlSvgPathSegment',
+	#name : #BlSvgPathHorizontalLineSegment,
+	#superclass : #BlSvgPathSegment,
 	#instVars : [
 		'lineX'
 	],
 	#category : 'BlocPac-Geometry-SVG'
 }
 
-{ #category : 'comparing' }
+{ #category : #comparing }
 BlSvgPathHorizontalLineSegment >> = anObject [
 	"Answer whether the receiver and anObject represent the same object."
 
@@ -24,38 +24,38 @@ BlSvgPathHorizontalLineSegment >> = anObject [
 	^ lineX = anObject lineX and: [ isAbsolute = anObject isAbsolute ]
 ]
 
-{ #category : 'executing' }
+{ #category : #executing }
 BlSvgPathHorizontalLineSegment >> executeOn: aBuilder [
 	self isAbsolute
 		ifTrue: [ aBuilder lineTo: self lineX @ aBuilder currentPoint y ]
 		ifFalse: [ aBuilder lineTo: self lineX @ 0 ]
 ]
 
-{ #category : 'comparing' }
+{ #category : #comparing }
 BlSvgPathHorizontalLineSegment >> hash [
 	"Answer an integer value that is related to the identity of the receiver."
 
 	^ lineX hash bitXor: isAbsolute hash
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 BlSvgPathHorizontalLineSegment >> initialize [
 	super initialize.
 	
 	lineX := 0
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlSvgPathHorizontalLineSegment >> lineX [
 	^ lineX
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlSvgPathHorizontalLineSegment >> lineX: anObject [
 	lineX := anObject
 ]
 
-{ #category : 'printing' }
+{ #category : #printing }
 BlSvgPathHorizontalLineSegment >> printOn: aStream [
 	aStream
 		nextPutAll: 'Horizontal line ';

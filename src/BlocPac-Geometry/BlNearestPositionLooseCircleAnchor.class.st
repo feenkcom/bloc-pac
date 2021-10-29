@@ -5,17 +5,17 @@ Circle radius is computed as a half of the diagonal length of the element bounds
 
 "
 Class {
-	#name : 'BlNearestPositionLooseCircleAnchor',
-	#superclass : 'BlNearestPositionAnchor',
+	#name : #BlNearestPositionLooseCircleAnchor,
+	#superclass : #BlNearestPositionAnchor,
 	#category : 'BlocPac-Geometry-Anchors'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlNearestPositionLooseCircleAnchor class >> label [
 	^ 'Circle'
 ]
 
-{ #category : 'geometry' }
+{ #category : #geometry }
 BlNearestPositionLooseCircleAnchor >> globalPositionWithin: aGeometryElement [
 	"Compute and return a global position (in space) of this anchor"
 	<return: #Point>

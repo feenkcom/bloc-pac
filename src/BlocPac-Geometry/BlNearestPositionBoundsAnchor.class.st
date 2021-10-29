@@ -3,17 +3,17 @@ I find the nearest point that lies on bounds rectangle of a reference element to
 
 "
 Class {
-	#name : 'BlNearestPositionBoundsAnchor',
-	#superclass : 'BlNearestPositionAnchor',
+	#name : #BlNearestPositionBoundsAnchor,
+	#superclass : #BlNearestPositionAnchor,
 	#category : 'BlocPac-Geometry-Anchors'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlNearestPositionBoundsAnchor class >> label [
 	^ 'Rectangle'
 ]
 
-{ #category : 'geometry' }
+{ #category : #geometry }
 BlNearestPositionBoundsAnchor >> globalPositionWithin: aGeometryElement [
 	"Compute and return a global position (in space) of this anchor"
 

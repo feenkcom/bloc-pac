@@ -6,17 +6,17 @@ https://en.wikipedia.org/wiki/Ellipse
 
 "
 Class {
-	#name : 'BlEllipseElement',
-	#superclass : 'BlGeometryElement',
+	#name : #BlEllipseElement,
+	#superclass : #BlAnchoredElement,
 	#instVars : [
 		'centerAnchor',
 		'majorRadius',
 		'minorRadius'
 	],
-	#category : 'BlocPac-Geometry-Figures'
+	#category : #'BlocPac-Geometry-Figures'
 }
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 BlEllipseElement class >> radius: aNumber [
 	"Create a circle element of a given radius"
 	<return: #BlEllipseElement>
@@ -26,31 +26,31 @@ BlEllipseElement class >> radius: aNumber [
 		minorRadius: aNumber
 ]
 
-{ #category : 'anchor - accessing' }
+{ #category : #'anchor - accessing' }
 BlEllipseElement >> centerAnchor [
 	^ centerAnchor
 ]
 
-{ #category : 'anchor - accessing' }
+{ #category : #'anchor - accessing' }
 BlEllipseElement >> centerAnchor: aBlGeometryAnchor [
 
 	centerAnchor := aBlGeometryAnchor.
 	self registerAnchor: aBlGeometryAnchor
 ]
 
-{ #category : 'anchor - geometry' }
+{ #category : #'anchor - geometry' }
 BlEllipseElement >> centerPosition [
 	<return: #Point>
 	
 	^ self centerAnchor positionWithin: self
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 BlEllipseElement >> defaultCenterAnchor [
 	^ BlAbsolutePositionAnchor position: 100@100
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 BlEllipseElement >> initialize [
 	super initialize.
 	
@@ -62,7 +62,7 @@ BlEllipseElement >> initialize [
 	minorRadius := 50
 ]
 
-{ #category : 'layout' }
+{ #category : #layout }
 BlEllipseElement >> layoutBounds [
 	<return: #Rectangle>
 	| aCenterPosition anOrigin aCorner|
@@ -74,14 +74,14 @@ BlEllipseElement >> layoutBounds [
 	^ anOrigin corner: aCorner
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlEllipseElement >> majorRadius [
 	<return: #Number>
 
 	^ majorRadius
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlEllipseElement >> majorRadius: aNumber [
 	"Set my major radius along X-axis"
 
@@ -89,20 +89,20 @@ BlEllipseElement >> majorRadius: aNumber [
 	self requestLayout
 ]
 
-{ #category : 'layout' }
+{ #category : #layout }
 BlEllipseElement >> measureGeometry [
 
 	self geometry extent: (self majorRadius @ self minorRadius) * 2
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlEllipseElement >> minorRadius [
 	<return: #Number>
 
 	^ minorRadius
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlEllipseElement >> minorRadius: aNumber [
 	"Set my minor radius along Y-axis"
 

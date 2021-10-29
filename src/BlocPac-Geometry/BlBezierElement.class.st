@@ -5,15 +5,15 @@ See {{gtClass:BlBezierElementExamples}}.
 
 "
 Class {
-	#name : 'BlBezierElement',
-	#superclass : 'BlCurveElement',
+	#name : #BlBezierElement,
+	#superclass : #BlCurveElement,
 	#instVars : [
 		'viaAnchors'
 	],
 	#category : 'BlocPac-Geometry-Curves'
 }
 
-{ #category : 'anchor - geometry' }
+{ #category : #'anchor - geometry' }
 BlBezierElement >> anchorPositions [
 	<return: #SequenceableCollection of: #Point>
 	
@@ -24,7 +24,7 @@ BlBezierElement >> anchorPositions [
 		aStream nextPut: self toPosition ]
 ]
 
-{ #category : 'anchor - geometry' }
+{ #category : #'anchor - geometry' }
 BlBezierElement >> decoratedAnchorPositions [
 	<return: #SequenceableCollection of: #Point>
 	
@@ -35,12 +35,12 @@ BlBezierElement >> decoratedAnchorPositions [
 		aStream nextPut: self decoratedToPosition ]
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 BlBezierElement >> defaultGeometry [
 	^ BlBezierCurve new
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 BlBezierElement >> fromDirection [
 	"Return a vector representing a direction in which start of the curve is pointing"
 	<return: #BlVector>
@@ -50,21 +50,21 @@ BlBezierElement >> fromDirection [
 	^ (thePositions first - thePositions second) asBlocVector
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 BlBezierElement >> initialize [
 	super initialize.
 
 	viaAnchors := OrderedCollection new
 ]
 
-{ #category : 'layout' }
+{ #category : #layout }
 BlBezierElement >> layoutBounds [
 	<return: #Rectangle>
 	
 	^ Rectangle encompassing: self anchorPositions
 ]
 
-{ #category : 'layout' }
+{ #category : #layout }
 BlBezierElement >> measureGeometry [
 	| theAnchorPositions aDelta |
 	
@@ -74,7 +74,7 @@ BlBezierElement >> measureGeometry [
 	self geometry controlPoints: (theAnchorPositions collect: [ :aPoint | aPoint - aDelta ])
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 BlBezierElement >> toDirection [
 	"Return a vector representing a direction in which the end of the curve is pointing"
 	<return: #BlVector>
@@ -84,7 +84,7 @@ BlBezierElement >> toDirection [
 	^ (thePositions last - (thePositions at: thePositions size - 1)) asBlocVector
 ]
 
-{ #category : 'anchor - accessing' }
+{ #category : #'anchor - accessing' }
 BlBezierElement >> viaAnchor: aBlGeometryAnchor [
 	"Add one more anchor between `from` and `to`".
 	

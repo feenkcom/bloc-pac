@@ -1,6 +1,6 @@
 Class {
-	#name : 'BlShaperQuadrilateral',
-	#superclass : 'Object',
+	#name : #BlShaperQuadrilateral,
+	#superclass : #Object,
 	#traits : 'TBlShaperFigure + TBlShaperMovable',
 	#classTraits : 'TBlShaperFigure classTrait + TBlShaperMovable classTrait',
 	#instVars : [
@@ -9,27 +9,27 @@ Class {
 	#category : 'BlocPac-Geometry-Shaper'
 }
 
-{ #category : 'api - shape' }
+{ #category : #'api - shape' }
 BlShaperQuadrilateral >> addEdge: aTBlShapeEdge after: anOtherShapeEdge [
 	polygon addEdge: aTBlShapeEdge after: anOtherShapeEdge
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlShaperQuadrilateral >> bottomEdge [
 	^ self edgeAt: 3
 ]
 
-{ #category : 'api - shape' }
+{ #category : #'api - shape' }
 BlShaperQuadrilateral >> edges [
 	^ polygon edges
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlShaperQuadrilateral >> leftEdge [
 	^ self edgeAt: 4
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlShaperQuadrilateral >> polygon: aPolygonShape [
 	self
 		assert: [ aPolygonShape edges size = 4 ]
@@ -38,12 +38,12 @@ BlShaperQuadrilateral >> polygon: aPolygonShape [
 	polygon := aPolygonShape
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlShaperQuadrilateral >> rightEdge [
 	^ self edgeAt: 2
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlShaperQuadrilateral >> topEdge [
 	^ self edgeAt: 1
 ]

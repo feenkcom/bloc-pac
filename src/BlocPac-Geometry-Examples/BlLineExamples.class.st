@@ -78,9 +78,37 @@ BlLineExamples >> connectGridWith12Lines [
 	
 	^ self container
 		size: 600@600;
+		addChild: anAttachPoint;
 		addChild: aGridElement;
 		addChildren: lines;
+		yourself
+]
+
+{ #category : #'example - composite' }
+BlLineExamples >> connectGridWith1Lines [
+	<gtExample>
+	| aGridElement anAttachPoint aLine |
+
+	aGridElement := self gridWith12Cells.
+	anAttachPoint := self attachPoint.
+	
+	aLine := self grayLine.
+	
+	aGridElement
+		relocate: 50@50.
+	
+	anAttachPoint
+		relocate: 500@400.
+	
+	aLine
+		fromAnchor: (BlElementCenterAnchor element: aGridElement children first);
+		toAnchor: (BlElementCenterAnchor element: anAttachPoint).
+	
+	^ self container
+		size: 600@600;
 		addChild: anAttachPoint;
+		addChild: aGridElement;
+		addChild: aLine;
 		yourself
 ]
 
