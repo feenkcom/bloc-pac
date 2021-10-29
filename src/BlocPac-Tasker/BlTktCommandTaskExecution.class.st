@@ -1,12 +1,12 @@
 Class {
-	#name : 'BlTktCommandTaskExecution',
-	#superclass : 'TKTTaskExecution',
+	#name : #BlTktCommandTaskExecution,
+	#superclass : #TKTTaskExecution,
 	#traits : 'TBlDebug',
 	#classTraits : 'TBlDebug classTrait',
 	#category : 'BlocPac-Tasker-TaskIt Tasks'
 }
 
-{ #category : 'evaluating' }
+{ #category : #evaluating }
 BlTktCommandTaskExecution >> doExecuteTask [
 	^ [ super doExecuteTask ] 
 		on: BlTktExplicitlyTerminatedTaskException

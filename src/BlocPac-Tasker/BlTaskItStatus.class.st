@@ -11,8 +11,8 @@ BlTaskItStatus new
 
 "
 Class {
-	#name : 'BlTaskItStatus',
-	#superclass : 'Object',
+	#name : #BlTaskItStatus,
+	#superclass : #Object,
 	#instVars : [
 		'statusString'
 	],
@@ -23,7 +23,7 @@ Class {
 	#category : 'BlocPac-Tasker-Status'
 }
 
-{ #category : 'opening' }
+{ #category : #opening }
 BlTaskItStatus class >> openStatusWindow [
 	<script>
 
@@ -44,26 +44,26 @@ BlTaskItStatus class >> openStatusWindow [
 	space show.
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 BlTaskItStatus class >> sampleLoop [
 
 	[ self new asBeaconSignal emit.
 	self samplePeriod wait ] repeat.
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlTaskItStatus class >> samplePeriod [
 
 	^SamplePeriod ifNil: [ SamplePeriod := 10 second ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlTaskItStatus class >> samplePeriod: aDuration [
 
 	SamplePeriod := aDuration
 ]
 
-{ #category : 'sampling' }
+{ #category : #sampling }
 BlTaskItStatus class >> startSampling [
 
 	SampleProcess ifNotNil: [ self error: 'Sample process already running' ].
@@ -73,7 +73,7 @@ BlTaskItStatus class >> startSampling [
 			named: 'CurrentProcessSignal sampler'.
 ]
 
-{ #category : 'sampling' }
+{ #category : #sampling }
 BlTaskItStatus class >> stopSampling [
 
 	SampleProcess ifNil: [ ^self ].
@@ -83,14 +83,14 @@ BlTaskItStatus class >> stopSampling [
 	SampleProcess := nil.
 ]
 
-{ #category : 'writing' }
+{ #category : #writing }
 BlTaskItStatus class >> write [
 	"Write the current status to a timestamped file"
 
 	self writeTo: 'TaskIt Status ', DateAndTime now printString, '.txt'.
 ]
 
-{ #category : 'writing' }
+{ #category : #writing }
 BlTaskItStatus class >> writeTo: aFileReference [
 	"Write the current status to the supplied file name"
 
@@ -98,7 +98,7 @@ BlTaskItStatus class >> writeTo: aFileReference [
 		[ :stream | self new statusOn: stream ]
 ]
 
-{ #category : 'printing' }
+{ #category : #printing }
 BlTaskItStatus >> gtStatusFor: aView [
 	<gtView>
 
@@ -109,14 +109,14 @@ BlTaskItStatus >> gtStatusFor: aView [
 		text: [ self statusString asRopedText ]
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 BlTaskItStatus >> initialize [
 
 	super initialize.
 	self statusString
 ]
 
-{ #category : 'printing' }
+{ #category : #printing }
 BlTaskItStatus >> instanceCountsOn: aStream [
 
 	aStream
@@ -136,7 +136,7 @@ BlTaskItStatus >> instanceCountsOn: aStream [
 			cr ]
 ]
 
-{ #category : 'printing' }
+{ #category : #printing }
 BlTaskItStatus >> printFailedTasks: failedTasks on: aStream [
 
 	failedTasks do: [ :task |
@@ -148,7 +148,7 @@ BlTaskItStatus >> printFailedTasks: failedTasks on: aStream [
 			cr. ]
 ]
 
-{ #category : 'printing' }
+{ #category : #printing }
 BlTaskItStatus >> printQueueFor: pool on: aStream [
 
 	pool taskQueue contents do: [ :each |
@@ -158,7 +158,7 @@ BlTaskItStatus >> printQueueFor: pool on: aStream [
 				cr ]
 ]
 
-{ #category : 'printing' }
+{ #category : #printing }
 BlTaskItStatus >> printWorkers: workers on: aStream [
 
 	workers do: [ :worker |
@@ -170,7 +170,7 @@ BlTaskItStatus >> printWorkers: workers on: aStream [
 				cr ]
 ]
 
-{ #category : 'printing' }
+{ #category : #printing }
 BlTaskItStatus >> printWorkersFor: pool on: aStream [
 
 	pool workers 
@@ -184,7 +184,7 @@ BlTaskItStatus >> printWorkersFor: pool on: aStream [
 				cr ]
 ]
 
-{ #category : 'printing' }
+{ #category : #printing }
 BlTaskItStatus >> statusOn: aStream [
 	"Print a summary of the system status on aStream"
 
@@ -195,13 +195,13 @@ BlTaskItStatus >> statusOn: aStream [
 	self instanceCountsOn: aStream
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlTaskItStatus >> statusString [
 
 	^statusString ifNil: [ statusString := String streamContents: [ :stream | self statusOn: stream ] ]
 ]
 
-{ #category : 'printing' }
+{ #category : #printing }
 BlTaskItStatus >> workerPool: pool on: aStream [
 
 	| freeWorkers |

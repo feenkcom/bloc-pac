@@ -4,8 +4,8 @@ I hold couple of {{gtClass:Semaphore}} that can by used to exemplify (test) part
 
 "
 Class {
-	#name : 'BlTktExamplesSignaler',
-	#superclass : 'Object',
+	#name : #BlTktExamplesSignaler,
+	#superclass : #Object,
 	#instVars : [
 		'taskSemaphore',
 		'callerSemaphore',
@@ -15,12 +15,12 @@ Class {
 	#category : 'BlocPac-Tasker-Examples'
 }
 
-{ #category : 'defaults' }
+{ #category : #defaults }
 BlTktExamplesSignaler >> defaultTimeout [
 	^ 60 * 1000 "milliSeconds"
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 BlTktExamplesSignaler >> initialize [
 	super initialize.
 	callerSemaphore := Semaphore new.
@@ -29,55 +29,55 @@ BlTktExamplesSignaler >> initialize [
 	fourthPartySemaphore := Semaphore new.
 ]
 
-{ #category : 'signalling' }
+{ #category : #signalling }
 BlTktExamplesSignaler >> signalCallerSemaphore [
 	callerSemaphore signal
 ]
 
-{ #category : 'signalling' }
+{ #category : #signalling }
 BlTktExamplesSignaler >> signalFourthPartySemaphore [
 	fourthPartySemaphore signal
 ]
 
-{ #category : 'signalling' }
+{ #category : #signalling }
 BlTktExamplesSignaler >> signalTaskSemaphore [
 	taskSemaphore signal
 ]
 
-{ #category : 'signalling' }
+{ #category : #signalling }
 BlTktExamplesSignaler >> signalThirdPartySemaphore [
 	thirdPartySemaphore signal
 ]
 
-{ #category : 'signalling' }
+{ #category : #signalling }
 BlTktExamplesSignaler >> waitForCaller [
 	| isTimeouted |
 	isTimeouted := callerSemaphore waitTimeoutMSecs: self defaultTimeout.
 	self assert: isTimeouted not
 ]
 
-{ #category : 'signalling' }
+{ #category : #signalling }
 BlTktExamplesSignaler >> waitForFourthPartySemaphore [
 	| isTimeouted |
 	isTimeouted := fourthPartySemaphore waitTimeoutMSecs: self defaultTimeout.
 	self assert: isTimeouted not
 ]
 
-{ #category : 'signalling' }
+{ #category : #signalling }
 BlTktExamplesSignaler >> waitForTask [
 	| isTimeouted |
 	isTimeouted := taskSemaphore waitTimeoutMSecs: self defaultTimeout.
 	self assert: isTimeouted not
 ]
 
-{ #category : 'signalling' }
+{ #category : #signalling }
 BlTktExamplesSignaler >> waitForThirdPartySemaphore [
 	| isTimeouted |
 	isTimeouted := thirdPartySemaphore waitTimeoutMSecs: self defaultTimeout.
 	self assert: isTimeouted not
 ]
 
-{ #category : 'signalling' }
+{ #category : #signalling }
 BlTktExamplesSignaler >> waitForTimeoutedTask [
 	| isTimeouted |
 	isTimeouted := taskSemaphore waitTimeoutMSecs: self defaultTimeout.

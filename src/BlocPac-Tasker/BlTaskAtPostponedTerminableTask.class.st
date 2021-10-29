@@ -1,6 +1,6 @@
 Class {
-	#name : 'BlTaskAtPostponedTerminableTask',
-	#superclass : 'BlTaskAtQueueTask',
+	#name : #BlTaskAtPostponedTerminableTask,
+	#superclass : #BlTaskAtQueueTask,
 	#instVars : [
 		'pool',
 		'shouldTerminate',
@@ -11,23 +11,23 @@ Class {
 	#category : 'BlocPac-Tasker-Postponed Tasks'
 }
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 BlTaskAtPostponedTerminableTask >> beRegularNotScheduledHandler [
 	self notScheduledHandler: BlTaskAtNotScheduledHandler default 
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 BlTaskAtPostponedTerminableTask >> beShiftingNotScheduledHandler [
 	self notScheduledHandler: BlTaskAtNotScheduledHandler shifting 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlTaskAtPostponedTerminableTask >> command [
 	<return: #BlTktTerminableCommand>
 	^ valuable
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlTaskAtPostponedTerminableTask >> command: aCommand [
 	self 
 		assert: [ aCommand isNotNil ] 
@@ -35,17 +35,17 @@ BlTaskAtPostponedTerminableTask >> command: aCommand [
 	valuable := aCommand asBlTktCommand asBlTktTerminableCommand.
 ]
 
-{ #category : 'defaults' }
+{ #category : #defaults }
 BlTaskAtPostponedTerminableTask >> defaultNotScheduledHandler [
 	^ BlTaskAtNotScheduledHandler default
 ]
 
-{ #category : 'handling' }
+{ #category : #handling }
 BlTaskAtPostponedTerminableTask >> handleNotScheduledBecauseOfPreviousTask: aBlTaskAtTask [
 	self notScheduledHandler notScheduled: self becauseOf: aBlTaskAtTask
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 BlTaskAtPostponedTerminableTask >> initialize [
 	super initialize.
 	shouldTerminate := false.
@@ -54,23 +54,23 @@ BlTaskAtPostponedTerminableTask >> initialize [
 	notScheduledHandler := self defaultNotScheduledHandler.
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlTaskAtPostponedTerminableTask >> notScheduledHandler [
 	^ notScheduledHandler
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlTaskAtPostponedTerminableTask >> notScheduledHandler: anObject [
 	notScheduledHandler := anObject
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlTaskAtPostponedTerminableTask >> pool [
 	<return: #TKTCommonQueueWorkerPool>
 	^ pool
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlTaskAtPostponedTerminableTask >> pool: aTKTCommonQueueWorkerPool [
 	self 
 		assert: [ aTKTCommonQueueWorkerPool isNotNil ] 
@@ -78,12 +78,12 @@ BlTaskAtPostponedTerminableTask >> pool: aTKTCommonQueueWorkerPool [
 	pool := aTKTCommonQueueWorkerPool
 ]
 
-{ #category : 'evaluating' }
+{ #category : #evaluating }
 BlTaskAtPostponedTerminableTask >> privateExecute [
 	self pool schedule: self command
 ]
 
-{ #category : 'actions' }
+{ #category : #actions }
 BlTaskAtPostponedTerminableTask >> terminate [
 	executionMutex critical: [ 
 		wasExecuted ifFalse: [ 
@@ -92,7 +92,7 @@ BlTaskAtPostponedTerminableTask >> terminate [
 	self command terminate.
 ]
 
-{ #category : 'evaluating' }
+{ #category : #evaluating }
 BlTaskAtPostponedTerminableTask >> value [
 	executionMutex critical: [ 
 		shouldTerminate ifTrue: [ ^ nil ].

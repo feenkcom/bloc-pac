@@ -1,19 +1,19 @@
-Extension { #name : 'TKTWorker' }
+Extension { #name : #TKTWorker }
 
-{ #category : '*BlocPac-Tasker' }
+{ #category : #'*BlocPac-Tasker' }
 TKTWorker >> entryIdentifier [ 
 
 	^process entryIdentifier 
 
 ]
 
-{ #category : '*BlocPac-Tasker' }
+{ #category : #'*BlocPac-Tasker' }
 TKTWorker >> isSuspended [
 
 	^process isSuspended
 ]
 
-{ #category : '*BlocPac-Tasker' }
+{ #category : #'*BlocPac-Tasker' }
 TKTWorker >> stopAfterTaskCompleted [
 	"Stop after the current task has been completed"
 
@@ -21,7 +21,7 @@ TKTWorker >> stopAfterTaskCompleted [
 
 ]
 
-{ #category : '*BlocPac-Tasker' }
+{ #category : #'*BlocPac-Tasker' }
 TKTWorker >> taskName [
 
 	^process

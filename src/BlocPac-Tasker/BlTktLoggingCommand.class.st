@@ -1,13 +1,13 @@
 Class {
-	#name : 'BlTktLoggingCommand',
-	#superclass : 'BlTktDecoratedCommand',
+	#name : #BlTktLoggingCommand,
+	#superclass : #BlTktDecoratedCommand,
 	#instVars : [
 		'callingMethod'
 	],
 	#category : 'BlocPac-Tasker-Commands'
 }
 
-{ #category : 'instance-creation' }
+{ #category : #'instance-creation' }
 BlTktLoggingCommand class >> command: aCommand [
 
 	^self new 
@@ -16,7 +16,7 @@ BlTktLoggingCommand class >> command: aCommand [
 		yourself
 ]
 
-{ #category : 'instance-creation' }
+{ #category : #'instance-creation' }
 BlTktLoggingCommand class >> valuable: aValuable [
 
 	^self new 
@@ -25,22 +25,22 @@ BlTktLoggingCommand class >> valuable: aValuable [
 		yourself
 ]
 
-{ #category : 'converting' }
+{ #category : #converting }
 BlTktLoggingCommand >> asBlTktLoggingCommand [
 	^ self
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlTktLoggingCommand >> callingMethod [
 	^ callingMethod
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlTktLoggingCommand >> callingMethod: anObject [
 	callingMethod := anObject
 ]
 
-{ #category : 'executing' }
+{ #category : #executing }
 BlTktLoggingCommand >> execute [
 	| aResult |
 	BlTaskItStartCommandSignal emitValuable: self command message: 'start ', self command name callingMethod: callingMethod.
@@ -55,19 +55,19 @@ BlTktLoggingCommand >> execute [
 	^ aResult
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 BlTktLoggingCommand >> includesLoggingCommand [
 	<return: #Boolean>
 	^ true
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlTktLoggingCommand >> name [
 	<return: #String>
 	^ 'Logging ', self command name
 ]
 
-{ #category : 'taskit' }
+{ #category : #taskit }
 BlTktLoggingCommand >> taskExecution: anExecution [
 	BlTaskItScheduledCommandSignal 
 		emitValuable: self command 

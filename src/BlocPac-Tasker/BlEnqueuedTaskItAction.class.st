@@ -1,6 +1,6 @@
 Class {
-	#name : 'BlEnqueuedTaskItAction',
-	#superclass : 'BlElementTask',
+	#name : #BlEnqueuedTaskItAction,
+	#superclass : #BlElementTask,
 	#instVars : [
 		'action',
 		'resultCallbacks',
@@ -11,34 +11,34 @@ Class {
 	#category : 'BlocPac-Tasker-Element Tasks'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlEnqueuedTaskItAction >> action [
 	^ action
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlEnqueuedTaskItAction >> action: anAction [
 	action := anAction asBlTktCommand asBlTktLoggingCommand.
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlEnqueuedTaskItAction >> element [
 	<return: #BlElement>
 
 	^ element
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlEnqueuedTaskItAction >> element: aBlElement [
 	element := aBlElement
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlEnqueuedTaskItAction >> futureAction [
 	^ self action
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 BlEnqueuedTaskItAction >> initialize [
 	super initialize.
 	self action: [ ].
@@ -46,27 +46,27 @@ BlEnqueuedTaskItAction >> initialize [
 	exceptionCallbacks := OrderedCollection new.
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlEnqueuedTaskItAction >> name [
 	^ name
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlEnqueuedTaskItAction >> name: anObject [
 	name := anObject
 ]
 
-{ #category : 'hooks' }
+{ #category : #hooks }
 BlEnqueuedTaskItAction >> onEnqueuedInElement: aBlElement [
 	self element: aBlElement
 ]
 
-{ #category : 'api - callbacks' }
+{ #category : #'api - callbacks' }
 BlEnqueuedTaskItAction >> onFailureDo: aCallback [
 	exceptionCallbacks add: aCallback
 ]
 
-{ #category : 'api - callbacks' }
+{ #category : #'api - callbacks' }
 BlEnqueuedTaskItAction >> onFailureEnqueueAction: aCallback [
 	self onFailureDo: [ :aResult | 
 		self element enqueueTask: ((BlTaskAction new 
@@ -74,7 +74,7 @@ BlEnqueuedTaskItAction >> onFailureEnqueueAction: aCallback [
 				asBeaconLoggingTask maySetName: 'Failute Action') ]
 ]
 
-{ #category : 'api - callbacks' }
+{ #category : #'api - callbacks' }
 BlEnqueuedTaskItAction >> onFinishEnqueueAction: aCallback [
 	self onFinishedDo: [ :aResultOrException | 
 		self element enqueueTask: ((BlTaskAction new 
@@ -82,18 +82,18 @@ BlEnqueuedTaskItAction >> onFinishEnqueueAction: aCallback [
 				asBeaconLoggingTask maySetName: 'Finish Action') ]
 ]
 
-{ #category : 'api - callbacks' }
+{ #category : #'api - callbacks' }
 BlEnqueuedTaskItAction >> onFinishedDo: aCallback [
 	self onSuccessDo: aCallback.
 	self onFailureDo: aCallback.
 ]
 
-{ #category : 'api - callbacks' }
+{ #category : #'api - callbacks' }
 BlEnqueuedTaskItAction >> onSuccessDo: aCallback [
 	resultCallbacks add: aCallback
 ]
 
-{ #category : 'api - callbacks' }
+{ #category : #'api - callbacks' }
 BlEnqueuedTaskItAction >> onSuccessEnqueueAction: aCallback [
 	self onSuccessDo: [ :aResult | 
 		self element enqueueTask: ((BlTaskAction new 
@@ -101,7 +101,7 @@ BlEnqueuedTaskItAction >> onSuccessEnqueueAction: aCallback [
 				asBeaconLoggingTask maySetName: 'Success Action') ]
 ]
 
-{ #category : 'api - running' }
+{ #category : #'api - running' }
 BlEnqueuedTaskItAction >> run [
 	future := self runFuture.
 	resultCallbacks
@@ -110,7 +110,7 @@ BlEnqueuedTaskItAction >> run [
 		do: [ :eachCallback | future onFailureDo: eachCallback ]
 ]
 
-{ #category : 'api - running' }
+{ #category : #'api - running' }
 BlEnqueuedTaskItAction >> runFuture [
 	<return: #TKTFuture>
 	| aCommand |

@@ -1,25 +1,25 @@
 Class {
-	#name : 'BlTktRequest',
-	#superclass : 'Object',
+	#name : #BlTktRequest,
+	#superclass : #Object,
 	#instVars : [
 		'terminate'
 	],
 	#category : 'BlocPac-Tasker-Commands'
 }
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 BlTktRequest >> initialize [
 	super initialize.
 	terminate := false.
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 BlTktRequest >> shouldTerminate [
 	<return: #Boolean>
 	^ terminate
 ]
 
-{ #category : 'requests' }
+{ #category : #requests }
 BlTktRequest >> terminate [
 	terminate := true
 ]
