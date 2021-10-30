@@ -10,35 +10,12 @@ Class {
 	#instVars : [
 		'curvature'
 	],
-	#category : 'BlocPac-Geometry-Anchors'
+	#category : #'BlocPac-Geometry-Anchors'
 }
 
 { #category : #'instance creation' }
 BlPerpendicularAnchor class >> curvature: aNumber [
 	^ self new curvature: aNumber
-]
-
-{ #category : #geometry }
-BlPerpendicularAnchor >> computePositionWithin: aGeometryElement [
-	"Return anchor position within a given geometry element in its parent bounds"
-	<return: #Point>
-	| aFromPosition aToPosition aDirection aPerpendicular aMiddle aCurvatureOrigin aCurvatureCorner |
-
-	self
-		assert: [ self referenceAnchors size = 2 ]
-		description: [ 'Perpendicular anchor requires two anchors to work properly' ].
-
-	aFromPosition := (self referenceAnchors first computePositionWithin: aGeometryElement) asBlocVector.
-	aToPosition := (self referenceAnchors second computePositionWithin: aGeometryElement) asBlocVector.
-
-	aCurvatureOrigin := (aGeometryElement localPointToParent: 0@0) asBlocVector.
-	aCurvatureCorner := (aGeometryElement localPointToParent: 0 @ self curvature) asBlocVector.
-	
-	aDirection := aToPosition - aFromPosition.
-	aPerpendicular := aDirection normal negated * (aCurvatureCorner - aCurvatureOrigin) length.
-	aMiddle := aFromPosition + (aDirection / 2.0).
-
-	^ (aMiddle + aPerpendicular) asPoint
 ]
 
 { #category : #accessing }
@@ -51,32 +28,38 @@ BlPerpendicularAnchor >> curvature: anObject [
 	curvature := anObject
 ]
 
-{ #category : #geometry }
-BlPerpendicularAnchor >> globalPositionWithin: aGeometryElement [
-	"Compute and return a global position (in space) of this anchor"
-	<return: #Point>
-	| aFromPosition aToPosition aDirection aPerpendicular aMiddle aCurvatureOrigin aCurvatureCorner |
-
-	self
-		assert: [ self referenceAnchors size = 2 ]
-		description: [ 'Perpendicular anchor requires two anchors to work properly' ].
-
-	aFromPosition := (self referenceAnchors first globalPositionWithin: aGeometryElement) asBlocVector.
-	aToPosition := (self referenceAnchors second globalPositionWithin: aGeometryElement) asBlocVector.
-
-	aCurvatureOrigin := (aGeometryElement localPointToGlobal: 0@0) asBlocVector.
-	aCurvatureCorner := (aGeometryElement localPointToGlobal: 0 @ self curvature) asBlocVector.
-	
-	aDirection := aToPosition - aFromPosition.
-	aPerpendicular := aDirection normal negated * (aCurvatureCorner - aCurvatureOrigin) length.
-	aMiddle := aFromPosition + (aDirection / 2.0).
-
-	^ (aMiddle + aPerpendicular) asPoint
-]
-
 { #category : #initialization }
 BlPerpendicularAnchor >> initialize [
 	super initialize.
 	
 	curvature := 30
+]
+
+{ #category : #geometry }
+BlPerpendicularAnchor >> positionForAnchoredElement: aGeometryElement within: aCommonParent [
+	"Compute and return a global position (in space) of this anchor"
+	<return: #Point>
+
+	| aFromPosition aToPosition aDirection aPerpendicular aMiddle aCurvatureOrigin aCurvatureCorner |
+	self
+		assert: [ self referenceAnchors size = 2 ]
+		description: [ 
+		'Perpendicular anchor requires two anchors to work properly' ].
+
+	aFromPosition := (self referenceAnchors first
+		                  positionForAnchoredElement: aGeometryElement
+		                  within: aCommonParent) asBlocVector.
+	aToPosition := (self referenceAnchors second
+		                positionForAnchoredElement: aGeometryElement
+		                within: aCommonParent) asBlocVector.
+
+	aCurvatureOrigin := (aCommonParent localPointToMine: (0 @ 0) fromChild: aGeometryElement) asBlocVector.
+	aCurvatureCorner := (aCommonParent localPointToMine: (0 @ self curvature) fromChild: aGeometryElement) asBlocVector.
+
+	aDirection := aToPosition - aFromPosition.
+	aPerpendicular := aDirection normal negated
+	                  * (aCurvatureCorner - aCurvatureOrigin) length.
+	aMiddle := aFromPosition + (aDirection / 2.0).
+
+	^ (aMiddle + aPerpendicular) asPoint
 ]

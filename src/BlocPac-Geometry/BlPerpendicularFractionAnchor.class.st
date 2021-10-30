@@ -10,32 +10,12 @@ Class {
 	#instVars : [
 		'curvatureFraction'
 	],
-	#category : 'BlocPac-Geometry-Anchors'
+	#category : #'BlocPac-Geometry-Anchors'
 }
 
 { #category : #'instance creation' }
 BlPerpendicularFractionAnchor class >> fraction: aNumber [
 	^ self new curvatureFraction: aNumber
-]
-
-{ #category : #geometry }
-BlPerpendicularFractionAnchor >> computePositionWithin: aGeometryElement [
-	"Return anchor position within a given geometry element in its parent bounds"
-	<return: #Point>
-	| aFromPosition aToPosition aDirection aPerpendicular aMiddle |
-
-	self
-		assert: [ self referenceAnchors size = 2 ]
-		description: [ 'Perpendicular anchor requires two anchors to work properly' ].
-
-	aFromPosition := (self referenceAnchors first computePositionWithin: aGeometryElement) asBlocVector.
-	aToPosition := (self referenceAnchors second computePositionWithin: aGeometryElement) asBlocVector.
-	
-	aDirection := aToPosition - aFromPosition.
-	aPerpendicular := aDirection normal negated * aDirection length * self curvatureFraction.
-	aMiddle := aFromPosition + (aDirection / 2.0).
-
-	^ (aMiddle + aPerpendicular) asPoint
 ]
 
 { #category : #accessing }
@@ -52,29 +32,36 @@ BlPerpendicularFractionAnchor >> curvatureFraction: aNumber [
 	curvatureFraction := aNumber
 ]
 
-{ #category : #geometry }
-BlPerpendicularFractionAnchor >> globalPositionWithin: aGeometryElement [
-	"Compute and return a global position (in space) of this anchor"
-	<return: #Point>
-	| aFromPosition aToPosition aDirection aPerpendicular aMiddle |
-
-	self
-		assert: [ self referenceAnchors size = 2 ]
-		description: [ 'Perpendicular anchor requires two anchors to work properly' ].
-
-	aFromPosition := (self referenceAnchors first globalPositionWithin: aGeometryElement) asBlocVector.
-	aToPosition := (self referenceAnchors second globalPositionWithin: aGeometryElement) asBlocVector.
-	
-	aDirection := aToPosition - aFromPosition.
-	aPerpendicular := aDirection normal negated * aDirection length * self curvatureFraction.
-	aMiddle := aFromPosition + (aDirection / 2.0).
-
-	^ (aMiddle + aPerpendicular) asPoint
-]
-
 { #category : #initialization }
 BlPerpendicularFractionAnchor >> initialize [
 	super initialize.
 	
 	curvatureFraction := 1.0
+]
+
+{ #category : #geometry }
+BlPerpendicularFractionAnchor >> positionForAnchoredElement: aGeometryElement within: aCommonParent [
+
+	"Compute and return a global position (in space) of this anchor"
+
+	<return: #Point>
+	| aFromPosition aToPosition aDirection aPerpendicular aMiddle |
+	self
+		assert: [ self referenceAnchors size = 2 ]
+		description: [ 
+		'Perpendicular anchor requires two anchors to work properly' ].
+
+	aFromPosition := (self referenceAnchors first
+		                  positionForAnchoredElement: aGeometryElement
+		                  within: aCommonParent) asBlocVector.
+	aToPosition := (self referenceAnchors second
+		                positionForAnchoredElement: aGeometryElement
+		                within: aCommonParent) asBlocVector.
+
+	aDirection := aToPosition - aFromPosition.
+	aPerpendicular := aDirection normal negated * aDirection length
+	                  * self curvatureFraction.
+	aMiddle := aFromPosition + (aDirection / 2.0).
+
+	^ (aMiddle + aPerpendicular) asPoint
 ]

@@ -8,7 +8,7 @@ Class {
 	#instVars : [
 		'position'
 	],
-	#category : 'BlocPac-Geometry-Anchors'
+	#category : #'BlocPac-Geometry-Anchors'
 }
 
 { #category : #accessing }
@@ -18,14 +18,6 @@ BlAbsolutePositionAnchor class >> position: aPoint [
 	^ self new
 		position: aPoint;
 		yourself
-]
-
-{ #category : #geometry }
-BlAbsolutePositionAnchor >> globalPositionWithin: aGeometryElement [
-	"Compute and return a global position (in space) of this anchor"
-	<return: #Point>
-
-	^ aGeometryElement localPointToGlobal: (aGeometryElement parentPointToLocal: self position)
 ]
 
 { #category : #testing }
@@ -57,6 +49,16 @@ BlAbsolutePositionAnchor >> position [
 { #category : #accessing }
 BlAbsolutePositionAnchor >> position: aPoint [
 	position := aPoint
+]
+
+{ #category : #geometry }
+BlAbsolutePositionAnchor >> positionForAnchoredElement: aGeometryElement within: aCommonParent [
+	"Compute and return a global position (in space) of this anchor"
+	<return: #Point>
+	
+	^ aGeometryElement hasParent
+		ifTrue: [ aCommonParent localPointToMine: (aGeometryElement parent childrenPointToLocal: self position) fromChild: aGeometryElement parent ]
+		ifFalse: [ self position ]
 ]
 
 { #category : #printing }

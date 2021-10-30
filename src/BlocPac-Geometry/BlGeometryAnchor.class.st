@@ -17,30 +17,24 @@ BlGeometryAnchor >> attachToAnchoredElement: aGeometryElement [
 ]
 
 { #category : #geometry }
-BlGeometryAnchor >> computePositionWithin: aGeometryElement [
+BlGeometryAnchor >> computePositionWithin: anAnchoredElement [
 	"Return anchor position within a given geometry element in its parent bounds"
 	<return: #Point>
 
-	^ aGeometryElement globalPointToParentChildren: (self globalPositionWithin: aGeometryElement)
+	anAnchoredElement commonAnchorParentDo: [ :aCommonParent |
+		| aPositionInCommonParent |
+
+		aPositionInCommonParent := self
+			positionForAnchoredElement: anAnchoredElement
+			within: aCommonParent.
+
+		^ anAnchoredElement globalPointToParentChildren: aPositionInCommonParent fromParent: aCommonParent ].
+
+	^ 0@0
 ]
 
 { #category : #'anchor - lifecycle' }
 BlGeometryAnchor >> detachFromAnchoredElement: aGeometryElement [
-]
-
-{ #category : #geometry }
-BlGeometryAnchor >> globalPositionWithin: aGeometryElement [
-	"Compute and return a global position (in space) of this anchor"
-	<return: #Point>
-
-	^ self subclassResponsibility
-]
-
-{ #category : #geometry }
-BlGeometryAnchor >> globalSelfPositionsWithin: aGeometryElement and: anAnotherAnchor [
-	<return: #Collection of: #Point>
-
-	^ self subclassResponsibility
 ]
 
 { #category : #'testing - self anchors' }
@@ -65,6 +59,14 @@ BlGeometryAnchor >> isSelfToRelative: anAnotherAnchor [
 ]
 
 { #category : #geometry }
+BlGeometryAnchor >> positionForAnchoredElement: aGeometryElement within: aCommonParent [
+	"Compute and return a global position (in space) of this anchor"
+	<return: #Point>
+
+	^ self subclassResponsibility
+]
+
+{ #category : #geometry }
 BlGeometryAnchor >> positionWithin: aGeometryElement [
 	"Compute and return a position of this anchor in parent coordinates of the *anchor* element
 	taking into account a given geometry element"
@@ -74,9 +76,25 @@ BlGeometryAnchor >> positionWithin: aGeometryElement [
 ]
 
 { #category : #geometry }
-BlGeometryAnchor >> selfPositionsWithin: aGeometryElement and: anAnotherAnchor [
+BlGeometryAnchor >> selfPositionsForAnchoredElement: anAnchoredElement and: anAnotherAnchor within: aCommonParent [
+	<return: #Collection of: #Point>
+
+	^ self subclassResponsibility
+]
+
+{ #category : #geometry }
+BlGeometryAnchor >> selfPositionsWithin: anAnchoredElement and: anAnotherAnchor [
 	<return: #Collection of: #Point>
 	
-	^ (self globalSelfPositionsWithin: aGeometryElement and: anAnotherAnchor)
-			collect: [ :aPoint | aGeometryElement globalPointToParentChildren: aPoint ]
+	anAnchoredElement commonAnchorParentDo: [ :aCommonParent |
+		| theSelfPositions |
+
+		theSelfPositions := self
+			selfPositionsForAnchoredElement: anAnchoredElement
+			and: anAnotherAnchor
+			within: aCommonParent.
+			
+		^ theSelfPositions collect: [ :eachPoint | anAnchoredElement globalPointToParentChildren: eachPoint fromParent: aCommonParent ] ].
+
+	^ 0@0
 ]
