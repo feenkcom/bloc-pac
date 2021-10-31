@@ -7,7 +7,7 @@ Ellipse radii are computed based as a half of the width and the height of the re
 Class {
 	#name : #BlNearestPositionEllipseAnchor,
 	#superclass : #BlNearestPositionAnchor,
-	#category : 'BlocPac-Geometry-Anchors'
+	#category : #'BlocPac-Geometry-Anchors'
 }
 
 { #category : #accessing }
@@ -16,13 +16,13 @@ BlNearestPositionEllipseAnchor class >> label [
 ]
 
 { #category : #geometry }
-BlNearestPositionEllipseAnchor >> globalPositionWithin: aGeometryElement [
+BlNearestPositionEllipseAnchor >> positionForAnchoredElement: aGeometryElement within: aCommonParent [
 	"Compute and return a global position (in space) of this anchor"
 	<return: #Point>
 	| aMajor aMinor aReferenceBounds aNearestBounds aDirectionVector k x y aMetric intersection |
 	
-	aReferenceBounds := self referenceElement boundsInSpace.
-	aNearestBounds := self nearestToElement boundsInSpace.
+	aReferenceBounds := self referenceElement bounds inParent: aCommonParent.
+	aNearestBounds := self nearestToElement bounds inParent: aCommonParent.
 	
 	aDirectionVector := (aNearestBounds center - aReferenceBounds center) asBlocVector.
 	

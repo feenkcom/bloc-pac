@@ -46,41 +46,6 @@ BlAnchorRelativeToElement >> detachFromAnchoredElement: aGeometryElement [
 	aGeometryElement unregisterDependentElement: self referenceElement
 ]
 
-{ #category : #geometry }
-BlAnchorRelativeToElement >> globalPositionWithin: aGeometryElement [
-	"Compute and return a global position (in space) of this anchor"
-	<return: #Point>
-
-	^ self subclassResponsibility
-]
-
-{ #category : #geometry }
-BlAnchorRelativeToElement >> globalSelfPositionsWithin: aGeometryElement and: anAnotherAnchor [
-	<return: #Collection of: #Point>
-	| aFromPoint aToPoint theBoundsInSpace aFromRay aToRay aDirectionVector aLength |
-
-	aFromPoint := self globalPositionWithin: aGeometryElement.
-	aToPoint := anAnotherAnchor globalPositionWithin: aGeometryElement.
-
-	theBoundsInSpace := self referenceElement bounds inSpace bounds.
-
-	aFromRay := theBoundsInSpace outsideNormalCloseTo: aFromPoint.
-	aToRay := theBoundsInSpace outsideNormalCloseTo: aToPoint.
-
-	(aFromRay vector isParallel: aToRay vector)
-		ifTrue: [
-			aFromRay vector rotateBy: 45 degreesToRadians.
-			aToRay vector rotateBy: 45 negated degreesToRadians. ].
-
-	aDirectionVector := (aToPoint - aFromPoint) asBlocVector * 2.
-	aLength := aDirectionVector length max: 150.
-
-	^ {
-		aFromRay point + (aFromRay vector * aLength).
-		aToRay point + (aToRay vector * aLength)
-	}
-]
-
 { #category : #'testing - self anchors' }
 BlAnchorRelativeToElement >> isSelfTo: anAnotherAnchor [
 	<return: #Boolean>
@@ -102,6 +67,14 @@ BlAnchorRelativeToElement >> isSelfToRelative: anAnotherAnchor [
 	^ self referenceElement = anAnotherAnchor referenceElement
 ]
 
+{ #category : #geometry }
+BlAnchorRelativeToElement >> positionForAnchoredElement: aGeometryElement within: aCommonParent [
+	"Compute and return a global position (in space) of this anchor"
+	<return: #Point>
+
+	^ self subclassResponsibility
+]
+
 { #category : #accessing }
 BlAnchorRelativeToElement >> referenceElement [
 	<return: #BlElement>
@@ -120,4 +93,34 @@ BlAnchorRelativeToElement >> referenceElement: anElement [
 		description: [ 'Reference element can not be changed once set' ].
 
 	referenceElement := anElement
+]
+
+{ #category : #geometry }
+BlAnchorRelativeToElement >> selfPositionsForAnchoredElement: anAnchoredElement and: anAnotherAnchor within: aCommonParent [
+	<return: #Collection of: #Point>
+	| aFromPoint aToPoint theBoundsInCommonParent aFromRay aToRay aDirectionVector aLength |
+
+	aFromPoint := self
+		              positionForAnchoredElement: anAnchoredElement
+		              within: aCommonParent.
+
+	aToPoint := anAnotherAnchor
+		            positionForAnchoredElement: anAnchoredElement
+		            within: aCommonParent.
+
+	theBoundsInCommonParent := (self referenceElement bounds inParent: aCommonParent) bounds.
+
+	aFromRay := theBoundsInCommonParent outsideNormalCloseTo: aFromPoint.
+	aToRay := theBoundsInCommonParent outsideNormalCloseTo: aToPoint.
+
+	(aFromRay vector isParallel: aToRay vector) ifTrue: [ 
+		aFromRay vector rotateBy: 45 degreesToRadians.
+		aToRay vector rotateBy: 45 negated degreesToRadians ].
+
+	aDirectionVector := (aToPoint - aFromPoint) asBlocVector * 2.
+	aLength := aDirectionVector length max: 150.
+
+	^ { 
+		  (aFromRay point + (aFromRay vector * aLength)).
+		  (aToRay point + (aToRay vector * aLength)) }
 ]

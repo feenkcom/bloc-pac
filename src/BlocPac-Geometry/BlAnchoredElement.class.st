@@ -17,6 +17,11 @@ BlAnchoredElement >> applyLayoutIn: aBounds context: aBlElementBoundsUpdateConte
 	super applyLayoutIn: self layoutBounds context: aBlElementBoundsUpdateContext
 ]
 
+{ #category : #anchors }
+BlAnchoredElement >> commonAnchorParentDo: aBlock [
+	commonParentDetector commonParent ifNotNil: aBlock
+]
+
 { #category : #initialization }
 BlAnchoredElement >> defaultLayout [
 	^ BlAnchoredLayout new

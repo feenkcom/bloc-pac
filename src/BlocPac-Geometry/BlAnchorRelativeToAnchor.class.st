@@ -8,20 +8,21 @@ Class {
 	#instVars : [
 		'referenceAnchors'
 	],
-	#category : 'BlocPac-Geometry-Anchors'
+	#category : #'BlocPac-Geometry-Anchors'
 }
 
-{ #category : #geometry }
-BlAnchorRelativeToAnchor >> globalPositionWithin: aGeometryElement [
-	"Compute and return a global position (in space) of this anchor"
-	<return: #Point>
-
-	^ self subclassResponsibility
+{ #category : #start }
+BlAnchorRelativeToAnchor >> attachToAnchoredElement: anAnchoredElement [
+	super attachToAnchoredElement: anAnchoredElement.
+	
+	referenceAnchors do: [ :eachAnchor | eachAnchor attachToAnchoredElement: anAnchoredElement ]
 ]
 
-{ #category : #geometry }
-BlAnchorRelativeToAnchor >> positionWithin: aGeometryElement [
-	^ self computePositionWithin: aGeometryElement
+{ #category : #start }
+BlAnchorRelativeToAnchor >> detachFromAnchoredElement: anAnchoredElement [
+	super detachFromAnchoredElement: anAnchoredElement.
+	
+	referenceAnchors do: [ :eachAnchor | eachAnchor detachFromAnchoredElement: anAnchoredElement ]
 ]
 
 { #category : #accessing }

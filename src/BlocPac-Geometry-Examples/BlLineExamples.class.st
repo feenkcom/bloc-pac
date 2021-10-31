@@ -291,9 +291,11 @@ BlLineExamples >> gridWith12Cells [
 { #category : #'example - geometry' }
 BlLineExamples >> horizontalLine [
 	<gtExample>	
-	| redLine |
+	| redLine aContainer |
 	
 	redLine := self redLine.
+	aContainer := self container.
+	aContainer addChild: redLine.
 
 	redLine fromAnchor: (BlAbsolutePositionAnchor position: 50@200).
 	redLine toAnchor: (BlAbsolutePositionAnchor position: 300@200).
@@ -313,8 +315,7 @@ BlLineExamples >> horizontalLine [
 	self assert: redLine effectBounds equals: ((-3.8284271247461903@ -2.8284271247461903) corner: (253.82842712474618@2.8284271247461903)).
 	self assert: redLine invalidationBounds equals: ((-3.8284271247461903@ -2.8284271247461903) corner: (253.82842712474618@2.8284271247461903)).
 
-	^ self container
-		addChildren: { redLine }
+	^ aContainer
 ]
 
 { #category : #'instance creation' }
@@ -522,13 +523,13 @@ BlLineExamples >> twoLines [
 	blueLine := self blueLine.
 	
 	attachPoint := self attachPoint.
-	attachPoint relocate: 400 @ 200.
+	attachPoint relocate: 300 @ 130.
 
 	redLine fromAnchor: (BlAbsolutePositionAnchor position: 100 @ 100).
 	redLine toAnchor: (BlElementCenterAnchor element: attachPoint).
 	
 	blueLine fromAnchor: (BlElementCenterAnchor element: attachPoint).
-	blueLine toAnchor: (BlAbsolutePositionAnchor position: 500 @ 500).
+	blueLine toAnchor: (BlAbsolutePositionAnchor position: 400 @ 300).
 
 	^ self container
 		addChildren: { redLine . blueLine . attachPoint }
@@ -537,9 +538,11 @@ BlLineExamples >> twoLines [
 { #category : #'example - geometry' }
 BlLineExamples >> verticalLine [
 	<gtExample>	
-	| redLine |
+	| redLine aContainer |
 	
 	redLine := self redLine.
+	aContainer := self container.
+	aContainer addChild: redLine.
 
 	redLine fromAnchor: (BlAbsolutePositionAnchor position: 50@50).
 	redLine toAnchor: (BlAbsolutePositionAnchor position: 50@300).
@@ -559,6 +562,5 @@ BlLineExamples >> verticalLine [
 	self assert: redLine effectBounds equals: ((-2.8284271247461903@ -3.8284271247461903) corner: (2.8284271247461903@253.82842712474618)).
 	self assert: redLine invalidationBounds equals: ((-2.8284271247461903@ -3.8284271247461903) corner: (2.8284271247461903@253.82842712474618)).
 	
-	^ self container
-		addChildren: { redLine }
+	^ aContainer
 ]

@@ -5,7 +5,7 @@ I find the nearest point that lies on bounds rectangle of a reference element to
 Class {
 	#name : #BlNearestPositionBoundsAnchor,
 	#superclass : #BlNearestPositionAnchor,
-	#category : 'BlocPac-Geometry-Anchors'
+	#category : #'BlocPac-Geometry-Anchors'
 }
 
 { #category : #accessing }
@@ -14,19 +14,21 @@ BlNearestPositionBoundsAnchor class >> label [
 ]
 
 { #category : #geometry }
-BlNearestPositionBoundsAnchor >> globalPositionWithin: aGeometryElement [
+BlNearestPositionBoundsAnchor >> positionForAnchoredElement: aGeometryElement within: aCommonParent [
 	"Compute and return a global position (in space) of this anchor"
-
 	<return: #Point>
 	| br edges path result |
-	br := self referenceElement boundsInSpace.
-	edges := {(BlLine from: br topLeft to: br topRight).
-	(BlLine from: br topRight to: br bottomRight).
-	(BlLine from: br bottomRight to: br bottomLeft).
-	(BlLine from: br bottomLeft to: br topLeft)}.
+
+	br := self referenceElement bounds inParent: aCommonParent.
+	edges := {
+		(BlLine from: br topLeft to: br topRight).
+		(BlLine from: br topRight to: br bottomRight).
+		(BlLine from: br bottomRight to: br bottomLeft).
+		(BlLine from: br bottomLeft to: br topLeft)}.
+	
 	path := BlLine
 		from: br center
-		to: self nearestToElement boundsInSpace center.
+		to: (self nearestToElement bounds inParent: aCommonParent) center.
 	^ edges
 		detect: [ :each | 
 			result := each intersectionWith: path.
