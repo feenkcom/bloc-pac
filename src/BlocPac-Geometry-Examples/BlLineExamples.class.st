@@ -155,14 +155,14 @@ BlLineExamples >> draggableLineWithTwoAnchors [
 	
 	fromElement := BlElement new
 		size: 20 @ 20;
-		geometry: BlCircle new;
+		geometry: BlCircleGeometry new;
 		relocate: 75 @ 140;
 		addEventHandler: BlPullHandler new;
 		background: Color gray.
 
 	toElement := BlElement new
 		size: 20 @ 20;
-		geometry: BlCircle new;
+		geometry: BlCircleGeometry new;
 		relocate: 200 @ 240;
 		addEventHandler: BlPullHandler new;
 		background: Color gray.
