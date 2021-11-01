@@ -37,13 +37,17 @@ BlAnchorRelativeToElement class >> referenceElement: anElement relatedTo: anothe
 ]
 
 { #category : #start }
-BlAnchorRelativeToElement >> attachToAnchoredElement: aGeometryElement [
-	aGeometryElement registerDependentElement: self referenceElement
+BlAnchorRelativeToElement >> attachToAnchoredElement: anAnchoredElement [
+	super attachToAnchoredElement: anAnchoredElement.
+	
+	anAnchoredElement registerDependentElement: self referenceElement
 ]
 
 { #category : #start }
-BlAnchorRelativeToElement >> detachFromAnchoredElement: aGeometryElement [
-	aGeometryElement unregisterDependentElement: self referenceElement
+BlAnchorRelativeToElement >> detachFromAnchoredElement: anAnchoredElement [
+	super detachFromAnchoredElement: anAnchoredElement.
+	
+	anAnchoredElement unregisterDependentElement: self referenceElement
 ]
 
 { #category : #'testing - self anchors' }

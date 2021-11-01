@@ -29,17 +29,17 @@ BlNearestPositionAnchor class >> referenceElement: anElement relatedTo: anotherE
 ]
 
 { #category : #start }
-BlNearestPositionAnchor >> attachToAnchoredElement: aGeometryElement [
-	super attachToAnchoredElement: aGeometryElement.
+BlNearestPositionAnchor >> attachToAnchoredElement: anAnchoredElement [
+	super attachToAnchoredElement: anAnchoredElement.
 	
-	aGeometryElement registerDependentElement: nearestToElement
+	anAnchoredElement registerDependentElement: nearestToElement
 ]
 
 { #category : #start }
-BlNearestPositionAnchor >> detachFromAnchoredElement: aGeometryElement [
-	super detachFromAnchoredElement: aGeometryElement.
+BlNearestPositionAnchor >> detachFromAnchoredElement: anAnchoredElement [
+	super detachFromAnchoredElement: anAnchoredElement.
 	
-	aGeometryElement unregisterDependentElement: nearestToElement
+	anAnchoredElement unregisterDependentElement: nearestToElement
 ]
 
 { #category : #accessing }
