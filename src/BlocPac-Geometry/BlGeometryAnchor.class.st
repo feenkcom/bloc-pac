@@ -13,7 +13,8 @@ Class {
 }
 
 { #category : #'anchor - lifecycle' }
-BlGeometryAnchor >> attachToAnchoredElement: aGeometryElement [
+BlGeometryAnchor >> attachToAnchoredElement: anAnchoredElement [
+	anAnchoredElement onAnchorMoved
 ]
 
 { #category : #geometry }
@@ -34,7 +35,8 @@ BlGeometryAnchor >> computePositionWithin: anAnchoredElement [
 ]
 
 { #category : #'anchor - lifecycle' }
-BlGeometryAnchor >> detachFromAnchoredElement: aGeometryElement [
+BlGeometryAnchor >> detachFromAnchoredElement: anAnchoredElement [
+	anAnchoredElement onAnchorMoved
 ]
 
 { #category : #'testing - self anchors' }
