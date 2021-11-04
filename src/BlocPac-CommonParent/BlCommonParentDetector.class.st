@@ -19,6 +19,9 @@ BlCommonParentDetector class >> forElements: aCollectionOfElements [
 BlCommonParentDetector >> addElement: anElement [
 	| aPreviousCommonParent aNewCommonParent |
 
+	(elements includes: anElement)
+		ifTrue: [ ^ self ].
+		
 	anElement addEventHandler: self.
 	
 	elements := elements copyWith: anElement.
