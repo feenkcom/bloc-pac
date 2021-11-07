@@ -105,7 +105,7 @@ BlTktCommonQueueWorkerPool >> processProvider [
 
 { #category : #schedulling }
 BlTktCommonQueueWorkerPool >> schedule: aTask [
-	self withConfigurationDo: [ super schedule: aTask ].
+	^ self withConfigurationDo: [ super schedule: aTask ].
 ]
 
 { #category : #schedulling }
@@ -115,9 +115,10 @@ BlTktCommonQueueWorkerPool >> schedule: aTask timeout: aTimeout [
 
 { #category : #'public - mutexed' }
 BlTktCommonQueueWorkerPool >> scheduleTaskExecution: aTaskExecution [
-
 	| add |
-	mutex critical: [ 
+
+	^ mutex critical: [ 
+		| wasAdded |
 		self ensureIsBeingWatched.
 		self privateManageWorkersBefore.
 		"Don't schedule the task if it is already being executed"
@@ -128,8 +129,10 @@ BlTktCommonQueueWorkerPool >> scheduleTaskExecution: aTaskExecution [
 				ifFound: [ :entry |
 					self flag: #remove.
 					add := false ] ].
-		add ifTrue: [ taskQueue nextPut: aTaskExecution ].
-		self privateManageWorkersAfter ]
+		wasAdded := false.
+		add ifTrue: [ wasAdded := (taskQueue nextPut: aTaskExecution) == aTaskExecution ].
+		self privateManageWorkersAfter.
+		wasAdded ]
 ]
 
 { #category : #'public - mutexed' }
