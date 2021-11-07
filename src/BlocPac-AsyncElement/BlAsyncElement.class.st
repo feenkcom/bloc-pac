@@ -172,12 +172,23 @@ BlAsyncElement >> priority: anInteger [
 { #category : #'async processing' }
 BlAsyncElement >> queueAsyncUpdate [
 	"Queue a task to update the receiver's state."
+	| aWaitingTask |
 
-	self needsUpdate ifFalse: [ ^self ].
+	self needsUpdate
+		ifFalse: [ ^self ].
+
+	aWaitingTask := BlWaitingLazyElementBuilderTask new.
 
 	BlUseAsyncFeatures 
-		ifEnabledDo: [ self taskPool schedule: self queueEntry ] 
-		otherwise: [ self queueEntry execute ].
+		ifEnabledDo: [
+			| aCommandWithCallback |
+
+			aCommandWithCallback := BlTktWithFinishCallbackCommand new
+				onFinishedDo: [ aWaitingTask markAsFinished ];
+				command: self queueEntry.
+			(self taskPool schedule: aCommandWithCallback)
+				ifTrue: [ self enqueueTask: aWaitingTask ] ] 
+		otherwise: [ self queueEntry execute ]
 ]
 
 { #category : #'async processing' }
