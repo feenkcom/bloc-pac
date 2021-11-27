@@ -193,7 +193,7 @@ BlInfiniteRecycler >> elementFor: aPosition dryRun: dryRun [
 	(aPosition < 1 or: [ aPosition > self controller dataSourceItemCount ])
 		ifTrue: [ Error signal: 'Position is out of bounds!' ].
 
-	self controller infiniteElement telemetry
+	BlFrameTelemetry
 		timeSync: [ 'Fetch element at {1}' format: { aPosition } ]
 		during: [ fetchedResult := fetcher elementFor: aPosition dryRun: dryRun controller: self controller ].
 	

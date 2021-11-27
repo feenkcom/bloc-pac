@@ -34,8 +34,8 @@ BlInfiniteDataSource >> bindHolder: anElementHolder at: aPosition [
 		clearDataSourcePositionUnknown;
 		addBound.
 
-	anElementHolder infiniteElement telemetry
-		timeSync: [ 'Bind holder {1} at {2}' format: { anElementHolder class name . aPosition } ]
+	BlFrameTelemetry
+		time: [ 'Bind holder {1} at {2}' format: { anElementHolder class name . aPosition } ]
 		during: [ self onBindHolder: anElementHolder at: aPosition payloads: anElementHolder payloads. ].
 	
 	anElementHolder clearPayload.

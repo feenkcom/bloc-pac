@@ -11,7 +11,7 @@ BlInfiniteRecyclerUserCacheFetcher >> defaultNext [
 
 { #category : #'element fetching' }
 BlInfiniteRecyclerUserCacheFetcher >> elementFor: aPosition dryRun: dryRun controller: aRecyclerController [
-	^ aRecyclerController infiniteElement telemetry
+	^ BlFrameTelemetry
 		timeSync: [ 'Fetch element from user cache at {1}' format: { aPosition } ]
 		during: [
 			| holder |

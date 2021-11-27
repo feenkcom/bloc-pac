@@ -51,7 +51,7 @@ BlInfiniteRecyclerStableScrapFetcher >> defaultNext [
 
 { #category : #'element fetching' }
 BlInfiniteRecyclerStableScrapFetcher >> elementFor: aPosition dryRun: dryRun controller: aRecyclerController [
-	^ aRecyclerController infiniteElement telemetry
+	^ BlFrameTelemetry
 		timeSync: [ 'Fetch element from stable scrap at {1}' format: { aPosition } ]
 		during: [
 			| offsetPosition holder |

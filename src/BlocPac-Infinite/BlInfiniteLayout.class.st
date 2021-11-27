@@ -65,8 +65,8 @@ BlInfiniteLayout >> addChild: anElement at: anIndex disappearing: isDisappearing
 	"If anIndex == 0 child will be attached at the end"
 	| anElementHolder anInfiniteConstraints |
 	
-	infiniteElement telemetry
-		timeSync: [ 'Add {1} as child at {2} disappearing {3}' format: { anElement . anIndex . isDisappearing } ]
+	BlFrameTelemetry
+		time: [ 'Add {1} as child at {2} disappearing {3}' format: { anElement . anIndex . isDisappearing } ]
 		during: [
 			anElementHolder := self elementHolderOf: anElement.
 			
@@ -87,8 +87,8 @@ BlInfiniteLayout >> addChild: anElement at: anIndex disappearing: isDisappearing
 						ifTrue: [ 
 							| currentIndex index |
 							
-							infiniteElement telemetry
-								timeSync: [ 'Re-add child {1} back at {2} disappearing {3}' format: { anElement . anIndex . isDisappearing } ]
+							BlFrameTelemetry
+								time: [ 'Re-add child {1} back at {2} disappearing {3}' format: { anElement . anIndex . isDisappearing } ]
 								during: [
 									index := anIndex = 0
 										ifTrue: [ childManager childrenCount ]
@@ -99,8 +99,8 @@ BlInfiniteLayout >> addChild: anElement at: anIndex disappearing: isDisappearing
 									currentIndex ~= index
 										ifTrue: [ self moveChildFrom: currentIndex to: index ] ] ]
 						ifFalse: [ 
-							infiniteElement telemetry
-								timeSync: [ 'Add child {1} as a new at {2} disappearing {3}' format: { anElement . anIndex . isDisappearing } ]
+							BlFrameTelemetry
+								time: [ 'Add child {1} as a new at {2} disappearing {3}' format: { anElement . anIndex . isDisappearing } ]
 								during: [
 									childManager addChild: anElement at: anIndex hidden: false.
 									anInfiniteConstraints insetsDirty: true.
