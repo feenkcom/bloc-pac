@@ -15,12 +15,12 @@ Class {
 
 { #category : #'manager -> element' }
 BlInfiniteDefaultChildrenController >> addChild: anElement at: anIndex [
-	infiniteElement telemetry
-		timeSync: [ 'Add child {1} to infinite element at {2}' format: { anElement . anIndex } ]
+	BlFrameTelemetry
+		time: [ 'Add child {1} to infinite element at {2}' format: { anElement . anIndex } ]
 		during: [ infiniteElement addChild: anElement at: anIndex. ].
 
-	infiniteElement telemetry
-		timeSync: [ 'Dispatch child {1} atatched to infinite element at {2}' format: { anElement . anIndex } ]
+	BlFrameTelemetry
+		time: [ 'Dispatch child {1} atatched to infinite element at {2}' format: { anElement . anIndex } ]
 		during: [ infiniteElement dispatchChildAttached: anElement ]
 ]
 

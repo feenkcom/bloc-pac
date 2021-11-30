@@ -225,13 +225,13 @@ BlInfiniteLinearLayoutState >> nextElement: aRecycler in: anInfiniteElement [
 
 	^ self hasScrapList
 		ifTrue: [
-			anInfiniteElement telemetry
+			BlFrameTelemetry
 				timeSync: [ 'Get next element from scrap list' ]
 				during: [ self nextElementFromScrapList ] ]
 		ifFalse: [ 
 			| anElement |
 			
-			anInfiniteElement telemetry
+			BlFrameTelemetry
 				timeSync: [ 'Get next element from recycler' ]
 				during: [ anElement := aRecycler elementFor: currentPosition. ].
 			

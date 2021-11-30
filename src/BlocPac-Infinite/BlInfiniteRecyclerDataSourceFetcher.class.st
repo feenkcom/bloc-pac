@@ -11,7 +11,7 @@ BlInfiniteRecyclerDataSourceFetcher >> defaultNext [
 
 { #category : #'element fetching' }
 BlInfiniteRecyclerDataSourceFetcher >> elementFor: aPosition dryRun: dryRun controller: aRecyclerController [
-	^ aRecyclerController infiniteElement telemetry
+	^ BlFrameTelemetry
 		timeSync: [ 'Fetch element from data source at {1}' format: { aPosition } ]
 		during: [
 			| holder |

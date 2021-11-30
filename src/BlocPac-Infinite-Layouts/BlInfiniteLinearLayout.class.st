@@ -827,7 +827,7 @@ BlInfiniteLinearLayout >> layoutChunkAdd [
 	<return: #BlElement>
 	| anElement |
 
-	infiniteElement telemetry
+	BlFrameTelemetry
 		timeSync: [ 'Get next element' ]
 		during: [ anElement := layoutState nextElement: self recycler in: infiniteElement ].
 
@@ -835,7 +835,7 @@ BlInfiniteLinearLayout >> layoutChunkAdd [
 		assert: [ anElement isNotNil ]
 		description: [ 'Next element can not be nil if we have items to display' ].
 	
-	infiniteElement telemetry
+	BlFrameTelemetry
 		timeSync: [ 'Add {1} as child' format: { anElement } ]
 		during: [
 			layoutState hasScrapList
@@ -854,7 +854,7 @@ BlInfiniteLinearLayout >> layoutChunkAdd [
 		ifTrue: [ 
 			(infiniteElement space needsStyleComputation: anElement)
 				ifTrue: [
-					infiniteElement telemetry
+					BlFrameTelemetry
 						timeSync: [ 'Compute chunk style {1}' format: { anElement } ]
 						during: [
 							anElement ignoreRequestLayoutDuring: [
@@ -867,13 +867,13 @@ BlInfiniteLinearLayout >> layoutChunkAdd [
 			"revisit needsPropertiesComputation:"
 			((infiniteElement space canComputeProperties: anElement) and: [ true"infiniteElement space needsPropertiesComputation: anElement" ])
 				ifTrue: [
-					infiniteElement telemetry
+					BlFrameTelemetry
 						timeSync: [ 'Compute chunk properties {1}' format: { anElement } ]
 						during: [
 							infiniteElement ignoreRequestLayoutDuring: [
 								infiniteElement space doComputePropertiesOf: { anElement } ] ] ] ].
 
-	infiniteElement telemetry
+	BlFrameTelemetry
 		timeSync: [ 'Notify chunk added {1}' format: { anElement } ]
 		during: [ self notifyChunkAdded: anElement ].
 
@@ -890,17 +890,17 @@ BlInfiniteLinearLayout >> layoutChunkContext: aBlElementBoundsUpdateContext [
 	(layoutState hasMoreItems: self state)
 		ifFalse: [ ^ aResult finished: true ].
 
-	infiniteElement telemetry
+	BlFrameTelemetry
 		timeSync: [ 'Chunk add ', self class name ]
 		during: [ anElement := self layoutChunkAdd ].
 
-	infiniteElement telemetry
+	BlFrameTelemetry
 		timeSync: [ 'Chunk measure ', anElement class name ]
 		during: [ anElementBounds := self layoutChunkMeasure: anElement result: aResult. ].
 	
 	"We calculate everything with Element's bounding box (which includes decor and margins)
 	To calculate correct layout position, we subtract margins."
-	infiniteElement telemetry
+	BlFrameTelemetry
 		timeSync: [ 'Chunk layout ', anElement class name ]
 		during: [ self layoutDecoratedWithMargins: anElement in: anElementBounds context: aBlElementBoundsUpdateContext ].
 	
