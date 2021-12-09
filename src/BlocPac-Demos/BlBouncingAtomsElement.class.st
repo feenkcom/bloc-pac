@@ -32,16 +32,14 @@ Class {
 
 { #category : #accessing }
 BlBouncingAtomsElement class >> demo [
-	<script: 'self demo'>
+	<gtExample>
 	^ self new
 		background: Color lightGreen;
-		initializeWith: 300 ofSize: 5 @ 5 within: 400 @ 300
+		initializeWith: 100 ofSize: 5 @ 5 within: 400 @ 300
 ]
 
 { #category : #'instance creation' }
 BlBouncingAtomsElement class >> open [
-	<script: 'self open'>
-
 	self
 		openInWindow: (self new initializeWith: 1000 ofSize: 5@5 within: 800@600)
 		named: 'Bouncing Atoms'
