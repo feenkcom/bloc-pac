@@ -43,6 +43,11 @@ BlTktCommonQueueWorkerPool >> future: aTask [
 	^ self withConfigurationDo: [ super future: aTask ].
 ]
 
+{ #category : #schedulling }
+BlTktCommonQueueWorkerPool >> future: aTask timeout: aTimeout [
+	^ self withConfigurationDo: [ super future: aTask timeout: aTimeout ].
+]
+
 { #category : #initialization }
 BlTktCommonQueueWorkerPool >> initialize [
 	super initialize.
