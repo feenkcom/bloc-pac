@@ -1,1 +1,1 @@
-{	"repositories" : {		"github://feenkcom/pharo-beacon/repository" : "89477b28e468d10cb46d61a8c5b8d83ee0b2d592",		"github://feenkcom/Sparta/src" : "v0.8.74",		"github://feenkcom/taskit" : "9b47437f0c2a3c8feb4c6d058a5d49a53e0653ac",		"github://feenkcom/Bloc/src" : "v0.8.257"	}}
+{	"repositories" : {		"github://feenkcom/pharo-beacon/repository" : "7d7c3cd9829e5a7e238bbfb9a3bcdf84b5e562da",		"github://feenkcom/Sparta/src" : "v0.8.75",		"github://feenkcom/taskit" : "9b47437f0c2a3c8feb4c6d058a5d49a53e0653ac",		"github://feenkcom/Bloc/src" : "v0.8.258"	}}
