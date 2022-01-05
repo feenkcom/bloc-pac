@@ -87,8 +87,10 @@ BlLazyElement >> elementBuilder [
 
 { #category : #accessing }
 BlLazyElement >> elementBuilder: aValuable [
+
 	elementBuilder := aValuable.
-	BlUseAsyncFeatures ifDisabledDo: [ self buildElement ].
+	self element: nil.
+	BlUseAsyncFeatures ifDisabledDo: [ self buildElement ]
 ]
 
 { #category : #initialization }
