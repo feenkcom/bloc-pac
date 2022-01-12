@@ -40,7 +40,7 @@ Class {
 	#classVars : [
 		'ServiceMutex'
 	],
-	#category : 'BlocPac-Tasker-Workers'
+	#category : #'BlocPac-Tasker-Workers'
 }
 
 { #category : #factory }
@@ -136,19 +136,6 @@ BlTktWorkerProvider class >> spotterPool [
 BlTktWorkerProvider class >> spotterPoolName [
 
 	^ 'Spotter Search'
-]
-
-{ #category : #factory }
-BlTktWorkerProvider class >> textStylerPool [
-	^ self 
-		serviceNamed: self textStylerPoolName
-		ifMissing: [ self new textStylerPool; service ]
-]
-
-{ #category : #defaults }
-BlTktWorkerProvider class >> textStylerPoolName [
-
-	^ 'Text Styler'
 ]
 
 { #category : #'configurations - basic' }
@@ -331,16 +318,6 @@ BlTktWorkerProvider >> spotterPriority [
 	"Process priority for spotter search calculation.  Higher than UI background processing."
 
 	self processPriority: Processor userSchedulingPriority - 4
-]
-
-{ #category : #'configurations - pools' }
-BlTktWorkerProvider >> textStylerPool [
-	"Text styling background processing (multiple): maxPoolSize: 5, priority: 30"
-
-	self
-		name: self class textStylerPoolName;
-		poolMaxSize: 5;
-		nonUIPriority
 ]
 
 { #category : #accessing }
