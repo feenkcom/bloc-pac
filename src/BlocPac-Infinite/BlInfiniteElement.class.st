@@ -1722,7 +1722,7 @@ BlInfiniteElement >> requestLayout: anElement [
 	"anElement == self
 		ifFalse: [ ^ super requestLayout: anElement ]."
 	
-	super requestLayout: anElement.
+	^ super requestLayout: anElement.
 
 	"(eatRequestLayoutCounter isZero and: [ layoutFrozen not ])
 		ifTrue: [ super requestLayout: anElement ]
