@@ -10,10 +10,10 @@ BaselineOfBlocPacExamples >> baseline: spec [
 	spec for: #'common' do: [
 		spec
 			baseline: 'BlocPac' with: [
-				spec repository: 'github://feenkcom/bloc-pac:v0.6.180/src' ].
+				spec repository: 'github://feenkcom/bloc-pac:v0.6.181/src' ].
 		spec
 			baseline: 'BlocExamples' with: [
-				spec repository: 'github://feenkcom/Bloc:v0.8.276/src' ].
+				spec repository: 'github://feenkcom/Bloc:v0.8.277/src' ].
 
 		spec package: 'BlocPac-AsyncElement-Examples' with: [
 			spec requires: #('BlocPac') ].
