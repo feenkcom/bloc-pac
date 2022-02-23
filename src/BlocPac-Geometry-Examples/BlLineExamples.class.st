@@ -257,15 +257,15 @@ BlLineExamples >> gridColumnWith6Cells [
 { #category : #'example - grid' }
 BlLineExamples >> gridColumnWith: aNumberOfCells [
 	<gtExample>
-	| cells |
-
-	cells := (1 to: aNumberOfCells) collect: [ :i | self gridCell ].
-
-	cells withIndexDo: [ :aCell :anIndex |
-		aCell userData at: #entity put: anIndex.
-		aCell text: (BlRopedText string: anIndex asString) ].
 	
-	^ self grid
+	| cells |
+	cells := (1 to: aNumberOfCells) collect: [ :i | self gridCell ].
+	cells
+		withIndexDo:
+			[ :aCell :anIndex | 
+			aCell userData at: #entity put: anIndex.
+			aCell text: anIndex asString asRopedText ].
+	^ (self grid)
 		layoutDo: [ :aGridLayout | aGridLayout columnCount: 1 ];
 		addChildren: cells;
 		yourself
@@ -274,15 +274,15 @@ BlLineExamples >> gridColumnWith: aNumberOfCells [
 { #category : #'example - grid' }
 BlLineExamples >> gridWith12Cells [
 	<gtExample>
-	| cells |
-
-	cells := (1 to: 12) collect: [ :i | self gridCell ].
-
-	cells withIndexDo: [ :aCell :anIndex |
-		aCell userData at: #entity put: anIndex.
-		aCell text: (BlRopedText string: anIndex asString) ].
 	
-	^ self grid
+	| cells |
+	cells := (1 to: 12) collect: [ :i | self gridCell ].
+	cells
+		withIndexDo:
+			[ :aCell :anIndex | 
+			aCell userData at: #entity put: anIndex.
+			aCell text: anIndex asString asRopedText ].
+	^ (self grid)
 		layoutDo: [ :aGridLayout | aGridLayout rowCount: 4 ];
 		addChildren: cells;
 		yourself

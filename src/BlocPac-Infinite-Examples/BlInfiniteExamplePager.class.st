@@ -85,13 +85,13 @@ BlInfiniteExamplePager >> initialize [
 	buttonLeft := BlTextElement new
 		padding: (BlInsets all: 10);
 		background: Color veryLightGray;
-		text: (BlRopedText string: '< Left');
+		text: '< Left' asRopedText;
 		addEventHandlerOn: BlClickEvent do: [ :anEvent |
 			list smoothScrollBy: list width negated @ 0 ].
 	buttonRight := BlTextElement new
 		padding: (BlInsets all: 10);
 		background: Color veryLightGray;
-		text: (BlRopedText string: 'Right >');
+		text: 'Right >' asRopedText;
 		addEventHandlerOn: BlClickEvent do: [ :anEvent |
 			list smoothScrollBy: list width @ 0 ].
 
