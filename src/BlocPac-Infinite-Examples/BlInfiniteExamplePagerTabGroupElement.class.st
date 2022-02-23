@@ -13,7 +13,7 @@ BlInfiniteExamplePagerTabGroupElement >> addTab: anElement titled: aString [
 	| tabLabel |
 	
 	tabLabel := self newTabLabel.
-	tabLabel text: (BlRopedText string: aString).
+	tabLabel text: aString asRopedText.
 	tabLabel
 		addEventHandlerOn: BlClickEvent
 		do: [ :anEvent |
