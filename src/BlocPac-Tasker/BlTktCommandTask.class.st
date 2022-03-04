@@ -6,7 +6,7 @@ Class {
 	#instVars : [
 		'command'
 	],
-	#category : 'BlocPac-Tasker-TaskIt Tasks'
+	#category : #'BlocPac-Tasker-TaskIt Tasks'
 }
 
 { #category : #accessing }
@@ -49,6 +49,22 @@ BlTktCommandTask >> entryPriority [
 { #category : #executing }
 BlTktCommandTask >> futureTaskExecutionFor: aRunner [
 	^ self configureTaskExecution: BlTktFutureExecution new with: aRunner
+]
+
+{ #category : #'*BlocPac-Tasker' }
+BlTktCommandTask >> gtBlockClosureFor: aView [
+	<gtView>
+	^ self command
+		ifNil: [ aView empty ] 
+		ifNotNil: [ :aValuable | aValuable gtBlockClosureFor: aView ]
+]
+
+{ #category : #'*BlocPac-Tasker' }
+BlTktCommandTask >> gtDecoratedCommandsFor: aView [
+	<gtView>
+	^ self command 
+		ifNil: [ aView empty ]
+		ifNotNil: [ :aCommand | aCommand gtDecoratedCommandsFor: aView ]
 ]
 
 { #category : #accessing }
