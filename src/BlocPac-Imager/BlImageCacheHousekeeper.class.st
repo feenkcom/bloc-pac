@@ -126,7 +126,7 @@ BlImageCacheHousekeeper >> schedulePruneCache [
 
 	BlUseAsyncFeatures 
 		ifEnabledDo: [ 
-			BlTktWorkerProvider nonUISinglePool schedule: [ self pruneCache ] ]
+			[ self pruneCache ] asAsyncFuture await ]
 		otherwise: [ 
 			self pruneCache ]
 ]
@@ -137,7 +137,7 @@ BlImageCacheHousekeeper >> scheduleUpdateCurrentSize [
 
 	BlUseAsyncFeatures 
 		ifEnabledDo: [ 
-			cache taskitRunner schedule: [ self updateCurrentSize ] ]
+			[ self updateCurrentSize ] asAsyncFuture await ]
 		 otherwise: [ 
 			self updateCurrentSize ]
 ]
