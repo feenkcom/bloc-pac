@@ -3,7 +3,7 @@ A deprecated class, replaced by {{gtClass:BrAsyncWidget}}.
 "
 Class {
 	#name : #BlLazyElement,
-	#superclass : #BlAsyncElement,
+	#superclass : #Object,
 	#category : #'BlocPac-AsyncElement-BlocPac-AsyncElement'
 }
 
