@@ -1,5 +1,5 @@
 Class {
-	#name : #BlEnqueuedTaskItAction,
+	#name : #BlEnqueuedFutureAction,
 	#superclass : #BlElementTask,
 	#instVars : [
 		'action',
@@ -8,38 +8,38 @@ Class {
 		'element',
 		'name'
 	],
-	#category : 'BlocPac-Tasker-Element Tasks'
+	#category : #'BlocPac-Tasker-Element Tasks'
 }
 
 { #category : #accessing }
-BlEnqueuedTaskItAction >> action [
+BlEnqueuedFutureAction >> action [
 	^ action
 ]
 
 { #category : #accessing }
-BlEnqueuedTaskItAction >> action: anAction [
-	action := anAction asBlTktCommand asBlTktLoggingCommand.
+BlEnqueuedFutureAction >> action: anAction [
+	action := anAction asAsyncFuture
 ]
 
 { #category : #accessing }
-BlEnqueuedTaskItAction >> element [
+BlEnqueuedFutureAction >> element [
 	<return: #BlElement>
 
 	^ element
 ]
 
 { #category : #accessing }
-BlEnqueuedTaskItAction >> element: aBlElement [
+BlEnqueuedFutureAction >> element: aBlElement [
 	element := aBlElement
 ]
 
 { #category : #accessing }
-BlEnqueuedTaskItAction >> futureAction [
+BlEnqueuedFutureAction >> futureAction [
 	^ self action
 ]
 
 { #category : #initialization }
-BlEnqueuedTaskItAction >> initialize [
+BlEnqueuedFutureAction >> initialize [
 	super initialize.
 	self action: [ ].
 	resultCallbacks := OrderedCollection new.
@@ -47,35 +47,35 @@ BlEnqueuedTaskItAction >> initialize [
 ]
 
 { #category : #accessing }
-BlEnqueuedTaskItAction >> name [
+BlEnqueuedFutureAction >> name [
 	^ name
 ]
 
 { #category : #accessing }
-BlEnqueuedTaskItAction >> name: anObject [
+BlEnqueuedFutureAction >> name: anObject [
 	name := anObject
 ]
 
 { #category : #hooks }
-BlEnqueuedTaskItAction >> onEnqueuedInElement: aBlElement [
+BlEnqueuedFutureAction >> onEnqueuedInElement: aBlElement [
 	self element: aBlElement
 ]
 
 { #category : #'api - callbacks' }
-BlEnqueuedTaskItAction >> onFailureDo: aCallback [
+BlEnqueuedFutureAction >> onFailureDo: aCallback [
 	exceptionCallbacks add: aCallback
 ]
 
 { #category : #'api - callbacks' }
-BlEnqueuedTaskItAction >> onFailureEnqueueAction: aCallback [
+BlEnqueuedFutureAction >> onFailureEnqueueAction: aCallback [
 	self onFailureDo: [ :aResult | 
 		self element enqueueTask: ((BlTaskAction new 
 			action: [ aCallback cull: aResult cull: self ]) 
-				asBeaconLoggingTask maySetName: 'Failute Action') ]
+				asBeaconLoggingTask maySetName: 'Failure Action') ]
 ]
 
 { #category : #'api - callbacks' }
-BlEnqueuedTaskItAction >> onFinishEnqueueAction: aCallback [
+BlEnqueuedFutureAction >> onFinishEnqueueAction: aCallback [
 	self onFinishedDo: [ :aResultOrException | 
 		self element enqueueTask: ((BlTaskAction new 
 			action: [ aCallback cull: aResultOrException cull: self ]) 
@@ -83,18 +83,18 @@ BlEnqueuedTaskItAction >> onFinishEnqueueAction: aCallback [
 ]
 
 { #category : #'api - callbacks' }
-BlEnqueuedTaskItAction >> onFinishedDo: aCallback [
+BlEnqueuedFutureAction >> onFinishedDo: aCallback [
 	self onSuccessDo: aCallback.
 	self onFailureDo: aCallback.
 ]
 
 { #category : #'api - callbacks' }
-BlEnqueuedTaskItAction >> onSuccessDo: aCallback [
+BlEnqueuedFutureAction >> onSuccessDo: aCallback [
 	resultCallbacks add: aCallback
 ]
 
 { #category : #'api - callbacks' }
-BlEnqueuedTaskItAction >> onSuccessEnqueueAction: aCallback [
+BlEnqueuedFutureAction >> onSuccessEnqueueAction: aCallback [
 	self onSuccessDo: [ :aResult | 
 		self element enqueueTask: ((BlTaskAction new 
 			action: [ aCallback cull: aResult cull: self ]) 
@@ -102,19 +102,15 @@ BlEnqueuedTaskItAction >> onSuccessEnqueueAction: aCallback [
 ]
 
 { #category : #'api - running' }
-BlEnqueuedTaskItAction >> run [
-	future := self runFuture.
-	resultCallbacks
-		do: [ :eachCallback | future onSuccessDo: eachCallback ].
-	exceptionCallbacks
-		do: [ :eachCallback | future onFailureDo: eachCallback ]
+BlEnqueuedFutureAction >> run [
+
+	promise := self runFuture.
+	resultCallbacks do: [ :eachCallback | promise then: eachCallback ].
+	exceptionCallbacks do: [ :eachCallback | 
+		promise then: [  ] otherwise: eachCallback ]
 ]
 
 { #category : #'api - running' }
-BlEnqueuedTaskItAction >> runFuture [
-	<return: #TKTFuture>
-	| aCommand |
-	aCommand := self futureAction asBlTktCommand.
-	self name ifNotNil: [ aCommand name: self name].
-	^ BlTktWorkerProvider highUICPUBoundPool future: aCommand.
+BlEnqueuedFutureAction >> runFuture [
+	^ self action await
 ]

@@ -2,17 +2,17 @@ Class {
 	#name : #BlElementTask,
 	#superclass : #BlTask,
 	#instVars : [
-		'future'
+		'promise'
 	],
-	#category : 'BlocPac-Tasker-Element Tasks'
+	#category : #'BlocPac-Tasker-Element Tasks'
 }
 
 { #category : #accessing }
 BlElementTask >> future [
-	^ future
+	^ promise
 ]
 
 { #category : #accessing }
 BlElementTask >> future: anObject [
-	future := anObject
+	promise := anObject
 ]
