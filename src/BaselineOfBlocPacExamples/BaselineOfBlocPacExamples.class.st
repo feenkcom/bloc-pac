@@ -14,8 +14,6 @@ BaselineOfBlocPacExamples >> baseline: spec [
 			baseline: 'BlocExamples' with: [
 				spec repository: 'github://feenkcom/Bloc:main/src' ].
 		spec 
-			package: #'BlocPac-AsyncElement-Examples' with: [
-				spec requires: #('BlocPac' ). ];
 			package: #'BlocPac-CommonParent-Examples' with: [
 				spec requires: #('BlocPac' ). ];
 			package: #'BlocPac-FocusFinder-Examples' with: [
