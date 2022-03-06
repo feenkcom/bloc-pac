@@ -29,7 +29,7 @@ Class {
 		'entry',
 		'preLoad'
 	],
-	#category : #'BlocPac-Imager-Elements'
+	#category : #'BlocPac-Imager-Async'
 }
 
 { #category : #layout }

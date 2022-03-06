@@ -9,7 +9,7 @@ Class {
 	#instVars : [
 		'file'
 	],
-	#category : #'BlocPac-Imager-TaskIt'
+	#category : #'BlocPac-Imager-Async'
 }
 
 { #category : #'instance creation' }
