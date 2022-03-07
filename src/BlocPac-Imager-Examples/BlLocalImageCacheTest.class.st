@@ -61,7 +61,6 @@ BlLocalImageCacheTest >> testCacheSizeFor [
 	| cache requestedSize |
 
 	cache := BlLocalImageCache new.
-	cache taskitRunner: TKTLocalProcessTaskRunner new.
 	self assert: (cache cacheSizeFor: 10) equals: cache defaultImageSizes first.
 	requestedSize := cache defaultImageSizes second - 1.
 	self assert: (cache cacheSizeFor: requestedSize) equals: cache defaultImageSizes second.

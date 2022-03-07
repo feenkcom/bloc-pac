@@ -51,7 +51,6 @@ Class {
 		'cacheRoot',
 		'fileRoot',
 		'networkRoot',
-		'taskitRunner',
 		'housekeeper'
 	],
 	#classVars : [
@@ -349,17 +348,6 @@ BlLocalImageCache >> targetSize [
 	"Answer the target size when pruning the cache"
 
 	^housekeeper targetSize
-]
-
-{ #category : #accessing }
-BlLocalImageCache >> taskitRunner [
-
-	^ taskitRunner ifNil: [ taskitRunner := BlTktWorkerProvider nonUISinglePool ]
-]
-
-{ #category : #accessing }
-BlLocalImageCache >> taskitRunner: anObject [
-	taskitRunner := anObject
 ]
 
 { #category : #'accessing - cache' }

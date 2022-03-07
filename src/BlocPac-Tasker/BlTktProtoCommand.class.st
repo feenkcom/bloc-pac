@@ -1,7 +1,7 @@
 Class {
 	#name : #BlTktProtoCommand,
 	#superclass : #Object,
-	#category : 'BlocPac-Tasker-Commands'
+	#category : #'BlocPac-Tasker-Commands'
 }
 
 { #category : #converting }
@@ -78,6 +78,16 @@ BlTktProtoCommand >> futureInUIPool [
 	^ self futureInPool: BlTktWorkerProvider highUICPUBoundPool
 ]
 
+{ #category : #'*BlocPac-Tasker' }
+BlTktProtoCommand >> gtBlockClosureFor: aView [
+	^ aView empty
+]
+
+{ #category : #'*BlocPac-Tasker' }
+BlTktProtoCommand >> gtDecoratedCommandsFor: aView [
+	^ aView empty
+]
+
 { #category : #testing }
 BlTktProtoCommand >> includesLoggingCommand [
 	<return: #Boolean>
@@ -105,6 +115,11 @@ BlTktProtoCommand >> name [
 { #category : #accessing }
 BlTktProtoCommand >> name: aString [
 	^ self subclassResponsibility
+]
+
+{ #category : #'*BlocPac-Tasker' }
+BlTktProtoCommand >> putDecoratedCommandInto: aStream [
+	"do nothing"
 ]
 
 { #category : #taskit }

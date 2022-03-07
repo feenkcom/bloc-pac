@@ -50,7 +50,6 @@ BlLocalImageCacheTestResources >> setUp [
 	fileRoot := resourceRoot / 'files'.
 	fileRoot ensureCreateDirectory.
 	cache := BlLocalImageCache new.
-	cache taskitRunner: TKTLocalProcessTaskRunner new.
 	cache imageSizes: #(200 400 800).
 	cache cacheRoot: cacheRoot.
 

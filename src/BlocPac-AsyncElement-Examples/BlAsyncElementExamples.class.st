@@ -70,34 +70,6 @@ BlAsyncElementExamples >> asyncLazyElementInSpace [
 	^ aSpace
 ]
 
-{ #category : #'examples - lazy element' }
-BlAsyncElementExamples >> basicLazyElement [
-	<gtExample>
-	<noTest>
-	| anElement |
-	anElement := BlLazyElement new.
-	anElement
-		layout: BlLinearLayout horizontal;
-		margin: (BlInsets all: 3);
-		constraintsDo: [ :c | 
-			c vertical fitContent.
-			c horizontal fitContent ].
-	self assert: anElement elementBuilder isNil.
-	self assert: anElement element isNil.
-	self assert: anElement hasChildren not.
-	^ anElement
-]
-
-{ #category : #'examples -  lazy element with preview' }
-BlAsyncElementExamples >> basicLazyPreviewedElement [
-	<gtExample>
-	<noTest>
-	| anElement |
-	anElement := BlLazyElement new.
-	self assert: anElement previewStrategy isNotNil.
-	^ anElement
-]
-
 { #category : #'examples - children' }
 BlAsyncElementExamples >> finalElement [
 	<gtExample>

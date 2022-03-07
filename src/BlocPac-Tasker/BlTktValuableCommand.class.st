@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'valuable'
 	],
-	#category : 'BlocPac-Tasker-Commands'
+	#category : #'BlocPac-Tasker-Commands'
 }
 
 { #category : #defaults }
@@ -24,6 +24,17 @@ BlTktValuableCommand >> entryIdentifier [
 BlTktValuableCommand >> entryPriority [
 
 	^ valuable entryPriority
+]
+
+{ #category : #'*BlocPac-Tasker' }
+BlTktValuableCommand >> gtBlockClosureFor: aView [
+	<gtView>
+	^ self valuable
+		ifNil: [ aView empty ] 
+		ifNotNil: [ :aValuable |
+			aValuable isClosure
+				ifTrue: [ aValuable gtSourceCodeFor: aView ]
+				ifFalse: [ aView empty ] ]
 ]
 
 { #category : #initialization }

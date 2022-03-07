@@ -1,9 +1,6 @@
 Class {
 	#name : #BaselineOfBlocPac,
 	#superclass : #BaselineOf,
-	#classVars : [
-		'PostLoaded'
-	],
 	#category : #BaselineOfBlocPac
 }
 
@@ -60,19 +57,4 @@ BaselineOfBlocPac >> baseline: spec [
 		spec package: 'BlocPac-Imager' with: [
 			spec requires: #('Bloc' 'Beacon' 'SpartaSkia' #'BlocPac-AsyncElement' #'BlocPac-Tasker') ].
 	]
-]
-
-{ #category : #'post load' }
-BaselineOfBlocPac >> postLoadDisableTaskItDebugger: spec [
-	(self class environment at: #TKTConfiguration) profileNamed: #gtTest.
-	(self class environment at: #TKTDebugger) disable.
-]
-
-{ #category : #'post load' }
-BaselineOfBlocPac >> postLoadTasker: spec [
-	(PostLoaded isNotNil and: [ PostLoaded ])
-		ifTrue: [ ^ self ].
-		
-	PostLoaded := true.
-	self postLoadDisableTaskItDebugger: spec
 ]

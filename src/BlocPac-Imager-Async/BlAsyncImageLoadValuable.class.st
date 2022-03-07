@@ -1,7 +1,7 @@
 Class {
 	#name : #BlAsyncImageLoadValuable,
 	#superclass : #BlAsyncElementValuable,
-	#category : #'BlocPac-Imager-TaskIt'
+	#category : #'BlocPac-Imager-Async'
 }
 
 { #category : #accessing }

@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'command'
 	],
-	#category : 'BlocPac-Tasker-Commands'
+	#category : #'BlocPac-Tasker-Commands'
 }
 
 { #category : #testing }
@@ -74,6 +74,22 @@ BlTktDecoratedCommand >> entryPriority [
 	^command entryPriority
 ]
 
+{ #category : #'*BlocPac-Tasker' }
+BlTktDecoratedCommand >> gtDecoratedCommands [
+	<return: #Array of: #BlTktProtoCommand>
+	^ Array streamContents: [ :aStream | 
+		self putDecoratedCommandInto: aStream ]
+]
+
+{ #category : #'*BlocPac-Tasker' }
+BlTktDecoratedCommand >> gtDecoratedCommandsFor: aView [
+	<gtView>
+	self command ifNil: [ ^ aView empty ].
+	^ aView list
+		title: 'Commands';
+		items: [ self gtDecoratedCommands ]
+]
+
 { #category : #testing }
 BlTktDecoratedCommand >> includesLoggingCommand [
 	<return: #Boolean>
@@ -101,6 +117,13 @@ BlTktDecoratedCommand >> initialize [
 { #category : #accessing }
 BlTktDecoratedCommand >> name: aString [
 	self command name: aString
+]
+
+{ #category : #'*BlocPac-Tasker' }
+BlTktDecoratedCommand >> putDecoratedCommandInto: aStream [
+	self command ifNil: [ ^ self ].
+	aStream nextPut: self command.
+	self command putDecoratedCommandInto: aStream.
 ]
 
 { #category : #taskit }

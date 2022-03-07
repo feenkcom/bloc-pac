@@ -62,7 +62,6 @@ BlLocalImageCacheHousekeepingTest >> setUp [
 	cacheRoot := FileReference newTempFilePrefix: 'Gtoolkit-Images-' suffix: '-tests'.
 	cacheRoot ensureCreateDirectory.
 	cache := BlLocalImageCache new.
-	cache taskitRunner: TKTLocalProcessTaskRunner new.
 	cache maxCacheSize: 50.
 	cache cacheRoot: cacheRoot.
 	fileRoot := cache fileRoot.
