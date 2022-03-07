@@ -8,19 +8,15 @@ Class {
 BaselineOfBlocPac >> baseline: spec [
 	<baseline>
 	spec for: #'common' do: [
-		spec postLoadDoIt: #'postLoadTasker:'.
 		spec
 			baseline: 'Bloc' with: [
-				spec repository: 'github://feenkcom/Bloc:v0.8.293/src' ].
+				spec repository: 'github://feenkcom/Bloc:v0.8.294/src' ].
 		spec
 			baseline: 'Beacon' with: [
 				spec repository: 'github://feenkcom/pharo-beacon:7bf686dbffb21f310edaaa16c1588a444d09fb37/repository' ].
 		spec
 			baseline: 'SpartaSkia' with: [
 				spec repository: 'github://feenkcom/Sparta:v0.8.82/src' ].
-		spec
-			baseline: 'TaskIt' with: [
-				spec repository: 'github://feenkcom/taskit:9b47437f0c2a3c8feb4c6d058a5d49a53e0653ac' ].
 
 		spec package: 'BlocPac-CommonParent' with: [
 			spec requires: #('Bloc') ].
@@ -50,11 +46,7 @@ BaselineOfBlocPac >> baseline: spec [
 			spec requires: #('Bloc' #'BlocPac-Scrollable' 'Bloc') ].
 		spec package: 'BlocPac-Infinite-Layouts' with: [
 			spec requires: #('Bloc' #'BlocPac-Infinite') ].
-		spec package: 'BlocPac-Tasker' with: [
-			spec requires: #('Bloc' 'TaskIt') ].
-		spec package: 'BlocPac-AsyncElement' with: [
-			spec requires: #('Bloc' #'BlocPac-Tasker' #'BlocPac-ErrorHandling') ].
 		spec package: 'BlocPac-Imager' with: [
-			spec requires: #('Bloc' 'Beacon' 'SpartaSkia' #'BlocPac-AsyncElement' #'BlocPac-Tasker') ].
+			spec requires: #('Bloc' 'Beacon' 'SpartaSkia') ].
 	]
 ]
