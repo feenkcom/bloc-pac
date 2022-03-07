@@ -1,7 +1,5 @@
 "
-BlLocalImageCacheTestEntry acts as a proxy for {{gtClass:name=BlAsyncImageElement}} during testing.
-
-
+BlLocalImageCacheTestEntry acts as a proxy for an image element during testing.
 "
 Class {
 	#name : #BlImageCacheTestEntry,
