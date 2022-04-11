@@ -16,7 +16,8 @@ Class {
 	#name : #BlSkiaImageElement,
 	#superclass : #BlElement,
 	#instVars : [
-		'image'
+		'image',
+		'session'
 	],
 	#category : #'BlocPac-Imager-Elements'
 }
@@ -25,27 +26,31 @@ Class {
 BlSkiaImageElement >> drawOnSpartaCanvas: aCanvas [
 
 	| ratio imageExtent translation |
-
 	super drawOnSpartaCanvas: aCanvas.
-	image ifNil: [ ^self ].
+	image ifNil: [ ^ self ].
 
-	ratio := (self extent x / image width min: self extent y / image height) asFloat.
+	"Check whether external object is still valid"
+	session ifNil: [ ^ self ].
+	Smalltalk session == session ifFalse: [ 
+		image := nil.
+		^ self ].
+
+	ratio := (self extent x / image width min:
+		          self extent y / image height) asFloat.
 	imageExtent := image extent * ratio.
-	translation := (((self extent x - imageExtent x ) / 2.0) @
-		((self extent y - imageExtent y) / 2.0)) asIntegerPoint.
+	translation := (self extent x - imageExtent x / 2.0
+	                @ (self extent y - imageExtent y / 2.0))
+		               asIntegerPoint.
 
 	aCanvas transform
 		by: [ :t | 
 			t translateBy: translation.
-			ratio isZero ifFalse: [
-				t scaleBy: ratio ].
-				 ]
-		during: [
+			ratio isZero ifFalse: [ t scaleBy: ratio ] ]
+		during: [ 
 			aCanvas fill
-				path: (0@0 extent: image extent);
+				path: (0 @ 0 extent: image extent);
 				paint: image;
-				draw ].
-
+				draw ]
 ]
 
 { #category : #accessing }
@@ -55,5 +60,6 @@ BlSkiaImageElement >> image [
 
 { #category : #accessing }
 BlSkiaImageElement >> image: anObject [
+	session := Smalltalk session.
 	image := anObject
 ]
