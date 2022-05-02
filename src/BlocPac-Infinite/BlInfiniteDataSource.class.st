@@ -199,6 +199,13 @@ BlInfiniteDataSource >> notifyItemsInserted: anInterval [
 ]
 
 { #category : #'event firing' }
+BlInfiniteDataSource >> notifyItemsProviderDone [
+	"Notify any registered observers that the items provider is done adding items"
+
+	self notifyWithEvent: (BlInfiniteDataSourceDone new)
+]
+
+{ #category : #'event firing' }
 BlInfiniteDataSource >> notifyItemsRemoved: anInterval [
 	"Notify any registered event handlers that the ===anInterval size=== items previously
 	located at ===anInterval first=== have been removed from the data set. The items
