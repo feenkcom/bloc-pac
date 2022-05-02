@@ -45,6 +45,10 @@ BlInfiniteElementDataSourceObserver >> onChanged: anEvent [
 ]
 
 { #category : #'event handling' }
+BlInfiniteElementDataSourceObserver >> onDone: anEvent [
+]
+
+{ #category : #'event handling' }
 BlInfiniteElementDataSourceObserver >> onItemsChanged: anEvent [
 	| needsUpdate |
 	self assertNotInLayoutOrScroll.
