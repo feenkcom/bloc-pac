@@ -11,9 +11,6 @@ Class {
 		'eventDispatcher',
 		'hasStableIds'
 	],
-	#classVars : [
-		'BlInfiniteDataSourceDone'
-	],
 	#pools : [
 		'BlInfiniteConstants'
 	],
