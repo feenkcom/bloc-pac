@@ -163,7 +163,8 @@ BlCanvassableElement >> initialize [
 	automaticTranslationFactor := 0@0.
 	autoScaleEnabled := false.
 	
-	self addEventHandler: BlCanvassableElementSlideHandler new
+	self addEventHandler: BlCanvassableElementSlideHandler new.
+	self beInSeparateCompositionLayer
 ]
 
 { #category : #'geometry bounds' }
