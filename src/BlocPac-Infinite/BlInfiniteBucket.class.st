@@ -1,61 +1,36 @@
 "
-I am an implementation of a Bitset that provides methods to offset indices
-
+I am a better implementation of a Bitset that provides methods to offset indices using an underlying integer
 "
 Class {
 	#name : #BlInfiniteBucket,
 	#superclass : #Object,
 	#instVars : [
-		'next',
-		'array'
+		'integer'
 	],
 	#category : #'BlocPac-Infinite-Utils'
 }
 
-{ #category : #accessing }
+{ #category : #initialization }
 BlInfiniteBucket >> clear: index [
-	index > array size
-		ifTrue: [
-			next ifNotNil: [ :n | n clear: index - array size ] ]
-		ifFalse: [
-			array byteAt: index put: false asBit ]
+	integer bitAt: index put: 0
 ]
 
 { #category : #accessing }
 BlInfiniteBucket >> countOnesBefore: anIndex [
-	| counter index |
-	index := anIndex.
-	counter := 0.
-	next
-		ifNil: [ index > array size
-				ifTrue: [ ^ array count: [ :each | each = true asBit ] ] ].
-
-	index > array size
-		ifTrue: [
-			counter := next countOnesBefore: index - array size.
-			index := array size + 1 ].
-
-	1 to: index - 1 do: [ :i | 
-		(array byteAt: i) = true asBit
-			ifTrue: [ counter := counter + 1 ] ].
-	^ counter
+	| mask bitcount bits |
+	mask := (1 bitShift: anIndex - 1) - 1.
+	bits := integer bitAnd: mask.
+	bitcount := 0.
+	[ bits isZero ]
+		whileFalse:
+			[ bitcount := bitcount + (bits bitAnd: 1).
+			bits bitShift: -1 ].
+	^ bitcount
 ]
 
-{ #category : #accessing }
-BlInfiniteBucket >> ensureNext [
-
-	next ifNil: [ next := BlInfiniteBucket new ]
-]
-
-{ #category : #accessing }
+{ #category : #initialization }
 BlInfiniteBucket >> get: index [
-	
-	^ index > array size
-		ifTrue: [
-			self ensureNext.
-			next get: index - array size ]
-		ifFalse: [
-			(array byteAt: index) = true asBit  ]
+	^ (integer bitAt: index) = 1
 ]
 
 { #category : #initialization }
@@ -65,65 +40,33 @@ BlInfiniteBucket >> initialize [
 	self reset
 ]
 
-{ #category : #accessing }
+{ #category : #'spec protocol' }
 BlInfiniteBucket >> insert: aBoolean at: index [
-	index > array size
-		ifTrue: [ 
-			self ensureNext.
-			next insert: aBoolean at: index - array size ]
-		ifFalse: [ 
-			| last prevArray|
-			last := array last = true asBit.
-			prevArray := array.
-			array := self newArray.
-			array replaceFrom: index + 1 to: prevArray size with: prevArray startingAt: index.
-			array replaceFrom: 1 to: index - 1 with: prevArray startingAt: 1.
-			array byteAt: index put: aBoolean asBit.
-			(last or: [ next isNotNil ])
-				ifTrue: [ 
-					self ensureNext.
-					next insert: last at: 1 ] ]
-			
+	| top bottom mask |
+	mask := (1 bitShift: index - 1) - 1.
+	bottom := integer bitAnd: mask.
+	top := integer bitXor: bottom.
+	integer := (top bitShift: 1) + (aBoolean asBit bitShift: index - 1) + bottom
+]
 
+{ #category : #removing }
+BlInfiniteBucket >> remove: index [
+	| top bottom mask result |
+	result := (integer bitAt: index) = 1.
+	integer := integer bitAt: index put: 0.
+	mask := (1 bitShift: index - 1) - 1.
+	bottom := integer bitAnd: mask.
+	top := integer bitXor: bottom.
+	integer := (top bitShift: -1) + bottom.
+	^result
 ]
 
 { #category : #initialization }
-BlInfiniteBucket >> newArray [
-	^ ByteArray new: 64
-]
-
-{ #category : #accessing }
-BlInfiniteBucket >> remove: index [
-
-	^ index > array size
-		ifTrue: [ 
-			self ensureNext.
-			next remove: index - array size ]
-		ifFalse: [ 
-			| value |
-			value := (array byteAt: index) = true asBit.
-			array replaceFrom: index to: array size - 1 with: array startingAt: index + 1.
-			array byteAt: array size put: (next
-				ifNil: [ false asBit ]
-				ifNotNil: [ (next get: 1) asBit ]).
-			next
-				ifNotNil: [ next remove: 1 ].
-			value ]
-]
-
-{ #category : #accessing }
 BlInfiniteBucket >> reset [
-	next ifNotNil: #reset.
-	array := self newArray
+	integer := 0
 ]
 
-{ #category : #accessing }
+{ #category : #initialization }
 BlInfiniteBucket >> set: index [
-
-	index > array size
-		ifTrue: [ 
-			self ensureNext.
-			next set: index - array size ]
-		ifFalse: [
-			array byteAt: index put: true asBit ]
+	integer := integer bitAt: index put: 1
 ]
