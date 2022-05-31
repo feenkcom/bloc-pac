@@ -154,11 +154,9 @@ BlInfiniteLinearSmoothScroller >> computeScrollVectorForPosition: aPosition [
 
 	Note, that BlInfiniteLayout does not implement #computeScrollVectorForPosition: by default,
 	that is why you can either subclass me or infinite layout"
+
 	<return: #Point>
-
-	(self layout respondsTo: #computeScrollVectorForPosition:)
-		ifFalse: [ self shouldBeImplemented ].
-
+	
 	^ self layout computeScrollVectorForPosition: aPosition
 ]
 
