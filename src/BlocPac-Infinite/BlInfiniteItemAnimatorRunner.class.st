@@ -33,3 +33,10 @@ BlInfiniteItemAnimatorRunner >> run [
 		ifTrue: [ itemAnimator runPendingAnimations ].
 	isPosted := false
 ]
+
+{ #category : #running }
+BlInfiniteItemAnimatorRunner >> run: aWaker [
+	itemAnimator supportsAnimations
+		ifTrue: [ itemAnimator runPendingAnimations ].
+	isPosted := false
+]
