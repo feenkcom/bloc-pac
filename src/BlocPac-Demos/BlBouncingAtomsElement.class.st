@@ -74,6 +74,7 @@ BlBouncingAtomsElement >> go [
 	task := BlRepeatedTaskAction new
 		delay: 0 milliSeconds;
 		action: [ self step ].
+
 	self enqueueTask: task.
 	damageReported := false
 ]
@@ -108,15 +109,6 @@ BlBouncingAtomsElement >> newAtom [
 	^ BlAtomElement new
 ]
 
-{ #category : #accessing }
-BlBouncingAtomsElement >> onAddedToSceneGraph [
-	"Workaround to restart the animation when it is back in focus."
-
-	super onAddedToSceneGraph.
-	self task isRunning
-		ifFalse: [ self go ]
-]
-
 { #category : #initialization }
 BlBouncingAtomsElement >> randomizePositionOf: anAtomElement in: aRectangle maxVelocity: maxVelocity extent: anAtomExtent [
 	"Give this atom a random position and velocity"
@@ -140,5 +132,5 @@ BlBouncingAtomsElement >> step [
 
 { #category : #accessing }
 BlBouncingAtomsElement >> task [
-^ task
+	^ task
 ]
