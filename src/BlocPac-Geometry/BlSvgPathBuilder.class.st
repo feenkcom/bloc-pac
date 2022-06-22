@@ -9,7 +9,7 @@ Class {
 		'absolute',
 		'stream'
 	],
-	#category : 'BlocPac-Geometry-SVG'
+	#category : #'BlocPac-Geometry-SVG'
 }
 
 { #category : #'instance creation' }
@@ -335,7 +335,7 @@ BlSvgPathBuilder >> m [
 		If a moveto is followed by multiple pairs of coordinates, the subsequent pairs are treated as implicit lineto commands.
 	
 	"
-	| pt reset |
+	| pt |
 
 	pt := self readPoint.
 	pt ifNil: [ self error: 'a point expected following after M/m command'].
@@ -390,7 +390,7 @@ Conforming High-Quality SVG Viewers are required to use at least double-precisio
 Within the SVG DOM, a <number> is represented as a float or an SVGAnimatedNumber.
 "
 	
-	| result char sign esign pos int frac exponent |
+	| result sign esign pos int frac exponent |
 	
 	esign := sign := 1.
 	pos := stream position.
