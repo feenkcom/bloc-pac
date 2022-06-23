@@ -6,12 +6,11 @@ Class {
 	#instVars : [
 		'polygon'
 	],
-	#category : 'BlocPac-Geometry-Shaper'
+	#category : #'BlocPac-Geometry-Shaper'
 }
 
 { #category : #'instance creation' }
 BlShaperTriangle class >> points: aCollectionOfPoints [
-	| theVertices theEdges |
 	
 	self
 		assert: [ aCollectionOfPoints size = 3 ]
