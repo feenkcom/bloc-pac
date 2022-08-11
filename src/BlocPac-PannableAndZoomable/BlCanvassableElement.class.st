@@ -15,6 +15,11 @@ Class {
 }
 
 { #category : #converting }
+BlCanvassableElement >> asCanvassableElement [
+	^ self
+]
+
+{ #category : #converting }
 BlCanvassableElement >> asPannableElement [
 	^ self
 ]
