@@ -20,9 +20,11 @@ BlAnchorEventListener class >> for: aGeometryElement [
 
 { #category : #'element handlers' }
 BlAnchorEventListener >> commonParentFoundEvent: anEvent [
-	anEvent parentChain do: [ :eachElement |
-		(eachElement ~~ anEvent currentTarget
-			and: [ eachElement ~~ geometryElement ])
+	anEvent parentChain
+		do: [ :eachElement | 
+			(eachElement ~~ anEvent currentTarget
+				and: [ eachElement ~~ geometryElement
+						and: [ (eachElement eventDispatcher hasHandler: self) not ] ])
 				ifTrue: [ eachElement addEventHandler: self ] ]
 ]
 
