@@ -42,6 +42,13 @@ BlSlideHandler >> dragStartEvent: anEvent [
 		do: [ :aChild | aChild userData at: #slideHandlerStartPosition put: aChild constraints position ]
 ]
 
+{ #category : #initialization }
+BlSlideHandler >> initialize [
+	super initialize.
+	
+	dragStartPosition := 0@0
+]
+
 { #category : #accessing }
 BlSlideHandler >> targetElement [
 	^ targetElement
