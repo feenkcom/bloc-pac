@@ -42,21 +42,25 @@ BlHorizontalScrollbarElement >> initialize [
 
 { #category : #'private - scrolling' }
 BlHorizontalScrollbarElement >> scrollTo: aPoint [
-	| scrollingBy |
-	
-	scrollingBy := self
-		computeScrollDeltaFrom: dragPosition x
-		to: aPoint x
-		offset: scrollable computeHorizontalScrollOffset
-		range: scrollable computeHorizontalScrollRange
-		length: self width.
+	| scrollingBy oldPosition |
+	oldPosition := dragPosition
+			ifNil: [ self thumb position ]
+			ifNotNil: [ dragPosition ].
 
-	scrollingBy isZero
-		ifTrue: [ ^ self ].
+	scrollingBy := self
+			computeScrollDeltaFrom: oldPosition x
+			to: aPoint x
+			offset: scrollable computeHorizontalScrollOffset
+			range: scrollable computeHorizontalScrollRange
+			length: self width.
+
+	scrollingBy isZero ifTrue: [ ^ self ].
 
 	scrollable scrollBy: scrollingBy @ 0.
-	
-	dragPosition := aPoint
+
+	dragPosition
+		ifNil: [ self thumb relocate: aPoint ]
+		ifNotNil: [ dragPosition := aPoint ]
 ]
 
 { #category : #'private - scrolling' }
