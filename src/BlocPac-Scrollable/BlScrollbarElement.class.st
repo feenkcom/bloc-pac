@@ -11,7 +11,8 @@ Class {
 		'pullEndHandler',
 		'pullDragHandler',
 		'track',
-		'scrollHandler'
+		'scrollHandler',
+		'trackClickHandler'
 	],
 	#category : #'BlocPac-Scrollable-Core'
 }
@@ -86,18 +87,25 @@ BlScrollbarElement >> detachFrom: aTBlScrollable [
 { #category : #initialization }
 BlScrollbarElement >> initialize [
 	super initialize.
-	
+
 	self layout: BlFrameLayout new.
 
 	minimumSize := 0.05.
 
 	scrollHandler := BlEventHandler
-		on: BlElementScrolledEvent
-		do: [ :anEvent | self onScrolled: anEvent currentTarget ].
+			on: BlElementScrolledEvent
+			do: [ :anEvent | self onScrolled: anEvent currentTarget ].
 	pullHandler := self defaultPullHandler.
-	pullStartHandler := BlEventHandler on: BlPullStartEvent do: [ dragPosition := nil ].
-	pullDragHandler := BlEventHandler on: BlPullEvent do: [ :anEvent | self onDragged: anEvent ].
+	pullStartHandler := BlEventHandler
+			on: BlPullStartEvent
+			do: [ dragPosition := nil ].
+	pullDragHandler := BlEventHandler
+			on: BlPullEvent
+			do: [ :anEvent | self onDragged: anEvent ].
 	pullEndHandler := BlEventHandler on: BlPullEndEvent do: [ dragPosition := nil ].
+	trackClickHandler := BlEventHandler
+			on: BlClickEvent
+			do: [ :anEvent | self scrollTo: anEvent localPosition ].
 
 	self track: self defaultTrack.
 	self thumb: self defaultThumb
@@ -171,12 +179,17 @@ BlScrollbarElement >> track [
 { #category : #'api - scrollbar' }
 BlScrollbarElement >> track: anElement [
 	<return: #BlElement>
-	
 	track
-		ifNotNil: [ :aCurrentTrack | self replaceChild: aCurrentTrack with: anElement as: #track ]
+		ifNotNil: [ :aCurrentTrack | 
+			aCurrentTrack removeEventHandler: trackClickHandler.
+			self
+				replaceChild: aCurrentTrack
+				with: anElement
+				as: #track ]
 		ifNil: [ self addChild: anElement as: #track ].
 
-	track := anElement
+	track := anElement.
+	track addEventHandler: trackClickHandler
 ]
 
 { #category : #'private - thumb' }

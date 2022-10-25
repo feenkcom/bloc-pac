@@ -42,21 +42,25 @@ BlVerticalScrollbarElement >> initialize [
 
 { #category : #'private - scrolling' }
 BlVerticalScrollbarElement >> scrollTo: aPoint [
-	| scrollingBy |
-	
-	scrollingBy := self
-		computeScrollDeltaFrom: dragPosition y
-		to: aPoint y
-		offset: scrollable computeVerticalScrollOffset
-		range: scrollable computeVerticalScrollRange
-		length: self height.
+	| scrollingBy oldPosition |
+	oldPosition := dragPosition
+			ifNil: [ self thumb position ]
+			ifNotNil: [ dragPosition ].
 
-	scrollingBy isZero
-		ifTrue: [ ^ self ].
+	scrollingBy := self
+			computeScrollDeltaFrom: oldPosition y
+			to: aPoint y
+			offset: scrollable computeVerticalScrollOffset
+			range: scrollable computeVerticalScrollRange
+			length: self height.
+
+	scrollingBy isZero ifTrue: [ ^ self ].
 
 	scrollable scrollBy: 0.0 @ scrollingBy.
-	
-	dragPosition := aPoint
+
+	dragPosition
+		ifNil: [ self thumb relocate: aPoint ]
+		ifNotNil: [ dragPosition := aPoint ]
 ]
 
 { #category : #'private - scrolling' }
