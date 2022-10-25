@@ -107,6 +107,8 @@ BlScrollbarElement >> initialize [
 			on: BlClickEvent
 			do: [ :anEvent | self scrollTo: anEvent localPosition ].
 
+	self addEventHandler: trackClickHandler.
+			
 	self track: self defaultTrack.
 	self thumb: self defaultThumb
 ]
@@ -181,7 +183,6 @@ BlScrollbarElement >> track: anElement [
 	<return: #BlElement>
 	track
 		ifNotNil: [ :aCurrentTrack | 
-			aCurrentTrack removeEventHandler: trackClickHandler.
 			self
 				replaceChild: aCurrentTrack
 				with: anElement
@@ -189,7 +190,6 @@ BlScrollbarElement >> track: anElement [
 		ifNil: [ self addChild: anElement as: #track ].
 
 	track := anElement.
-	track addEventHandler: trackClickHandler
 ]
 
 { #category : #'private - thumb' }
