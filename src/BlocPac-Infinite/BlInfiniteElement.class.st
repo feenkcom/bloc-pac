@@ -1920,6 +1920,26 @@ BlInfiniteElement >> scrollVerticallyBy: aNumber [
 	^ self layout scrollVerticallyBy: aNumber
 ]
 
+{ #category : #'children - add/remove' }
+BlInfiniteElement >> send: anEvent toElementsIn: anInterval [
+	| hidden |
+	dataSourceChangedAfterLayout ifTrue: [ ^ self ].
+	hidden := Dictionary new.
+	childrenManager
+		unfilteredChildrenDo: [ :anElement | 
+			| anElementHolder |
+			anElementHolder := self elementHolderOf: anElement.
+			anElementHolder isRemoved not
+				ifTrue: [ | position |
+					position := self dataSourcePositionOf: anElementHolder.
+					(position between: anInterval first and: anInterval last)
+						ifTrue: [ (childrenManager isHidden: anElementHolder itemElement)
+								ifTrue: [ hidden at: position ifAbsentPut: [ anElementHolder ] ]
+								ifFalse: [ hidden at: position put: nil.
+									anEvent event sendTo: anElementHolder ] ] ] ].
+	hidden do: [ :each | each ifNotNil: [ anEvent event sendTo: each ] ]
+]
+
 { #category : #'private - invalidation' }
 BlInfiniteElement >> setDataSourceChangedAfterLayout [
 	
