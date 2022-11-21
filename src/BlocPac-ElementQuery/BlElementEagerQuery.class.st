@@ -34,12 +34,6 @@ BlElementEagerQuery >> forMany: anElement [
 ]
 
 { #category : #accessing }
-BlElementEagerQuery >> forOne: anElement [
-	result := BlElementQueryResult new.
-	result prepareForSingle: anElement
-]
-
-{ #category : #accessing }
 BlElementEagerQuery >> queryStep: aBlElementStep [
 	self findNext: aBlElementStep result: result
 ]
