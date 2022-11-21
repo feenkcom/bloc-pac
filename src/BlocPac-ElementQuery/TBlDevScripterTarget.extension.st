@@ -23,3 +23,11 @@ TBlDevScripterTarget >> @ aBlElementQueryByPredicate [
 
 	self updateTarget: (BlDevScripterOneElementQueryEventTarget new @ aBlElementQueryByPredicate)
 ]
+
+{ #category : #'*BlocPac-ElementQuery' }
+TBlDevScripterTarget >> on: aBlElementQueryByPropertySelector index: anIndex [
+	"Selects among all children (depth first) based on a given selector such as id or class and picks an element from the found elements at a given index"
+	<scripterStepTarget>
+
+	self updateTarget: (BlDevScripterOneElementQueryEventTarget new // aBlElementQueryByPropertySelector; @ anIndex)
+]

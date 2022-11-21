@@ -14,7 +14,7 @@ BlDevScripterOneElementQueryEventTarget >> findTargetIn: anElement [
 	<return: #BlElement>
 	| aResult |
 	
-	aResult := query findOne: anElement.
+	aResult := query findMany: anElement.
 	aResult hasResult
 		ifFalse: [ AssertionFailure signal: 'Could not find an element for ', query printString ].
 
