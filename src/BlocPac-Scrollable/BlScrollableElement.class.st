@@ -20,6 +20,46 @@ BlScrollableElement >> asScrollableElement [
 ]
 
 { #category : #'api - scrolling thumb' }
+BlScrollableElement >> computeHorizontalScrollExtent [
+	"Compute the horizontal extent of the horizontal scrollbar's thumb within the horizontal range.
+	This value is used to compute the length of the thumb within the scrollbar's track.
+	The extent is expressed in arbitrary units that must be the same as the units used by
+	#computeHorizontalScrollRange and #computeHorizontalScrollOffset.
+	Default implementation returns 0.
+	
+	Override me in your scrollable element to support scroll bars"
+	<return: #Number>
+	
+	^ self width
+]
+
+{ #category : #'api - scrolling thumb' }
+BlScrollableElement >> computeHorizontalScrollOffset [
+	"Compute the horizontal offset of the horizontal scrollbar's thumb within the horizontal range.
+	The offset is expressed in arbitrary units that must be the same as the units used by
+	#computeHorizontalScrollExtent and #computeHorizontalScrollRange.
+	Default implementation returns 0.
+	
+	Override me in your scrollable element to support scroll bars"
+	<return: #Number>
+	
+	^ scrollPosition x negated
+]
+
+{ #category : #'api - scrolling thumb' }
+BlScrollableElement >> computeHorizontalScrollRange [
+	"Compute the horizontal range that the horizontal scrollbar represents.
+	The range is expressed in arbitrary units that must be the same as the units used by
+	#computeHorizontalScrollExtent and #computeHorizontalScrollOffset.
+	Default implementation returns 0.
+	
+	Override me in your scrollable element to support scroll bars"
+	<return: #Number>
+	
+	^ self scrolledElement width + self scrolledElement margin width + self padding width
+]
+
+{ #category : #'api - scrolling thumb' }
 BlScrollableElement >> computeVerticalScrollExtent [
 	"Compute the vertical extent of the vertical scrollbar's thumb within the vertical range.
 	This value is used to compute the length of the thumb within the scrollbar's track.

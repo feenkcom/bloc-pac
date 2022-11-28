@@ -56,7 +56,7 @@ BlHorizontalScrollbarElement >> scrollTo: aPoint [
 
 	scrollingBy isZero ifTrue: [ ^ self ].
 
-	scrollable scrollBy: scrollingBy @ 0.
+	scrollable scrollBy: scrollingBy negated @ 0.
 
 	dragPosition
 		ifNil: [ self thumb relocate: aPoint ]
