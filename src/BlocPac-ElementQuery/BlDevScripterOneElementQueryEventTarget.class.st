@@ -1,6 +1,6 @@
 Class {
 	#name : #BlDevScripterOneElementQueryEventTarget,
-	#superclass : #BlDevScripterEventTarget,
+	#superclass : #BlScripterElementTarget,
 	#traits : 'TBlElementQuery',
 	#classTraits : 'TBlElementQuery classTrait',
 	#instVars : [
