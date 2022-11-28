@@ -33,6 +33,16 @@ BlElementEagerQuery >> forMany: anElement [
 	result prepareForGroup: anElement
 ]
 
+{ #category : #testing }
+BlElementEagerQuery >> isEmpty [
+	^ result lastResult isEmpty
+]
+
+{ #category : #testing }
+BlElementEagerQuery >> isNotEmpty [
+	^ result lastResult isNotEmpty
+]
+
 { #category : #accessing }
 BlElementEagerQuery >> queryStep: aBlElementStep [
 	self findNext: aBlElementStep result: result
