@@ -12,6 +12,11 @@ BlElementQueryStepResult >> addElement: aFoundElement [
 	self subclassResponsibility
 ]
 
+{ #category : #adding }
+BlElementQueryStepResult >> addElements: aCollectionOfElements [
+	aCollectionOfElements do: [ :eachElement | self addElement: eachElement ]
+]
+
 { #category : #accessing }
 BlElementQueryStepResult >> all [
 	"Return all results"

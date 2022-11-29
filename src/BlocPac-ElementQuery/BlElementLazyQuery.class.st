@@ -33,6 +33,18 @@ BlElementLazyQuery >> findMany: anElement [
 ]
 
 { #category : #computing }
+BlElementLazyQuery >> findManyFromAll: aCollectionOfElements [
+	| aResult |
+
+	aResult := BlElementQueryResult new.
+	aResult prepareForGroupAll: aCollectionOfElements.
+
+	self findWithResult: aResult.
+	
+	^ aResult
+]
+
+{ #category : #computing }
 BlElementLazyQuery >> findOne: anElement [
 	| aResult |
 

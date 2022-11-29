@@ -10,15 +10,21 @@ Class {
 }
 
 { #category : #searching }
-BlDevScripterOneElementQueryEventTarget >> findTargetIn: anElement [
+BlDevScripterOneElementQueryEventTarget >> findTargetIn: anElementOrCollectionOfElements [
 	<return: #BlElement>
-	| aResult |
+	| aResult allResults|
 	
-	aResult := query findMany: anElement.
+	aResult := anElementOrCollectionOfElements isCollection
+		ifTrue: [ query findManyFromAll: anElementOrCollectionOfElements ]
+		ifFalse: [ query findMany: anElementOrCollectionOfElements ].
+
 	aResult hasResult
 		ifFalse: [ AssertionFailure signal: 'Could not find an element for ', query printString ].
 
-	^ aResult lastResult anyOne
+	allResults := aResult lastResult all.
+	^ allResults size = 1
+		ifTrue: [ allResults anyOne ]
+		ifFalse: [ allResults ]
 ]
 
 { #category : #initialization }
