@@ -35,6 +35,11 @@ BlElementQueryResult >> prepareForGroup: anElement [
 ]
 
 { #category : #initialization }
+BlElementQueryResult >> prepareForGroupAll: aCollectionOfElements [
+	results add: (BlElementQueryGroupStepResult new addElements: aCollectionOfElements)
+]
+
+{ #category : #initialization }
 BlElementQueryResult >> prepareForSingle: anElement [
 	results add: (BlElementQuerySingleStepResult new addElement: anElement)
 ]
