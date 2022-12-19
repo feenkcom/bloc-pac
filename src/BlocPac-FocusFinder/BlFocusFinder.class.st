@@ -107,8 +107,10 @@ BlFocusFinder >> referenceArea: aRectangle [
 ]
 
 { #category : #'api - configuration' }
-BlFocusFinder >> referenceElement: aBlElement [
-	self reference: (BlFocusFinderReferenceElement new element: aBlElement)
+BlFocusFinder >> referenceElement: aBlElementOrNil [
+	self reference: (aBlElementOrNil
+		ifNil: [ BlFocusFinderReferenceNone new ]
+		ifNotNil: [ :anElement | BlFocusFinderReferenceElement new element: anElement ])
 ]
 
 { #category : #'api - configuration' }

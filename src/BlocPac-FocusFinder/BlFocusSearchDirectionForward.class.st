@@ -37,15 +37,15 @@ BlFocusSearchDirectionForward >> nextFocus: aFocusedElement in: aCollectionOfEle
 		ifTrue: [ ^ nil ].
 	
 	aFocusedElement == aFocusRootElement
-		ifTrue: [ ^ aCollectionOfElements first ].
+		ifTrue: [ ^ aCollectionOfElements at: 1 ].
 		
 	aCurrentFocusableIndex := aCollectionOfElements
 		indexOf: aFocusedElement
-		ifAbsent: [ ^ aCollectionOfElements first ].
+		ifAbsent: [ ^ aCollectionOfElements at: 1 ].
 		
 	^ aCurrentFocusableIndex < aCollectionOfElements size
 		ifTrue: [ aCollectionOfElements at: aCurrentFocusableIndex + 1 ]
-		ifFalse: [ aCollectionOfElements first ]
+		ifFalse: [ aCollectionOfElements at: 1 ]
 ]
 
 { #category : #accessing }
