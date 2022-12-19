@@ -20,3 +20,35 @@ BlFocusSearchDirectionForward >> initFocusedBounds: aFocusedBounds root: aFocusR
 				right: 0
 				bottom: 0 ]
 ]
+
+{ #category : #accessing }
+BlFocusSearchDirectionForward >> name [
+	<return: #String>
+
+	^ 'forward'
+]
+
+{ #category : #focus }
+BlFocusSearchDirectionForward >> nextFocus: aFocusedElement in: aCollectionOfElements within: aFocusRootElement from: aFocusedBounds finder: aFocusFinder [
+	<return: #BlElement or: nil>
+	| aCurrentFocusableIndex |
+	
+	aCollectionOfElements size < 2
+		ifTrue: [ ^ nil ].
+	
+	aFocusedElement == aFocusRootElement
+		ifTrue: [ ^ aCollectionOfElements first ].
+		
+	aCurrentFocusableIndex := aCollectionOfElements
+		indexOf: aFocusedElement
+		ifAbsent: [ ^ aCollectionOfElements first ].
+		
+	^ aCurrentFocusableIndex < aCollectionOfElements size
+		ifTrue: [ aCollectionOfElements at: aCurrentFocusableIndex + 1 ]
+		ifFalse: [ aCollectionOfElements first ]
+]
+
+{ #category : #accessing }
+BlFocusSearchDirectionForward >> vector [
+	^ BlVector2D x: 1 y: 0
+]

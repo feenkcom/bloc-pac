@@ -116,17 +116,17 @@ BlFocusFinderExamples >> focusFinderDownOnSegment_2_child_41 [
 	^ aFocusFinder
 ]
 
-{ #category : #'examples - segment 3' }
-BlFocusFinderExamples >> focusFinderDownOnSegment_3_at_285x50 [
+{ #category : #'examples - segment 2' }
+BlFocusFinderExamples >> focusFinderForwardOnSegment_3_child_92 [
 	<gtExample>
 	| aFocusFinder aContainer aNextFocus |
 	
-	aContainer := self segmentWithCells_3.
+	aContainer := self segmentWithCells_2.
 	
 	aFocusFinder := BlFocusFinder new
-		up;
+		forward;
 		root: aContainer;
-		referenceArea: (285@50 corner: 285@50).
+		referenceElement: (aContainer children at: 92).
 
 	aNextFocus := aFocusFinder
 		nextFocusDo: #yourself
@@ -134,30 +134,7 @@ BlFocusFinderExamples >> focusFinderDownOnSegment_3_at_285x50 [
 
 	self
 		assert: aNextFocus
-		equals: (aContainer children at: 39).
-
-	^ aFocusFinder
-]
-
-{ #category : #'examples - segment 3' }
-BlFocusFinderExamples >> focusFinderDownOnSegment_3_child_57 [
-	<gtExample>
-	| aFocusFinder aContainer aNextFocus |
-	
-	aContainer := self segmentWithCells_3.
-	
-	aFocusFinder := BlFocusFinder new
-		up;
-		root: aContainer;
-		referenceElement: (aContainer children at: 57).
-
-	aNextFocus := aFocusFinder
-		nextFocusDo: #yourself
-		ifNone: [ nil ].
-
-	self
-		assert: aNextFocus
-		equals: (aContainer children at: 39).
+		equals: (aContainer children at: 93).
 
 	^ aFocusFinder
 ]
@@ -218,6 +195,52 @@ BlFocusFinderExamples >> focusFinderUpOnContainerFromBounds [
 		up;
 		root: aContainer;
 		referenceArea: (170@100 corner: 200@120).
+
+	^ aFocusFinder
+]
+
+{ #category : #'examples - segment 3' }
+BlFocusFinderExamples >> focusFinderUpOnSegment_3_at_285x50 [
+	<gtExample>
+	| aFocusFinder aContainer aNextFocus |
+	
+	aContainer := self segmentWithCells_3.
+	
+	aFocusFinder := BlFocusFinder new
+		up;
+		root: aContainer;
+		referenceArea: (285@50 corner: 285@50).
+
+	aNextFocus := aFocusFinder
+		nextFocusDo: #yourself
+		ifNone: [ nil ].
+
+	self
+		assert: aNextFocus
+		equals: (aContainer children at: 39).
+
+	^ aFocusFinder
+]
+
+{ #category : #'examples - segment 3' }
+BlFocusFinderExamples >> focusFinderUpOnSegment_3_child_57 [
+	<gtExample>
+	| aFocusFinder aContainer aNextFocus |
+	
+	aContainer := self segmentWithCells_3.
+	
+	aFocusFinder := BlFocusFinder new
+		up;
+		root: aContainer;
+		referenceElement: (aContainer children at: 57).
+
+	aNextFocus := aFocusFinder
+		nextFocusDo: #yourself
+		ifNone: [ nil ].
+
+	self
+		assert: aNextFocus
+		equals: (aContainer children at: 39).
 
 	^ aFocusFinder
 ]

@@ -1,13 +1,11 @@
 Class {
 	#name : #BlFocusFinderReference,
 	#superclass : #Object,
-	#traits : 'TBlDebug',
-	#classTraits : 'TBlDebug classTrait',
 	#category : #'BlocPac-FocusFinder-Core'
 }
 
 { #category : #'api - focus' }
-BlFocusFinderReference >> focusBoundsIn: anElement [
+BlFocusFinderReference >> focusBoundsIn: anElement direction: aFocusSearchDirection [
 	<return: #Rectangle>
 	
 	^ self subclassResponsibility
@@ -25,5 +23,5 @@ BlFocusFinderReference >> focusElementIn: anElement [
 BlFocusFinderReference >> name [
 	<return: #String>
 
-	^ 'Uknown'
+	^ self subclassResponsibility
 ]

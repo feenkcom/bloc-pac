@@ -1,7 +1,6 @@
 Class {
 	#name : #BlFocusFinderReferenceElement,
 	#superclass : #BlFocusFinderReference,
-	#traits : 'TBlDebug',
 	#classTraits : 'TBlDebug classTrait',
 	#instVars : [
 		'element'
@@ -20,7 +19,7 @@ BlFocusFinderReferenceElement >> element: anObject [
 ]
 
 { #category : #'api - focus' }
-BlFocusFinderReferenceElement >> focusBoundsIn: anElement [
+BlFocusFinderReferenceElement >> focusBoundsIn: anElement direction: aFocusSearchDirection [
 	<return: #Rectangle>
 	
 	^ (anElement
