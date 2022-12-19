@@ -10,12 +10,11 @@ Class {
 	#traits : 'TBlDebug',
 	#classTraits : 'TBlDebug classTrait',
 	#instVars : [
-		'direction',
 		'rootElement',
+		'direction',
+		'reference',
 		'bestCandidateBounds',
-		'temporaryBounds',
-		'focusedBounds',
-		'reference'
+		'temporaryBounds'
 	],
 	#category : #'BlocPac-FocusFinder-Core'
 }
@@ -40,17 +39,21 @@ BlFocusFinder >> down [
 	self direction: BlFocusSearchDirectionDown new
 ]
 
+{ #category : #'api - configuration' }
+BlFocusFinder >> forward [
+	self direction: BlFocusSearchDirectionForward new
+]
+
 { #category : #initialization }
 BlFocusFinder >> initialize [
 	super initialize.
 	
 	bestCandidateBounds := BlBounds new.
 	temporaryBounds := BlBounds new.
-	focusedBounds := BlBounds new.
 
 	direction := BlFocusSearchDirectionDown new.
 	rootElement := BlElement new.
-	reference := BlFocusFinderReferenceArea new bounds: (0@0 extent: 0@0).
+	reference := BlFocusFinderReferenceNone new
 ]
 
 { #category : #'api - configuration' }
@@ -72,7 +75,7 @@ BlFocusFinder >> nextFocusDo: aBlock ifNone: anExceptionBlock [
 	"Evaluate aBlock with the next element that should receive focus"
 	| aReferenceBounds aReferenceElement theFocusCandidates |
 
-	aReferenceBounds := reference focusBoundsIn: rootElement.
+	aReferenceBounds := reference focusBoundsIn: rootElement direction: direction.
 	aReferenceElement := reference focusElementIn: rootElement.
 
 	theFocusCandidates := BlFocusFinderCandidates new.
@@ -104,8 +107,10 @@ BlFocusFinder >> referenceArea: aRectangle [
 ]
 
 { #category : #'api - configuration' }
-BlFocusFinder >> referenceElement: aBlElement [
-	self reference: (BlFocusFinderReferenceElement new element: aBlElement)
+BlFocusFinder >> referenceElement: aBlElementOrNil [
+	self reference: (aBlElementOrNil
+		ifNil: [ BlFocusFinderReferenceNone new ]
+		ifNotNil: [ :anElement | BlFocusFinderReferenceElement new element: anElement ])
 ]
 
 { #category : #'api - configuration' }

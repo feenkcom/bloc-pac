@@ -1,7 +1,6 @@
 Class {
 	#name : #BlFocusFinderReferenceArea,
 	#superclass : #BlFocusFinderReference,
-	#traits : 'TBlDebug',
 	#classTraits : 'TBlDebug classTrait',
 	#instVars : [
 		'bounds'
@@ -20,7 +19,7 @@ BlFocusFinderReferenceArea >> bounds: anObject [
 ]
 
 { #category : #'api - focus' }
-BlFocusFinderReferenceArea >> focusBoundsIn: anElement [
+BlFocusFinderReferenceArea >> focusBoundsIn: anElement direction: aFocusSearchDirection [
 	<return: #Rectangle>
 	
 	^ self bounds

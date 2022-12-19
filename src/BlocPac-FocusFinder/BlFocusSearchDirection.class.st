@@ -24,7 +24,7 @@ BlFocusSearchDirection >> name [
 
 { #category : #focus }
 BlFocusSearchDirection >> nextFocus: aFocusedElement in: aCollectionOfElements within: aFocusRootElement from: aFocusedBounds finder: aFocusFinder [
-	<return: #BlElement>
+	<return: #BlElement or: nil>
 	
 	^ self subclassResponsibility
 ]

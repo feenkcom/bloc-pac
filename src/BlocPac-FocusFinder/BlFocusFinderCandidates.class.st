@@ -14,9 +14,19 @@ BlFocusFinderCandidates >> add: anElement [
 	candidates add: anElement
 ]
 
+{ #category : #accessing }
+BlFocusFinderCandidates >> at: anIndex [
+	^ candidates at: anIndex
+]
+
 { #category : #enumerating }
 BlFocusFinderCandidates >> do: aBlock [
 	candidates do: aBlock
+]
+
+{ #category : #accessing }
+BlFocusFinderCandidates >> indexOf: anElement ifAbsent: exceptionBlock [
+	^ candidates indexOf: anElement ifAbsent: exceptionBlock
 ]
 
 { #category : #initialization }
