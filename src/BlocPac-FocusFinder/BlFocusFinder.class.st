@@ -65,7 +65,7 @@ BlFocusFinder >> left [
 BlFocusFinder >> nextFocusDo: aBlock [
 	"Evaluate aBlock with the next element that should receive focus"
 	
-	self
+	^ self
 		nextFocusDo: aBlock
 		ifNone: [  ]
 ]
