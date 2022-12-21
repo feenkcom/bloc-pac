@@ -9,6 +9,7 @@ BlFocusFinderExamples >> cell [
 	<gtExample>
 	
 	^ BlElement new
+		beFocusable;
 		size: 50 @ 30;
 		background: Color random muchLighter darker;
 		when: BlFocusEvent do: [ :anEvent | anEvent currentTarget border: (BlBorder paint: Color blue width: 2) ];
