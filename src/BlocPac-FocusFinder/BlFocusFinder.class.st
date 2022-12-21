@@ -14,7 +14,8 @@ Class {
 		'direction',
 		'reference',
 		'bestCandidateBounds',
-		'temporaryBounds'
+		'temporaryBounds',
+		'mustIncludeChildren'
 	],
 	#category : #'BlocPac-FocusFinder-Core'
 }
@@ -39,9 +40,31 @@ BlFocusFinder >> down [
 	self direction: BlFocusSearchDirectionDown new
 ]
 
+{ #category : #'api - finder' }
+BlFocusFinder >> focusableCandidates [
+	| theFocusCandidates |
+	
+	theFocusCandidates := BlFocusFinderCandidates new.
+	
+	mustIncludeChildren
+		ifTrue: [
+			BlFocusabilityBefore new
+				focusables: theFocusCandidates along: direction
+				of: rootElement ]
+		ifFalse: [
+			rootElement focusables: theFocusCandidates along: direction ].
+
+	^ theFocusCandidates
+]
+
 { #category : #'api - configuration' }
 BlFocusFinder >> forward [
 	self direction: BlFocusSearchDirectionForward new
+]
+
+{ #category : #'api - configuration' }
+BlFocusFinder >> includeChildren [
+	mustIncludeChildren := true
 ]
 
 { #category : #initialization }
@@ -53,7 +76,8 @@ BlFocusFinder >> initialize [
 
 	direction := BlFocusSearchDirectionDown new.
 	rootElement := BlElement new.
-	reference := BlFocusFinderReferenceNone new
+	reference := BlFocusFinderReferenceNone new.
+	mustIncludeChildren := false
 ]
 
 { #category : #'api - configuration' }
@@ -65,7 +89,7 @@ BlFocusFinder >> left [
 BlFocusFinder >> nextFocusDo: aBlock [
 	"Evaluate aBlock with the next element that should receive focus"
 	
-	self
+	^ self
 		nextFocusDo: aBlock
 		ifNone: [  ]
 ]
@@ -77,10 +101,8 @@ BlFocusFinder >> nextFocusDo: aBlock ifNone: anExceptionBlock [
 
 	aReferenceBounds := reference focusBoundsIn: rootElement direction: direction.
 	aReferenceElement := reference focusElementIn: rootElement.
+	theFocusCandidates := self focusableCandidates.
 
-	theFocusCandidates := BlFocusFinderCandidates new.
-	rootElement focusables: theFocusCandidates along: direction.
-	
 	^ (direction
 		nextFocus: aReferenceElement
 		in: theFocusCandidates
