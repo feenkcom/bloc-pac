@@ -10,7 +10,7 @@ Class {
 	#instVars : [
 		'lineX'
 	],
-	#category : 'BlocPac-Geometry-SVG'
+	#category : #'BlocPac-Geometry-SVG'
 }
 
 { #category : #comparing }
@@ -61,5 +61,5 @@ BlSvgPathHorizontalLineSegment >> printOn: aStream [
 		nextPutAll: 'Horizontal line ';
 		nextPutAll: self printAbsolute;
 		nextPutAll: ' to ';
-		printOn: self lineX
+		print: self lineX
 ]
