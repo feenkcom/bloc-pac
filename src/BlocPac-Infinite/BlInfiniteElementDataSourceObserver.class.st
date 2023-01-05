@@ -66,14 +66,14 @@ BlInfiniteElementDataSourceObserver >> onItemsChanged: anEvent [
 BlInfiniteElementDataSourceObserver >> onItemsEvent: anEvent [
 	self assertNotInLayoutOrScroll.
 
-	infiniteElement
+	"infiniteElement
 		send: anEvent
-		toElementsIn: (anEvent position to: anEvent position + anEvent itemCount - 1)
+		toElementsIn: (anEvent position to: anEvent position + anEvent itemCount - 1)"
 	
-	"anEvent position to: anEvent position + anEvent itemCount - 1 do: [ :anIndex |
+	anEvent position to: anEvent position + anEvent itemCount - 1 do: [ :anIndex |
 		| anElementHolder |
 		anElementHolder := (infiniteElement findElementHolderForDataSourcePosition: anIndex).
-		anElementHolder ifNotNil: [ anEvent event sendTo: anElementHolder ] ]"
+		anElementHolder ifNotNil: [ anEvent event sendTo: anElementHolder ] ]
 ]
 
 { #category : #'event handling' }

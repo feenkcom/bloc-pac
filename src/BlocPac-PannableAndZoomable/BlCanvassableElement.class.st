@@ -1,10 +1,9 @@
 Class {
 	#name : #BlCanvassableElement,
 	#superclass : #BlElement,
-	#traits : 'TBlZoomable',
-	#classTraits : 'TBlZoomable classTrait',
+	#traits : 'TBlZoomable + TBlWithChildrenTransformation',
+	#classTraits : 'TBlZoomable classTrait + TBlWithChildrenTransformation classTrait',
 	#instVars : [
-		'childrenTransformation',
 		'autoScaleEnabled',
 		'childrenScaleFactor',
 		'childrenTranslationFactor',
@@ -29,25 +28,6 @@ BlCanvassableElement >> asScalableElement [
 	^ self
 ]
 
-{ #category : #'geometry bounds convertion' }
-BlCanvassableElement >> childrenBoundsToLocal: aBounds [
-	"In-place transform bounds from my childrens' coordinates to my local coordinates.
-	Note, that I do not return a new rectangle and instead mutate provided one,
-	so do not forget to send #asRectangle to given mutable rectangle in order to get
-	immutable one that can be safely stored as instance variable."
-	<return: #BlBounds>
-
-	^ self childrenTransformation transformBounds: aBounds
-]
-
-{ #category : #'geometry position convertion' }
-BlCanvassableElement >> childrenPointToLocal: aPoint [
-	"Transform a given point from the local coordinates of my children to my local coordinates"
-	<return: #Point>
-
-	^ self childrenTransformation transformPoint: aPoint
-]
-
 { #category : #accessing }
 BlCanvassableElement >> childrenScaleFactor [
 	^ childrenScaleFactor
@@ -61,43 +41,6 @@ BlCanvassableElement >> childrenScaleFactor: aNumber [
 	childrenScaleFactor := aNumber max: 0.001.
 	self updateChildrenTransformation.
 	self dispatchEvent: (BlCanvassableZoomLevelChanged new)
-]
-
-{ #category : #transformations }
-BlCanvassableElement >> childrenTransform [
-	<return: #BlTransformationBuilder>
-	
-	^ BlTransformationBuilder on: self
-]
-
-{ #category : #transformations }
-BlCanvassableElement >> childrenTransformDo: aBlock [
-	| aTransformationBuilder |
-
-	aTransformationBuilder := self childrenTransform.
-	aBlock value: aTransformationBuilder.
-	aTransformationBuilder applyOnChildren
-]
-
-{ #category : #transformations }
-BlCanvassableElement >> childrenTransformation [
-	<return: #BlElementTransformation>
-
-	^ childrenTransformation
-]
-
-{ #category : #transformations }
-BlCanvassableElement >> childrenTransformation: anElementTransformation [
-	childrenTransformation := anElementTransformation asCachedTransformation
-		bounds: self bounds inLocal asRectangle.
-
-	self layout isInfluencedByTransformation
-		ifTrue: [ self requestLayout ].
-
-	self boundsCache invalidateBoundsInSpace.
-	self invalidate.
-
-	self onTransformationChanged
 ]
 
 { #category : #accessing }
@@ -159,8 +102,6 @@ BlCanvassableElement >> gtLiveFor: aView [
 BlCanvassableElement >> initialize [
 	super initialize.
 
-	childrenTransformation := BlElementIdentityTransformation uniqueInstance asCachedTransformation.
-
 	childrenScaleFactor := 1.
 	childrenTranslationFactor := 0@0.
 	zoomStep := 0.1.
@@ -170,40 +111,6 @@ BlCanvassableElement >> initialize [
 	
 	self addEventHandler: BlCanvassableElementSlideHandler new.
 	self beInSeparateCompositionLayer
-]
-
-{ #category : #'geometry bounds' }
-BlCanvassableElement >> invalidationBounds [
-	^ (self invalidationBounds: BlBounds new) asRectangle
-]
-
-{ #category : #'geometry bounds' }
-BlCanvassableElement >> invalidationBounds: aBounds [
-	| anInvalidationBounds |
-
-	anInvalidationBounds := (super invalidationBounds: aBounds).
-	anInvalidationBounds merge: (self childrenTransformation inverseTransformBounds: aBounds copy).
-	
-	^ anInvalidationBounds
-]
-
-{ #category : #'geometry bounds convertion' }
-BlCanvassableElement >> localBoundsToChildren: aBounds [
-	"In-place transform bounds from my local coordinates to my childrens' coordinates.
-	Note, that I do not return a new rectangle and instead mutate provided one,
-	so do not forget to send #asRectangle to given mutable rectangle in order to get
-	immutable one that can be safely stored as instance variable."
-	<return: #BlBounds>
-
-	^ self childrenTransformation inverseTransformBounds: aBounds
-]
-
-{ #category : #'geometry position convertion' }
-BlCanvassableElement >> localPointToChildren: aPoint [
-	"Transform a given point from my local coordinates to the local coordinates of my children."
-	<return: #Point>
-
-	^ self childrenTransformation inverseTransformPoint: aPoint
 ]
 
 { #category : #layout }
@@ -240,36 +147,12 @@ BlCanvassableElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext
 			scaleBy: childrenScaleFactor * automaticScaleFactor value ].
 ]
 
-{ #category : #drawing }
-BlCanvassableElement >> paintChildrenOn: aCompositorPainter offset: anOffset [
-
-	childrenTransformation isIdentity
-		ifTrue: [ super paintChildrenOn: aCompositorPainter offset: anOffset ]
-		ifFalse: [
-			aCompositorPainter
-				pushTransform: childrenTransformation matrix
-				offset: anOffset
-				bounds: self invalidationBounds
-				compositing: self compositingMode
-				thenPaint: [ :aTransformCompositorPainter :aTransformOffset |
-					super paintChildrenOn: aTransformCompositorPainter offset: aTransformOffset ] ]
-]
-
 { #category : #transformations }
 BlCanvassableElement >> updateChildrenTransformation [
 	self childrenTransformDo: [ :t |
 		t
 			translateBy: automaticTranslationFactor + childrenTranslationFactor;
 			scaleBy: childrenScaleFactor * automaticScaleFactor value ]
-]
-
-{ #category : #transformations }
-BlCanvassableElement >> updateTransformationBounds [
-	"Update the bounds of the cached transformation in order to recompute its matrix
-	since transformation origin depends on the element's bounds"
-	super updateTransformationBounds.
-	
-	childrenTransformation bounds: self bounds inLocal asRectangle
 ]
 
 { #category : #'api - zooming' }
