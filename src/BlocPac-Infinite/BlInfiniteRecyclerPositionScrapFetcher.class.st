@@ -5,14 +5,53 @@ Class {
 }
 
 { #category : #private }
-BlInfiniteRecyclerPositionScrapFetcher >> cachedFor: aPosition type: itemType dryRun: dryRun controller: aRecyclerController [
+BlInfiniteRecyclerPositionScrapFetcher >> attachedScrapFor: aFetcherContext [
+	"Try first for an exact, non-invalid match from attached scrap."
 
-	aRecyclerController cachedScrap withIndexDo: [ :holder :index |
-		(holder wasReturnedFromScrap not and: [ holder layoutPosition = aPosition ])
+	aFetcherContext recyclerController attachedScrap 
+		detect: [ :holder | (holder wasReturnedFromScrap not
+			and: [ holder layoutPosition = aFetcherContext layoutPosition 
+				and: [ holder isInvalid not
+					and: [ (aFetcherContext recyclerController isPreLayout
+						or: [ holder isRemoved not ]) ] ] ]) ]
+		ifFound: [ :holder | 
+			holder flags addReturnedFromScrap.
+			
+			aFetcherContext
+				recordFetcherStep: 'Found in attached scrap (size = {1})'
+				arguments: [
+					{
+						aFetcherContext recyclerController attachedScrap size.
+						holder itemId
+					} ].
+			
+			aFetcherContext
+				holder: holder
+				fromScrap: true ]
+		ifNone: [
+			aFetcherContext
+				recordFetcherStep: 'Not in attached scrap (size = {1})'
+				arguments: [ { aFetcherContext recyclerController attachedScrap size } ] ]
+]
+
+{ #category : #private }
+BlInfiniteRecyclerPositionScrapFetcher >> cachedScrapFor: aFetcherContext [
+	aFetcherContext recyclerController cachedScrap withIndexDo: [ :anElementHolder :index |
+		(anElementHolder wasReturnedFromScrap not and: [
+			anElementHolder layoutPosition = aFetcherContext layoutPosition and: [
+				anElementHolder isAttachedToTransitionOverlay not ] ])
 			ifTrue: [ 
-				dryRun ifFalse: [ aRecyclerController cachedScrap removeAt: index ].
-				^ holder ] ].
-	^ nil
+
+				aFetcherContext isDryRun
+					ifFalse: [ aFetcherContext recyclerController cachedScrap removeAt: index ].
+
+				^ aFetcherContext
+					holder: anElementHolder
+					fromScrap: true ] ].
+
+	aFetcherContext
+		recordFetcherStep: 'Not in cached scrap (size = {1})'
+		arguments: [ { aFetcherContext recyclerController cachedScrap size } ]
 ]
 
 { #category : #initialization }
@@ -21,76 +60,89 @@ BlInfiniteRecyclerPositionScrapFetcher >> defaultNext [
 ]
 
 { #category : #'element fetching' }
-BlInfiniteRecyclerPositionScrapFetcher >> elementFor: aPosition dryRun: dryRun controller: aRecyclerController [
-	^ BlFrameTelemetry
-		timeSync: [ 'Fetch element from position scrap at {1}' format: { aPosition } ]
-		during: [
-			| holder fromScrap |
-			
-			fromScrap := false.
-			holder := self positionedScrapFor: aPosition type: BlInfiniteItemType invalid dryRun: dryRun controller: aRecyclerController.
-			holder
-				ifNotNil: [
-					(self validateHolder: holder controller: aRecyclerController)
-						ifFalse: [
-							dryRun ifFalse: [ 
-								holder flags addInvalid.
-								holder isScrap
-									ifTrue: [ 
-										aRecyclerController childRemoved: holder itemElement.
-										holder itemElement dispatchRemovedFromParent: holder infiniteElement.
-										holder unscrap ]
-									ifFalse: [ holder wasReturnedFromScrap
-										ifTrue: [ holder clearReturnedFromScrap ] ].
-									aRecyclerController recycleElementHolder: holder ].
-							holder := nil ]
-						ifTrue: [
-							fromScrap := true ] ].
+BlInfiniteRecyclerPositionScrapFetcher >> doFetchElementHolderFor: aFetcherContext [
+	| anElementHolder |
 
-			holder
-				ifNotNil: [ holder -> fromScrap ]
-				ifNil: [ self nextDo: [ :next | next elementFor: aPosition dryRun: dryRun controller: aRecyclerController ] ] ]
+	self positionedScrapFor: aFetcherContext.	
+	aFetcherContext hasHolder
+		ifFalse: [ ^ self ].
+
+	(self validateHolder: aFetcherContext holder controller: aFetcherContext recyclerController)
+		ifTrue: [ ^ true ].
+
+	anElementHolder := aFetcherContext holder.
+	
+	aFetcherContext isDryRun ifFalse: [ 
+		anElementHolder flags addInvalid.
+		anElementHolder isScrap
+			ifTrue: [ 
+				aFetcherContext recyclerController infiniteElement
+					removeDetachedChild: anElementHolder itemElement
+					animate: false.
+				anElementHolder unscrap ]
+			ifFalse: [ anElementHolder wasReturnedFromScrap
+				ifTrue: [ anElementHolder clearReturnedFromScrap ] ].
+			aFetcherContext recyclerController privateRecycleElementHolder: anElementHolder ].
+
+	aFetcherContext
+		recordFetcherStep: 'Found view holder can not be used for a position.'.	
+	aFetcherContext removeHolder
 ]
 
 { #category : #private }
-BlInfiniteRecyclerPositionScrapFetcher >> exactScrapFor: aPosition type: itemType dryRun: dryRun controller: aRecyclerController [
+BlInfiniteRecyclerPositionScrapFetcher >> hiddenNonRemovedScrapFor: aFetcherContext [
+	| aChildManager |
 
-	^ aRecyclerController attachedScrap 
-		detect: [ :holder | (holder wasReturnedFromScrap not
-			and: [ holder layoutPosition = aPosition 
-				and: [ holder isInvalid not
-					and: [ aRecyclerController isPreLayout
-						or: [ holder isRemoved not ] ] ] ]) ]
-		ifFound: [ :holder | 
-			(itemType = BlInfiniteItemType invalid
-				or: [ holder itemType = itemType ])
-					ifFalse: [ 
-						Error signal: 'Scrap holder has wrong item type!' ].
-			holder flags addReturnedFromScrap.
-			holder ]
-		ifNone: [ nil ]
+	aFetcherContext isDryRun
+		ifTrue: [
+			^ aFetcherContext
+				recordFetcherStep: 'Hidden non-removed scrap search is disabled for dry runs' ].
+
+	aChildManager := aFetcherContext childrenManager.
+	"This View is good to be used. We just need to unhide, detach and move to the scrap list."
+	(aChildManager findHiddenNonRemovedChildAt: aFetcherContext layoutPosition)
+		ifNotNil: [ :aChildElement | 
+			| anElementHolder aLayoutIndex |
+			"This View is good to be used. We just need to unhide, detach and move to the scrap list."
+			anElementHolder := aFetcherContext recyclerController
+					elementHolderOf: aChildElement.
+			aChildManager unhide: aChildElement.
+			aLayoutIndex := aChildManager childIndexOf: aChildElement.
+			aLayoutIndex isZero
+				ifTrue: [ self error: 'Layout index must not be 0 after unhiding an element' ].
+
+			aChildManager detachChildAt: aLayoutIndex.
+			aFetcherContext recyclerController scrapElement: aChildElement.
+			anElementHolder flags
+				addReturnedFromScrap;
+				addBouncedFromHiddenList.
+
+			aFetcherContext holder: anElementHolder fromScrap: true ]
 ]
 
 { #category : #private }
-BlInfiniteRecyclerPositionScrapFetcher >> positionedScrapFor: aPosition type: itemType dryRun: dryRun controller: aRecyclerController [
-	
-	(self exactScrapFor: aPosition type: itemType dryRun: dryRun controller: aRecyclerController)
-		ifNotNil: [ :holder | ^ holder  ].
-	
-	dryRun ifFalse: [ 
-		(aRecyclerController findHiddenNonRemovedChildAt: aPosition type: itemType)
-			ifNotNil: [ :child |
-				aRecyclerController endAnimation: (aRecyclerController elementHolderOf: child) ] ].
+BlInfiniteRecyclerPositionScrapFetcher >> positionedScrapFor: aFetcherContext [
+
+	self attachedScrapFor: aFetcherContext.
+	aFetcherContext hasHolder
+		ifTrue: [ ^ self ].
+
+	self hiddenNonRemovedScrapFor: aFetcherContext.
+	aFetcherContext hasHolder
+		ifTrue: [ ^ self ].
 		
-	^ self cachedFor: aPosition type: itemType dryRun: dryRun controller: aRecyclerController
+	self cachedScrapFor: aFetcherContext.
 ]
 
 { #category : #private }
 BlInfiniteRecyclerPositionScrapFetcher >> validateHolder: aHolder controller: aRecyclerController [
+	"Checks whether a given view holder can be used for the provided position.
+	Returns true if ViewHolder matches the provided position, false otherwise"
+	<return: #Boolean>
 
 	aHolder isRemoved ifTrue: [ 
 		aRecyclerController isPreLayout
-			ifFalse: [ Error signal: 'Should not get a removed holder!' ].
+			ifFalse: [ Error signal: 'Should not get a removed holder unless it is pre-layout!' ].
 		^ aRecyclerController isPreLayout ].
 
 	(aHolder position <= 0 or: [ aHolder position > aRecyclerController dataSourceItemCount ])

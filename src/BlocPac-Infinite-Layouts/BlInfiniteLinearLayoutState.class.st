@@ -74,6 +74,7 @@ BlInfiniteLinearLayoutState >> availableSpace: aNumber in: aLayout [
 { #category : #accessing }
 BlInfiniteLinearLayoutState >> clearScrapList [
 	"must set to nil here"
+	BlInfiniteLinearLayoutStateClearScrapSignal emit.
 	scrapList := nil
 ]
 
@@ -301,6 +302,10 @@ BlInfiniteLinearLayoutState >> offset: aNumber [
 
 { #category : #accessing }
 BlInfiniteLinearLayoutState >> scrapList: aCollectionOfScrappedElement [
+	BlInfiniteLinearLayoutStateSetScrapSignal new
+		scrapList: aCollectionOfScrappedElement;
+		emit.
+
 	scrapList := aCollectionOfScrappedElement
 ]
 

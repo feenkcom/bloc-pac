@@ -144,7 +144,8 @@ BlInfiniteChildrenManager >> defaultBucket [
 
 { #category : #'children add/remove' }
 BlInfiniteChildrenManager >> detachChildAt: anIndex [
-	"Detaches a child element at anIndex from infinite element"
+	"Detaches a child element at anIndex from infinite element.
+	anIndex – Index of the child to return in regular perspective."
 	| anOffset |
 	
 	anOffset := self computeOffset: anIndex.
@@ -154,6 +155,22 @@ BlInfiniteChildrenManager >> detachChildAt: anIndex [
 	
 	bucket remove: anOffset.
 	controller detachChildAt: anOffset
+]
+
+{ #category : #'children accessing' }
+BlInfiniteChildrenManager >> findHiddenNonRemovedChildAt: aPosition [
+	"Return a disappearing child by position.
+	Returns nil if child not found"
+	<return: #BlElement or: nil>
+
+	^ hiddenChildren
+		detect: [ :child |
+			| holder |
+			holder := controller elementHolderOf: child.
+			holder layoutPosition = aPosition
+				and: [ holder isInvalid not
+					and: [ holder isRemoved not ] ] ]
+		ifNone: [ nil ]
 ]
 
 { #category : #'children accessing' }
@@ -320,6 +337,24 @@ BlInfiniteChildrenManager >> unfilteredChildrenDo: aBlock [
 	aChildCount := self unfilteredChildrenCount.
 	1 to: aChildCount do: [ :anIndex |
 		aBlock value: (self unfilteredChildAt: anIndex) ]
+]
+
+{ #category : #hidden }
+BlInfiniteChildrenManager >> unhide: aChildElement [
+	"Moves a child view from hidden list to regular list.
+	Calling this method should probably be followed by a detach, otherwise,
+	it will suddenly show up in LayoutManager's children list."
+	| offset |
+
+	offset := controller childIndexOf: aChildElement.
+	offset <= 0
+		ifTrue: [ Error signal: 'An element is not a direct child!' ].
+	
+	(bucket get: offset)
+		ifFalse: [ Error signal: 'Trying to unhide a child thag is not hidden' ].
+	
+	bucket remove: offset.
+	self unhideChildInternal: aChildElement
 ]
 
 { #category : #hidden }

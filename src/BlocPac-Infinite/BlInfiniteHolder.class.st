@@ -158,6 +158,11 @@ BlInfiniteHolder >> initializeWith: anElement [
 	itemElement := anElement
 ]
 
+{ #category : #'private - testing' }
+BlInfiniteHolder >> isAttachedToTransitionOverlay [
+	^ false
+]
+
 { #category : #'private - flags testing' }
 BlInfiniteHolder >> isBound [
 	^ self flags hasBound
