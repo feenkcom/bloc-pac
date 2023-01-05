@@ -53,7 +53,12 @@ BlOverlayListener >> eventsToHandle [
 BlOverlayListener >> extentFor: anElement [
 	<return: #Point>
 
-	^ (self overlayElement globalBoundsToLocal: anElement bounds inSpace bounds copy) extent
+	^ anElement
+		firstCommonParent: self overlayElement
+		ifFound: [ :aCommonParent |
+			((anElement bounds inParent: aCommonParent)
+				inChild: self overlayElement) extent ]
+		ifNone: [ 0@0 ]
 ]
 
 { #category : #initialization }
