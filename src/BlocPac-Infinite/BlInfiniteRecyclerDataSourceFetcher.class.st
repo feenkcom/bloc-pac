@@ -10,14 +10,21 @@ BlInfiniteRecyclerDataSourceFetcher >> defaultNext [
 ]
 
 { #category : #'element fetching' }
-BlInfiniteRecyclerDataSourceFetcher >> elementFor: aPosition dryRun: dryRun controller: aRecyclerController [
-	^ BlFrameTelemetry
-		timeSync: [ 'Fetch element from data source at {1}' format: { aPosition } ]
-		during: [
-			| holder |
+BlInfiniteRecyclerDataSourceFetcher >> doFetchElementHolderFor: aFetcherContext [
+	| aRecyclerController itemType holder |
 
-			holder := aRecyclerController createElementHolderOfType: (aRecyclerController itemTypeAt: aPosition).
-			holder ifNil: [ Error signal: 'Data source must not return nil holder!' ].
+	aRecyclerController := aFetcherContext recyclerController.
 
-			holder -> false ]
+	itemType := aFetcherContext itemType.
+
+	holder := aRecyclerController createElementHolderOfType: itemType.
+	holder ifNil: [ self error: 'Data source must not return nil holder!' ].
+	
+	aFetcherContext
+		recordFetcherStep: 'Created new holder (index = {1}, type = {2})'
+		arguments: [ { aFetcherContext itemPosition . itemType } ].
+	
+	aFetcherContext
+		holder: holder
+		fromScrap: false
 ]

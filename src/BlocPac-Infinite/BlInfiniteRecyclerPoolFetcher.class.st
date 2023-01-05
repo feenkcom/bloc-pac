@@ -10,15 +10,19 @@ BlInfiniteRecyclerPoolFetcher >> defaultNext [
 ]
 
 { #category : #'element fetching' }
-BlInfiniteRecyclerPoolFetcher >> elementFor: aPosition dryRun: dryRun controller: aRecyclerController [
-	^ BlFrameTelemetry
-		timeSync: [ 'Fetch element from pool at {1}' format: { aPosition } ]
-		during: [
-			| holder |
-			holder := aRecyclerController recyclerPool at: (aRecyclerController itemTypeAt: aPosition).
-			holder ifNotNil: #reset.
+BlInfiniteRecyclerPoolFetcher >> doFetchElementHolderFor: aFetcherContext [
+	| aRecyclerController holder |
+	
+	aRecyclerController := aFetcherContext recyclerController.
+	
+	holder := aRecyclerController recyclerPool at: aFetcherContext itemType.
+	holder ifNil: [
+		aFetcherContext recordFetcherStep: 'No element holder for a given type in the recycler pool'.
+		^ self ].
 
-			holder
-				ifNotNil: [ holder -> false ]
-				ifNil: [ self nextDo: [ :next | next elementFor: aPosition dryRun: dryRun controller: aRecyclerController ] ] ]
+	holder reset.
+	
+	aFetcherContext
+		holder: holder
+		fromScrap: false
 ]

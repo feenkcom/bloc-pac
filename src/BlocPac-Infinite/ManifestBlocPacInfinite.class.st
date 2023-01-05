@@ -7,3 +7,8 @@ Class {
 	#superclass : #PackageManifest,
 	#category : #'BlocPac-Infinite-Manifest'
 }
+
+{ #category : #testing }
+ManifestBlocPacInfinite class >> shouldValidateBaseline [
+	^ true
+]

@@ -1686,7 +1686,7 @@ BlInfiniteElement >> removeAnimatingChild: anElement [
 			| anElementHolder |
 			anElementHolder := self elementHolderOf: anElement.
 			recycler unscrapHolder: anElementHolder.
-			recycler recycleElementHolder: anElementHolder ].
+			recycler privateRecycleElementHolder: anElementHolder ].
 	
 	"only clear request eaten flag if we removed the element"
 	self resumeRequestLayout: isRemoved not.
