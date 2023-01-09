@@ -10,26 +10,27 @@ BlInfiniteRecyclerUserCacheFetcher >> defaultNext [
 ]
 
 { #category : #'element fetching' }
-BlInfiniteRecyclerUserCacheFetcher >> elementFor: aPosition dryRun: dryRun controller: aRecyclerController [
-	^ BlFrameTelemetry
-		timeSync: [ 'Fetch element from user cache at {1}' format: { aPosition } ]
-		during: [
-			| holder |
+BlInfiniteRecyclerUserCacheFetcher >> doFetchElementHolderFor: aFetcherContext [
+	| aRecyclerController anElementHolder element |
 
-			aRecyclerController userCache ifNotNil: [ :customCache |
-				|element|
+	aRecyclerController := aFetcherContext recyclerController.
+	
+	aRecyclerController userCache ifNil: [
+		aFetcherContext recordFetcherStep: 'No user cache'.
+		^ self ].
+	
+	"We are NOT sending the #itemPosition because Layout does not know it."
+	element := aRecyclerController userCache
+		elementFor: aRecyclerController recycler
+		at: aFetcherContext position
+		type: aFetcherContext itemType.
 
-				element := customCache
-					elementFor: aRecyclerController recycler
-					at: aPosition
-					type: (aRecyclerController itemTypeAt: aPosition).
-
-				element ifNotNil: [ :el |
-					holder := aRecyclerController elementHolderOf: el.
-					holder ifNil: [ Error signal: 'Returned by custom cache element must have Holder!' ].
-					holder shouldIgnore ifTrue: [ Error signal: 'Element can not be in ignore mode! You need to remove #ignore flag first' ] ] ].
-
-			holder
-				ifNotNil: [ holder -> false ]
-				ifNil: [ self nextDo: [ :next | next elementFor: aPosition dryRun: dryRun controller: aRecyclerController ] ] ]
+	element ifNotNil: [ :anElement |
+		anElementHolder := aRecyclerController elementHolderOf: anElement.
+		anElementHolder ifNil: [ self error: 'Returned by custom cache element must have Holder!' ].
+		anElementHolder shouldIgnore ifTrue: [ self error: 'Element can not be in ignore mode! You need to remove #ignore flag first' ].
+		
+		aFetcherContext
+			holder: anElement
+			fromScrap: false ]
 ]

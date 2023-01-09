@@ -1245,7 +1245,7 @@ BlInfiniteLayout >> scrapOrRecycleChild: anElement at: anIndex [
 			and: [ self dataSource hasStableIds not ] ])
 		ifTrue: [ 
 			self removeChildAt: anIndex.
-			self recycler recycleElementHolder: anElementHolder ]
+			self recycler privateRecycleElementHolder: anElementHolder ]
 		ifFalse: [
 			self detachChildAt: anIndex.
 			self recycler scrapElement: anElement.

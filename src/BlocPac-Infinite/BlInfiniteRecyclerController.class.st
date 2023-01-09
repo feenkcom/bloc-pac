@@ -90,6 +90,13 @@ BlInfiniteRecyclerController >> endAnimation: aChildHolder [
 ]
 
 { #category : #'recycler -> children' }
+BlInfiniteRecyclerController >> findHiddenNonRemovedChildAt: aPosition [
+	<return: #BlElement or: nil>
+
+	^ self childrenManager findHiddenNonRemovedChildAt: aPosition
+]
+
+{ #category : #'recycler -> children' }
 BlInfiniteRecyclerController >> findHiddenNonRemovedChildAt: aPosition type: anItemType [
 	^ self childrenManager findHiddenNonRemovedChildAt: aPosition type: anItemType
 ]
@@ -159,18 +166,18 @@ BlInfiniteRecyclerController >> onElementHolderRecycled: anElementHolder [
 ]
 
 { #category : #'scrap fetcher -> recycler' }
+BlInfiniteRecyclerController >> privateRecycleElementHolder: anElementHolder [
+	self flag: #todo
+]
+
+{ #category : #'scrap fetcher -> recycler' }
 BlInfiniteRecyclerController >> quickRecycleScrap: anElement [
 	self recycler quickRecycleScrap: anElement
 ]
 
 { #category : #'scrap fetcher -> recycler' }
-BlInfiniteRecyclerController >> recycleCachedAt: anIndex [
-	self recycler recycleCachedAt: anIndex
-]
-
-{ #category : #'scrap fetcher -> recycler' }
-BlInfiniteRecyclerController >> recycleElementHolder: anElementHolder [
-	self flag: #todo
+BlInfiniteRecyclerController >> recycleCachedElementAt: anIndex [
+	self recycler recycleCachedElementAt: anIndex
 ]
 
 { #category : #accessing }
@@ -191,6 +198,11 @@ BlInfiniteRecyclerController >> removeDetachedChild: anElement [
 { #category : #'recycler -> state' }
 BlInfiniteRecyclerController >> removeHolderFromInfoStore: anElementHolder [
 	self infoStore removeHolder: anElementHolder
+]
+
+{ #category : #'scrap fetcher -> recycler' }
+BlInfiniteRecyclerController >> scrapElement: anElement [
+	self recycler scrapElement: anElement
 ]
 
 { #category : #accessing }

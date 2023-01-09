@@ -49,6 +49,10 @@ Class {
 
 { #category : #private }
 BlInfiniteRecycler >> addHolderToRecyclerPool: anElementHolder [
+	BlInfiniteRecyclerAboutToRecycleInPoolSignal new
+		infiniteElement: controller infiniteElement;
+		holder: anElementHolder;
+		emit.
 
 	self dispatchElementRecycled: anElementHolder.
 	anElementHolder detachInfiniteElement.
@@ -76,7 +80,7 @@ BlInfiniteRecycler >> cacheSize: aRequestedCacheSize [
 	"Request change of the maximum number of detached, valid elements we should retain for later use.
 	It is not guaranteed that new cache size will be equal to requested one!"
 
-	requestedCacheSize = aRequestedCacheSize.
+	requestedCacheSize := aRequestedCacheSize.
 	self updateCacheSize
 ]
 
@@ -119,6 +123,10 @@ BlInfiniteRecycler >> clearScrap [
 	"Removes all scrapped elements from corresponding pools"
 	
 	attachedScrap removeAll.
+	BlInfiniteRecyclerClearedAttachedScrapSignal new
+		infiniteElement: controller infiniteElement;
+		emit.
+
 	changedScrap removeAll
 ]
 
@@ -195,10 +203,26 @@ BlInfiniteRecycler >> elementFor: aPosition dryRun: dryRun [
 
 	BlFrameTelemetry
 		timeSync: [ 'Fetch element at {1}' format: { aPosition } ]
-		during: [ fetchedResult := fetcher elementFor: aPosition dryRun: dryRun controller: self controller ].
-	
-	holder := fetchedResult key.
-	fromScrap := fetchedResult value.
+		during: [
+			| aFetcherContext aSignal |
+
+			aFetcherContext := BlInfiniteRecyclerFetcherContext new
+				isDryRun: dryRun;
+				position: aPosition;
+				recyclerController: controller.
+
+			aSignal := BlInfiniteRecyclerFetchHolderSignal new
+				infiniteElement: controller infiniteElement;
+				fetcherContext: aFetcherContext;
+				position: aPosition;
+				emit.
+
+			fetchedResult := fetcher elementHolderFor: aFetcherContext.
+
+			aSignal fetcherResult: fetchedResult ].
+
+	holder := fetchedResult holder.
+	fromScrap := fetchedResult isFromScrap.
 
 	self assert: holder isNotNil.
 	self assert: fromScrap isNotNil.
@@ -212,6 +236,13 @@ BlInfiniteRecycler >> elementFor: aPosition dryRun: dryRun [
 				holder isRemoved ifTrue: [ Error signal: 'Removed holder should come here only in pre-layout!' ].
 				offsetPosition := self controller computePositionOffset: aPosition.
 				holder infiniteElement: self controller infiniteElement.
+				
+				BlInfiniteRecyclerAboutToBindHolderForPositionSignal new
+					infiniteElement: controller infiniteElement;
+					holder: holder;
+					position: offsetPosition;
+					fetcherResult: fetchedResult;
+					emit.
 				
 				self controller bindHolder: holder at: offsetPosition.
 				
@@ -237,7 +268,7 @@ BlInfiniteRecycler >> elementRangeUpdate: aPosition itemCount: anItemCount [
 		(aLayoutPosition >= aPosition and: [ aLayoutPosition < aPositionEnd ])
 			ifTrue: [ 
 				anElementHolder flags addUpdate.
-				self recycleCachedAt: anIndex.
+				self recycleCachedElementAt: anIndex.
 				"cached elements should not be flagged as changed because this will cause them
 				to animate when they are returned from cache." ] ]
 ]
@@ -339,7 +370,7 @@ BlInfiniteRecycler >> offsetPositionRecordsForRemove: aStartPosition itemCount: 
 					ifTrue: [
 						"Item for this element was removed. Dump it from the cache."
 						anElementHolder flags addRemoved.
-						self recycleCachedAt: anIndex ] ] ]
+						self recycleCachedElementAt: anIndex ] ] ]
 ]
 
 { #category : #accessing }
@@ -386,6 +417,63 @@ BlInfiniteRecycler >> preLayoutPositionToPostLayout: aPosition [
 ]
 
 { #category : #recycling }
+BlInfiniteRecycler >> privateRecycleElementHolder: anElementHolder [
+	"Internal implementation checks if view is scrapped or attached and throws an exception if so.
+	Public version un-scraps before calling recycle."
+	| cached recycled |
+
+	(anElementHolder isScrap or: [ anElementHolder itemElement hasParent ])
+		ifTrue: [ self error: 'Scrapped or attached elements can not be recycled' ].
+
+	anElementHolder isTmpDetached
+		ifTrue: [ self error: 'Detached element must be removed from infinite element before it can be recycled' ].	
+
+	anElementHolder shouldIgnore
+		ifTrue: [ self error: 'Can not recycle an ignored element holder' ].
+
+	cached := false.
+	recycled := false.
+
+	(cachedScrap includes: anElementHolder)
+		ifTrue: [ self error: 'Trying to recycle already cached element' ].
+
+	anElementHolder isRecyclable ifTrue: [ 
+		(cacheSize > 0 and: [ anElementHolder isInvalid not
+			and: [ anElementHolder isRemoved not
+				and: [ anElementHolder needsUpdate not ] ] ])
+			ifTrue: [ 
+				| cachedScrapSize targetCacheIndex |
+				cachedScrapSize := cachedScrap size.
+				"recycle the oldest cached scrapped element"
+				(cachedScrapSize >= cacheSize and: [ cachedScrapSize > 0 ])
+					ifTrue: [ 
+						self recycleCachedElementAt: 1.
+						cachedScrapSize := cachedScrapSize - 1 ].
+				targetCacheIndex := cachedScrapSize.
+				(self controller isItemPrefetchEnabled
+					and: [ cachedScrapSize > 0
+						and: [ (self controller lastPrefetchIncludedPosition: anElementHolder position) not ] ])
+					ifTrue: [ 
+						| cacheIndex break |
+						cacheIndex := cachedScrapSize.
+						break := false.
+						[ break not and: [ cacheIndex >= 1 ] ] whileTrue: [ 
+							| cachedPosition |
+							cachedPosition := (cachedScrap at: cacheIndex) position.
+							(self controller lastPrefetchIncludedPosition: cachedPosition)
+								ifTrue: [ cacheIndex := cacheIndex - 1 ]
+								ifFalse: [ break := true ] ].
+						targetCacheIndex := cacheIndex + 1 ].
+				cachedScrap add: anElementHolder afterIndex: targetCacheIndex.
+				cached := true ].
+			cached ifFalse: [ 
+				self addHolderToRecyclerPool: anElementHolder.
+				recycled := true ] ].
+	
+	self controller removeHolderFromInfoStore: anElementHolder
+]
+
+{ #category : #recycling }
 BlInfiniteRecycler >> quickRecycleScrap: anElement [
 	"Used as a fast path for unscrapping and recycling a an element during a bulk operation.
 	The sender must send #clearScrap when it's done to update the recycler's internal bookkeeping.
@@ -397,7 +485,7 @@ BlInfiniteRecycler >> quickRecycleScrap: anElement [
 
 	anElementHolder := self controller elementHolderOf: anElement.
 	anElementHolder detachRecycler.
-	self recycleElementHolder: anElementHolder
+	self privateRecycleElementHolder: anElementHolder
 ]
 
 { #category : #recycling }
@@ -406,7 +494,7 @@ BlInfiniteRecycler >> recycleAndRemoveCachedElements [
 	
 	"iterate in reversed order since we delete cached elements from collection by index"
 	cachedScrap reverseWithIndexDo: [ :anElementHolder :anIndex |
-		self recycleCachedAt: anIndex ].
+		self recycleCachedElementAt: anIndex ].
 	
 	"post-condition to make sure recycling worked well"
 	self
@@ -415,7 +503,7 @@ BlInfiniteRecycler >> recycleAndRemoveCachedElements [
 ]
 
 { #category : #recycling }
-BlInfiniteRecycler >> recycleCachedAt: anIndex [
+BlInfiniteRecycler >> recycleCachedElementAt: anIndex [
 	"Recycles a cached element and removes it from the list. Elements are added to cache
 	if and only if they are recyclable, I do not check it again."
 	| anElementHolder |
@@ -445,62 +533,7 @@ BlInfiniteRecycler >> recycleElement: anElement [
 		ifFalse: [ anElementHolder wasReturnedFromScrap
 			ifTrue: [ anElementHolder clearReturnedFromScrap ] ].
 	
-	self recycleElementHolder: anElementHolder
-]
-
-{ #category : #recycling }
-BlInfiniteRecycler >> recycleElementHolder: anElementHolder [
-	| cached recycled |
-
-	(anElementHolder isScrap or: [ anElementHolder itemElement hasParent ])
-		ifTrue: [ self error: 'Scrapped or attached elements can not be recycled' ].
-
-	anElementHolder isTmpDetached
-		ifTrue: [ self error: 'Detached element must be removed from infinite element before it can be recycled' ].	
-
-	anElementHolder shouldIgnore
-		ifTrue: [ self error: 'Can not recycle an ignored element holder' ].
-
-	cached := false.
-	recycled := false.
-
-	(cachedScrap includes: anElementHolder)
-		ifTrue: [ self error: 'Trying to recycle already cached element' ].
-
-	anElementHolder isRecyclable ifTrue: [ 
-		(cacheSize > 0 and: [ anElementHolder isInvalid not
-			and: [ anElementHolder isRemoved not
-				and: [ anElementHolder needsUpdate not ] ] ])
-			ifTrue: [ 
-				| cachedScrapSize targetCacheIndex |
-				cachedScrapSize := cachedScrap size.
-				"recycle the oldest cached scrapped element"
-				(cachedScrapSize >= cacheSize and: [ cachedScrapSize > 0 ])
-					ifTrue: [ 
-						self recycleCachedAt: 1.
-						cachedScrapSize := cachedScrapSize - 1 ].
-				targetCacheIndex := cachedScrapSize.
-				(self controller isItemPrefetchEnabled
-					and: [ cachedScrapSize > 0
-						and: [ (self controller lastPrefetchIncludedPosition: anElementHolder position) not ] ])
-					ifTrue: [ 
-						| cacheIndex break |
-						cacheIndex := cachedScrapSize.
-						break := false.
-						[ break not and: [ cacheIndex >= 1 ] ] whileTrue: [ 
-							| cachedPosition |
-							cachedPosition := (cachedScrap at: cacheIndex) position.
-							(self controller lastPrefetchIncludedPosition: cachedPosition)
-								ifTrue: [ cacheIndex := cacheIndex - 1 ]
-								ifFalse: [ break := true ] ].
-						targetCacheIndex := cacheIndex + 1 ].
-				cachedScrap add: anElementHolder afterIndex: targetCacheIndex.
-				cached := true ].
-			cached ifFalse: [ 
-				self addHolderToRecyclerPool: anElementHolder.
-				recycled := true ] ].
-	
-	self controller removeHolderFromInfoStore: anElementHolder
+	self privateRecycleElementHolder: anElementHolder
 ]
 
 { #category : #recycling }
@@ -515,6 +548,10 @@ BlInfiniteRecycler >> removeScrap [
 	Detached elements contained within a recycler pool will remain"
 
 	attachedScrap removeAll.
+	BlInfiniteRecyclerClearedAttachedScrapSignal new
+		infiniteElement: controller infiniteElement;
+		emit.
+
 	self recycleAndRemoveCachedElements
 ]
 
@@ -561,10 +598,18 @@ BlInfiniteRecycler >> scrapElement: anElement [
 				ifTrue: [ self error: 'Can not scrap invalid elements, because they can not be reused from scrap and should be rebound from recycler pool instead' ].
 			
 			anElementHolder recycler: self inChangeScrap: false.
-			attachedScrap add: anElementHolder ]
+			attachedScrap add: anElementHolder.
+			
+			BlInfiniteRecyclerAddedToAttachedScrapSignal new
+				elementHolder: anElementHolder;
+				emit ]
 		ifFalse: [ 
 			anElementHolder recycler: self inChangeScrap: true.
-			changedScrap add: anElementHolder ]
+			changedScrap add: anElementHolder.
+			
+			BlInfiniteRecyclerAddedToChangedScrapSignal new
+				elementHolder: anElementHolder;
+				emit ]
 ]
 
 { #category : #'accessing - cache' }
@@ -614,7 +659,7 @@ BlInfiniteRecycler >> updateCacheSize [
 	index := cachedScrap size.
 	
 	[ index >= 1 and: [ cachedScrap size >= cacheSize ] ] whileTrue: [ 
-		self recycleCachedAt: index.
+		self recycleCachedElementAt: index.
 		index := index - 1 ].
 	
 	^ oldCachedSize ~= cacheSize
