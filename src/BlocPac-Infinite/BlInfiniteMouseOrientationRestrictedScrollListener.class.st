@@ -39,10 +39,7 @@ BlInfiniteMouseOrientationRestrictedScrollListener >> mouseWheelEvent: anEvent [
 BlInfiniteMouseOrientationRestrictedScrollListener >> printOn: aStream [
 	aStream 
 		nextPutAll: 'Event handler of ';
-		print: self eventClass;
-		nextPutAll: ' in ';
-		print: self direction;
-		nextPutAll: ' direction'
+		print: self eventClass
 ]
 
 { #category : #events }
