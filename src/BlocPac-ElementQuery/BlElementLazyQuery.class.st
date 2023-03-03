@@ -81,6 +81,17 @@ BlElementLazyQuery >> isEmpty [
 	^ steps isEmpty
 ]
 
+{ #category : #printing }
+BlElementLazyQuery >> printOn: aStream [
+	steps
+		ifNil: [ super printOn: aStream.
+			^ self ].
+
+	steps
+		do: [ :eachStep | aStream print: eachStep ]
+		separatedBy: [ aStream space ]
+]
+
 { #category : #accessing }
 BlElementLazyQuery >> queryStep: aBlElementStep [
 	steps add: aBlElementStep
