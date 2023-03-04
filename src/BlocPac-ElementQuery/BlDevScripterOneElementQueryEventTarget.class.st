@@ -27,11 +27,22 @@ BlDevScripterOneElementQueryEventTarget >> findTargetIn: anElementOrCollectionOf
 		ifFalse: [ allResults ]
 ]
 
+{ #category : #accessing }
+BlDevScripterOneElementQueryEventTarget >> identifier [
+	^ query ifNil: [ super identifier ] ifNotNil: [ :aQuery | aQuery printString ]
+]
+
 { #category : #initialization }
 BlDevScripterOneElementQueryEventTarget >> initialize [
 	super initialize.
 	
 	query := BlElementLazyQuery new
+]
+
+{ #category : #accessing }
+BlDevScripterOneElementQueryEventTarget >> printOn: aStream [
+	query ifNil: [ ^ super printOn: aStream ].
+	aStream nextPutAll: self identifier
 ]
 
 { #category : #accessing }
