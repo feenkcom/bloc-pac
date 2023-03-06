@@ -4,7 +4,7 @@ I am sent by an element with applied Resizer Listener after the resizing target 
 "
 Class {
 	#name : #BlResizerResizedEvent,
-	#superclass : #BlEvent,
+	#superclass : #BlResizerEvent,
 	#instVars : [
 		'extent'
 	],
