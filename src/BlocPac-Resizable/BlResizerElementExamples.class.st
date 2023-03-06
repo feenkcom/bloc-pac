@@ -157,6 +157,48 @@ BlResizerElementExamples >> resizable [
 		background: (Color red alpha: 0.5)
 ]
 
+{ #category : #examples }
+BlResizerElementExamples >> resizeEvents [
+	<gtExample>
+	| container vector resizeEvents resizeStartedEvent resizeEndedEvent resizeEvent |
+	
+	vector := BlVector x: 50 y: 50.
+	container := self containerWithResizable.
+	
+	resizeEvents := OrderedCollection new.
+	
+	(container childNamed: #resizable) 
+		when: BlResizerResizeStartedEvent do: [ :anEvent | 
+			resizeEvents add: anEvent ];
+		when: BlResizerResizeEndedEvent do: [ :anEvent |
+			resizeEvents add: anEvent ];
+		when: BlResizerResizedEvent do: [ :anEvent |
+			resizeEvents add: anEvent].
+	
+	 BlSpace 
+	 	simulateDragOn: (container childNamed: #resizer) topCenter 
+	 	by: vector.
+
+	self assert: resizeEvents size equals: 3.
+	
+	resizeStartedEvent := resizeEvents first.
+	self assert: resizeStartedEvent class equals: BlResizerResizeStartedEvent.
+	self assert: resizeStartedEvent originalExtent equals: self initialExtent.
+	
+	resizeEndedEvent :=  resizeEvents third.
+	self assert: resizeEndedEvent class equals: BlResizerResizeEndedEvent.
+	self assert: resizeEndedEvent originalExtent equals: self initialExtent.
+	self 
+		assert: resizeEndedEvent modifiedExtent 
+		equals: self initialExtent - (0@vector y).
+	
+	resizeEvent := resizeEvents second.
+	self assert: resizeEvent class equals: BlResizerResizedEvent.
+	self assert: resizeEvent extent equals: self initialExtent - (0@vector y).
+	
+	^ resizeEvents
+]
+
 { #category : #'instance creation' }
 BlResizerElementExamples >> resizer [
 	<gtExample>

@@ -17,9 +17,34 @@ Class {
 	#category : #'BlocPac-Resizable'
 }
 
+{ #category : #accessing }
+BlResizerListener >> dispatchEventComputedUsing: anEventComputation toCurrentTargetAnd: anotherTarget [
+	self resizeTarget dispatchEvent: anEventComputation value.
+	anotherTarget dispatchEvent: anEventComputation value
+]
+
 { #category : #'dnd handlers' }
 BlResizerListener >> dragEndEvent: anEvent [
-	anEvent consumed: true
+	| dragPosition dragDelta theBounds |
+	anEvent consumed: true.
+	
+	self hasTarget
+		ifFalse: [ ^ self ].
+		
+	dragPosition := anEvent position.
+	dragDelta := dragPosition - dragStartPosition.
+
+	theBounds := BlBounds origin: originalPosition extent: originalExtent.
+
+	self
+		resizeBounds: theBounds
+		by: dragDelta.
+		
+	self 
+		dispatchEventComputedUsing: [ BlResizerResizeEndedEvent new
+			originalExtent: originalExtent;
+			modifiedExtent: theBounds extent ]
+		toCurrentTargetAnd: anEvent currentTarget
 ]
 
 { #category : #'dnd handlers' }
@@ -59,8 +84,10 @@ BlResizerListener >> dragEvent: anEvent [
 	heightChanged
 		ifTrue: [ self resizeTarget height: theBounds height ].
 	
-	self resizeTarget dispatchEvent: (BlResizerResizedEvent new extent: theBounds extent).
-	anEvent currentTarget dispatchEvent: (BlResizerResizedEvent new extent: theBounds extent)
+	self 
+		dispatchEventComputedUsing: [ BlResizerResizedEvent new 
+			extent: theBounds extent ]
+		toCurrentTargetAnd: anEvent currentTarget
 ]
 
 { #category : #'dnd handlers' }
@@ -75,7 +102,12 @@ BlResizerListener >> dragStartEvent: anEvent [
 
 	"element's original extent"
 	originalExtent := self resizeTarget bounds inSpace extent.
-	originalPosition := self resizeTarget bounds inSpace position
+	originalPosition := self resizeTarget bounds inSpace position.
+	
+	self 
+		dispatchEventComputedUsing: [ BlResizerResizeStartedEvent new 
+			originalExtent: originalExtent ]
+		toCurrentTargetAnd: anEvent currentTarget
 ]
 
 { #category : #testing }
