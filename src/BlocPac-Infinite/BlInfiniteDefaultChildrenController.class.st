@@ -72,7 +72,7 @@ BlInfiniteDefaultChildrenController >> detachChildAt: anIndex [
 	anElementHolder := self elementHolderOf: anElement.
 	
 	(anElementHolder isTmpDetached and: [
-		anElement shouldIgnore not ])
+		anElementHolder shouldIgnore not ])
 			ifTrue: [ self error: 'Can not detach already detached child!' ].
 	
 	anElementHolder flags addTmpDetached.
