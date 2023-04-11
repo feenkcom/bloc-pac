@@ -87,20 +87,16 @@ BlCurveElement >> drawChildrenOnSpartaCanvas: aCanvas [
 
 { #category : #drawing }
 BlCurveElement >> drawOnSpartaCanvas: aCanvas [
-
-	aCanvas layer
-		when: [ self hasHeads ]
-		during: [
-			| aBorder |
-			aBorder := self border.
-			aCanvas stroke
-				alpha: self border opacity;
-				paint: aBorder paint;
-				path: (self geometry pathOnSpartaCanvas: aCanvas of: self);
-				width: aBorder width;
-				in: [ :aPainter | aBorder style applyOn: aPainter ];
-				draw.
-			self drawArrowHeadsOnSpartaCanvas: aCanvas ]
+	| aBorder |
+	aBorder := self border.
+	aCanvas stroke
+		alpha: self border opacity;
+		paint: aBorder paint;
+		path: (self geometry pathOnSpartaCanvas: aCanvas of: self);
+		width: aBorder width;
+		in: [ :aPainter | aBorder style applyOn: aPainter ];
+		draw.
+	self drawArrowHeadsOnSpartaCanvas: aCanvas
 ]
 
 { #category : #'anchor - accessing' }
@@ -331,12 +327,6 @@ BlCurveElement >> toDirection [
 
 { #category : #'heads - accessing' }
 BlCurveElement >> toHead [
-	<return: #BlElement>
-
-	self
-		assert: [ self hasToHead ]
-		description: [ 'Can only access arrowhead on the `to` side of the curve if it exists' ].
-		
 	^ toHead
 ]
 
@@ -367,8 +357,8 @@ BlCurveElement >> toHeadBreadth [
 { #category : #'heads - geometry' }
 BlCurveElement >> toHeadLength [
 	"Return a measured length of arrowhead on 'to' side of the path"
-	<return: #Number>
 
+	<return: #Number>
 	^ self hasToHead
 		ifTrue: [ self toHead measuredWidth + self toHead margin width ]
 		ifFalse: [ 0.0 ]
@@ -378,7 +368,7 @@ BlCurveElement >> toHeadLength [
 BlCurveElement >> toPosition [
 	"Return position of toAnchor in parent coordinates.
 	The actual path may not end at this position if there exist arrow heads"
-	<return: #Point>
 
-	^ self toAnchor positionWithin: self
+	<return: #Point>
+	^self toAnchor positionWithin: self
 ]

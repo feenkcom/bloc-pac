@@ -18,7 +18,7 @@ Class {
 		'arrowNoseAngle',
 		'arrowShape'
 	],
-	#category : 'BlocPac-Geometry-Arrowheads'
+	#category : #'BlocPac-Geometry-Arrowheads'
 }
 
 { #category : #accessing }
@@ -56,26 +56,21 @@ BlArrowheadSimpleArrow >> arrowNoseAngle: anAngleInDegrees [
 { #category : #initialization }
 BlArrowheadSimpleArrow >> createShapeForWidth: aNumber [
 	| wingAngle aShape |
+	wingAngle := arrowNoseAngle / 2.0.
 
-	wingAngle := 180 - ((540 - 180 - arrowNoseAngle) / 2.0).
-
-	aShape := BlShaperPolygon rectangle: (0@0 extent: aNumber @ (aNumber * 3)).
+	aShape := BlShaperPolygon rectangle: (0 @ 0 extent: aNumber @ (aNumber * 3)).
 	(aShape edgeAt: 2) collapse.
 	(aShape edgeAt: 3) injectLineAt: 0.5 length: aNumber.
 	(aShape edgeAt: 3) counterClockwiseRotateAroundEndBy: wingAngle.
 	(aShape edgeAt: 5) clockwiseRotateAroundStartBy: wingAngle.
-	(aShape edgeAt: 1) toVertex moveToBuildAngle: arrowNoseAngle.
-
-	"top wing"
+	(aShape edgeAt: 1) toVertex moveToBuildAngle: arrowNoseAngle.	"top wing"
 	(aShape edgeAt: 5) fromVertex divide.
-	(aShape edgeAt: 6) moveAlongNormalBy: (arrowLengthFraction * aNumber) negated.
-
-	"bottom wing"
+	(aShape edgeAt: 6) moveAlongNormalBy: (arrowLengthFraction * aNumber) negated.	"bottom wing"
 	(aShape edgeAt: 3) toVertex divide.
 	(aShape edgeAt: 3) moveAlongNormalBy: (arrowLengthFraction * aNumber) negated.
-	
+
 	aShape moveBy: aShape boundingBox origin negated.
-	
+
 	^ aShape
 ]
 
