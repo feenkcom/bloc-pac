@@ -67,7 +67,7 @@ BlInfiniteLinearLayout >> childAtPosition: aPosition [
 		ifFalse: [ ^ nil ].
 
 	aFirstChildPosition := self childPositionOf: (self childAt: 1).
-	anElementPosition := aPosition - aFirstChildPosition.
+	anElementPosition := aPosition - aFirstChildPosition + 1.
 	(anElementPosition between: 1 and: self childrenCount)
 		ifTrue: [ 
 			| anElement |
