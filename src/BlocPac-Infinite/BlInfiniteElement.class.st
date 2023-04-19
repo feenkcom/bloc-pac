@@ -1911,6 +1911,20 @@ BlInfiniteElement >> scrollToPosition: aPosition [
 	self awakenScrollBars
 ]
 
+{ #category : #scrolling }
+BlInfiniteElement >> scrollToPosition: aPosition offset: anOffset [
+	"Convenience method to scroll to a certain datasource position.
+	InfiniteElement does not implement scrolling logic, rather forwards the call to
+   InfiniteElement>>#scrollToPosition:offset:"
+
+	layoutFrozen
+		ifTrue: [ ^ self ].
+
+	self stopScroll.
+	self layout scrollToPosition: aPosition offset: anOffset.
+	self awakenScrollBars
+]
+
 { #category : #'api - scrolling' }
 BlInfiniteElement >> scrollVerticallyBy: aNumber [
 	"Scroll vertically by aNumber and return the distance traveled.
