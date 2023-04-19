@@ -45,7 +45,10 @@ BlInfiniteDataSource >> bindHolder: anElementHolder at: aPosition [
 { #category : #'instance creation' }
 BlInfiniteDataSource >> createHolder: anInfiniteElement type: anItemType [
 	| anElementHolder |
-	anElementHolder := self onCreateHolder: anInfiniteElement type: anItemType.
+	anElementHolder := BlFrameTelemetry
+		time: [ 'Create item holder of type ({1}) for {2}'
+			format: { anItemType . anInfiniteElement } ]
+		during: [ self onCreateHolder: anInfiniteElement type: anItemType ].
 	anElementHolder itemType: anItemType.
 	^ anElementHolder
 ]

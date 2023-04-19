@@ -46,7 +46,9 @@ BlInfiniteRecyclerFetcher >> elementHolderFor: aFetcherContext [
 	currentFetcher := self.
 	[
 		aFetcherContext recordFetcher: currentFetcher.
-		currentFetcher doFetchElementHolderFor: aFetcherContext.
+		BlFrameTelemetry
+			timeSync: [ 'Fetch element holder using {1}' format: { currentFetcher class name }  ]
+			during: [ currentFetcher doFetchElementHolderFor: aFetcherContext ].
 		currentFetcher := currentFetcher next ]
 			doWhileTrue: [ aFetcherContext hasHolder not and: [ currentFetcher notNil ] ].
 
