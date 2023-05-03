@@ -73,7 +73,7 @@ BlElementLazyQuery >> findWithResult: aResult [
 BlElementLazyQuery >> initialize [
 	super initialize.
 	
-	steps := OrderedCollection new
+	steps := OrderedCollection new: 0
 ]
 
 { #category : #testing }
