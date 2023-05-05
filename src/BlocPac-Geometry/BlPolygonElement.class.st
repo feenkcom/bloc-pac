@@ -38,6 +38,16 @@ BlPolygonElement >> anchors: aCollectionOfAnchors [
 ]
 
 { #category : #initialization }
+BlPolygonElement >> bePolygon [
+	visuals geometry: BlPolygon new
+]
+
+{ #category : #initialization }
+BlPolygonElement >> bePolyline [
+	visuals geometry: BlPolyline new
+]
+
+{ #category : #initialization }
 BlPolygonElement >> initialize [
 	super initialize.
 	
