@@ -70,6 +70,19 @@ BlManhattanLineElementExamples >> manhattanHorizontalLine [
 		to: 450 @ 100
 ]
 
+{ #category : #'examples - sigmoid' }
+BlManhattanLineElementExamples >> manhattanRoundedCorners [
+	<gtExample>	
+	| mLine |
+	
+	mLine := self newManhattanLine.
+	mLine cornerRadius: 20.
+	^ self
+		addAttachmentsTo: mLine
+		from: 100 @ 100
+		to: 450 @ 200
+]
+
 { #category : #'examples - orientation' }
 BlManhattanLineElementExamples >> manhattanVertical [
 	<gtExample>

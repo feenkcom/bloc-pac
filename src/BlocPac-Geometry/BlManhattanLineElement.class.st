@@ -25,6 +25,11 @@ BlManhattanLineElement >> beVertical [
 	self invalidate
 ]
 
+{ #category : #accessing }
+BlManhattanLineElement >> cornerRadius: aNumber [
+	self geometry cornerRadius: aNumber
+]
+
 { #category : #initialization }
 BlManhattanLineElement >> defaultGeometry [
 	^BlManhattanLine new
