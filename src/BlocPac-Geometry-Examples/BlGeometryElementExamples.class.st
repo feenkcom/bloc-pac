@@ -6,8 +6,6 @@ Class {
 
 { #category : #'instance creation' }
 BlGeometryElementExamples >> attachPoint [
-	<gtExample>	
-
 	^ BlElement new
 		geometry: BlEllipseGeometry new;
 		size: 30@30;
@@ -18,8 +16,6 @@ BlGeometryElementExamples >> attachPoint [
 
 { #category : #'instance creation' }
 BlGeometryElementExamples >> container [
-	<gtExample>
-	
 	^ BlElement new
 		background: Color white;
 		constraintsDo: [ :c |
