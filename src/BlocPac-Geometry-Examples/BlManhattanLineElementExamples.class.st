@@ -46,6 +46,32 @@ BlManhattanLineElementExamples >> manhattanDefault [
 ]
 
 { #category : #'examples - orientation' }
+BlManhattanLineElementExamples >> manhattanFixedFrom [
+	<gtExample>
+	| mLine |
+	mLine := self newManhattanLine.
+	mLine beFixedFrom.
+	mLine fixedDistance: 50.
+	^ self
+		addAttachmentsTo: mLine
+		from: 100 @ 100
+		to: 450 @ 200
+]
+
+{ #category : #'examples - orientation' }
+BlManhattanLineElementExamples >> manhattanFixedTo [
+	<gtExample>
+	| mLine |
+	mLine := self newManhattanLine.
+	mLine beFixedTo.
+	mLine fixedDistance: 50.
+	^ self
+		addAttachmentsTo: mLine
+		from: 100 @ 100
+		to: 450 @ 200
+]
+
+{ #category : #'examples - orientation' }
 BlManhattanLineElementExamples >> manhattanHorizontal [
 	<gtExample>	
 	| mLine |
@@ -68,6 +94,19 @@ BlManhattanLineElementExamples >> manhattanHorizontalLine [
 		addAttachmentsTo: mLine
 		from: 100 @ 100
 		to: 450 @ 100
+]
+
+{ #category : #'examples - orientation' }
+BlManhattanLineElementExamples >> manhattanProportional [
+	<gtExample>
+	| mLine |
+	mLine := self newManhattanLine.
+	mLine beProportional.
+	mLine proportion: 0.30.
+	^ self
+		addAttachmentsTo: mLine
+		from: 100 @ 100
+		to: 450 @ 200
 ]
 
 { #category : #'examples - sigmoid' }

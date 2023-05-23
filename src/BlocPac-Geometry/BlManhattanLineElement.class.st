@@ -11,11 +11,26 @@ BlManhattanLineElement >> beAutomatic [
 	self invalidate
 ]
 
+{ #category : #'as yet unclassified' }
+BlManhattanLineElement >> beFixedFrom [
+	self geometry beFixedFrom
+]
+
+{ #category : #'as yet unclassified' }
+BlManhattanLineElement >> beFixedTo [
+	self geometry beFixedTo
+]
+
 { #category : #accessing }
 BlManhattanLineElement >> beHorizontal [
 	self invalidate.
 	self geometry beHorizontal.
 	self invalidate
+]
+
+{ #category : #'as yet unclassified' }
+BlManhattanLineElement >> beProportional [
+	self geometry beProportional
 ]
 
 { #category : #accessing }
@@ -33,6 +48,11 @@ BlManhattanLineElement >> cornerRadius: aNumber [
 { #category : #initialization }
 BlManhattanLineElement >> defaultGeometry [
 	^BlManhattanLine new
+]
+
+{ #category : #'as yet unclassified' }
+BlManhattanLineElement >> fixedDistance: aNumber [ 
+	self geometry fixedDistance: aNumber
 ]
 
 { #category : #layout }
@@ -66,6 +86,11 @@ BlManhattanLineElement >> measureGeometry [
 	aDelta := self fromPosition min: self toPosition.
 	
 	self geometry from: aDecoratedFromPoint - aDelta to: aDecoratedToPoint - aDelta
+]
+
+{ #category : #'as yet unclassified' }
+BlManhattanLineElement >> proportion: aFloat [ 
+	self geometry proportion: aFloat
 ]
 
 { #category : #layout }
