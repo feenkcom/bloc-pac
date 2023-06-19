@@ -15,7 +15,8 @@ BlHorizontalScrollbarElement >> defaultThumb [
 		height: 8;
 		constraintsDo: [ :c |
 			c horizontal matchParent.
-			c frame horizontal weight: 0.25 ];
+			c frame horizontal weight: 0.25.
+			c frame vertical alignCenter ];
 		background: Color gray
 ]
 
@@ -48,15 +49,15 @@ BlHorizontalScrollbarElement >> scrollTo: aPoint [
 			ifNotNil: [ dragPosition ].
 
 	scrollingBy := self
-			computeScrollDeltaFrom: oldPosition x
-			to: aPoint x
-			offset: scrollable computeHorizontalScrollOffset
-			range: scrollable computeHorizontalScrollRange
-			length: self width.
+		computeScrollDeltaFrom: oldPosition x
+		to: aPoint x
+		offset: scrollable computeHorizontalScrollOffset
+		range: scrollable computeHorizontalScrollRange
+		length: self width.
 
 	scrollingBy isZero ifTrue: [ ^ self ].
 
-	scrollable scrollBy: scrollingBy negated @ 0.
+	scrollable scrollBy: scrollingBy @ 0.
 
 	dragPosition
 		ifNil: [ self thumb relocate: aPoint ]
