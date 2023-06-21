@@ -12,7 +12,8 @@ Class {
 		'pullDragHandler',
 		'track',
 		'scrollHandler',
-		'trackClickHandler'
+		'trackClickHandler',
+		'alwaysVisible'
 	],
 	#category : #'BlocPac-Scrollable-Core'
 }
@@ -26,6 +27,12 @@ BlScrollbarElement >> attachTo: aTBlScrollable [
 
 	aTBlScrollable addEventHandler: scrollHandler.
 	scrollable := aTBlScrollable
+]
+
+{ #category : #'api - scrollbar' }
+BlScrollbarElement >> beAlwaysVisible [
+	"Don't hide the scrollbar when there is nothing to scroll. The scroll thumb will be visible at all times"
+	alwaysVisible := true
 ]
 
 { #category : #'private - scrolling' }
@@ -84,6 +91,16 @@ BlScrollbarElement >> detachFrom: aTBlScrollable [
 	scrollable := nil
 ]
 
+{ #category : #'api - scrollbar' }
+BlScrollbarElement >> disableClickToScroll [
+	"Disable an ability of scrolling by clicking on a scrollbar.
+	In some applications, such as pager, it may be desirable to have a logical
+	scrolling rather than pixel based."
+
+	self removeEventHandler: trackClickHandler.
+	self preventMouseEvents
+]
+
 { #category : #initialization }
 BlScrollbarElement >> initialize [
 	super initialize.
@@ -91,6 +108,7 @@ BlScrollbarElement >> initialize [
 	self layout: BlFrameLayout new.
 
 	minimumSize := 0.05.
+	alwaysVisible := false.
 
 	scrollHandler := BlEventHandler
 			on: BlElementScrolledEvent
@@ -108,7 +126,7 @@ BlScrollbarElement >> initialize [
 			do: [ :anEvent | self scrollTo: anEvent localPosition ].
 
 	self addEventHandler: trackClickHandler.
-			
+
 	self track: self defaultTrack.
 	self thumb: self defaultThumb
 ]
