@@ -54,7 +54,8 @@ BlInfiniteRecyclerFetchHolderSignal >> prepareForDelivery [
 
 { #category : #printing }
 BlInfiniteRecyclerFetchHolderSignal >> printOneLineContentsOn: aStream [
-	self fetcherResult hasHolder
+
+	(fetcherResult isNotNil and: [ fetcherResult hasHolder ])
 		ifTrue: [
 			self fetcherResult isFromScrap
 				ifTrue: [ aStream nextPutAll: 'Recycled holder from scrap' ]
