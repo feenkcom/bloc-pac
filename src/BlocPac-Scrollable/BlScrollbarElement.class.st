@@ -13,7 +13,8 @@ Class {
 		'track',
 		'scrollHandler',
 		'trackClickHandler',
-		'alwaysVisible'
+		'alwaysVisible',
+		'extentHandler'
 	],
 	#category : #'BlocPac-Scrollable-Core'
 }
@@ -26,6 +27,7 @@ BlScrollbarElement >> attachTo: aTBlScrollable [
 		ifNotNil: [ self detachFrom: scrollable ].
 
 	aTBlScrollable addEventHandler: scrollHandler.
+	aTBlScrollable addEventHandler: extentHandler.
 	scrollable := aTBlScrollable
 ]
 
@@ -88,6 +90,7 @@ BlScrollbarElement >> detachFrom: aTBlScrollable [
 	"Detach me from a given scrollable element (any element that implements TBlScrollable trait)"
 
 	aTBlScrollable removeEventHandler: scrollHandler.
+	aTBlScrollable removeEventHandler: extentHandler.
 	scrollable := nil
 ]
 
@@ -113,6 +116,11 @@ BlScrollbarElement >> initialize [
 	scrollHandler := BlEventHandler
 			on: BlElementScrolledEvent
 			do: [ :anEvent | self onScrolled: anEvent currentTarget ].
+	
+	extentHandler := BlEventHandler
+			on: BlElementExtentChangedEvent
+			do: [ :anEvent | self onScrolled: anEvent currentTarget ].		
+
 	pullHandler := self defaultPullHandler.
 	pullStartHandler := BlEventHandler
 			on: BlPullStartEvent
