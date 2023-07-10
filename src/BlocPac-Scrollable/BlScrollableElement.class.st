@@ -273,8 +273,8 @@ BlScrollableElement >> scrollBy: aPoint [
 
 	aContent := self scrolledElement.
 
-	dX := aPoint x.
-	dY := aPoint y negated.
+	dX := aPoint x negated.
+	dY := aPoint y.
 	
 	self canScrollHorizontally
 		ifTrue: [
