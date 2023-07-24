@@ -20,6 +20,6 @@ BlScrollableElementEventHandler >> mouseWheelEvent: anEvent [
 	anEvent isTouch
 		ifTrue: [ ^ self ].
 
-	aScrollHappened := anEvent currentTarget scrollBy: (anEvent vector * 20).
+	aScrollHappened := anEvent currentTarget scrollBy: (anEvent vector * (20 @ 20 negated)).
 	anEvent consumed: aScrollHappened
 ]

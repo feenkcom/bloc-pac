@@ -264,6 +264,10 @@ BlScrollableElement >> onLayout: aBounds context: aBlElementBoundsUpdater [
 { #category : #scrolling }
 BlScrollableElement >> scrollBy: aPoint [
 	"Instant scroll by the given amount of pixels along either axis.
+	
+	Positive Y component: scroll the content down.
+	Negative Y componenet: scroll the content up.
+	
 	Return true if a scroll happens."
 	<return: #Boolean>
 	| aContent dX dY |
@@ -272,9 +276,9 @@ BlScrollableElement >> scrollBy: aPoint [
 		ifFalse: [ ^ false ].
 
 	aContent := self scrolledElement.
-
+	
 	dX := aPoint x negated.
-	dY := aPoint y.
+	dY := aPoint y negated.
 	
 	self canScrollHorizontally
 		ifTrue: [
