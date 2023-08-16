@@ -108,24 +108,23 @@ BlInfiniteVerticalOrientation >> measurementSpecInOther [
 { #category : #'mouse handlers' }
 BlInfiniteVerticalOrientation >> mouseWheelEvent: anEvent [
 	| dY anInfiniteElement isHorizontal |
-
 	anEvent vector isZero ifTrue: [ ^ self ].
 
 	anInfiniteElement := anEvent currentTarget.
-	
-	isHorizontal := anEvent vector x abs > anEvent vector y abs.
+
+	isHorizontal := anEvent isPrimarilyHorizontal.
 	isHorizontal ifTrue: [ ^ self ].
 
 	dY := (anEvent isScrollDown and: [ self canScrollDown: anInfiniteElement ])
-				ifTrue: [ anEvent vector length ]
-				ifFalse: [ (anEvent isScrollUp and: [ self canScrollUp: anInfiniteElement ])
+			ifTrue: [ anEvent vector length ]
+			ifFalse: [ (anEvent isScrollUp and: [ self canScrollUp: anInfiniteElement ])
 					ifTrue: [ anEvent vector length negated ]
 					ifFalse: [ 0 ] ].
 
 	dY isZero ifTrue: [ ^ self ].
 
-	anInfiniteElement smoothScrollBy: (0 @ dY) * 10.
-	anEvent consumed: true.
+	anInfiniteElement smoothScrollBy: 0 @ dY * 10.
+	anEvent consumed: true
 ]
 
 { #category : #'children - geometry' }
