@@ -110,25 +110,23 @@ BlInfiniteHorizontalOrientation >> measurementSpecInOther [
 { #category : #'mouse handlers' }
 BlInfiniteHorizontalOrientation >> mouseWheelEvent: anEvent [
 	| dX anInfiniteElement isHorizontal |
-
-	anEvent vector isZero
-		ifTrue: [ ^ self ].
+	anEvent vector isZero ifTrue: [ ^ self ].
 
 	anInfiniteElement := anEvent currentTarget.
-	
-	isHorizontal := anEvent vector x abs > anEvent vector y abs.
-	
+
+	isHorizontal := anEvent isPrimarilyHorizontal.
+
 	isHorizontal ifFalse: [ ^ self ].
 
 	dX := (anEvent isScrollLeft and: [ self canScrollLeft: anInfiniteElement ])
-				ifTrue: [ anEvent vector length negated ]
-				ifFalse: [ (anEvent isScrollRight and: [ self canScrollRight: anInfiniteElement ])
+			ifTrue: [ anEvent vector length negated ]
+			ifFalse: [ (anEvent isScrollRight and: [ self canScrollRight: anInfiniteElement ])
 					ifTrue: [ anEvent vector length ]
 					ifFalse: [ 0 ] ].
 
 	dX isZero ifTrue: [ ^ self ].
 
-	anInfiniteElement smoothScrollBy: (dX @ 0) * 10.
+	anInfiniteElement smoothScrollBy: dX @ 0 * 10.
 	anEvent consumed: true
 ]
 

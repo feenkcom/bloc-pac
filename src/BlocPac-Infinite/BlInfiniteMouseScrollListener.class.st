@@ -49,29 +49,26 @@ BlInfiniteMouseScrollListener >> handleEvent: anEvent [
 { #category : #'mouse handlers' }
 BlInfiniteMouseScrollListener >> mouseWheelEvent: anEvent [
 	| dX dY anInfiniteElement isHorizontal |
-	anEvent vector isZero
-		ifTrue: [ ^ self ].
+	anEvent vector isZero ifTrue: [ ^ self ].
 
 	anInfiniteElement := anEvent currentTarget.
-	
-	isHorizontal := anEvent vector x abs > anEvent vector y abs.
+
+	isHorizontal := anEvent isPrimarilyHorizontal.
 
 	dX := isHorizontal
-		ifTrue: [ anEvent vector length * anEvent vector x sign ]
-		ifFalse: [ 0 ].
+			ifTrue: [ anEvent vector length * anEvent vector x sign ]
+			ifFalse: [ 0 ].
 
 	dY := isHorizontal not
-		ifTrue: [
-			(anEvent isScrollDown and: [ self canScrollDown: anInfiniteElement ])
-				ifTrue: [ anEvent vector length ]
-				ifFalse: [ (anEvent isScrollUp and: [ self canScrollUp: anInfiniteElement ])
-					ifTrue: [ anEvent vector length negated ]
-					ifFalse: [ 0 ] ] ]
-		"we are horizontal => no vertical scroll"
-		ifFalse: [ 0 ].
-		
-	anInfiniteElement smoothScrollBy: (dX @ dY) * 10.
-	anEvent consumed: (dY isZero not)
+			ifTrue: [ (anEvent isScrollDown and: [ self canScrollDown: anInfiniteElement ])
+					ifTrue: [ anEvent vector length ]
+					ifFalse: [ (anEvent isScrollUp and: [ self canScrollUp: anInfiniteElement ])
+							ifTrue: [ anEvent vector length negated ]
+							ifFalse: [ 0 ] ] ]
+			ifFalse: [ "we are horizontal => no vertical scroll" 0 ].
+
+	anInfiniteElement smoothScrollBy: dX @ dY * 10.
+	anEvent consumed: dY isZero not
 ]
 
 { #category : #printing }
