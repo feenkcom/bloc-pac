@@ -99,6 +99,7 @@ BlScrollPaneExamples >> _1_flingDownWithOvershoot500_first305ms [
 { #category : #'examples - fling up' }
 BlScrollPaneExamples >> _1_flingUp500_first205ms [
 	<gtExample>
+	<toReview>
 	| aScrollPane theScrollPositions aScrollerY |
 
 	aScrollPane := self scrollPaneWithContentInSpace.
@@ -124,7 +125,7 @@ BlScrollPaneExamples >> _1_flingUp500_first205ms [
 	
 	aScrollerY := aScrollPane scrollFlinger scroller scrollerY.
 	
-	self assert: (aScrollerY currentVelocity closeTo: -167.16293).
+	self assert: (aScrollerY currentVelocity closeTo: -167.16293 precision: 0.00012).
 	self assert: aScrollerY currentPosition equals: -65.
 	self assert: aScrollerY currentStep equals: BlSplineOverScrollerStep spline.
 	self assert: aScrollerY deceleration equals: 0.

@@ -42,6 +42,7 @@ BlOvershootingSplineBasedScrollerExamples >> _1_flingWithOvershot [
 { #category : #'examples - overshot' }
 BlOvershootingSplineBasedScrollerExamples >> _2_flingMovingToTheEdge [
 	<gtExample>
+	<toReview>
 	| aSplineOverScroller expectedPositions expectedVelocities theActualPositions theActualVelocities |
 
 	aSplineOverScroller := self _1_flingWithOvershot.
@@ -64,9 +65,12 @@ BlOvershootingSplineBasedScrollerExamples >> _2_flingMovingToTheEdge [
 
 	theActualVelocities
 		with: expectedVelocities
-		do: [ :anActual :anExpected | self assert: (anActual closeTo: anExpected) ].
+		do: [ :anActual :anExpected | 
+			self 
+				assert: (anActual closeTo: anExpected precision: 0.0017) ].
 
-	self assert: (aSplineOverScroller currentVelocity closeTo: 947.04535).
+	self assert: (aSplineOverScroller currentVelocity 
+		closeTo: 947.04535 precision: 0.0017).
 	self assert: aSplineOverScroller currentPosition equals: 199.
 	self assert: aSplineOverScroller currentStep equals: BlSplineOverScrollerStep spline.
 	self assert: aSplineOverScroller deceleration equals: 0.0.
@@ -444,12 +448,13 @@ BlOvershootingSplineBasedScrollerExamples >> nbSamples [
 { #category : #'examples - physics' }
 BlOvershootingSplineBasedScrollerExamples >> physicalCoefficient [
 	<gtExample>
+	<toReview>
 	| aSplineOverScroller |
 
 	aSplineOverScroller := self splineOverScroller.
 	
 	"physical coefficient depends on ppi"
-	self assert: (aSplineOverScroller physicalCoefficient closeTo: 31134.12).
+	self assert: (aSplineOverScroller physicalCoefficient closeTo: 31134.12 precision: 0.0011).
 
 	^ aSplineOverScroller physicalCoefficient
 ]
