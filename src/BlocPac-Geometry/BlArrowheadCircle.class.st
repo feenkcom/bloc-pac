@@ -14,7 +14,7 @@ Class {
 	#instVars : [
 		'scale'
 	],
-	#category : 'BlocPac-Geometry-Arrowheads'
+	#category : #'BlocPac-Geometry-Arrowheads'
 }
 
 { #category : #initialization }
@@ -31,9 +31,9 @@ BlArrowheadCircle >> initialize [
 
 { #category : #changes }
 BlArrowheadCircle >> onWidthChanged: aNumber [
-
 	self size: aNumber * self scale asPoint.
-	self border: (self border copyWithWidth: aNumber)
+	self border: (self border copyWithWidth: aNumber).
+	self geometry: BlEllipseGeometry new
 ]
 
 { #category : #accessing }
