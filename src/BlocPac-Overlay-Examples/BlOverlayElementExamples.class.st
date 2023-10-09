@@ -28,30 +28,32 @@ BlOverlayElementExamples >> overlayOnParent [
 BlOverlayElementExamples >> overlayOnParentByScripter [
 	<gtExample>
 	| aScripter |
-	
 	aScripter := BlScripter new.
 	aScripter element: self overlayOnParent.
-	
-	aScripter assert
-		id: #overlay;
-		value: [ :anOveray | anOveray extent ] equals: 500@400;
-		value: [ :anOveray | anOveray position ] equals: 0@0;
-		play.
 
-	aScripter do
-		label: 'Relocate and resize the container';
-		action: [ :aContainer |
-			aContainer
-				relocate: 100@50;
-				size: 300@200 ];
-		play.
-	
-	aScripter assert
-		id: #overlay;
-		value: [ :anOveray | anOveray extent ] equals: 500@400;
-		value: [ :anOveray | anOveray position ] equals: 0@0;
-		play.
-	
+	aScripter
+		assertStep: [ :s | 
+			s
+				id: #overlay;
+				value: [ :anOveray | anOveray extent ] equals: 500 @ 400;
+				value: [ :anOveray | anOveray position ] equals: 0 @ 0 ].
+
+	aScripter
+		doStep: [ :s | 
+			s
+				label: 'Relocate and resize the container';
+				action: [ :aContainer | 
+					aContainer
+						relocate: 100 @ 50;
+						size: 300 @ 200 ] ].
+
+	aScripter
+		assertStep: [ :s | 
+			s
+				id: #overlay;
+				value: [ :anOveray | anOveray extent ] equals: 500 @ 400;
+				value: [ :anOveray | anOveray position ] equals: 0 @ 0 ].
+
 	^ aScripter
 ]
 
@@ -85,45 +87,48 @@ BlOverlayElementExamples >> overlayOnScaledSibling [
 BlOverlayElementExamples >> overlayOnScaledSiblingByScripter [
 	<gtExample>
 	| aScripter |
-	
 	aScripter := BlScripter new.
 	aScripter element: self overlayOnScaledSibling.
-	
-	aScripter assert
-		id: #overlay;
-		value: [ :anOveray | anOveray extent ] equals: 150@100;
-		value: [ :anOveray | anOveray position ] equals: 0@0;
-		play.
-		
-	aScripter assert
-		id: #sibling;
-		value: [ :aSibling | aSibling extent ] equals: 300@200;
-		value: [ :aSibling | aSibling position ] equals: 0@0;
-		play.
 
-	aScripter do
-		label: 'Relocate and resize the sibling';
-		id: #sibling;
-		action: [ :aSibling |
-			aSibling
-				size: 200@100;
-				relocate: 100@50 ];
-		play.
-	
-	aScripter assert
-		id: #sibling;
-		value: [ :aSibling | aSibling extent ] equals: 200@100;
-		value: [ :aSibling | aSibling position ] equals: 100@50;
-		play.
-	
-	aScripter assert
-		id: #overlay;
-		value: [ :anOveray | anOveray extent ] equals: 100@50;
-		"overlay's position doesn't match the one of the sibling because the
-		transformation origin is #centerOrigin. It would match if the origin would have been #topLeftOrigin"
-		value: [ :anOveray | anOveray position ] equals: 150@75;
-		play.
-	
+	aScripter
+		assertStep: [ :s | 
+			s
+				id: #overlay;
+				value: [ :anOveray | anOveray extent ] equals: 150 @ 100;
+				value: [ :anOveray | anOveray position ] equals: 0 @ 0 ].
+
+	aScripter
+		assertStep: [ :s | 
+			s
+				id: #sibling;
+				value: [ :aSibling | aSibling extent ] equals: 300 @ 200;
+				value: [ :aSibling | aSibling position ] equals: 0 @ 0 ].
+
+	aScripter
+		doStep: [ :s | 
+			s
+				label: 'Relocate and resize the sibling';
+				id: #sibling;
+				action: [ :aSibling | 
+					aSibling
+						size: 200 @ 100;
+						relocate: 100 @ 50 ] ].
+
+	aScripter
+		assertStep: [ :s | 
+			s
+				id: #sibling;
+				value: [ :aSibling | aSibling extent ] equals: 200 @ 100;
+				value: [ :aSibling | aSibling position ] equals: 100 @ 50 ].
+
+	aScripter
+		assertStep: [ :s | 
+			s
+				id: #overlay;
+				value: [ :anOveray | anOveray extent ] equals: 100 @ 50;
+				value: [ :anOveray | anOveray position ] equals: 150 @ 75	"overlay's position doesn't match the one of the sibling because the
+		transformation origin is #centerOrigin. It would match if the origin would have been #topLeftOrigin" ].
+
 	^ aScripter
 ]
 
@@ -139,37 +144,40 @@ BlOverlayElementExamples >> overlayOnSibling [
 BlOverlayElementExamples >> overlayOnSiblingByScripter [
 	<gtExample>
 	| aScripter |
-	
 	aScripter := BlScripter new.
 	aScripter element: self overlayOnSibling.
-	
-	aScripter assert
-		id: #overlay;
-		value: [ :anOveray | anOveray extent ] equals: 300@200;
-		value: [ :anOveray | anOveray position ] equals: 0@0;
-		play.
-		
-	aScripter assert
-		id: #sibling;
-		value: [ :aSibling | aSibling extent ] equals: 300@200;
-		value: [ :aSibling | aSibling position ] equals: 0@0;
-		play.
 
-	aScripter do
-		label: 'Relocate and resize the sibling';
-		id: #sibling;
-		action: [ :aSibling |
-			aSibling
-				relocate: 100@50;
-				size: 200@100 ];
-		play.
-	
-	aScripter assert
-		id: #overlay;
-		value: [ :anOveray | anOveray extent ] equals: 200@100;
-		value: [ :anOveray | anOveray position ] equals: 100@50;
-		play.
-	
+	aScripter
+		assertStep: [ :s | 
+			s
+				id: #overlay;
+				value: [ :anOveray | anOveray extent ] equals: 300 @ 200;
+				value: [ :anOveray | anOveray position ] equals: 0 @ 0 ].
+
+	aScripter
+		assertStep: [ :s | 
+			s
+				id: #sibling;
+				value: [ :aSibling | aSibling extent ] equals: 300 @ 200;
+				value: [ :aSibling | aSibling position ] equals: 0 @ 0 ].
+
+	aScripter
+		doStep: [ :s | 
+			s
+				label: 'Relocate and resize the sibling';
+				id: #sibling;
+				action: [ :aSibling | 
+					aSibling
+						relocate: 100 @ 50;
+						size: 200 @ 100 ] ].
+
+	aScripter
+		assertStep: [ :s | 
+			s
+				id: #overlay;
+				value: [ :anOveray | anOveray extent ] equals: 200 @ 100;
+				value: [ :anOveray | anOveray position ] equals: 100 @ 50 ].
+
 	^ aScripter
 ]
 
@@ -186,37 +194,40 @@ BlOverlayElementExamples >> overlayOnSiblingInParentWithChildrenTransformation [
 BlOverlayElementExamples >> overlayOnSiblingInParentWithChildrenTransformationByScripter [
 	<gtExample>
 	| aScripter |
-	
 	aScripter := BlScripter new.
 	aScripter element: self overlayOnSiblingInParentWithChildrenTransformation.
-	
-	aScripter assert
-		id: #overlay;
-		value: [ :anOveray | anOveray extent ] equals: 300@200;
-		value: [ :anOveray | anOveray position ] equals: 0@0;
-		play.
-		
-	aScripter assert
-		id: #sibling;
-		value: [ :aSibling | aSibling extent ] equals: 300@200;
-		value: [ :aSibling | aSibling position ] equals: 0@0;
-		play.
 
-	aScripter do
-		label: 'Relocate and resize the sibling';
-		id: #sibling;
-		action: [ :aSibling |
-			aSibling
-				relocate: 100@50;
-				size: 200@100 ];
-		play.
-	
-	aScripter assert
-		id: #overlay;
-		value: [ :anOveray | anOveray extent ] equals: 200@100;
-		value: [ :anOveray | anOveray position ] equals: 100@50;
-		play.
-	
+	aScripter
+		assertStep: [ :s | 
+			s
+				id: #overlay;
+				value: [ :anOveray | anOveray extent ] equals: 300 @ 200;
+				value: [ :anOveray | anOveray position ] equals: 0 @ 0 ].
+
+	aScripter
+		assertStep: [ :s | 
+			s
+				id: #sibling;
+				value: [ :aSibling | aSibling extent ] equals: 300 @ 200;
+				value: [ :aSibling | aSibling position ] equals: 0 @ 0 ].
+
+	aScripter
+		doStep: [ :s | 
+			s
+				label: 'Relocate and resize the sibling';
+				id: #sibling;
+				action: [ :aSibling | 
+					aSibling
+						relocate: 100 @ 50;
+						size: 200 @ 100 ] ].
+
+	aScripter
+		assertStep: [ :s | 
+			s
+				id: #overlay;
+				value: [ :anOveray | anOveray extent ] equals: 200 @ 100;
+				value: [ :anOveray | anOveray position ] equals: 100 @ 50 ].
+
 	^ aScripter
 ]
 
@@ -233,37 +244,40 @@ BlOverlayElementExamples >> overlayOnSiblingInScaledParent [
 BlOverlayElementExamples >> overlayOnSiblingInScaledParentByScripter [
 	<gtExample>
 	| aScripter |
-	
 	aScripter := BlScripter new.
 	aScripter element: self overlayOnSiblingInScaledParent.
-	
-	aScripter assert
-		id: #overlay;
-		value: [ :anOveray | anOveray extent ] equals: 300@200;
-		value: [ :anOveray | anOveray position ] equals: 0@0;
-		play.
-		
-	aScripter assert
-		id: #sibling;
-		value: [ :aSibling | aSibling extent ] equals: 300@200;
-		value: [ :aSibling | aSibling position ] equals: 0@0;
-		play.
 
-	aScripter do
-		label: 'Relocate and resize the sibling';
-		id: #sibling;
-		action: [ :aSibling |
-			aSibling
-				relocate: 100@50;
-				size: 200@100 ];
-		play.
-	
-	aScripter assert
-		id: #overlay;
-		value: [ :anOveray | anOveray extent ] equals: 200@100;
-		value: [ :anOveray | anOveray position ] equals: 100@50;
-		play.
-	
+	aScripter
+		assertStep: [ :s | 
+			s
+				id: #overlay;
+				value: [ :anOveray | anOveray extent ] equals: 300 @ 200;
+				value: [ :anOveray | anOveray position ] equals: 0 @ 0 ].
+
+	aScripter
+		assertStep: [ :s | 
+			s
+				id: #sibling;
+				value: [ :aSibling | aSibling extent ] equals: 300 @ 200;
+				value: [ :aSibling | aSibling position ] equals: 0 @ 0 ].
+
+	aScripter
+		doStep: [ :s | 
+			s
+				label: 'Relocate and resize the sibling';
+				id: #sibling;
+				action: [ :aSibling | 
+					aSibling
+						relocate: 100 @ 50;
+						size: 200 @ 100 ] ].
+
+	aScripter
+		assertStep: [ :s | 
+			s
+				id: #overlay;
+				value: [ :anOveray | anOveray extent ] equals: 200 @ 100;
+				value: [ :anOveray | anOveray position ] equals: 100 @ 50 ].
+
 	^ aScripter
 ]
 
