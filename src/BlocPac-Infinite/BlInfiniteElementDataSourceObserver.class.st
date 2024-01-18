@@ -53,6 +53,10 @@ BlInfiniteElementDataSourceObserver >> onItemsChanged: anEvent [
 	| needsUpdate |
 	self assertNotInLayoutOrScroll.
 
+	BlInfiniteDataSourceItemsChangedSignal new
+		infiniteElement: infiniteElement;
+		emit.
+	
 	needsUpdate := infiniteElement dataSourceManager
 		onItemRangeChanged: anEvent position
 		itemCount: anEvent itemCount
