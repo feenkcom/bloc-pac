@@ -55,7 +55,7 @@ BlInfiniteRecyclerPool >> dataSourceChangedFrom: anOldDataSource to: aNewDataSou
 
 { #category : #initialization }
 BlInfiniteRecyclerPool >> defaultMaxScrap [
-	^ 5
+	^ 50
 ]
 
 { #category : #'as yet unclassified' }
