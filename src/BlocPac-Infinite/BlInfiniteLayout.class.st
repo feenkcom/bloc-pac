@@ -242,8 +242,10 @@ BlInfiniteLayout >> calculateChildMeasureSpec: aParentSize parentSpec: aParentSp
 					aParentSpec isUnspecified
 						ifTrue: [ ^ BlMeasurementSpec unspecified ] ]
 				ifFalse: [
+					aChildResizer isFitContentLimited
+						ifTrue: [ ^ BlMeasurementSpec atMost: aSize ].
 					aChildResizer isFitContent
-						ifTrue: [ ^ BlMeasurementSpec unspecified ] ] ]
+						ifTrue: [ ^ BlMeasurementSpec unspecified ]. ] ]
 		ifFalse: [ 
 			aChildResizer isMatchParent
 				ifTrue: [ ^ BlMeasurementSpec size: aSize mode: aParentSpec mode ].
