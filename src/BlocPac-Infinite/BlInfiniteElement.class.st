@@ -45,7 +45,8 @@ Class {
 		'dataSourceObserver',
 		'scrollFlinger',
 		'scrollState',
-		'overScrollMode'
+		'overScrollMode',
+		'nestedScrolling'
 	],
 	#pools : [
 		'BlInfiniteConstants'
@@ -857,6 +858,11 @@ BlInfiniteElement >> elementRangeUpdate: aPositionStart itemCount: anItemCount p
 	recycler elementRangeUpdate: aPositionStart itemCount: anItemCount
 ]
 
+{ #category : #accessing }
+BlInfiniteElement >> enableNestedScrolling [
+	nestedScrolling := true
+]
+
 { #category : #'children - accessing' }
 BlInfiniteElement >> findElementHolderForDataSourcePosition: aPosition [
 	"Return the ViewHolder for the item in the given position of the data set"
@@ -1043,6 +1049,7 @@ BlInfiniteElement >> initialize [
 	itemsAddedOrRemoved := false.
 	itemsChanged := false.
 	preserveFocusAfterLayout := true.
+	nestedScrolling := false.
 	
 	itemDecorations := OrderedCollection new.
 	itemAnimator := self defaultItemAnimator.
@@ -1156,6 +1163,11 @@ BlInfiniteElement >> isLayoutFrozen [
 	<return: #Boolean>
 
 	^ layoutFrozen
+]
+
+{ #category : #accessing }
+BlInfiniteElement >> isNestedScrollingEnabled [
+	^ nestedScrolling ifNil: [ nestedScrolling := false ]
 ]
 
 { #category : #accessing }
@@ -1807,7 +1819,7 @@ BlInfiniteElement >> scrollBy: aPoint [
 		
 	canScrollHorizontal := self layout canScrollHorizontally.
 	canScrollVertical := self layout canScrollVertically.
-	
+
 	(canScrollHorizontal or: [ canScrollVertical ])
 		ifTrue: [ 
 			self scrollByInternal: (canScrollHorizontal
