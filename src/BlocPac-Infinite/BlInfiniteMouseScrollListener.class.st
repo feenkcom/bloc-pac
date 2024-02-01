@@ -29,11 +29,92 @@ BlInfiniteMouseScrollListener >> canScrollUp: anInfiniteElement [
 	aFirstChild := anInfiniteElement layout childAtPosition: 1.
 	aFirstChild
 		ifNil: [ ^ true ].
-		
+
 	aFirstChild position y < (anInfiniteElement layout paddingTop) 
 		ifTrue: [ ^ true ].
 		
 	^ false
+]
+
+{ #category : #'mouse handlers' }
+BlInfiniteMouseScrollListener >> doScrollDown: anEvent [
+	| aVectorLength anInfiniteElement |
+
+	aVectorLength := anEvent vector y abs.
+	
+	anInfiniteElement := anEvent currentTarget.
+	anInfiniteElement isNestedScrollingEnabled ifTrue: [
+		anInfiniteElement
+			allParentsDetect: [ :each | each isKindOf: BlInfiniteElement ]
+			ifFound: [ :aParentInfiniteElement | 
+				| theBoundsInParent availableSpaceAbove|
+
+				theBoundsInParent := anInfiniteElement bounds inParent: aParentInfiniteElement.
+				availableSpaceAbove := theBoundsInParent top - 12.
+
+				availableSpaceAbove > 0
+					ifTrue: [
+						| howMuchWeScroll howMuchTheyScroll |
+						
+						"if there is enough space above to accomodate the whole event, then be it"
+						aVectorLength <= availableSpaceAbove
+							ifTrue: [ ^ 0 ].
+
+						howMuchTheyScroll := availableSpaceAbove.
+						
+						"there is not enough space above for the whole event. we have to scroll a bit"
+						howMuchWeScroll := aVectorLength - howMuchTheyScroll.
+
+						anEvent vector: (BlVector x: anEvent vector x y: (anEvent vector y sign * howMuchTheyScroll)).
+						
+						"wants to scroll by a greater distance then we have".
+						^ howMuchWeScroll ] ]
+			ifNone: [  ] ].
+
+	"consume in default case"
+	anEvent consumed: aVectorLength isZero not.
+	
+	^ aVectorLength
+]
+
+{ #category : #'mouse handlers' }
+BlInfiniteMouseScrollListener >> doScrollUp: anEvent [
+	| aVectorLength anInfiniteElement |
+
+	aVectorLength := anEvent vector y abs.
+	
+	anInfiniteElement := anEvent currentTarget.
+	anInfiniteElement isNestedScrollingEnabled ifTrue: [
+		anInfiniteElement
+			allParentsDetect: [ :each | each isKindOf: BlInfiniteElement ]
+			ifFound: [ :aParentInfiniteElement | 
+				| theBoundsInParent availableSpaceAbove |
+
+				theBoundsInParent := anInfiniteElement bounds inParent: aParentInfiniteElement.
+				availableSpaceAbove := theBoundsInParent top - 12.
+
+				availableSpaceAbove < 0
+					ifTrue: [
+						| howMuchWeScroll howMuchTheyScroll |
+						
+						"if there is enough space above to accomodate the whole event, then be it"
+						aVectorLength <= availableSpaceAbove abs
+							ifTrue: [ ^ 0 ].
+
+						howMuchTheyScroll := availableSpaceAbove abs.
+						
+						"there is not enough space above for the whole event. we have to scroll a bit"
+						howMuchWeScroll := aVectorLength - howMuchTheyScroll.
+
+						anEvent vector: (BlVector x: anEvent vector x y: (anEvent vector y sign * howMuchTheyScroll)).
+
+						^ howMuchWeScroll negated ] ]
+			ifNone: [  ] ].
+
+	"consume in default case"
+	anEvent consumed: aVectorLength isZero not.
+
+	^ aVectorLength negated
 ]
 
 { #category : #accessing }
@@ -52,7 +133,6 @@ BlInfiniteMouseScrollListener >> mouseWheelEvent: anEvent [
 	anEvent vector isZero ifTrue: [ ^ self ].
 
 	anInfiniteElement := anEvent currentTarget.
-
 	isHorizontal := anEvent isPrimarilyHorizontal.
 
 	dX := isHorizontal
@@ -61,14 +141,13 @@ BlInfiniteMouseScrollListener >> mouseWheelEvent: anEvent [
 
 	dY := isHorizontal not
 			ifTrue: [ (anEvent isScrollDown and: [ self canScrollDown: anInfiniteElement ])
-					ifTrue: [ anEvent vector length ]
+					ifTrue: [ self doScrollDown: anEvent ]
 					ifFalse: [ (anEvent isScrollUp and: [ self canScrollUp: anInfiniteElement ])
-							ifTrue: [ anEvent vector length negated ]
+							ifTrue: [ self doScrollUp: anEvent ]
 							ifFalse: [ 0 ] ] ]
-			ifFalse: [ "we are horizontal => no vertical scroll" 0 ].
+			ifFalse: [  "we are horizontal => no vertical scroll"0 ].
 
-	anInfiniteElement smoothScrollBy: dX @ dY * 10.
-	anEvent consumed: dY isZero not
+	anInfiniteElement smoothScrollBy: (dX @ dY) * 10
 ]
 
 { #category : #printing }
