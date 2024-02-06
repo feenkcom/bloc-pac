@@ -39,7 +39,7 @@ BlInfiniteMouseScrollListener >> canScrollUp: anInfiniteElement [
 { #category : #'mouse handlers' }
 BlInfiniteMouseScrollListener >> doScrollDown: anEvent [
 	| aVectorLength anInfiniteElement |
-	
+
 	aVectorLength := anEvent vector y abs.
 
 	anInfiniteElement := anEvent currentTarget.
@@ -49,27 +49,32 @@ BlInfiniteMouseScrollListener >> doScrollDown: anEvent [
 			ifFound: [ :aParentInfiniteElement | 
 				aParentInfiniteElement canScrollVertically
 					ifTrue: [
-						| theBoundsInParent availableSpaceAbove |
-						theBoundsInParent := anInfiniteElement bounds inParent: aParentInfiniteElement.
-						availableSpaceAbove := theBoundsInParent top - 12.
+						anInfiniteElement
+							allParentsDetect: [ :each | each parent == aParentInfiniteElement]
+							ifFound: [ :aChildOfInfiniteElement |
+								| theBoundsInParent availableSpaceAbove |
 
-						availableSpaceAbove > 0
-							ifTrue: [
-								| howMuchWeScroll howMuchTheyScroll |
-								
-								"if there is enough space above to accomodate the whole event, then be it"
-								aVectorLength <= availableSpaceAbove
-									ifTrue: [ ^ 0 ].
+								theBoundsInParent := aChildOfInfiniteElement bounds inParent.
+								availableSpaceAbove := theBoundsInParent top - aChildOfInfiniteElement margin top.
+
+								availableSpaceAbove > 0
+									ifTrue: [
+									| howMuchWeScroll howMuchTheyScroll |
+					
+									"if there is enough space above to accomodate the whole event, then be it"
+									aVectorLength <= availableSpaceAbove
+										ifTrue: [ ^ 0 ].
+			
+									howMuchTheyScroll := availableSpaceAbove.
+	
+									"there is not enough space above for the whole event. we have to scroll a bit"
+									howMuchWeScroll := aVectorLength - howMuchTheyScroll.
 		
-								howMuchTheyScroll := availableSpaceAbove.
-								
-								"there is not enough space above for the whole event. we have to scroll a bit"
-								howMuchWeScroll := aVectorLength - howMuchTheyScroll.
-		
-								anEvent vector: (BlVector x: anEvent vector x y: (anEvent vector y sign * howMuchTheyScroll)).
-								
-								"wants to scroll by a greater distance then we have".
-								^ howMuchWeScroll ] ] ]
+									anEvent vector: (BlVector x: anEvent vector x y: (anEvent vector y sign * howMuchTheyScroll)).
+	
+									"wants to scroll by a greater distance then we have".
+									^ howMuchWeScroll ] ]
+							ifNone: [ ] ] ]
 			ifNone: [  ] ].
 
 	"consume in default case"
@@ -91,27 +96,31 @@ BlInfiniteMouseScrollListener >> doScrollUp: anEvent [
 			ifFound: [ :aParentInfiniteElement | 
 				aParentInfiniteElement canScrollVertically
 					ifTrue: [
-						| theBoundsInParent availableSpaceAbove |
+						anInfiniteElement
+							allParentsDetect: [ :each | each parent == aParentInfiniteElement]
+							ifFound: [ :aChildOfInfiniteElement |
+								| theBoundsInParent availableSpaceAbove |
+
+								theBoundsInParent := aChildOfInfiniteElement bounds inParent.
+								availableSpaceAbove := theBoundsInParent top - aChildOfInfiniteElement margin top.
 		
-						theBoundsInParent := anInfiniteElement bounds inParent: aParentInfiniteElement.
-						availableSpaceAbove := theBoundsInParent top - 12.
-		
-						availableSpaceAbove < 0
-							ifTrue: [
-								| howMuchWeScroll howMuchTheyScroll |
-								
-								"if there is enough space above to accomodate the whole event, then be it"
-								aVectorLength <= availableSpaceAbove abs
-									ifTrue: [ ^ 0 ].
-		
-								howMuchTheyScroll := availableSpaceAbove abs.
-								
-								"there is not enough space above for the whole event. we have to scroll a bit"
-								howMuchWeScroll := aVectorLength - howMuchTheyScroll.
-		
-								anEvent vector: (BlVector x: anEvent vector x y: (anEvent vector y sign * howMuchTheyScroll)).
-		
-								^ howMuchWeScroll negated ] ] ]
+								availableSpaceAbove < 0
+									ifTrue: [
+										| howMuchWeScroll howMuchTheyScroll |
+										
+										"if there is enough space above to accomodate the whole event, then be it"
+										aVectorLength <= availableSpaceAbove abs
+											ifTrue: [ ^ 0 ].
+				
+										howMuchTheyScroll := availableSpaceAbove abs.
+										
+										"there is not enough space above for the whole event. we have to scroll a bit"
+										howMuchWeScroll := aVectorLength - howMuchTheyScroll.
+				
+										anEvent vector: (BlVector x: anEvent vector x y: (anEvent vector y sign * howMuchTheyScroll)).
+				
+										^ howMuchWeScroll negated ] ]
+							ifNone: [ ] ] ]
 			ifNone: [  ] ].
 
 	"consume in default case"
