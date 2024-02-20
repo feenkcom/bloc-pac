@@ -7,28 +7,47 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'sourceElement',
-		'previewElement'
+		'domainObject',
+		'draggedElement',
+		'draggedElementStencil'
 	],
 	#category : #'BlocPac-DragAndDrop'
 }
 
 { #category : #'instace creation' }
-BlDragItem >> createPreview [
+BlDragItem >> createDraggedElement [
 	<return: #BlElement>
-	
-	^ BlElement new
-		size: 20@20;
-		background: Color blue
+
+	^ draggedElementStencil
+		dragItem: self;
+		build
+]
+
+{ #category : #accessing }
+BlDragItem >> domainObject [
+	^ domainObject
+]
+
+{ #category : #accessing }
+BlDragItem >> domainObject: anObject [
+	domainObject := anObject
+]
+
+{ #category : #accessing }
+BlDragItem >> draggedElement [
+	^ draggedElement ifNil: [ draggedElement := self createDraggedElement ]
+]
+
+{ #category : #accessing }
+BlDragItem >> initialize [
+	super initialize.
+
+	draggedElementStencil := BlDragItemStencil new
 ]
 
 { #category : #accessing }
 BlDragItem >> previewElement [
-	^ previewElement ifNil: [ previewElement := self createPreview ]
-]
-
-{ #category : #accessing }
-BlDragItem >> previewElement: anObject [
-	previewElement := anObject
+	^ self draggedElement
 ]
 
 { #category : #accessing }
@@ -39,4 +58,14 @@ BlDragItem >> sourceElement [
 { #category : #accessing }
 BlDragItem >> sourceElement: anObject [
 	sourceElement := anObject
+]
+
+{ #category : #accessing }
+BlDragItem >> stencil [
+	^ draggedElementStencil
+]
+
+{ #category : #accessing }
+BlDragItem >> stencil: aBlDragItemStencil [
+	draggedElementStencil := aBlDragItemStencil asStencilBuilder: BlDragItemStencil
 ]
