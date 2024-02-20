@@ -29,3 +29,10 @@ BlDragItemStencil >> paramsOn: aStencilExecutor [
 	aStencilExecutor
 		push: self dragItem
 ]
+
+{ #category : #accessing }
+BlDragItemStencil >> reset [
+	super reset.
+	
+	dragItem := nil
+]
