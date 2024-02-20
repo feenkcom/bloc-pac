@@ -13,34 +13,42 @@ Class {
 }
 
 { #category : #'drag and drop' }
-BlDragDelegate >> cancel: aPoint [
+BlDragDelegate >> cancel: aDraggedContainer at: aPoint in: aParentElement [
 	"Cancel drag and animate previews"	
 	| aCancelAnimation |
+	
+	self items ifEmpty: [ ^ self ].
+	
+	self items do: [ :eachItem |
+		| aPreviewElement |
+		aPreviewElement := eachItem previewElement.
+		aPreviewElement removeFromParent.
+		aPreviewElement relocate: aPoint.
+		aParentElement addChild: aPreviewElement ].
 
 	aCancelAnimation := BlParallelAnimation with: (self items collect: [ :aDragItem |
 		| aPreviewBounds aSourceBounds aPreviewElement |
 		aPreviewElement := aDragItem previewElement.
-		
+
 		aPreviewBounds := aPreviewElement bounds inSpace.
 		aSourceBounds := aDragItem sourceElement bounds inSpace.
-		
+
 		BlNumberTransition new
-			from: (aPreviewBounds position);
+			from: aPoint;
 			to: (aSourceBounds center - (aPreviewBounds extent / 2.0));
 			easing: (BlDecelerateInterpolator factor: 2);
-			duration: 500 milliSeconds;
+			duration: 350 milliSeconds;
 			onStepDo: [ :aPosition | aPreviewElement relocate: aPosition ];
-			onFinishedDo: [ aPreviewElement removeFromParent ].
-	]).
+			onFinishedDo: [ aPreviewElement removeFromParent ] ]).
 
-	aCancelAnimation start
+	aParentElement addAnimation: aCancelAnimation
 ]
 
 { #category : #'drag and drop' }
-BlDragDelegate >> drag: aPoint [
-	"Drag all previews to a given point in parent coordinates of previews"
-	
-	self items do: [ :aDragItem | aDragItem previewElement relocate: aPoint ]
+BlDragDelegate >> drag: aDraggedContainer to: aPoint [
+	"Drag a container with all previews to a given point in the parent coordinate of the container"
+
+	aDraggedContainer relocate: aPoint
 ]
 
 { #category : #initialization }
@@ -64,10 +72,19 @@ BlDragDelegate >> items: aCollectionOfDragItems [
 ]
 
 { #category : #'drag and drop' }
-BlDragDelegate >> lift: aPoint in: anElement [
+BlDragDelegate >> liftAt: aPoint [
 	"Lift previews at a given point in space coordinates"
+	<return: #BlElement>
+	| aContainer |
+	
+	aContainer := BlElement new
+		layout: BlFrameLayout new;
+		beInSingleCompositionLayer;
+		constraintsDo: [ :c |
+			c horizontal fitContent.
+			c vertical fitContent ].
 
-	anElement addChildren: (self items collect: [ :aDragItem |
-		aDragItem previewElement relocate: aPoint
-	])
+	aContainer addChildren: (self items collect: [ :aDragItem | aDragItem previewElement ]).
+
+	^ aContainer
 ]

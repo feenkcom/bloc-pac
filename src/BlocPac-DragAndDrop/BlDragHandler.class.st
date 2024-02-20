@@ -1,41 +1,45 @@
 Class {
 	#name : #BlDragHandler,
-	#superclass : #BlEventListener,
+	#superclass : #BlCustomEventHandler,
 	#instVars : [
-		'delegate'
+		'liftItemBlock'
 	],
 	#category : #'BlocPac-DragAndDrop'
 }
 
-{ #category : #accessing }
-BlDragHandler >> delegate [
-	<return: #BlDragDelegate>
-
-	^ delegate
-]
-
-{ #category : #accessing }
-BlDragHandler >> delegate: aBlDragDelegate [
-	delegate := aBlDragDelegate
-]
-
 { #category : #'dnd handlers' }
-BlDragHandler >> dragEndEvent: anEvent [
-	anEvent currentTarget space dispatchEvent: (BlSpaceDragCancelEvent new delegate: delegate; position: anEvent position)
+BlDragHandler >> createDragItemFor: aSourceElement [
+	<return: #BlDragItem>
+
+	^ liftItemBlock
+		ifNil: [
+			BlDragItem new
+				sourceElement: aSourceElement;
+				domainObject: nil ]
+		ifNotNil: [ :aBlock | aBlock cull: aSourceElement ]
 ]
 
 { #category : #'dnd handlers' }
 BlDragHandler >> dragStartEvent: anEvent [
+	| aDragDelegate |
+
 	anEvent consumed: true.
 
-	delegate items: { BlDragItem new sourceElement: anEvent currentTarget }.
+	aDragDelegate := BlDragDelegate new.
+	aDragDelegate items: { self createDragItemFor: anEvent currentTarget }.
 
-	anEvent currentTarget space dispatchEvent: (BlSpaceDragLiftEvent new delegate: delegate; position: anEvent position)
+	anEvent currentTarget space
+		dispatchEvent: (BlSpaceDragLiftEvent new
+				delegate: aDragDelegate;
+				position: anEvent position)
 ]
 
-{ #category : #initialization }
-BlDragHandler >> initialize [
-	super initialize.
+{ #category : #accessing }
+BlDragHandler >> eventsToHandle [
+	^ { BlDragStartEvent }
+]
 
-	delegate := BlDragDelegate new
+{ #category : #accessing }
+BlDragHandler >> liftItem: aBlock [
+	liftItemBlock := aBlock
 ]
