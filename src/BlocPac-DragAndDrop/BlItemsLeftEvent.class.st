@@ -19,5 +19,5 @@ BlItemsLeftEvent >> position: anObject [
 
 { #category : #accessing }
 BlItemsLeftEvent >> sendTo: anObject [
-	anObject itemsEnteredEvent: self
+	anObject itemsLeftEvent: self
 ]
