@@ -18,6 +18,19 @@ BlDropDelegate >> acceptConditions: aCollectionOfBlockClosures [
 ]
 
 { #category : #accessing }
+BlDropDelegate >> dragged: aDragContainerElement items: aCollectionOfDragItems at: aPosition offset: anOffset in: anElement [
+	| doesAccept |
+
+	doesAccept := aCollectionOfDragItems anySatisfy:  [ :eachDragItem | self shouldAccept: eachDragItem in: anElement ].
+	doesAccept ifFalse: [ ^ self ].
+	anElement dispatchEvent: (BlItemsDraggedEvent new
+		dragContainer: aDragContainerElement;
+		items: aCollectionOfDragItems;
+		position: (anElement globalPointToLocal: aPosition);
+		offset: anOffset)
+]
+
+{ #category : #accessing }
 BlDropDelegate >> drop: aCollectionOfDragItems at: aPosition in: anElement [
 	| rejectedItems acceptedItems |
 
@@ -30,6 +43,10 @@ BlDropDelegate >> drop: aCollectionOfDragItems at: aPosition in: anElement [
 			ifFalse: [ rejectedItems add: eachDragItem ] ].
 
 	acceptedItems do: [ :eachDragItem | eachDragItem sourceElement dispatchEvent: (BlAboutToBeDroppedEvent new dropTarget: anElement) ].
+	
+	acceptedItems do: [ :each |
+		each sourceElement states
+			removeState: BlElementDraggingState uniqueInstance ].
 
 	anElement dispatchEvent: (BlItemsDroppedEvent new
 		items: acceptedItems;

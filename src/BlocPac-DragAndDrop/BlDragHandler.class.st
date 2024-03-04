@@ -2,7 +2,8 @@ Class {
 	#name : #BlDragHandler,
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
-		'liftItemBlock'
+		'liftItemBlock',
+		'dragAreaBlock'
 	],
 	#category : #'BlocPac-DragAndDrop'
 }
@@ -19,6 +20,11 @@ BlDragHandler >> createDragItemFor: aSourceElement [
 		ifNotNil: [ :aBlock | aBlock cull: aSourceElement ]
 ]
 
+{ #category : #accessing }
+BlDragHandler >> dragArea: aBlock [
+	dragAreaBlock := aBlock
+]
+
 { #category : #'dnd handlers' }
 BlDragHandler >> dragStartEvent: anEvent [
 	| aDragDelegate |
@@ -27,11 +33,16 @@ BlDragHandler >> dragStartEvent: anEvent [
 
 	aDragDelegate := BlDragDelegate new.
 	aDragDelegate items: { self createDragItemFor: anEvent currentTarget }.
+	aDragDelegate offset: anEvent localPosition.
+
+	dragAreaBlock
+		ifNotNil: [ :aBlock |
+			aDragDelegate dragArea: (aBlock value: anEvent currentTarget) ].
 
 	anEvent currentTarget space
 		dispatchEvent: (BlSpaceDragLiftEvent new
-				delegate: aDragDelegate;
-				position: anEvent position)
+			delegate: aDragDelegate;
+			position: anEvent position)
 ]
 
 { #category : #accessing }
