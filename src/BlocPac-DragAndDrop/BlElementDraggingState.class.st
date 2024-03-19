@@ -15,5 +15,5 @@ BlElementDraggingState >> optionalOnRemovedFrom: anElement [
 
 { #category : #accessing }
 BlElementDraggingState >> priority [
-	^ UserPriority
+	^ UserPriority + 5
 ]

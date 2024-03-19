@@ -209,21 +209,9 @@ BlDragAndDropExamples >> tagsOrderer [
 			locationElement relocate: childPosition @ 0 ];
 
 		whenDragLeftDo: [ :anItemsLeftEvent | anItemsLeftEvent currentTarget removeChildNamed: #'drop-area--drop-location' ];
-		whenDroppedDo: [ :anItemsDroppedEvent |
-			| container position childBefore |
-
-			container := anItemsDroppedEvent currentTarget.
-			position := anItemsDroppedEvent position x.
-			childBefore := container children accountedByLayout
-				detect: [ :eachChild | position < eachChild bounds inParent center x ]
-				ifFound: [ :eachChild | eachChild ]
-				ifNone: [ nil ].
-
-			(anItemsDroppedEvent items collect: [ :eachDragItem | eachDragItem sourceElement ])
-				do: [ :each |
-					childBefore
-						ifNil: [ container addChild: each ]
-						ifNotNil: [ container addChild: each before: childBefore ] ] ]).
+		whenHorizontalDroppedDo: [ :anItemsDroppedEvent :anIndex |
+			(anItemsDroppedEvent items reverseDo: [ :eachDragItem |
+				anItemsDroppedEvent currentTarget addChild: eachDragItem sourceElement at: anIndex ]) ]).
 
 	aContainer addChildren: ({
 		'One'.
