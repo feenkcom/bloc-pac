@@ -121,14 +121,39 @@ BlDropHandler >> whenDroppedDo: aBlock [
 ]
 
 { #category : #accessing }
+BlDropHandler >> whenHorizontalDroppedDo: aBlock [
+	"Assuming the children of the container layed out similar to a horizontal linear layout.
+	Detect the insertion index for the items and evaluate a block with two arguments:
+	 - items dropped event
+	 - insertion index"
+
+	self whenDroppedDo: [ :anItemsDroppedEvent |
+		| container position childBefore insertIndex |
+
+		container := anItemsDroppedEvent currentTarget.
+		position := anItemsDroppedEvent position x.
+
+		childBefore := container children accountedByLayout
+			detect: [ :eachChild | position < eachChild bounds inParent center x ]
+			ifFound: [ :eachChild | eachChild ]
+			ifNone: [ nil ].
+
+		insertIndex := childBefore
+			ifNil: [ container childrenCount + 1 ]
+			ifNotNil: [ container childIndexOf: childBefore ].
+
+		aBlock cull: anItemsDroppedEvent cull: insertIndex ]
+]
+
+{ #category : #accessing }
 BlDropHandler >> whenHorizontalSlideOverDo: aBlock [
 	self whenDragOverDo: [ :anItemsDraggedEvent |
-		| draggedElement container position insertIndexAt currentIndex |
+		| draggedElement container position insertIndexAt currentIndex elementToSwap |
 
 		self
 			assert: anItemsDraggedEvent items size = 1
 			description: [ 'Only works with one item' ].
-			
+
 		draggedElement := anItemsDraggedEvent items first sourceElement.
 		container := anItemsDraggedEvent currentTarget.
 		
@@ -138,19 +163,21 @@ BlDropHandler >> whenHorizontalSlideOverDo: aBlock [
 
 		position := anItemsDraggedEvent dragContainerCenter x.
 
-		insertIndexAt := container children
+		elementToSwap := container children accountedByLayout
 			detect: [ :eachChild |
-				"| eachChildBounds |
+				| eachChildBounds |
 				
 				eachChildBounds := eachChild bounds inParent.
-				position between: eachChildBounds origin x and: eachChildBounds corner x"
-				position < eachChild bounds inParent center x ]
-			ifFound: [ :eachChild | container childIndexOf: eachChild ]
-			ifNone: [ container children size ].
+				position between: eachChildBounds left and: eachChildBounds right ]
+			ifFound: [ :eachChild | eachChild ]
+			ifNone: [ nil ].
 
-		currentIndex := container childIndexOf: draggedElement.
+		(elementToSwap notNil)
+			ifTrue: [
+				insertIndexAt := container childIndexOf: elementToSwap.
+				currentIndex := container childIndexOf: draggedElement.
 
-		container
-			swapChildAt: currentIndex
-			with: insertIndexAt ]
+				container
+					swapChildAt: currentIndex
+					with: insertIndexAt ] ]
 ]
