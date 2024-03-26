@@ -125,7 +125,7 @@ BlDropHandler >> whenHorizontalDroppedDo: aBlock [
 	"Assuming the children of the container layed out similar to a horizontal linear layout.
 	Detect the insertion index for the items and evaluate a block with two arguments:
 	 - items dropped event
-	 - insertion index"
+	 - insertion index in cursor corrdinates [0...children count]"
 
 	self whenDroppedDo: [ :anItemsDroppedEvent |
 		| container position childBefore insertIndex |
@@ -142,7 +142,7 @@ BlDropHandler >> whenHorizontalDroppedDo: aBlock [
 			ifNil: [ container childrenCount + 1 ]
 			ifNotNil: [ container childIndexOf: childBefore ].
 
-		aBlock cull: anItemsDroppedEvent cull: insertIndex ]
+		aBlock cull: anItemsDroppedEvent cull: (insertIndex - 1) ]
 ]
 
 { #category : #accessing }

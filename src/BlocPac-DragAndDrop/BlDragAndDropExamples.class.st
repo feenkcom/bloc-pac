@@ -211,7 +211,7 @@ BlDragAndDropExamples >> tagsOrderer [
 		whenDragLeftDo: [ :anItemsLeftEvent | anItemsLeftEvent currentTarget removeChildNamed: #'drop-area--drop-location' ];
 		whenHorizontalDroppedDo: [ :anItemsDroppedEvent :anIndex |
 			(anItemsDroppedEvent items reverseDo: [ :eachDragItem |
-				anItemsDroppedEvent currentTarget addChild: eachDragItem sourceElement at: anIndex ]) ]).
+				anItemsDroppedEvent currentTarget addChild: eachDragItem sourceElement at: anIndex + 1 ]) ]).
 
 	aContainer addChildren: ({
 		'One'.
