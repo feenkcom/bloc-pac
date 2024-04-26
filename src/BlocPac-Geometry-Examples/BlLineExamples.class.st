@@ -291,9 +291,10 @@ BlLineExamples >> gridWith12Cells [
 { #category : #'example - geometry' }
 BlLineExamples >> horizontalLine [
 	<gtExample>	
-	| redLine aContainer |
+	| redLine aContainer w2 |
 	
 	redLine := self redLine.
+	w2 := redLine border width / 2.
 	aContainer := self container.
 	aContainer addChild: redLine.
 
@@ -310,7 +311,7 @@ BlLineExamples >> horizontalLine [
 	self assert: redLine geometry to equals: 251@0.
 	
 	self assert: redLine layoutBounds equals: (50@200 extent: 250@0).
-	self assert: redLine geometryBounds equals: (-1@0 corner: 251@0).
+	self assert: redLine geometryBounds equals: (-1@ (0-w2) corner: 251 @ w2).
 	self assert: redLine visualBounds equals: ((-3.8284271247461903@ -2.8284271247461903) corner: (253.82842712474618@2.8284271247461903)).
 	self assert: redLine effectBounds equals: ((-3.8284271247461903@ -2.8284271247461903) corner: (253.82842712474618@2.8284271247461903)).
 	self assert: redLine invalidationBounds equals: ((-3.8284271247461903@ -2.8284271247461903) corner: (253.82842712474618@2.8284271247461903)).
@@ -538,9 +539,10 @@ BlLineExamples >> twoLines [
 { #category : #'example - geometry' }
 BlLineExamples >> verticalLine [
 	<gtExample>	
-	| redLine aContainer |
+	| redLine aContainer w2|
 	
 	redLine := self redLine.
+	w2 := redLine border width / 2.
 	aContainer := self container.
 	aContainer addChild: redLine.
 
@@ -557,7 +559,7 @@ BlLineExamples >> verticalLine [
 	self assert: redLine geometry to equals: 0@251.
 
 	self assert: redLine layoutBounds equals: (50@50 extent: 0@250).
-	self assert: redLine geometryBounds equals: ((0.0@ -1.0) corner: (0.0@251.0)).
+	self assert: redLine geometryBounds equals: ((0-w2@ -1.0) corner: (w2 @ 251.0)).
 	self assert: redLine visualBounds equals: ((-2.8284271247461903@ -3.8284271247461903) corner: (2.8284271247461903@253.82842712474618)).
 	self assert: redLine effectBounds equals: ((-2.8284271247461903@ -3.8284271247461903) corner: (2.8284271247461903@253.82842712474618)).
 	self assert: redLine invalidationBounds equals: ((-2.8284271247461903@ -3.8284271247461903) corner: (2.8284271247461903@253.82842712474618)).
