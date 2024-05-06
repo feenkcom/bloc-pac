@@ -41,6 +41,18 @@ BlImageCacheEntry >> extent [
 	^ self width @ self height
 ]
 
+{ #category : #'gt - extensions' }
+BlImageCacheEntry >> gtImagePreviewFor: aView [ 
+	<gtView>
+	
+	image ifNil: [ ^ aView empty ].
+	
+	^ aView forward 
+		title: 'Preview';
+		object: [ image ];
+		view: #gtPreviewFor:
+]
+
 { #category : #accessing }
 BlImageCacheEntry >> height [
 	^ height
