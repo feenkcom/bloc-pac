@@ -12,7 +12,8 @@ Class {
 		'originalPosition',
 		'resizeTarget',
 		'originalExtent',
-		'minimumExtent'
+		'minimumExtent',
+		'isKeepRatio'
 	],
 	#category : #'BlocPac-Resizable'
 }
@@ -119,7 +120,18 @@ BlResizerListener >> hasTarget [
 BlResizerListener >> initialize [
 	super initialize.
 
-	minimumExtent := 5 asPoint
+	minimumExtent := 5 asPoint.
+	isKeepRatio := false.
+]
+
+{ #category : #testing }
+BlResizerListener >> isKeepRatio [
+	^ isKeepRatio ifNil: [ false ]
+]
+
+{ #category : #accessing }
+BlResizerListener >> keepRatio: aBoolean [
+	isKeepRatio := aBoolean
 ]
 
 { #category : #resizer }
