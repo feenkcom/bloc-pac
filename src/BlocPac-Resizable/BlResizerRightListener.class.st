@@ -6,7 +6,13 @@ Class {
 
 { #category : #resizer }
 BlResizerRightListener >> resizeBounds: aBlBounds by: aPoint [
-	aBlBounds extent: ((aBlBounds extent + (aPoint x @ 0)) max: self minimumExtent)
+	| newExtent |
+	newExtent := self isKeepRatio
+			ifTrue: [ | aNewY |
+				aNewY := (aBlBounds width + aPoint x) / aBlBounds width * aBlBounds height.
+				(aBlBounds width + aPoint x) @ aNewY ]
+			ifFalse: [ aBlBounds extent + (aPoint x @ 0.0) ].
+	aBlBounds extent: (newExtent max: self minimumExtent)
 ]
 
 { #category : #resizer }
