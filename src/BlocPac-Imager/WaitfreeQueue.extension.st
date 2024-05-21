@@ -2,6 +2,8 @@ Extension { #name : #WaitfreeQueue }
 
 { #category : #'*BlocPac-Imager' }
 WaitfreeQueue >> itemCount [
+	<gtPharoPatch: #Pharo>
+	
 	"Answer the number of items in the queue including dummies. 
 	If queue is currently in the middle of extraction by other process, give a (very) approximate answer.
 	
@@ -25,7 +27,8 @@ WaitfreeQueue >> itemCount [
 
 { #category : #'*BlocPac-Imager' }
 WaitfreeQueue >> printOn: aStream [
-
+	<gtPharoPatch: #Pharo>
+	
 	aStream 
 		nextPutAll: self class name;
 		nextPutAll: ' with ';
