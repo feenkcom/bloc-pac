@@ -12,8 +12,13 @@ BlElementQueryByPropertySelector >> findElementsIn: aCurrentQueryResult andAddTo
 	aCurrentQueryResult
 		while: [ aNewQueryResult wantsMore ]
 		do: [ :eachElement |
-			(self matchesElement: eachElement)
-				ifTrue: [ aNewQueryResult addElement: eachElement ] ]
+			| doesMatch |
+			
+			doesMatch := self matchesElement: eachElement.
+			doesMatch
+				ifTrue: [ aNewQueryResult addElement: eachElement ].
+			"if eachElement matches the query, exclude its children from search"
+			doesMatch not ]
 		deep: self isDeep
 ]
 
