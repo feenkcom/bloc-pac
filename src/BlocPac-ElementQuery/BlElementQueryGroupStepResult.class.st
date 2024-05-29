@@ -46,7 +46,7 @@ BlElementQueryGroupStepResult >> displayString [
 { #category : #enumerating }
 BlElementQueryGroupStepResult >> do: aBlock deep: isDeep [
 	isDeep
-		ifTrue: [ elements do: [ :eachElement | eachElement allChildrenDepthFirstDo: aBlock ] ]
+		ifTrue: [ elements do: [ :eachElement | eachElement allChildrenBreadthFirstDoWhileTrue: aBlock ] ]
 		ifFalse: [ elements do: [ :eachElement | eachElement childrenDo: aBlock ] ]
 ]
 

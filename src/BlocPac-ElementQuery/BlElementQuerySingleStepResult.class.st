@@ -50,7 +50,7 @@ BlElementQuerySingleStepResult >> displayString [
 BlElementQuerySingleStepResult >> do: aBlock deep: isDeep [
 	element ifNotNil: [ :anElement |
 		isDeep
-			ifTrue: [ anElement allChildrenDepthFirstDo: aBlock ]
+			ifTrue: [ anElement allChildrenBreadthFirstDoWhileTrue: aBlock ]
 			ifFalse: [ anElement childrenDo: aBlock ] ]
 ]
 
