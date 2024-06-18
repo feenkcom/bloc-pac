@@ -134,6 +134,19 @@ BlManhattanLineElementExamples >> manhattanVertical [
 		to: 450 @ 200
 ]
 
+{ #category : #'examples - orientation' }
+BlManhattanLineElementExamples >> manhattanVerticalAndRoundedCorners [
+	<gtExample>
+	| mLine |
+	mLine := self newManhattanLine.
+	mLine beVertical.
+	mLine cornerRadius: 20.
+	^ self
+		addAttachmentsTo: mLine
+		from: 100 @ 100
+		to: 450 @ 200
+]
+
 { #category : #'examples - instance creation' }
 BlManhattanLineElementExamples >> newManhattanLine [
 	<gtExample>
