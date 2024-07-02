@@ -31,7 +31,7 @@ BlInfiniteRecyclerStableScrapFetcher >> attachedScrapForId: anItemId type: anIte
 						but this would force layout to lay it out which would be bad.
 						Recycle this scrap. Type mismatch."
 						aRecyclerController attachedScrap removeAt: eachIndex.
-						aFetcherContext recyclerController
+						aFetcherContext recyclerController infiniteElement
 							removeDetachedChild: eachElementHolder itemElement
 							animate: false.
 						aRecyclerController quickRecycleScrap: eachElementHolder itemElement ] ] ] ]
