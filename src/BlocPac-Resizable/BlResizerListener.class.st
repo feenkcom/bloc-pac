@@ -87,7 +87,8 @@ BlResizerListener >> dragEvent: anEvent [
 	
 	self 
 		dispatchEventComputedUsing: [ BlResizerResizedEvent new 
-			extent: theBounds extent ]
+			extent: theBounds extent;
+			resizeTarget: self resizeTarget ]
 		toCurrentTargetAnd: anEvent currentTarget
 ]
 

@@ -6,7 +6,8 @@ Class {
 	#name : #BlResizerResizedEvent,
 	#superclass : #BlResizerEvent,
 	#instVars : [
-		'extent'
+		'extent',
+		'resizeTarget'
 	],
 	#category : #'BlocPac-Resizable'
 }
@@ -19,4 +20,14 @@ BlResizerResizedEvent >> extent [
 { #category : #accessing }
 BlResizerResizedEvent >> extent: aPoint [
 	extent := aPoint
+]
+
+{ #category : #accessing }
+BlResizerResizedEvent >> resizeTarget [
+	^ resizeTarget
+]
+
+{ #category : #accessing }
+BlResizerResizedEvent >> resizeTarget: anObject [
+	resizeTarget := anObject
 ]
