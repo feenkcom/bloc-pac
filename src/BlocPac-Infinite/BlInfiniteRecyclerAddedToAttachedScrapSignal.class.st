@@ -26,3 +26,11 @@ BlInfiniteRecyclerAddedToAttachedScrapSignal >> prepareForDelivery [
 
 	flags := elementHolder flags copy
 ]
+
+{ #category : #accessing }
+BlInfiniteRecyclerAddedToAttachedScrapSignal >> printOneLineContentsOn: stream [
+	self elementHolder ifNotNil: [
+		stream print: self elementHolder itemElement.
+		stream space ].
+	super printOneLineContentsOn: stream
+]

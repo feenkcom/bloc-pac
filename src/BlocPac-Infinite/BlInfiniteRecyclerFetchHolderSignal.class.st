@@ -34,6 +34,11 @@ BlInfiniteRecyclerFetchHolderSignal >> fetcherResult: anObject [
 ]
 
 { #category : #accessing }
+BlInfiniteRecyclerFetchHolderSignal >> itemElement [
+	^ fetcherResult ifNotNil: [ :aResult | aResult holder ifNotNil: #itemElement ]
+]
+
+{ #category : #accessing }
 BlInfiniteRecyclerFetchHolderSignal >> position [
 
 	^ position
@@ -59,6 +64,9 @@ BlInfiniteRecyclerFetchHolderSignal >> printOneLineContentsOn: aStream [
 		ifTrue: [
 			self fetcherResult isFromScrap
 				ifTrue: [ aStream nextPutAll: 'Recycled holder from scrap' ]
-				ifFalse: [ aStream nextPutAll: 'Created new holder or acquired it from the pool' ] ]
+				ifFalse: [ aStream nextPutAll: 'Created new holder or acquired it from the pool' ].
+				
+			aStream space; nextPutAll: 'at position: '; print: self position.
+			aStream space; print: self itemElement. ]
 		ifFalse: [ aStream nextPutAll: 'Holder not found' ]
 ]
