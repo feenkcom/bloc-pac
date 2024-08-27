@@ -66,26 +66,26 @@ BlVerticalScrollbarElement >> scrollTo: aPoint [
 { #category : #'private - scrolling' }
 BlVerticalScrollbarElement >> updateScrollPosition [
 	| verticalContentLength verticalScrollOffset verticalScrollExtent realThumbWeight thumbTop |
-		
 	verticalContentLength := scrollable computeVerticalScrollRange.
-	
-	verticalContentLength isZero
-		ifTrue: [ ^ self ].
-	
+
+	verticalContentLength isZero ifTrue: [ ^ self ].
+
 	verticalScrollOffset := scrollable computeVerticalScrollOffset.
 	verticalScrollExtent := scrollable computeVerticalScrollExtent.
-	
-	alwaysVisible ifFalse: [ 
-		verticalContentLength <= verticalScrollExtent 
-			ifTrue: [ self visibility: BlVisibility hidden ]
-			ifFalse: [ self visibility: BlVisibility visible ] ].
-	
-	realThumbWeight := (verticalScrollExtent / verticalContentLength) asFloat.
+
+	alwaysVisible
+		ifFalse: [ verticalContentLength <= verticalScrollExtent
+				ifTrue: [ self visibility: BlVisibility hidden ]
+				ifFalse: [ self visibility: BlVisibility visible ] ].
+
+	realThumbWeight := (verticalScrollExtent / verticalContentLength) asFloat
+			max: 0.05.
 	thumbTop := (verticalScrollOffset / verticalContentLength) asFloat.
-	
-	thumb constraintsDo: [ :c | 
-		c vertical matchParent.
-		c frame vertical
-			alignTopAt: thumbTop;
-			weight: realThumbWeight ]
+
+	thumb
+		constraintsDo: [ :c | 
+			c vertical matchParent.
+			c frame vertical
+				alignTopAt: thumbTop;
+				weight: realThumbWeight ]
 ]
