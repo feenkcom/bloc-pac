@@ -180,31 +180,79 @@ BlInfiniteLinearLayout >> computeHorizontalScrollRange [
 { #category : #'private - scrolling' }
 BlInfiniteLinearLayout >> computeScrollExtent [
 	<return: #Number>
-	
-	self hasChildren
-		ifFalse: [ ^ 0 ].
-	
-	^ self createScrollbarHelper computeScrollExtent
+	| anExtent startElement endElement |
+	self hasChildren ifFalse: [ ^ 0 ].
+
+	startElement := self
+			findFirstVisibleChildClosestToStartCompletelyVisible: smoothScrollbarEnabled not
+			acceptPartiallyVisible: true.
+	endElement := self
+			findFirstVisibleChildClosestToEndCompletelyVisible: smoothScrollbarEnabled not
+			acceptPartiallyVisible: true.
+
+	anExtent := (orientation decoratedEnd: endElement)
+			- (orientation decoratedStart: startElement).
+
+	^ orientation totalSpace min: anExtent
 ]
 
 { #category : #'private - scrolling' }
 BlInfiniteLinearLayout >> computeScrollOffset [
 	<return: #Number>
-	
-	self hasChildren
-		ifFalse: [ ^ 0 ].
-	
-	^ self createScrollbarHelper computeScrollOffset
+	| startPosition endPosition minPosition maxPosition itemsBefore laidOutArea itemRange avgSizePerRow startElement endElement |
+	self hasChildren ifFalse: [ ^ 0 ].
+
+	startElement := self
+			findFirstVisibleChildClosestToStartCompletelyVisible: smoothScrollbarEnabled not
+			acceptPartiallyVisible: true.
+	endElement := self
+			findFirstVisibleChildClosestToEndCompletelyVisible: smoothScrollbarEnabled not
+			acceptPartiallyVisible: true.
+
+	startPosition := self childPositionOf: startElement.
+	endPosition := self childPositionOf: endElement.
+
+	minPosition := startPosition min: endPosition.
+	maxPosition := startPosition max: endPosition.
+
+	itemsBefore := 0
+			max: (shouldReverseLayout
+					ifTrue: [ self state itemCount - maxPosition - 1 ]
+					ifFalse: [ minPosition - 1 ]).
+
+	smoothScrollbarEnabled ifFalse: [ ^ itemsBefore ].
+
+	laidOutArea := ((orientation decoratedEnd: endElement)
+			- (orientation decoratedStart: startElement)) abs.
+	itemRange := (startPosition - endPosition) abs + 1.
+	avgSizePerRow := (laidOutArea / itemRange) asFloat.
+
+	^ itemsBefore * avgSizePerRow
+		+ (orientation startWithPadding - (orientation decoratedStart: startElement))
 ]
 
 { #category : #'private - scrolling' }
 BlInfiniteLinearLayout >> computeScrollRange [
 	<return: #Number>
-	
-	self hasChildren
-		ifFalse: [ ^ 0 ].
-	
-	^ self createScrollbarHelper computeScrollRange
+	| laidOutArea startElement endElement laidOutRange |
+	self hasChildren ifFalse: [ ^ 0 ].
+
+	smoothScrollbarEnabled ifFalse: [ ^ self state itemCount ].
+
+	startElement := self
+			findFirstVisibleChildClosestToStartCompletelyVisible: smoothScrollbarEnabled not
+			acceptPartiallyVisible: true.
+	endElement := self
+			findFirstVisibleChildClosestToEndCompletelyVisible: smoothScrollbarEnabled not
+			acceptPartiallyVisible: true.
+
+	laidOutArea := (orientation decoratedEnd: endElement)
+			- (orientation decoratedStart: startElement).
+
+	laidOutRange := ((self childPositionOf: startElement)
+			- (self childPositionOf: endElement)) abs + 1.
+
+	^ (laidOutArea / laidOutRange * self state itemCount) asFloat
 ]
 
 { #category : #scrolling }
@@ -244,20 +292,6 @@ BlInfiniteLinearLayout >> computeVerticalScrollRange [
 	<return: #Number>
 
 	^ self computeScrollRange
-]
-
-{ #category : #'private - scrolling' }
-BlInfiniteLinearLayout >> createScrollbarHelper [
-	<return: #BlInfiniteScrollbarHelper>
-
-	^ BlInfiniteScrollbarHelper new
-		state: infiniteElement state;
-		orientation: orientation;
-		startElement: (self findFirstVisibleChildClosestToStartCompletelyVisible: smoothScrollbarEnabled not acceptPartiallyVisible: true);
-		endElement: (self findFirstVisibleChildClosestToEndCompletelyVisible: smoothScrollbarEnabled not acceptPartiallyVisible: true);
-		layout: self;
-		smoothScrollbarEnabled: smoothScrollbarEnabled;
-		isReversedLayout: shouldReverseLayout
 ]
 
 { #category : #initialization }

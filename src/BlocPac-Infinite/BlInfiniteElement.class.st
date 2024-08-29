@@ -1572,11 +1572,6 @@ BlInfiniteElement >> predictiveItemAnimationsEnabled [
 		and: [ layout supportsPredictiveItemAnimations ]
 ]
 
-{ #category : #'accessing - properties' }
-BlInfiniteElement >> prefetchingAllowed [
-	^ false
-]
-
 { #category : #'private - commands' }
 BlInfiniteElement >> processDataSourceCommandsAndSetAnimationFlags [
 	"Consumes data source commands and calculates which type of animations we want to run.

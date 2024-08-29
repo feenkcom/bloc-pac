@@ -8,7 +8,6 @@ Class {
 		'scroller',
 		'lastFlingX',
 		'lastFlingY',
-		'step',
 		'eatRunOnAnimationRequest',
 		'scrollable',
 		'shouldRequeueTask'
@@ -184,10 +183,6 @@ BlScrollFlinger >> onEnqueued: aBlSpace [
 ]
 
 { #category : #hooks }
-BlScrollFlinger >> onFinished [
-]
-
-{ #category : #hooks }
 BlScrollFlinger >> onInitialized [
 ]
 
@@ -196,15 +191,7 @@ BlScrollFlinger >> onLayoutScrolled [
 ]
 
 { #category : #hooks }
-BlScrollFlinger >> onNotFinished [
-]
-
-{ #category : #hooks }
 BlScrollFlinger >> onPrepareToRun [
-]
-
-{ #category : #hooks }
-BlScrollFlinger >> onSmoothScrolled [
 ]
 
 { #category : #scheduling }
@@ -267,7 +254,6 @@ BlScrollFlinger >> run [
 			self onLayoutScrolled.
 			
 			self runSmoothOn: aSmoothScroller with: aState.
-			self onSmoothScrolled.
 
 			self runOverscrollOn: aScroller with: aState.
 			
@@ -309,7 +295,6 @@ BlScrollFlinger >> run: aWaker [
 			self onLayoutScrolled.
 			
 			self runSmoothOn: aSmoothScroller with: aState.
-			self onSmoothScrolled.
 
 			self runOverscrollOn: aScroller with: aState.
 			
@@ -331,26 +316,20 @@ BlScrollFlinger >> run: aWaker [
 { #category : #private }
 BlScrollFlinger >> runFinalizeOn: anOverScroller with: aState [
 	| fullyConsumedHorizontal fullyConsumedVertical fullyConsumedAny |
-	
-	fullyConsumedHorizontal := aState dX isZero not and: [
-		self scrollable canScrollHorizontally
-			and: [ aState hResult = aState dX ] ].
-		
-	fullyConsumedVertical := aState dY isZero not and: [
-		self scrollable canScrollVertically
-			and: [ aState vResult = aState dY ] ].
-		
-	fullyConsumedAny := aState dX isZero and: [
-		aState dY isZero and: [
-			fullyConsumedHorizontal or: [ fullyConsumedVertical ] ] ].
-	
-	(anOverScroller isFinished or: [ fullyConsumedHorizontal and: [ fullyConsumedVertical ] ])
-		ifTrue: [
-			self beIdle.
-			self onFinished ]
-		ifFalse: [
-			self postOnAnimation.
-			self onNotFinished ]
+	fullyConsumedHorizontal := aState dX isZero not
+			and: [ self scrollable canScrollHorizontally and: [ aState hResult = aState dX ] ].
+
+	fullyConsumedVertical := aState dY isZero not
+			and: [ self scrollable canScrollVertically and: [ aState vResult = aState dY ] ].
+
+	fullyConsumedAny := aState dX isZero
+			and: [ aState dY isZero
+					and: [ fullyConsumedHorizontal or: [ fullyConsumedVertical ] ] ].
+
+	(anOverScroller isFinished
+		or: [ fullyConsumedHorizontal and: [ fullyConsumedVertical ] ])
+		ifTrue: [ self beIdle ]
+		ifFalse: [ self postOnAnimation ]
 ]
 
 { #category : #private }
