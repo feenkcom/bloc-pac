@@ -15,12 +15,6 @@ BlInfiniteScrollFlinger class >> on: anInfiniteElement [
 ]
 
 { #category : #hooks }
-BlInfiniteScrollFlinger >> onFinished [
-	self scrollable prefetchingAllowed
-		ifTrue: [ self shouldBeImplemented ]
-]
-
-{ #category : #hooks }
 BlInfiniteScrollFlinger >> onInitialized [
 	self scrollable eatRequestLayout.
 	self scrollable onEnterLayoutOrScroll
@@ -34,16 +28,6 @@ BlInfiniteScrollFlinger >> onLayoutScrolled [
 ]
 
 { #category : #hooks }
-BlInfiniteScrollFlinger >> onNotFinished [
-	self scrollable prefetchingAllowed
-		ifTrue: [ self shouldBeImplemented ]
-]
-
-{ #category : #hooks }
 BlInfiniteScrollFlinger >> onPrepareToRun [
 	self scrollable consumePendingDataSourceCommands
-]
-
-{ #category : #hooks }
-BlInfiniteScrollFlinger >> onSmoothScrolled [
 ]
