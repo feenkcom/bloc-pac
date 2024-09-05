@@ -80,7 +80,8 @@ BlVerticalScrollbarElement >> updateScrollPosition [
 
 	realThumbWeight := (verticalScrollExtent / verticalContentLength) asFloat
 			max: 0.05.
-	thumbTop := (verticalScrollOffset / verticalContentLength) asFloat.
+	thumbTop := (verticalScrollOffset / verticalContentLength) asFloat
+			min: 1.0 - realThumbWeight.
 
 	thumb
 		constraintsDo: [ :c | 
