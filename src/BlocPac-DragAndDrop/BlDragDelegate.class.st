@@ -1,7 +1,14 @@
 "
-Drag delegate provides drag items when a visual element lifts.
-Drag gesture fails if there are no drag items
+#Drag delegate
 
+*Delegate - A person who attends a meeting, conference, forum, etc., esp. one who is elected or appointed to represent a particular association or other body.*
+
+A drag delegate is appointed by {{gtClass:BlDragHandler}} to handle all drag-related actions such as:
+ - what happens when an item is lifted {{gtMethod:BlDragDelegate>>#liftAt:}}, 
+ - how dragging of an item from one position to another is handled {{gtMethod:BlDragDelegate>>#drag:to:}},
+ - what happens when a drag action is cancelled {{gtMethod:BlDragDelegate>>#cancel:at:in:}}
+
+ A drag delegate contains a collection of {{gtClass:BlDragItem}} that are being dragged.
 "
 Class {
 	#name : #BlDragDelegate,
@@ -9,7 +16,8 @@ Class {
 	#instVars : [
 		'items',
 		'dragArea',
-		'offset'
+		'offset',
+		'movementStrategy'
 	],
 	#category : #'BlocPac-DragAndDrop'
 }
@@ -54,17 +62,22 @@ BlDragDelegate >> cancel: aDraggedContainer at: aPoint in: aParentElement [
 BlDragDelegate >> drag: aDraggedContainer to: aPoint [
 	"Drag a container with all previews to a given point in the parent coordinate of the container"
 
-	aDraggedContainer relocate: (aPoint - offset) x @ aDraggedContainer measuredBounds position y
+	movementStrategy
+		drag: aDraggedContainer
+		to: aPoint
+		withOffset: offset
 ]
 
 { #category : #accessing }
 BlDragDelegate >> dragArea [
+	<return: #BlElement>
+
 	^ dragArea
 ]
 
 { #category : #accessing }
-BlDragDelegate >> dragArea: anObject [
-	dragArea := anObject
+BlDragDelegate >> dragArea: anElement [
+	dragArea := anElement
 ]
 
 { #category : #accessing }
@@ -76,7 +89,8 @@ BlDragDelegate >> hasDragArea [
 BlDragDelegate >> initialize [
 	super initialize.
 
-	items := { }
+	items := { }.
+	movementStrategy := BlDragFreeMovementStrategy new
 ]
 
 { #category : #accessing }
@@ -113,6 +127,11 @@ BlDragDelegate >> liftAt: aPoint [
 			addState: BlElementDraggingState uniqueInstance ].
 
 	^ aContainer
+]
+
+{ #category : #accessing }
+BlDragDelegate >> movementStrategy: aBlDragMovementStrategy [
+	movementStrategy := aBlDragMovementStrategy
 ]
 
 { #category : #accessing }

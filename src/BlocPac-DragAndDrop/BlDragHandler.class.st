@@ -3,10 +3,16 @@ Class {
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
 		'liftItemBlock',
-		'dragAreaBlock'
+		'dragAreaBlock',
+		'movementStrategyBlock'
 	],
 	#category : #'BlocPac-DragAndDrop'
 }
+
+{ #category : #'drag and drop' }
+BlDragHandler >> allowFreeDrag [
+	movementStrategyBlock := [ :anEvent | BlDragHorizontalMovementStrategy new ]
+]
 
 { #category : #'dnd handlers' }
 BlDragHandler >> createDragItemFor: aSourceElement [
@@ -39,9 +45,13 @@ BlDragHandler >> dragStartEvent: anEvent [
 		ifNotNil: [ :aBlock |
 			aDragDelegate dragArea: (aBlock value: anEvent currentTarget) ].
 
+	movementStrategyBlock
+		ifNotNil: [ :aBlock |
+			aDragDelegate movementStrategy: (aBlock cull: anEvent currentTarget) ].
+
 	anEvent currentTarget space
 		dispatchEvent: (BlSpaceDragLiftEvent new
-			delegate: aDragDelegate;
+			dragDelegate: aDragDelegate;
 			position: anEvent position)
 ]
 
@@ -50,7 +60,21 @@ BlDragHandler >> eventsToHandle [
 	^ { BlDragStartEvent }
 ]
 
+{ #category : #'as yet unclassified' }
+BlDragHandler >> initialize [
+	super initialize.
+	
+	liftItemBlock := nil.
+	dragAreaBlock := nil.
+	movementStrategyBlock := nil.
+]
+
 { #category : #accessing }
 BlDragHandler >> liftItem: aBlock [
 	liftItemBlock := aBlock
+]
+
+{ #category : #'drag and drop' }
+BlDragHandler >> restrictDragToHorizontal [
+	movementStrategyBlock := [ :anElement | BlDragHorizontalMovementStrategy new ]
 ]
