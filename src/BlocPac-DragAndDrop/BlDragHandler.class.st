@@ -34,16 +34,24 @@ BlDragHandler >> dragArea: aBlock [
 
 { #category : #'dnd handlers' }
 BlDragHandler >> dragStartEvent: anEvent [
-	| aDragDelegate |
+	| aDragDelegate shouldMarkAsCopy |
 
 	anEvent consumed: true.
 
 	aDragDelegate := BlDragDelegate new.
 	aDragDelegate items: { self createDragItemFor: anEvent currentTarget }.
 	aDragDelegate offset: anEvent localPosition.
+	
+	shouldMarkAsCopy := canBeCopied and: [
+		OSPlatform current isWindows
+			ifTrue: [ anEvent modifiers isCtrl ]
+			ifFalse: [ anEvent modifiers isAlt ] ].
+	
+	shouldMarkAsCopy ifTrue: [
+		aDragDelegate items do: [ :eachItem | eachItem shouldCopy: true ].
+		anEvent currentTarget space currentCursor: BlCopyCursor new ].
 
-	canBeCopied
-		ifTrue: [ aDragDelegate enableCopy ].
+	canBeCopied ifTrue: [ aDragDelegate enableCopy ].
 
 	dragAreaBlock
 		ifNotNil: [ :aBlock |
