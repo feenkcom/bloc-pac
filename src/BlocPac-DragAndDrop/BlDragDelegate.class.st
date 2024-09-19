@@ -17,7 +17,8 @@ Class {
 		'items',
 		'dragArea',
 		'offset',
-		'movementStrategy'
+		'movementStrategy',
+		'canBeCopied'
 	],
 	#category : #'BlocPac-DragAndDrop'
 }
@@ -62,6 +63,11 @@ BlDragDelegate >> cancel: aDraggedContainer at: aPoint in: aParentElement [
 BlDragDelegate >> drag: aDraggedContainer to: aPoint [
 	"Drag a container with all previews to a given point in the parent coordinate of the container"
 
+	(BlDragToSignal new
+		container: aDraggedContainer;
+		position: aPoint;
+		offset: offset) emit.
+
 	movementStrategy
 		drag: aDraggedContainer
 		to: aPoint
@@ -81,6 +87,13 @@ BlDragDelegate >> dragArea: anElement [
 ]
 
 { #category : #accessing }
+BlDragDelegate >> enableCopy [
+	"When enabled, pressing option on MacOS, alt on Linux or ctrl on Windows will mark dragged items as to be copied rather than moved. This also changes a cursor icon to a platform specific Copy cursor."
+
+	canBeCopied := true
+]
+
+{ #category : #accessing }
 BlDragDelegate >> hasDragArea [
 	^ dragArea notNil
 ]
@@ -90,7 +103,8 @@ BlDragDelegate >> initialize [
 	super initialize.
 
 	items := { }.
-	movementStrategy := BlDragFreeMovementStrategy new
+	movementStrategy := BlDragFreeMovementStrategy new.
+	canBeCopied := false
 ]
 
 { #category : #accessing }
@@ -110,22 +124,21 @@ BlDragDelegate >> items: aCollectionOfDragItems [
 BlDragDelegate >> liftAt: aPoint [
 	"Lift previews at a given point in space coordinates"
 	<return: #BlElement>
+
 	| aContainer |
-
 	aContainer := BlElement new
-		layout: BlFrameLayout new;
-		beInSingleCompositionLayer;
-		constraintsDo: [ :c |
-			c ignoreByLayout.
-			c horizontal fitContent.
-			c vertical fitContent ].
+			layout: BlFrameLayout new;
+			beInSingleCompositionLayer;
+			constraintsDo: [ :c | 
+				c ignoreByLayout.
+				c horizontal fitContent.
+				c vertical fitContent ].
 
-	aContainer addChildren: (self items collect: [ :aDragItem | aDragItem previewElement ]).
+	canBeCopied ifTrue: [
+		self setupCopyKeyboardHandler: aContainer ].
 
-	self items do: [ :each |
-		each sourceElement states
-			addState: BlElementDraggingState uniqueInstance ].
-
+	self items
+		do: [ :each | each sourceElement states addState: BlElementDraggingState uniqueInstance ].
 	^ aContainer
 ]
 
@@ -142,4 +155,30 @@ BlDragDelegate >> offset [
 { #category : #accessing }
 BlDragDelegate >> offset: anObject [
 	offset := anObject
+]
+
+{ #category : #'drag and drop' }
+BlDragDelegate >> setupCopyKeyboardHandler: aContainer [
+	| aCopyCombination |
+	aContainer beFocusable.
+	aContainer requestFocus.
+
+	aCopyCombination := OSPlatform current isWindows
+		ifTrue: [ BlKeyCombination builder control build ]
+		ifFalse: [ BlKeyCombination builder alt build ].
+
+	aContainer
+		when: BlKeyDownEvent
+			do: [ :anEvent | 
+				(anEvent matches: aCopyCombination)
+					ifTrue: [ self items do: [ :each | each shouldCopy: true ].
+						aContainer space currentCursor: BlCopyCursor new ] ];
+		when: BlKeyUpEvent
+			do: [ :anEvent | 
+				(anEvent matches: aCopyCombination)
+					ifTrue: [ self items do: [ :each | each shouldCopy: false ].
+						aContainer space currentCursor: nil ] ].
+
+	aContainer
+		addChildren: (self items collect: [ :aDragItem | aDragItem previewElement ])
 ]

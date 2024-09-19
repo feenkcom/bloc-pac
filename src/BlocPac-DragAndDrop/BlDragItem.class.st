@@ -9,7 +9,8 @@ Class {
 		'sourceElement',
 		'domainObject',
 		'draggedElement',
-		'draggedElementStencil'
+		'draggedElementStencil',
+		'shouldCopy'
 	],
 	#category : #'BlocPac-DragAndDrop'
 }
@@ -42,12 +43,23 @@ BlDragItem >> draggedElement [
 BlDragItem >> initialize [
 	super initialize.
 
-	draggedElementStencil := BlDragItemStencil new
+	draggedElementStencil := BlDragItemStencil new.
+	shouldCopy := false
 ]
 
 { #category : #accessing }
 BlDragItem >> previewElement [
 	^ self draggedElement
+]
+
+{ #category : #accessing }
+BlDragItem >> shouldCopy [
+	^ shouldCopy
+]
+
+{ #category : #accessing }
+BlDragItem >> shouldCopy: anObject [
+	shouldCopy := anObject
 ]
 
 { #category : #accessing }
