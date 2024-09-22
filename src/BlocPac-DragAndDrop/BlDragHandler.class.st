@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'liftItemBlock',
 		'dragAreaBlock',
-		'movementStrategyBlock'
+		'movementStrategyBlock',
+		'canBeCopied'
 	],
 	#category : #'BlocPac-DragAndDrop'
 }
@@ -33,13 +34,24 @@ BlDragHandler >> dragArea: aBlock [
 
 { #category : #'dnd handlers' }
 BlDragHandler >> dragStartEvent: anEvent [
-	| aDragDelegate |
+	| aDragDelegate shouldMarkAsCopy |
 
 	anEvent consumed: true.
 
 	aDragDelegate := BlDragDelegate new.
 	aDragDelegate items: { self createDragItemFor: anEvent currentTarget }.
 	aDragDelegate offset: anEvent localPosition.
+	
+	shouldMarkAsCopy := canBeCopied and: [
+		OSPlatform current isWindows
+			ifTrue: [ anEvent modifiers isCtrl ]
+			ifFalse: [ anEvent modifiers isAlt ] ].
+	
+	shouldMarkAsCopy ifTrue: [
+		aDragDelegate items do: [ :eachItem | eachItem shouldCopy: true ].
+		anEvent currentTarget space currentCursor: BlCopyCursor new ].
+
+	canBeCopied ifTrue: [ aDragDelegate enableCopy ].
 
 	dragAreaBlock
 		ifNotNil: [ :aBlock |
@@ -55,6 +67,11 @@ BlDragHandler >> dragStartEvent: anEvent [
 			position: anEvent position)
 ]
 
+{ #category : #'as yet unclassified' }
+BlDragHandler >> enableCopy [
+	canBeCopied := true
+]
+
 { #category : #accessing }
 BlDragHandler >> eventsToHandle [
 	^ { BlDragStartEvent }
@@ -67,6 +84,7 @@ BlDragHandler >> initialize [
 	liftItemBlock := nil.
 	dragAreaBlock := nil.
 	movementStrategyBlock := nil.
+	canBeCopied := false
 ]
 
 { #category : #accessing }

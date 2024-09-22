@@ -9,6 +9,11 @@ Class {
 }
 
 { #category : #accessing }
+BlItemsDroppedEvent >> domainObjects [
+	^ items collect: [ :eachDragItem | eachDragItem domainObject ]
+]
+
+{ #category : #accessing }
 BlItemsDroppedEvent >> items [
 	^ items
 ]

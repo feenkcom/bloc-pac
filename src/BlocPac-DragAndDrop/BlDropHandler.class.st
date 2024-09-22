@@ -5,7 +5,8 @@ Class {
 		'itemsDroppedAction',
 		'acceptConditions',
 		'itemsDraggedAction',
-		'itemsDragLeftAction'
+		'itemsDragLeftAction',
+		'itemsDragEnteredAction'
 	],
 	#category : #'BlocPac-DragAndDrop'
 }
@@ -33,6 +34,7 @@ BlDropHandler >> createDropDelegate [
 { #category : #accessing }
 BlDropHandler >> dragEnterEvent: aDropEnterEvent [
 	| aSpaceDropEnterEvent |
+	
 	aSpaceDropEnterEvent := BlSpaceDragDropEnterEvent new
 			element: aDropEnterEvent currentTarget;
 			delegate: self createDropDelegate;
@@ -77,7 +79,7 @@ BlDropHandler >> dropEvent: aDropEvent [
 
 { #category : #accessing }
 BlDropHandler >> eventsToHandle [
-	^ { BlDropEvent . BlDragEvent . BlDragEnterEvent . . BlDragLeaveEvent . BlItemsDroppedEvent . BlItemsDraggedEvent . BlItemsLeftEvent }
+	^ { BlDropEvent . BlDragEvent . BlDragEnterEvent . . BlDragLeaveEvent . BlItemsDroppedEvent . BlItemsDraggedEvent . BlItemsLeftEvent . BlItemsEnteredEvent}
 ]
 
 { #category : #accessing }
@@ -87,11 +89,14 @@ BlDropHandler >> initialize [
 	acceptConditions := OrderedCollection new.
 	itemsDroppedAction := [ :aBlItemsDroppedEvent | ].
 	itemsDraggedAction := [ :aBlItemsDraggedEvent | ].
-	itemsDragLeftAction := [ :aBlItemsDragLeftEvent | ]
+	itemsDragLeftAction := [ :aBlItemsDragLeftEvent | ].
+	itemsDragEnteredAction := [ :aBlItemsEnteredEvent | ].
 ]
 
 { #category : #accessing }
 BlDropHandler >> itemsDraggedEvent: anItemsDraggedEvent [
+	GtJustContextStackSignal emit.
+	
 	itemsDraggedAction cull: anItemsDraggedEvent
 ]
 
@@ -101,8 +106,18 @@ BlDropHandler >> itemsDroppedEvent: anItemsDroppedEvent [
 ]
 
 { #category : #accessing }
+BlDropHandler >> itemsEnteredEvent: anItemsEnteredEvent [
+	itemsDragEnteredAction cull: anItemsEnteredEvent
+]
+
+{ #category : #accessing }
 BlDropHandler >> itemsLeftEvent: anItemsLeftEvent [
 	itemsDragLeftAction cull: anItemsLeftEvent
+]
+
+{ #category : #accessing }
+BlDropHandler >> whenDragEnteredDo: aBlock [
+	itemsDragEnteredAction := aBlock
 ]
 
 { #category : #accessing }
