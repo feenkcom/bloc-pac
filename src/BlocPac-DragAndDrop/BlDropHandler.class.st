@@ -95,8 +95,6 @@ BlDropHandler >> initialize [
 
 { #category : #accessing }
 BlDropHandler >> itemsDraggedEvent: anItemsDraggedEvent [
-	GtJustContextStackSignal emit.
-	
 	itemsDraggedAction cull: anItemsDraggedEvent
 ]
 
