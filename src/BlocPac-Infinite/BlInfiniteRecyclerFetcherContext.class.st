@@ -3,7 +3,6 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'position',
-		'isDryRun',
 		'recyclerController',
 		'shouldLog',
 		'result',
@@ -49,20 +48,6 @@ BlInfiniteRecyclerFetcherContext >> initialize [
 	super initialize.
 	
 	shouldLog := false
-]
-
-{ #category : #accessing }
-BlInfiniteRecyclerFetcherContext >> isDryRun [
-	"True if fetcher should perform a dry run, it finds the ElementHolder but does not remove it"
-	<return: #Boolean>
-
-	^ isDryRun
-]
-
-{ #category : #accessing }
-BlInfiniteRecyclerFetcherContext >> isDryRun: anObject [
-
-	isDryRun := anObject
 ]
 
 { #category : #'api - accessing' }

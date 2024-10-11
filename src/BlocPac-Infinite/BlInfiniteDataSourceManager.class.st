@@ -152,7 +152,8 @@ BlInfiniteDataSourceManager >> controller [
 
 { #category : #accessing }
 BlInfiniteDataSourceManager >> controller: aController [
-	controller := aController
+	controller := aController.
+	aController dataSourceManager: self
 ]
 
 { #category : #'commands recycling' }

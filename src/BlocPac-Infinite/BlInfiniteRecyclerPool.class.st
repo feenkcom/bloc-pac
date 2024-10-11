@@ -48,11 +48,6 @@ BlInfiniteRecyclerPool >> clear [
 	scrap removeAll
 ]
 
-{ #category : #hooks }
-BlInfiniteRecyclerPool >> dataSourceChangedFrom: anOldDataSource to: aNewDataSource isCompatible: aBoolean [
-	self shouldBeImplemented
-]
-
 { #category : #initialization }
 BlInfiniteRecyclerPool >> defaultMaxScrap [
 	^ 50

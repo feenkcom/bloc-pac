@@ -140,13 +140,6 @@ BlInfiniteRecycler >> controller: aBlInfiniteRecyclerController [
 	controller := aBlInfiniteRecyclerController
 ]
 
-{ #category : #hooks }
-BlInfiniteRecycler >> dataSourceChangedFrom: anOldDataSource to: aNewDataSource isCompatible: aBoolean [
-	
-	self clear.
-	self pool dataSourceChangedFrom: anOldDataSource to: aNewDataSource isCompatible: aBoolean
-]
-
 { #category : #initialization }
 BlInfiniteRecycler >> defaultCacheSize [
 	^ 2
@@ -185,16 +178,6 @@ BlInfiniteRecycler >> elementFor: aPosition [
 	available for the correct element type. If the data source has not indicated that the
 	data at the given position has changed, the Recycler will attempt to hand back
 	a scrap element that was previously initialized for that data without rebinding."
-	<return: #BlElement>
-
-	^ self elementFor: aPosition dryRun: false
-]
-
-{ #category : #private }
-BlInfiniteRecycler >> elementFor: aPosition dryRun: dryRun [
-	"I do a hard work obtaining element for the data at a position in data source.
-	@see elementFor: for more information"
-	<return: #BlElement>
 
 	| holder fromScrap fetchedResult bound itemElement anInfiniteConstraints |
 	
@@ -207,7 +190,6 @@ BlInfiniteRecycler >> elementFor: aPosition dryRun: dryRun [
 			| aFetcherContext aSignal |
 
 			aFetcherContext := BlInfiniteRecyclerFetcherContext new
-				isDryRun: dryRun;
 				position: aPosition;
 				recyclerController: controller.
 

@@ -445,16 +445,6 @@ BlInfiniteElement >> deepestFocusedChildIn: anElement [
 ]
 
 { #category : #initialization }
-BlInfiniteElement >> defaultChildrenController [
-	^ BlInfiniteDefaultChildrenController new
-]
-
-{ #category : #initialization }
-BlInfiniteElement >> defaultChildrenManager [
-	^ BlInfiniteChildrenManager new
-]
-
-{ #category : #initialization }
 BlInfiniteElement >> defaultChildrenUpdateRunnable [
 	"Return class, actual instantiation happens in initialize"
 	^ BlInfiniteChildrenUpdateRunnable
@@ -463,22 +453,6 @@ BlInfiniteElement >> defaultChildrenUpdateRunnable [
 { #category : #initialization }
 BlInfiniteElement >> defaultDataSource [
 	^ BlInfiniteBasicDataSource new
-]
-
-{ #category : #initialization }
-BlInfiniteElement >> defaultDataSourceController [
-	^ BlInfiniteDefaultDataSourceController new
-]
-
-{ #category : #initialization }
-BlInfiniteElement >> defaultDataSourceManager [
-	^ BlInfiniteDataSourceManager new
-]
-
-{ #category : #initialization }
-BlInfiniteElement >> defaultDataSourceObserver [
-	"Return class, actuall instantiation happens in initialize"
-	^ BlInfiniteElementDataSourceObserver
 ]
 
 { #category : #initialization }
@@ -510,16 +484,6 @@ BlInfiniteElement >> defaultMouseScrollEventHandler [
 { #category : #initialization }
 BlInfiniteElement >> defaultOverScrollMode [
 	^ BlOverScrollMode never
-]
-
-{ #category : #initialization }
-BlInfiniteElement >> defaultRecycler [
-	^ BlInfiniteRecycler new
-]
-
-{ #category : #initialization }
-BlInfiniteElement >> defaultRecyclerController [
-	^ BlInfiniteRecyclerController new
 ]
 
 { #category : #initialization }
@@ -1071,22 +1035,21 @@ BlInfiniteElement >> initialize [
 
 { #category : #initialization }
 BlInfiniteElement >> initializeChildrenManager [
-	childrenManager := self defaultChildrenManager.
-	self defaultChildrenController
-		infiniteElement: self;
-		childrenManager: childrenManager
+	childrenManager := BlInfiniteChildrenManager new.
+	childrenManager
+		controller: (BlInfiniteDefaultChildrenController new
+				infiniteElement: self;
+				yourself)
 ]
 
 { #category : #initialization }
 BlInfiniteElement >> initializeDataSource [
-	dataSource := self defaultDataSource.
-	dataSourceObserver := self defaultDataSourceObserver on: self.
-	dataSource addEventHandler: dataSourceObserver.
-	
-	dataSourceManager := self defaultDataSourceManager.
-	self defaultDataSourceController
-		element: self;
-		dataSourceManager: dataSourceManager
+	dataSourceObserver := BlInfiniteElementDataSourceObserver on: self.
+	dataSource := self defaultDataSource
+			addEventHandler: dataSourceObserver;
+			yourself.
+	dataSourceManager := BlInfiniteDataSourceManager new
+			controller: (BlInfiniteDefaultDataSourceController new element: self)
 ]
 
 { #category : #initialization }
@@ -1097,9 +1060,11 @@ BlInfiniteElement >> initializeEventHandlers [
 
 { #category : #initialization }
 BlInfiniteElement >> initializeRecycler [
-	recycler := self defaultRecycler.
-	self defaultRecyclerController
-		infiniteElement: self
+	| controller |
+	controller := BlInfiniteRecyclerController new infiniteElement: self.
+	recycler := BlInfiniteRecycler new
+			controller: controller;
+			yourself
 ]
 
 { #category : #'private - invalidation' }

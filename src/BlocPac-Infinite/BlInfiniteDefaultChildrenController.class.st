@@ -58,8 +58,7 @@ BlInfiniteDefaultChildrenController >> childrenManager [
 
 { #category : #accessing }
 BlInfiniteDefaultChildrenController >> childrenManager: anObject [
-	childManager := anObject.
-	childManager controller: self
+	childManager := anObject
 ]
 
 { #category : #'manager -> element' }
