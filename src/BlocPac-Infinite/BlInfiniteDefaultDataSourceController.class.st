@@ -85,8 +85,7 @@ BlInfiniteDefaultDataSourceController >> dataSourceManager [
 
 { #category : #accessing }
 BlInfiniteDefaultDataSourceController >> dataSourceManager: aDataSourceManager [
-	dataSourceManager := aDataSourceManager.
-	dataSourceManager controller: self
+	dataSourceManager := aDataSourceManager
 ]
 
 { #category : #private }

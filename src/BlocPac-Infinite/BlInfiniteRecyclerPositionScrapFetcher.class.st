@@ -36,22 +36,17 @@ BlInfiniteRecyclerPositionScrapFetcher >> attachedScrapFor: aFetcherContext [
 
 { #category : #private }
 BlInfiniteRecyclerPositionScrapFetcher >> cachedScrapFor: aFetcherContext [
-	aFetcherContext recyclerController cachedScrap withIndexDo: [ :anElementHolder :index |
-		(anElementHolder wasReturnedFromScrap not and: [
-			anElementHolder layoutPosition = aFetcherContext layoutPosition and: [
-				anElementHolder isAttachedToTransitionOverlay not ] ])
-			ifTrue: [ 
-
-				aFetcherContext isDryRun
-					ifFalse: [ aFetcherContext recyclerController cachedScrap removeAt: index ].
-
-				^ aFetcherContext
-					holder: anElementHolder
-					fromScrap: true ] ].
+	aFetcherContext recyclerController cachedScrap
+		withIndexDo: [ :anElementHolder :index | 
+			(anElementHolder wasReturnedFromScrap not
+				and: [ anElementHolder layoutPosition = aFetcherContext layoutPosition
+						and: [ anElementHolder isAttachedToTransitionOverlay not ] ])
+				ifTrue: [ aFetcherContext recyclerController cachedScrap removeAt: index.
+					^ aFetcherContext holder: anElementHolder fromScrap: true ] ].
 
 	aFetcherContext
 		recordFetcherStep: 'Not in cached scrap (size = {1})'
-		arguments: [ { aFetcherContext recyclerController cachedScrap size } ]
+		arguments: [ {aFetcherContext recyclerController cachedScrap size} ]
 ]
 
 { #category : #initialization }
@@ -62,62 +57,53 @@ BlInfiniteRecyclerPositionScrapFetcher >> defaultNext [
 { #category : #'element fetching' }
 BlInfiniteRecyclerPositionScrapFetcher >> doFetchElementHolderFor: aFetcherContext [
 	| anElementHolder |
+	self positionedScrapFor: aFetcherContext.
+	aFetcherContext hasHolder ifFalse: [ ^ self ].
 
-	self positionedScrapFor: aFetcherContext.	
-	aFetcherContext hasHolder
-		ifFalse: [ ^ self ].
-
-	(self validateHolder: aFetcherContext holder controller: aFetcherContext recyclerController)
-		ifTrue: [ ^ true ].
+	(self
+		validateHolder: aFetcherContext holder
+		controller: aFetcherContext recyclerController) ifTrue: [ ^ true ].
 
 	anElementHolder := aFetcherContext holder.
-	
-	aFetcherContext isDryRun ifFalse: [ 
-		anElementHolder flags addInvalid.
-		anElementHolder isScrap
-			ifTrue: [ 
-				aFetcherContext recyclerController infiniteElement
-					removeDetachedChild: anElementHolder itemElement
-					animate: false.
-				anElementHolder unscrap ]
-			ifFalse: [ anElementHolder wasReturnedFromScrap
+	anElementHolder flags addInvalid.
+	anElementHolder isScrap
+		ifTrue: [ aFetcherContext recyclerController infiniteElement
+				removeDetachedChild: anElementHolder itemElement
+				animate: false.
+			anElementHolder unscrap ]
+		ifFalse: [ anElementHolder wasReturnedFromScrap
 				ifTrue: [ anElementHolder clearReturnedFromScrap ] ].
-			aFetcherContext recyclerController privateRecycleElementHolder: anElementHolder ].
+	aFetcherContext recyclerController privateRecycleElementHolder: anElementHolder.
 
 	aFetcherContext
-		recordFetcherStep: 'Found view holder can not be used for a position.'.	
+		recordFetcherStep: 'Found view holder can not be used for a position.'.
 	aFetcherContext removeHolder
 ]
 
 { #category : #private }
 BlInfiniteRecyclerPositionScrapFetcher >> hiddenNonRemovedScrapFor: aFetcherContext [
-	| aChildManager |
-
-	aFetcherContext isDryRun
-		ifTrue: [
-			^ aFetcherContext
-				recordFetcherStep: 'Hidden non-removed scrap search is disabled for dry runs' ].
-
+	| aChildManager aChildElement anElementHolder aLayoutIndex |
 	aChildManager := aFetcherContext childrenManager.
+	(aChildElement := aChildManager
+			findHiddenNonRemovedChildAt: aFetcherContext layoutPosition)
+		ifNil: [ ^ self ].	
+		
 	"This View is good to be used. We just need to unhide, detach and move to the scrap list."
-	(aChildManager findHiddenNonRemovedChildAt: aFetcherContext layoutPosition)
-		ifNotNil: [ :aChildElement | 
-			| anElementHolder aLayoutIndex |
-			"This View is good to be used. We just need to unhide, detach and move to the scrap list."
-			anElementHolder := aFetcherContext recyclerController
-					elementHolderOf: aChildElement.
-			aChildManager unhide: aChildElement.
-			aLayoutIndex := aChildManager childIndexOf: aChildElement.
-			aLayoutIndex isZero
-				ifTrue: [ self error: 'Layout index must not be 0 after unhiding an element' ].
 
-			aChildManager detachChildAt: aLayoutIndex.
-			aFetcherContext recyclerController scrapElement: aChildElement.
-			anElementHolder flags
-				addReturnedFromScrap;
-				addBouncedFromHiddenList.
+	anElementHolder := aFetcherContext recyclerController
+			elementHolderOf: aChildElement.
+	aChildManager unhide: aChildElement.
+	aLayoutIndex := aChildManager childIndexOf: aChildElement.
+	aLayoutIndex isZero
+		ifTrue: [ self error: 'Layout index must not be 0 after unhiding an element' ].
 
-			aFetcherContext holder: anElementHolder fromScrap: true ]
+	aChildManager detachChildAt: aLayoutIndex.
+	aFetcherContext recyclerController scrapElement: aChildElement.
+	anElementHolder flags
+		addReturnedFromScrap;
+		addBouncedFromHiddenList.
+
+	aFetcherContext holder: anElementHolder fromScrap: true
 ]
 
 { #category : #private }

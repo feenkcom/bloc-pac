@@ -134,7 +134,8 @@ BlInfiniteChildrenManager >> controller [
 
 { #category : #accessing }
 BlInfiniteChildrenManager >> controller: aChildController [
-	controller := aChildController
+	controller := aChildController.
+	aChildController childrenManager: self
 ]
 
 { #category : #initialization }

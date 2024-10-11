@@ -118,9 +118,7 @@ BlInfiniteRecyclerController >> infiniteElement [
 
 { #category : #accessing }
 BlInfiniteRecyclerController >> infiniteElement: anInfiniteElement [
-
-	infiniteElement := anInfiniteElement.
-	infiniteElement recycler controller: self.
+	infiniteElement := anInfiniteElement
 ]
 
 { #category : #accessing }
