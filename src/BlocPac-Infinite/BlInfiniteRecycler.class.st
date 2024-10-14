@@ -152,16 +152,6 @@ BlInfiniteRecycler >> defaultEventDispatcher [
 	^ BlDirectEventDispatcher
 ]
 
-{ #category : #initialization }
-BlInfiniteRecycler >> defaultFetcher [
-	^ BlInfiniteRecyclerChangedScrapFetcher instance
-]
-
-{ #category : #initialization }
-BlInfiniteRecycler >> defaultRecyclerPool [
-	^ BlInfiniteRecyclerPool new
-]
-
 { #category : #'event dispatching' }
 BlInfiniteRecycler >> dispatchElementRecycled: anElementHolder [
 
@@ -266,15 +256,15 @@ BlInfiniteRecycler >> eventDispatcher [
 { #category : #initialization }
 BlInfiniteRecycler >> initialize [
 	super initialize.
-	
+
 	changedScrap := OrderedCollection new.
 	attachedScrap := OrderedCollection new.
 	cachedScrap := OrderedCollection new.
-	fetcher := self defaultFetcher.
-	
+	fetcher := BlInfiniteRecyclerChangedScrapFetcher instance.
+
 	cacheSize := self defaultCacheSize.
 	requestedCacheSize := self defaultCacheSize.
-	recyclerPool := self defaultRecyclerPool.
+	recyclerPool := BlInfiniteRecyclerPool new.
 
 	eventDispatcher := self defaultEventDispatcher on: self
 ]
