@@ -10,7 +10,7 @@ BaselineOfBlocPac >> baseline: spec [
 	spec for: #'common' do: [
 		spec
 			baseline: 'Bloc' with: [
-				spec repository: 'github://feenkcom/Bloc:v0.8.720/src' ].
+				spec repository: 'github://feenkcom/Bloc:v0.8.721/src' ].
 		spec
 			baseline: 'Beacon' with: [
 				spec repository: 'github://feenkcom/pharo-beacon:6143981eb0705cfb325a426b8ed4910980639169/repository' ].
@@ -19,34 +19,34 @@ BaselineOfBlocPac >> baseline: spec [
 				spec repository: 'github://feenkcom/Sparta:v0.8.192/src' ].
 
 		spec package: 'BlocPac-CommonParent' with: [
-			spec requires: #('Bloc') ].
+			spec requires: #(#Bloc) ].
 		spec package: 'BlocPac-DragAndDrop' with: [
-			spec requires: #('Bloc') ].
+			spec requires: #(#Bloc) ].
 		spec package: 'BlocPac-ElementQuery' with: [
-			spec requires: #('Bloc') ].
+			spec requires: #(#Bloc) ].
 		spec package: 'BlocPac-ErrorHandling' with: [
-			spec requires: #('Bloc') ].
+			spec requires: #(#Bloc) ].
 		spec package: 'BlocPac-FocusFinder' with: [
-			spec requires: #('Bloc') ].
+			spec requires: #(#Bloc) ].
 		spec package: 'BlocPac-Overlay' with: [
-			spec requires: #('Bloc') ].
+			spec requires: #(#Bloc) ].
 		spec package: 'BlocPac-PullAndSlide' with: [
-			spec requires: #('Bloc') ].
+			spec requires: #(#Bloc) ].
 		spec package: 'BlocPac-PannableAndZoomable' with: [
-			spec requires: #('Bloc' #'BlocPac-PullAndSlide') ].
+			spec requires: #(#Bloc #'BlocPac-PullAndSlide') ].
 		spec package: 'BlocPac-Geometry' with: [
-			spec requires: #('Bloc' #'BlocPac-PullAndSlide' #'BlocPac-CommonParent') ].
+			spec requires: #(#Bloc #'BlocPac-PullAndSlide' #'BlocPac-CommonParent') ].
 		spec package: 'BlocPac-Resizable' with: [
-			spec requires: #('Bloc' #'BlocPac-Overlay') ].
+			spec requires: #(#Bloc #'BlocPac-Overlay') ].
 		spec package: 'BlocPac-Scalable' with: [
-			spec requires: #('Bloc') ].
+			spec requires: #(#Bloc) ].
 		spec package: 'BlocPac-Scrollable' with: [
-			spec requires: #('Bloc' #'BlocPac-PullAndSlide') ].
+			spec requires: #(#Bloc #'BlocPac-PullAndSlide') ].
 		spec package: 'BlocPac-Infinite' with: [
-			spec requires: #('Bloc' #'BlocPac-Scrollable' 'Bloc') ].
+			spec requires: #(#Bloc #'BlocPac-Scrollable' #Bloc) ].
 		spec package: 'BlocPac-Infinite-Layouts' with: [
-			spec requires: #('Bloc' #'BlocPac-Infinite') ].
+			spec requires: #(#Bloc #'BlocPac-Infinite') ].
 		spec package: 'BlocPac-Imager' with: [
-			spec requires: #('Bloc' 'Beacon' 'SpartaSkia') ].
+			spec requires: #(#Bloc #Beacon #SpartaSkia) ].
 	]
 ]

@@ -10,30 +10,30 @@ BaselineOfBlocPacExamples >> baseline: spec [
 	spec for: #'common' do: [
 		spec
 			baseline: 'BlocPac' with: [
-				spec repository: 'github://feenkcom/bloc-pac:v0.6.651/src' ].
+				spec repository: 'github://feenkcom/bloc-pac:v0.6.652/src' ].
 		spec
 			baseline: 'BlocExamples' with: [
-				spec repository: 'github://feenkcom/Bloc:v0.8.720/src' ].
+				spec repository: 'github://feenkcom/Bloc:v0.8.721/src' ].
 
 		spec package: 'BlocPac-CommonParent-Examples' with: [
-			spec requires: #('BlocPac') ].
+			spec requires: #(#BlocPac) ].
 		spec package: 'BlocPac-FocusFinder-Examples' with: [
-			spec requires: #('BlocPac') ].
+			spec requires: #(#BlocPac) ].
 		spec package: 'BlocPac-Geometry-Examples' with: [
-			spec requires: #('BlocPac') ].
+			spec requires: #(#BlocPac) ].
 		spec package: 'BlocPac-Imager-Examples' with: [
-			spec requires: #('BlocPac') ].
+			spec requires: #(#BlocPac) ].
 		spec package: 'BlocPac-Infinite-Examples' with: [
-			spec requires: #('BlocPac') ].
+			spec requires: #(#BlocPac) ].
 		spec package: 'BlocPac-Overlay-Examples' with: [
-			spec requires: #('BlocPac') ].
+			spec requires: #(#BlocPac) ].
 		spec package: 'BlocPac-PannableAndZoomable-Examples' with: [
-			spec requires: #('BlocPac') ].
+			spec requires: #(#BlocPac) ].
 		spec package: 'BlocPac-PullAndSlide-Examples' with: [
-			spec requires: #('BlocPac' 'BlocExamples') ].
+			spec requires: #(#BlocPac #BlocExamples) ].
 		spec package: 'BlocPac-Scrollable-Examples' with: [
-			spec requires: #('BlocPac') ].
+			spec requires: #(#BlocPac) ].
 		spec package: 'BlocPac-Demos' with: [
-			spec requires: #('BlocPac') ].
+			spec requires: #(#BlocPac) ].
 	]
 ]
