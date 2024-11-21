@@ -5,12 +5,12 @@ I represent a line element that is rendered between two provided position or att
 Class {
 	#name : #BlLineElement,
 	#superclass : #BlCurveElement,
-	#category : 'BlocPac-Geometry-Curves'
+	#category : #'BlocPac-Geometry-Curves'
 }
 
 { #category : #initialization }
 BlLineElement >> defaultGeometry [
-	^ BlLine new
+	^ BlLineGeometry new
 ]
 
 { #category : #'anchor - geometry' }

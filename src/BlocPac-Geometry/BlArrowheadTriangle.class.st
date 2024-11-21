@@ -17,7 +17,7 @@ Class {
 		'scale',
 		'borderFraction'
 	],
-	#category : 'BlocPac-Geometry-Arrowheads'
+	#category : #'BlocPac-Geometry-Arrowheads'
 }
 
 { #category : #accessing }
@@ -43,7 +43,7 @@ BlArrowheadTriangle >> borderFraction: aNumber [
 
 { #category : #initialization }
 BlArrowheadTriangle >> defaultGeometry [
-	^ BlPolygon vertices: {
+	^ BlPolygonGeometry vertices: {
 		0@0.
 		30@30.
 		0@60
@@ -67,7 +67,7 @@ BlArrowheadTriangle >> onWidthChanged: aNumber [
 	self size: aScaledWidth asPoint * 2.
 	self border: (self border copyWithWidth: (aNumber * self borderFraction) asFloat).
 
-	self geometry: (BlPolygon vertices: {
+	self geometry: (BlPolygonGeometry vertices: {
 		0@0.
 		(aScaledWidth * 2) @aScaledWidth.
 		0@(aScaledWidth * 2)

@@ -1,7 +1,7 @@
-Extension { #name : #BlLine }
+Extension { #name : #BlLineGeometry }
 
 { #category : #'*BlocPac-Geometry' }
-BlLine >> asElement [
+BlLineGeometry >> asElement [
 	<return: #BlElement>
 
 	^ BlLineElement new

@@ -76,7 +76,7 @@ BlArrowheadSimpleArrow >> createShapeForWidth: aNumber [
 
 { #category : #initialization }
 BlArrowheadSimpleArrow >> defaultGeometry [
-	^ BlPolygon vertices: {
+	^ BlPolygonGeometry vertices: {
 		0@0.
 		60@30.
 		0@60.

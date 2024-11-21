@@ -47,7 +47,7 @@ BlManhattanLineElement >> cornerRadius: aNumber [
 
 { #category : #initialization }
 BlManhattanLineElement >> defaultGeometry [
-	^BlManhattanLine new
+	^BlManhattanLineGeometry new
 ]
 
 { #category : #'as yet unclassified' }
