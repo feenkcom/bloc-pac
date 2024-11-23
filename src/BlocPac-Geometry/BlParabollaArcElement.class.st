@@ -8,7 +8,7 @@ Class {
 	#instVars : [
 		'curvatureAnchor'
 	],
-	#category : 'BlocPac-Geometry-Curves'
+	#category : #'BlocPac-Geometry-Curves'
 }
 
 { #category : #'anchor - geometry' }
@@ -78,7 +78,7 @@ BlParabollaArcElement >> decoratedAnchorPositions [
 
 { #category : #initialization }
 BlParabollaArcElement >> defaultGeometry [
-	^ BlBezierCurve new
+	^ BlBezierCurveGeometry new
 ]
 
 { #category : #initialization }

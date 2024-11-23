@@ -133,9 +133,12 @@ BlDragDelegate >> liftAt: aPoint [
 				c ignoreByLayout.
 				c horizontal fitContent.
 				c vertical fitContent ].
+				
 
 	canBeCopied ifTrue: [
 		self setupCopyKeyboardHandler: aContainer ].
+
+	aContainer addChildren: (self items collect: [ :aDragItem | aDragItem previewElement ]).
 
 	self items
 		do: [ :each | each sourceElement states addState: BlElementDraggingState uniqueInstance ].
@@ -177,8 +180,5 @@ BlDragDelegate >> setupCopyKeyboardHandler: aContainer [
 			do: [ :anEvent | 
 				(anEvent matches: aCopyCombination)
 					ifTrue: [ self items do: [ :each | each shouldCopy: false ].
-						aContainer space currentCursor: nil ] ].
-
-	aContainer
-		addChildren: (self items collect: [ :aDragItem | aDragItem previewElement ])
+						aContainer space currentCursor: nil ] ]
 ]

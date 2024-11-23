@@ -1,7 +1,7 @@
 Class {
 	#name : #BlSigmoidElement,
 	#superclass : #BlCurveElement,
-	#category : 'BlocPac-Geometry-Curves'
+	#category : #'BlocPac-Geometry-Curves'
 }
 
 { #category : #accessing }
@@ -36,7 +36,7 @@ BlSigmoidElement >> bendingPoint: aFloatNumber [
 BlSigmoidElement >> defaultGeometry [
 	<return: #BlElementVectorGeometry>
 
-	^ BlSigmoid new
+	^ BlSigmoidGeometry new
 ]
 
 { #category : #'anchor - geometry' }

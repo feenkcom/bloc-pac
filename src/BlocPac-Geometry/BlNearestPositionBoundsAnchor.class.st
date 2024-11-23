@@ -21,12 +21,12 @@ BlNearestPositionBoundsAnchor >> positionForAnchoredElement: aGeometryElement wi
 
 	br := self referenceElement bounds inParent: aCommonParent.
 	edges := {
-		(BlLine from: br topLeft to: br topRight).
-		(BlLine from: br topRight to: br bottomRight).
-		(BlLine from: br bottomRight to: br bottomLeft).
-		(BlLine from: br bottomLeft to: br topLeft)}.
+		(BlLineGeometry from: br topLeft to: br topRight).
+		(BlLineGeometry from: br topRight to: br bottomRight).
+		(BlLineGeometry from: br bottomRight to: br bottomLeft).
+		(BlLineGeometry from: br bottomLeft to: br topLeft)}.
 	
-	path := BlLine
+	path := BlLineGeometry
 		from: br center
 		to: (self nearestToElement bounds inParent: aCommonParent) center.
 	^ edges

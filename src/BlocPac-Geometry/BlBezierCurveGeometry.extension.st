@@ -1,7 +1,7 @@
-Extension { #name : #BlBezierCurve }
+Extension { #name : #BlBezierCurveGeometry }
 
 { #category : #'*BlocPac-Geometry' }
-BlBezierCurve >> asElement [
+BlBezierCurveGeometry >> asElement [
 	<return: #BlElement>
 
 	self

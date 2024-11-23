@@ -1,6 +1,6 @@
 Trait {
 	#name : #TBlShaperFigure,
-	#category : 'BlocPac-Geometry-Shaper'
+	#category : #'BlocPac-Geometry-Shaper'
 }
 
 { #category : #'api - shape' }
@@ -48,7 +48,7 @@ TBlShaperFigure >> gtLiveFor: aView [
 				constraintsDo: [ :c |
 					c horizontal matchParent.
 					c vertical matchParent ];
-				geometry: (BlPolygon vertices: (self vertices collect: #point));
+				geometry: (BlPolygonGeometry vertices: (self vertices collect: #point));
 				border: (BlBorder paint: Color gray width: 2) ]
 ]
 

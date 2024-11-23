@@ -6,7 +6,7 @@ Class {
 		'arrowNoseAngle',
 		'arrowShape'
 	],
-	#category : 'BlocPac-Geometry-Arrowheads'
+	#category : #'BlocPac-Geometry-Arrowheads'
 }
 
 { #category : #accessing }
@@ -69,7 +69,7 @@ BlArrowheadStealth >> createShapeForWidth: aNumber [
 
 { #category : #initialization }
 BlArrowheadStealth >> defaultGeometry [
-	^ BlPolygon vertices: {
+	^ BlPolygonGeometry vertices: {
 		0@0.
 		60@30.
 		0@60.

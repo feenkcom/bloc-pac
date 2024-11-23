@@ -10,7 +10,7 @@ Class {
 	#instVars : [
 		'viaAnchors'
 	],
-	#category : 'BlocPac-Geometry-Curves'
+	#category : #'BlocPac-Geometry-Curves'
 }
 
 { #category : #'anchor - geometry' }
@@ -37,7 +37,7 @@ BlBezierElement >> decoratedAnchorPositions [
 
 { #category : #initialization }
 BlBezierElement >> defaultGeometry [
-	^ BlBezierCurve new
+	^ BlBezierCurveGeometry new
 ]
 
 { #category : #'instance creation' }

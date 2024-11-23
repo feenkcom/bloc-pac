@@ -39,12 +39,12 @@ BlPolygonElement >> anchors: aCollectionOfAnchors [
 
 { #category : #initialization }
 BlPolygonElement >> bePolygon [
-	visuals geometry: BlPolygon new
+	visuals geometry: BlPolygonGeometry new
 ]
 
 { #category : #initialization }
 BlPolygonElement >> bePolyline [
-	visuals geometry: BlPolyline new
+	visuals geometry: BlPolylineGeometry new
 ]
 
 { #category : #initialization }
@@ -52,7 +52,7 @@ BlPolygonElement >> initialize [
 	super initialize.
 	
 	visuals := BlCustomVisuals new
-		geometry: BlPolygon new.
+		geometry: BlPolygonGeometry new.
 	
 	anchors := { 
 		BlAbsolutePositionAnchor position: 50@0.
