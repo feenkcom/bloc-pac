@@ -39,41 +39,47 @@ BlInfiniteMouseScrollListener >> canScrollUp: anInfiniteElement [
 { #category : #'mouse handlers' }
 BlInfiniteMouseScrollListener >> doScrollDown: anEvent [
 	| aVectorLength anInfiniteElement |
+
 	aVectorLength := anEvent vector y abs.
 
 	anInfiniteElement := anEvent currentTarget.
-	anInfiniteElement isNestedScrollingEnabled
-		ifTrue: [ anInfiniteElement
-				allParentsDetect: [ :each | each isKindOf: BlInfiniteElement ]
-				ifFound: [ :aParentInfiniteElement | 
-					aParentInfiniteElement canScrollVertically
-						ifTrue: [ anInfiniteElement
-								allParentsDetect: [ :each | each parent == aParentInfiniteElement ]
-								ifFound: [ :aChildOfInfiniteElement | 
-									| theBoundsInParent availableSpaceBelow |
-									theBoundsInParent := aChildOfInfiniteElement bounds inParent.
-									availableSpaceBelow := aParentInfiniteElement bounds bottom - theBoundsInParent bottom.
+	anInfiniteElement isNestedScrollingEnabled ifTrue: [
+		anInfiniteElement
+			allParentsDetect: [ :each | each isKindOf: BlInfiniteElement ]
+			ifFound: [ :aParentInfiniteElement | 
+				aParentInfiniteElement canScrollVertically
+					ifTrue: [
+						anInfiniteElement
+							allParentsDetect: [ :each | each parent == aParentInfiniteElement]
+							ifFound: [ :aChildOfInfiniteElement |
+								| theBoundsInParent availableSpaceAbove |
 
-									availableSpaceBelow < 0
-										ifTrue: [ | howMuchWeScroll howMuchTheyScroll |
-		"if there is enough space above to accomodate the whole event, then be it"
-											aVectorLength <= availableSpaceBelow ifTrue: [ ^ 0 ].
+								theBoundsInParent := aChildOfInfiniteElement bounds inParent.
+								availableSpaceAbove := theBoundsInParent top - aChildOfInfiniteElement margin top.
 
-											howMuchTheyScroll := availableSpaceBelow.	
-		"there is not enough space above for the whole event. we have to scroll a bit"
-											howMuchWeScroll := aVectorLength - howMuchTheyScroll.
+								availableSpaceAbove > 0
+									ifTrue: [
+									| howMuchWeScroll howMuchTheyScroll |
+					
+									"if there is enough space above to accomodate the whole event, then be it"
+									aVectorLength <= availableSpaceAbove
+										ifTrue: [ ^ 0 ].
+			
+									howMuchTheyScroll := availableSpaceAbove.
+	
+									"there is not enough space above for the whole event. we have to scroll a bit"
+									howMuchWeScroll := aVectorLength - howMuchTheyScroll.
+		
+									anEvent vector: (BlVector x: anEvent vector x y: (anEvent vector y sign * howMuchTheyScroll)).
+	
+									"wants to scroll by a greater distance then we have".
+									^ howMuchWeScroll ] ]
+							ifNone: [ ] ] ]
+			ifNone: [  ] ].
 
-											anEvent
-												vector: (BlVector x: anEvent vector x y: anEvent vector y sign * howMuchTheyScroll).	
-												
-			"wants to scroll by a greater distance then we have"
-											^ howMuchWeScroll ] ]
-								ifNone: [  ] ] ]
-				ifNone: [  ] ].	
-				
 	"consume in default case"
 	anEvent consumed: aVectorLength isZero not.
-
+	
 	^ aVectorLength
 ]
 
