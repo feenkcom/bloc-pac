@@ -66,7 +66,7 @@ BlHorizontalScrollbarElement >> scrollTo: aPoint [
 
 { #category : #'private - scrolling' }
 BlHorizontalScrollbarElement >> updateScrollPosition [
-	| horizontalContentLength horizontalScrollOffset horizontalScrollExtent realThumbWeight thumbLeft |
+	| horizontalContentLength horizontalScrollOffset horizontalScrollExtent realThumbWeight thumbLeft x |
 	
 	horizontalContentLength := scrollable computeHorizontalScrollRange.
 	
@@ -84,9 +84,11 @@ BlHorizontalScrollbarElement >> updateScrollPosition [
 	realThumbWeight := (horizontalScrollExtent / horizontalContentLength) asFloat.
 	thumbLeft := (horizontalScrollOffset / horizontalContentLength) asFloat.
 	
+	x := self width * thumbLeft.
 	thumb constraintsDo: [ :c | 
 		c horizontal matchParent.
 		c frame horizontal
 			alignLeftAt: thumbLeft;
-			weight: realThumbWeight ]
+			weight: realThumbWeight ].
+	thumb relocate: x@0.
 ]
