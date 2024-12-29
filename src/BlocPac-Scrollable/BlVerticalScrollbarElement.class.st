@@ -6,7 +6,7 @@ Class {
 
 { #category : #initialization }
 BlVerticalScrollbarElement >> defaultPullHandler [
-	^ BlPullHandler new disallowOutOfBounds beVertical
+	^ BlPullHandler new beVertical
 ]
 
 { #category : #initialization }
