@@ -42,7 +42,7 @@ BlInfiniteMouseScrollListener >> doScrollDown: anEvent [
 	aVectorLength := anEvent vector y abs.
 
 	anInfiniteElement := anEvent currentTarget.
-	anInfiniteElement isNestedScrollingEnabled ifFalse: [ ^ 0 ].
+	anInfiniteElement isNestedScrollingEnabled ifFalse: [ ^ aVectorLength ].
 	self
 		withInfiniteParentAndChildOf: anInfiniteElement
 		do: [ :aParentInfiniteElement :aChildOfInfiniteElement | 
@@ -68,7 +68,7 @@ BlInfiniteMouseScrollListener >> doScrollUp: anEvent [
 	aVectorLength := anEvent vector y abs.
 
 	anInfiniteElement := anEvent currentTarget.
-	anInfiniteElement isNestedScrollingEnabled ifFalse: [ ^ 0 ].
+	anInfiniteElement isNestedScrollingEnabled ifFalse: [ ^ aVectorLength negated ].
 	self
 		withInfiniteParentAndChildOf: anInfiniteElement
 		do: [ :aParentInfiniteElement :aChildOfInfiniteElement | 
