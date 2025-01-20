@@ -1603,7 +1603,7 @@ BlInfiniteLinearLayout >> updateLayoutStateEnd [
 		ifTrue: [ BlInfiniteLinearLayoutItemDirection head ]
 		ifFalse: [ BlInfiniteLinearLayoutItemDirection tail ]).
 	
-	layoutState currentPosition: (self childPositionOf: anElement) + layoutState itemDirection multiplier.
+	layoutState currentPosition: (self childPositionOf: anElement)" + layoutState itemDirection multiplier".
 	layoutState offset: (self orientation decoratedEnd: anElement).
 	
 	^ (self orientation decoratedEnd: anElement) - self orientation endWithPadding
