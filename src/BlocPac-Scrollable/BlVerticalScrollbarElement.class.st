@@ -84,12 +84,11 @@ BlVerticalScrollbarElement >> updateScrollPosition [
 			min: 1.0 - realThumbWeight.
 
 	y := self height * thumbTop.
-	thumb
-		constraintsDo: [ :c | 
-			c vertical matchParent.
-			c frame vertical
-				alignTopAt: thumbTop;
-				weight: realThumbWeight ].
+	"Avoid relayout to fix small scrolls when using fitContentLimited. [[feenkcom/gtoolkit#4267]]"
+	thumb constraints vertical matchParent.
+	thumb constraints frame vertical
+		alignTopAt: thumbTop;
+		weight: realThumbWeight.	
 	"relocate ensures that internal coordinates are consistent"
-	thumb relocate: 0@y.
+	thumb relocate: 0 @ y
 ]
