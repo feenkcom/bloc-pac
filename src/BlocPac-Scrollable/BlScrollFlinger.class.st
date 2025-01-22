@@ -274,43 +274,7 @@ BlScrollFlinger >> run [
 
 { #category : #running }
 BlScrollFlinger >> run: aWaker [
-	| aScroller aSmoothScroller |
-		
-	self disableRunOnAnimationRequests.
-	
-	self onPrepareToRun.
-
-	"keep a local reference so that if it is changed during onScrollBy: method,
-	it won't cause unexpected behaviors"
-	aScroller := scroller.
-	aSmoothScroller := self scrollable smoothScroller.
-
-	aScroller run
-		ifTrue: [ 
-			| aState |
-			aState := self runInitOn: aScroller.
-			self onInitialized.
-
-			self runLayoutScrollWith: aState.
-			self onLayoutScrolled.
-			
-			self runSmoothOn: aSmoothScroller with: aState.
-
-			self runOverscrollOn: aScroller with: aState.
-			
-			aState didScroll
-				ifTrue: [ scrollable dispatchOnScrolled: aState hResult @ aState vResult ].
-				
-			self runFinalizeOn: aScroller with: aState ].
-	
-	aSmoothScroller ifNotNil: [ 
-		aSmoothScroller isPendingInitialRun
-			ifTrue: [ aSmoothScroller onScrollBy: 0@0 ].
-		"stop if it does not trigger any scroll"
-		shouldRequeueTask
-			ifFalse: [ aSmoothScroller stop ] ].
-		
-	self enableRunOnAnimationRequests
+	self run
 ]
 
 { #category : #private }

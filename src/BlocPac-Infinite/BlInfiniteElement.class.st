@@ -1685,22 +1685,6 @@ BlInfiniteElement >> repositionShadowingElements [
 	"self shouldBeImplemented"
 ]
 
-{ #category : #layout }
-BlInfiniteElement >> requestLayout: anElement [
-	
-	"Layout may be requested by one of my children.
-	If it is the case we should let layout request to pass further"
-	self flag: 'Find a way to avoid unnecessary requests'.
-	"anElement == self
-		ifFalse: [ ^ super requestLayout: anElement ]."
-	
-	^ super requestLayout: anElement.
-
-	"(eatRequestLayoutCounter isZero and: [ layoutFrozen not ])
-		ifTrue: [ super requestLayout: anElement ]
-		ifFalse: [ self markLayoutRequestEaten ]"
-]
-
 { #category : #'private - focus' }
 BlInfiniteElement >> resetFocusInfo [
 	"Reset all stored focus information from my state"
