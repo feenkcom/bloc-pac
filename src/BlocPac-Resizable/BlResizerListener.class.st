@@ -26,14 +26,15 @@ BlResizerListener >> dispatchEventComputedUsing: anEventComputation toCurrentTar
 
 { #category : #'dnd handlers' }
 BlResizerListener >> dragDelta: anEvent [
+	"The old computation fails when resizing elements within a BlCanvassableElement.
+	OLD:
+		dragPosition := anEvent position.
+		dragDelta := dragPosition - dragStartPosition."
+
 	| dragPosition startPosition |
 	dragPosition := anEvent currentTarget globalPointToParent: anEvent position.
 	startPosition := anEvent currentTarget globalPointToParent: dragStartPosition.
 	^ dragPosition - startPosition
-	
-	"OLD: 	
-	dragPosition := anEvent position.
-	dragDelta := dragPosition - dragStartPosition."
 ]
 
 { #category : #'dnd handlers' }
