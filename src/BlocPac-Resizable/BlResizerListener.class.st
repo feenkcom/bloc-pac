@@ -25,15 +25,27 @@ BlResizerListener >> dispatchEventComputedUsing: anEventComputation toCurrentTar
 ]
 
 { #category : #'dnd handlers' }
+BlResizerListener >> dragDelta: anEvent [
+	"The old computation fails when resizing elements within a BlCanvassableElement.
+	OLD:
+		dragPosition := anEvent position.
+		dragDelta := dragPosition - dragStartPosition."
+
+	| dragPosition startPosition |
+	dragPosition := anEvent currentTarget globalPointToParent: anEvent position.
+	startPosition := anEvent currentTarget globalPointToParent: dragStartPosition.
+	^ dragPosition - startPosition
+]
+
+{ #category : #'dnd handlers' }
 BlResizerListener >> dragEndEvent: anEvent [
-	| dragPosition dragDelta theBounds |
+	| dragDelta theBounds |
 	anEvent consumed: true.
 	
 	self hasTarget
 		ifFalse: [ ^ self ].
 		
-	dragPosition := anEvent position.
-	dragDelta := dragPosition - dragStartPosition.
+	dragDelta := self dragDelta: anEvent.
 
 	theBounds := BlBounds origin: originalPosition extent: originalExtent.
 
@@ -51,15 +63,14 @@ BlResizerListener >> dragEndEvent: anEvent [
 { #category : #'dnd handlers' }
 BlResizerListener >> dragEvent: anEvent [
 	<event: #BlResizerResizedEvent>
-	| dragPosition dragDelta theBounds theOriginalBounds widthChanged heightChanged |
+	| dragDelta theBounds theOriginalBounds widthChanged heightChanged |
 
 	anEvent consumed: true.
 	
 	self hasTarget
 		ifFalse: [ ^ self ].
 
-	dragPosition := anEvent position.
-	dragDelta := dragPosition - dragStartPosition.
+	dragDelta := self dragDelta: anEvent.
 
 	theBounds := BlBounds origin: originalPosition extent: originalExtent.
 	theOriginalBounds := theBounds copy.
