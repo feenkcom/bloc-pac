@@ -29,6 +29,21 @@ BlCanvassableElement >> asScalableElement [
 ]
 
 { #category : #accessing }
+BlCanvassableElement >> autoScaleEnabled [
+	^ autoScaleEnabled
+]
+
+{ #category : #accessing }
+BlCanvassableElement >> automaticScaleFactor [
+	^ automaticScaleFactor
+]
+
+{ #category : #accessing }
+BlCanvassableElement >> automaticTranslationFactor [
+	^ automaticTranslationFactor
+]
+
+{ #category : #accessing }
 BlCanvassableElement >> childrenScaleFactor [
 	^ childrenScaleFactor
 ]
