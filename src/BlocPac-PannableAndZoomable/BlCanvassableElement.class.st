@@ -28,6 +28,38 @@ BlCanvassableElement >> asScalableElement [
 	^ self
 ]
 
+{ #category : #layout }
+BlCanvassableElement >> autoScale [
+	| aMyExtent aChildrenBoundingBox aNewScaleFactor aChildrenExtent |
+	aMyExtent := self extent.
+
+	(aMyExtent closeTo: automaticScaleFactor key) ifTrue: [ ^ self ].
+
+	aChildrenBoundingBox := self children accountedByLayout
+			ifEmpty: [ 0 @ 0 extent: 0 @ 0 ]
+			ifNotEmpty: [ :theChildren | 
+				| theBounds |
+				theBounds := theChildren first bounds bounds.
+				theChildren do: [ :eachChild | theBounds merge: eachChild bounds bounds ].
+				theBounds asRectangle ].
+
+	aChildrenBoundingBox := self padding expand: aChildrenBoundingBox.
+
+	aChildrenExtent := aChildrenBoundingBox extent.
+	((aChildrenExtent x closeTo: 0) or: [ aChildrenExtent y closeTo: 0 ])
+		ifTrue: [ ^ self ].
+
+	aNewScaleFactor := (aMyExtent / aChildrenExtent) min.
+	automaticScaleFactor := aMyExtent -> aNewScaleFactor.
+	automaticTranslationFactor := aMyExtent / 2.0 - aChildrenBoundingBox center.
+
+	self
+		childrenTransformDo: [ :t | 
+			t
+				translateBy: automaticTranslationFactor;
+				scaleBy: childrenScaleFactor * automaticScaleFactor value ]
+]
+
 { #category : #accessing }
 BlCanvassableElement >> autoScaleEnabled [
 	^ autoScaleEnabled
@@ -106,6 +138,12 @@ BlCanvassableElement >> gtLiveFor: aView [
 				label: 'Zoom Out' asRopedText;
 				action: [ self zoomOut ] ];
 		actionStencil: [ 
+			BrButton new 
+				aptitude: BrGlamorousButtonWithIconAptitude;
+				icon: BrGlamorousIcons zoomtofit asElement;
+				label: 'Zoom to fit' asRopedText;
+				action: [ self zoomToFit ] ];
+		actionStencil: [ 
 			BrButton new
 				aptitude: BrGlamorousButtonWithIconAptitude;
 				icon: BrGlamorousIcons actualsize asElement;
@@ -130,36 +168,8 @@ BlCanvassableElement >> initialize [
 
 { #category : #layout }
 BlCanvassableElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
-	| aMyExtent aChildrenBoundingBox aChildrenExtent aNewScaleFactor |
 	super onLayout: aBounds context: aBlElementBoundsUpdateContext.
-
-	aMyExtent := self extent.
-
-	(aMyExtent closeTo: automaticScaleFactor key)
-		ifTrue: [ ^ self ].
-	
-	aChildrenBoundingBox := self children accountedByLayout
-		ifEmpty: [ 0@0 extent: 0@0 ]
-		ifNotEmpty: [ :theChildren |
-			| theBounds |
-			theBounds := theChildren first bounds bounds.
-			theChildren do: [ :eachChild | theBounds merge: eachChild bounds bounds ].
-			theBounds asRectangle ].
-	
-	aChildrenBoundingBox := self padding expand: aChildrenBoundingBox.
-	
-	aChildrenExtent := aChildrenBoundingBox extent.
-	((aChildrenExtent x closeTo: 0) or: [ (aChildrenExtent y closeTo: 0) ])
-		ifTrue: [ ^ self ].
-
-	aNewScaleFactor := (aMyExtent / aChildrenExtent) min.
-	automaticScaleFactor := aMyExtent -> aNewScaleFactor.
-	automaticTranslationFactor := (aMyExtent / 2.0) - aChildrenBoundingBox center.
-	
-	self childrenTransformDo: [ :t |
-		t
-			translateBy: automaticTranslationFactor;
-			scaleBy: childrenScaleFactor * automaticScaleFactor value ].
+	self autoScaleEnabled ifTrue: [ self autoScale ]
 ]
 
 { #category : #transformations }

@@ -5,6 +5,23 @@ Class {
 }
 
 { #category : #examples }
+BlCanvassableElementExamples >> autoscaledCanvassableWithTwoNodes [
+	<gtExample>
+	| aCanvassableElement |
+	aCanvassableElement := self canvassableWithTwoNodes.
+	aCanvassableElement enableAutoScale.
+	
+	self assert: aCanvassableElement children size equals: 2.
+	self assert: aCanvassableElement autoScaleEnabled.
+	self assert: aCanvassableElement childrenScaleFactor equals: 1.
+	self assert: aCanvassableElement childrenTranslationFactor equals: 0 @ 0.
+	self assert: aCanvassableElement automaticScaleFactor equals: 0 @ 0 -> 1.
+	self assert: aCanvassableElement automaticTranslationFactor equals: 0 @ 0.
+
+	^ aCanvassableElement
+]
+
+{ #category : #examples }
 BlCanvassableElementExamples >> canvassableWithOneNode [
 	<gtExample>
 	| aCanvassableElement |
@@ -72,6 +89,8 @@ BlCanvassableElementExamples >> roundedNode [
 			border: (BlBorder paint: Color black width: 2);
 			aptitude: (BrStyleCommonAptitude new
 					default: [ :aStyle | aStyle border: (BlBorder paint: Color black width: 1) ];
-					hovered: [ :aStyle | aStyle border: (BlBorder paint: Color red width: 1) ]).
+					hovered: [ :aStyle | aStyle border: (BlBorder paint: Color red width: 1) ]);
+			addEventHandler: BlPullHandler new;
+			yourself.
 	^ node
 ]
