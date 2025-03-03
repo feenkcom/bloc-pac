@@ -8,7 +8,9 @@ Class {
 		'childrenScaleFactor',
 		'childrenTranslationFactor',
 		'automaticScaleFactor',
-		'automaticTranslationFactor'
+		'automaticTranslationFactor',
+		'scaleOnce',
+		'centerOnce'
 	],
 	#category : #'BlocPac-PannableAndZoomable-Core'
 }
@@ -41,6 +43,25 @@ BlCanvassableElement >> automaticScaleFactor [
 { #category : #accessing }
 BlCanvassableElement >> automaticTranslationFactor [
 	^ automaticTranslationFactor
+]
+
+{ #category : #accessing }
+BlCanvassableElement >> centerOnce [
+	^ centerOnce
+]
+
+{ #category : #accessing }
+BlCanvassableElement >> childrenBoundingbox [
+	| aChildrenBoundingBox |
+	aChildrenBoundingBox := self children accountedByLayout
+			ifEmpty: [ 0 @ 0 extent: 0 @ 0 ]
+			ifNotEmpty: [ :theChildren | 
+				| theBounds |
+				theBounds := theChildren first bounds bounds.
+				theChildren do: [ :eachChild | theBounds merge: eachChild bounds bounds ].
+				theBounds asRectangle ].
+	aChildrenBoundingBox := self padding expand: aChildrenBoundingBox.
+	^ aChildrenBoundingBox
 ]
 
 { #category : #accessing }
@@ -89,6 +110,18 @@ BlCanvassableElement >> enableAutoScale [
 	self requestLayout
 ]
 
+{ #category : #'api - zooming' }
+BlCanvassableElement >> enableCenterOnce [
+	centerOnce := true.
+	self requestLayout
+]
+
+{ #category : #'api - zooming' }
+BlCanvassableElement >> enableScaleOnce [
+	scaleOnce := true.
+	self requestLayout
+]
+
 { #category : #'gt-extension' }
 BlCanvassableElement >> gtLiveFor: aView [
 	<gtView>
@@ -106,10 +139,16 @@ BlCanvassableElement >> gtLiveFor: aView [
 				label: 'Zoom Out' asRopedText;
 				action: [ self zoomOut ] ];
 		actionStencil: [ 
+			BrButton new 
+				aptitude: BrGlamorousButtonWithIconAptitude;
+				icon: BrGlamorousIcons zoomtofit asElement;
+				label: 'Zoom to fit' asRopedText;
+				action: [ self zoomToFit ] ];
+		actionStencil: [ 
 			BrButton new
 				aptitude: BrGlamorousButtonWithIconAptitude;
 				icon: BrGlamorousIcons actualsize asElement;
-				label: 'Resize' asRopedText;
+				label: 'Zoom to actual size' asRopedText;
 				action: [ self zoomToActualSize ] ]
 ]
 
@@ -123,6 +162,8 @@ BlCanvassableElement >> initialize [
 	automaticScaleFactor := (0@0) -> 1.
 	automaticTranslationFactor := 0@0.
 	autoScaleEnabled := false.
+	scaleOnce := false.
+	centerOnce := false.
 	
 	self addEventHandler: BlCanvassableElementSlideHandler new.
 	self beInSeparateCompositionLayer
@@ -130,36 +171,61 @@ BlCanvassableElement >> initialize [
 
 { #category : #layout }
 BlCanvassableElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
-	| aMyExtent aChildrenBoundingBox aChildrenExtent aNewScaleFactor |
 	super onLayout: aBounds context: aBlElementBoundsUpdateContext.
+	self autoScaleEnabled ifTrue: [ self scaleToFit ].
+	self scaleOnce
+		ifTrue: [ scaleOnce := false.
+			self scaleToFit ].
+	self centerOnce
+		ifTrue: [ centerOnce := false.
+			self translateToCenter ]
+]
 
+{ #category : #accessing }
+BlCanvassableElement >> scaleOnce [
+	^ scaleOnce
+]
+
+{ #category : #layout }
+BlCanvassableElement >> scaleToFit [
+	| aMyExtent aChildrenBoundingBox aNewScaleFactor aChildrenExtent |
 	aMyExtent := self extent.
 
-	(aMyExtent closeTo: automaticScaleFactor key)
-		ifTrue: [ ^ self ].
-	
-	aChildrenBoundingBox := self children accountedByLayout
-		ifEmpty: [ 0@0 extent: 0@0 ]
-		ifNotEmpty: [ :theChildren |
-			| theBounds |
-			theBounds := theChildren first bounds bounds.
-			theChildren do: [ :eachChild | theBounds merge: eachChild bounds bounds ].
-			theBounds asRectangle ].
-	
-	aChildrenBoundingBox := self padding expand: aChildrenBoundingBox.
-	
-	aChildrenExtent := aChildrenBoundingBox extent.
-	((aChildrenExtent x closeTo: 0) or: [ (aChildrenExtent y closeTo: 0) ])
+	(aMyExtent closeTo: automaticScaleFactor key) ifTrue: [ ^ self ].
+
+	aChildrenBoundingBox := self childrenBoundingbox.
+	aChildrenExtent := self childrenBoundingbox extent.
+	((aChildrenExtent x closeTo: 0) or: [ aChildrenExtent y closeTo: 0 ])
 		ifTrue: [ ^ self ].
 
 	aNewScaleFactor := (aMyExtent / aChildrenExtent) min.
 	automaticScaleFactor := aMyExtent -> aNewScaleFactor.
-	automaticTranslationFactor := (aMyExtent / 2.0) - aChildrenBoundingBox center.
-	
-	self childrenTransformDo: [ :t |
-		t
-			translateBy: automaticTranslationFactor;
-			scaleBy: childrenScaleFactor * automaticScaleFactor value ].
+	automaticTranslationFactor := aMyExtent / 2.0 - aChildrenBoundingBox center.
+
+	self
+		childrenTransformDo: [ :t | 
+			t
+				translateBy: automaticTranslationFactor;
+				scaleBy: childrenScaleFactor * automaticScaleFactor value ]
+]
+
+{ #category : #layout }
+BlCanvassableElement >> translateToCenter [
+	"Experimental. Should be refactored from scaleToFit"
+
+	| aMyExtent aChildrenBoundingBox aChildrenExtent |
+	aMyExtent := self extent.
+
+	(aMyExtent closeTo: automaticScaleFactor key) ifTrue: [ ^ self ].
+
+	aChildrenBoundingBox := self childrenBoundingbox.
+	aChildrenExtent := aChildrenBoundingBox extent.
+	((aChildrenExtent x closeTo: 0) or: [ aChildrenExtent y closeTo: 0 ])
+		ifTrue: [ ^ self ].
+
+	automaticTranslationFactor := aMyExtent / 2.0 - aChildrenBoundingBox center.
+
+	self childrenTransformDo: [ :t | t translateBy: automaticTranslationFactor ]
 ]
 
 { #category : #transformations }
@@ -191,6 +257,12 @@ BlCanvassableElement >> zoomLevel: aNumber [
 ]
 
 { #category : #'api - zooming' }
+BlCanvassableElement >> zoomToActualSize [
+	self zoomLevel: 1.
+	self enableCenterOnce
+]
+
+{ #category : #'api - zooming' }
 BlCanvassableElement >> zoomToFit [
-	
+	self enableScaleOnce
 ]
