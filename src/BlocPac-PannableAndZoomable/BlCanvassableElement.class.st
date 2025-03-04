@@ -172,13 +172,13 @@ BlCanvassableElement >> initialize [
 { #category : #layout }
 BlCanvassableElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
 	super onLayout: aBounds context: aBlElementBoundsUpdateContext.
-	self autoScaleEnabled ifTrue: [ self scaleToFit ].
+	self autoScaleEnabled ifTrue: [ ^ self scaleToFit ].
 	self scaleOnce
 		ifTrue: [ scaleOnce := false.
-			self scaleToFit ].
+			^ self scaleToFit ].
 	self centerOnce
 		ifTrue: [ centerOnce := false.
-			self translateToCenter ]
+			^ self translateToCenter ]
 ]
 
 { #category : #accessing }

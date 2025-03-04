@@ -78,6 +78,73 @@ BlCanvassableElementExamples >> emptyCanvassableElement [
 	^ aCanvassableElement
 ]
 
+{ #category : #'as yet unclassified' }
+BlCanvassableElementExamples >> graphEditorDemo [
+	"An attempt to port BlPannableElementExamples>>#pannablePinchableGraphEditorDemo.
+	Not yet working."
+
+	<gtExample>
+	| padding margin graphCanvas |
+	padding := 2.
+	margin := padding.
+
+	graphCanvas := BlCanvassableElement new
+			constraintsDo: [ :c | 
+				c vertical matchParent.
+				c horizontal matchParent ];
+			padding: (BlInsets all: padding);
+			margin: (BlInsets all: margin);
+			background: Color white;
+			border: (BlBorder paint: Color red);
+			when: BlDoubleClickEvent
+				do: [ :evt | 
+					| newNode |
+					newNode := self pullableNodeStencil asElement.
+					graphCanvas addChild: newNode.
+					newNode relocate: (graphCanvas globalPointToLocal: evt position) ];
+			aptitude: (BrGlamorousWithContextMenuAptitude
+					content: [ BrGlamorousSimpleContextMenuContent new
+							items: {'Inspect graph' -> [ graphCanvas inspect ]};
+							yourself ]);
+			yourself.
+	^ graphCanvas
+]
+
+{ #category : #'as yet unclassified' }
+BlCanvassableElementExamples >> pullableNodeStencil [
+	"Node for graphEditorDemo"
+	<gtExample>
+	^ [ | node |
+	node := BlElement new.
+	node
+		layout: BlFrameLayout new;
+		geometry: (BlRoundedRectangleGeometry cornerRadius: 4);
+		background: Color white;
+		constraintsDo: [ :c | 
+			c horizontal fitContent.
+			c vertical fitContent ];
+		padding: (BlInsets all: 10).
+	node graph beNode.
+	node
+		aptitude: (BrStyleCommonAptitude new
+				default: [ :aStyle | aStyle border: (BlBorder paint: Color black width: 1) ];
+				hovered: [ :aStyle | aStyle border: (BlBorder paint: Color red width: 1) ])
+				+ ((BrGlamorousWithContextMenuAptitude
+						content: [ BrGlamorousSimpleContextMenuContent new
+								items: {'Inspect node' -> [ node inspect ]};
+								yourself ])
+						useSecondaryMouseButton;
+						yourself).
+	node addEventHandler: BlPullHandler new.
+	node
+		addEventHandler: (BlEventHandler
+				on: BlDoubleClickEvent
+				do: [ :evt | 
+					evt consumed: true.
+					node phlow spawnObject: node ]).
+	node ] asStencil
+]
+
 { #category : #examples }
 BlCanvassableElementExamples >> roundedNode [
 	<gtExample>
