@@ -15,8 +15,7 @@ BlCanvassableElementExamples >> autoscaledCanvassableWithTwoNodes [
 	self assert: aCanvassableElement autoScaleEnabled.
 	self assert: aCanvassableElement childrenScaleFactor equals: 1.
 	self assert: aCanvassableElement childrenTranslationFactor equals: 0 @ 0.
-	self assert: aCanvassableElement automaticScaleFactor equals: 0 @ 0 -> 1.
-	self assert: aCanvassableElement automaticTranslationFactor equals: 0 @ 0.
+	self assert: aCanvassableElement childrenScaleFactor equals: 1.
 
 	^ aCanvassableElement
 ]
@@ -33,8 +32,7 @@ BlCanvassableElementExamples >> canvassableWithOneNode [
 	self assert: aCanvassableElement autoScaleEnabled not.
 	self assert: aCanvassableElement childrenScaleFactor equals: 1.
 	self assert: aCanvassableElement childrenTranslationFactor equals: 0 @ 0.
-	self assert: aCanvassableElement automaticScaleFactor equals: 0 @ 0 -> 1.
-	self assert: aCanvassableElement automaticTranslationFactor equals: 0 @ 0.
+	self assert: aCanvassableElement childrenScaleFactor equals: 1.
 
 	^ aCanvassableElement
 ]
@@ -46,13 +44,13 @@ BlCanvassableElementExamples >> canvassableWithTwoNodes [
 	aCanvassableElement := self canvassableWithOneNode.
 	aCanvassableElement addChild: self roundedNode.
 	aCanvassableElement children second relocate: 200@ 200.
+	aCanvassableElement children second background: Color red.
 
 	self assert: aCanvassableElement children size equals: 2.
 	self assert: aCanvassableElement autoScaleEnabled not.
 	self assert: aCanvassableElement childrenScaleFactor equals: 1.
 	self assert: aCanvassableElement childrenTranslationFactor equals: 0 @ 0.
-	self assert: aCanvassableElement automaticScaleFactor equals: 0 @ 0 -> 1.
-	self assert: aCanvassableElement automaticTranslationFactor equals: 0 @ 0.
+	self assert: aCanvassableElement childrenScaleFactor equals: 1.
 
 	^ aCanvassableElement
 ]
@@ -71,8 +69,7 @@ BlCanvassableElementExamples >> emptyCanvassableElement [
 	self assert: aCanvassableElement autoScaleEnabled not.
 	self assert: aCanvassableElement childrenScaleFactor equals: 1.
 	self assert: aCanvassableElement childrenTranslationFactor equals: 0 @ 0.
-	self assert: aCanvassableElement automaticScaleFactor equals: 0 @ 0 -> 1.
-	self assert: aCanvassableElement automaticTranslationFactor equals: 0 @ 0.
+	self assert: aCanvassableElement childrenScaleFactor equals: 1.
 
 
 	^ aCanvassableElement
@@ -100,8 +97,8 @@ BlCanvassableElementExamples >> graphEditorDemo [
 				do: [ :evt | 
 					| newNode |
 					newNode := self pullableNodeStencil asElement.
-					graphCanvas addChild: newNode.
-					newNode relocate: (graphCanvas globalPointToLocal: evt position) ];
+					newNode relocate: evt localPosition.
+					graphCanvas addChild: newNode. ];
 			aptitude: (BrGlamorousWithContextMenuAptitude
 					content: [ BrGlamorousSimpleContextMenuContent new
 							items: {'Inspect graph' -> [ graphCanvas inspect ]};

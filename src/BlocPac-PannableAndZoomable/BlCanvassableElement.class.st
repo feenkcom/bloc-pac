@@ -5,12 +5,9 @@ Class {
 	#classTraits : 'TBlZoomable classTrait + TBlWithChildrenTransformation classTrait',
 	#instVars : [
 		'autoScaleEnabled',
+		'childrenTransformationOrigin',
 		'childrenScaleFactor',
-		'childrenTranslationFactor',
-		'automaticScaleFactor',
-		'automaticTranslationFactor',
-		'scaleOnce',
-		'centerOnce'
+		'childrenTranslationFactor'
 	],
 	#category : #'BlocPac-PannableAndZoomable-Core'
 }
@@ -36,29 +33,14 @@ BlCanvassableElement >> autoScaleEnabled [
 ]
 
 { #category : #accessing }
-BlCanvassableElement >> automaticScaleFactor [
-	^ automaticScaleFactor
-]
-
-{ #category : #accessing }
-BlCanvassableElement >> automaticTranslationFactor [
-	^ automaticTranslationFactor
-]
-
-{ #category : #accessing }
-BlCanvassableElement >> centerOnce [
-	^ centerOnce
-]
-
-{ #category : #accessing }
-BlCanvassableElement >> childrenBoundingbox [
+BlCanvassableElement >> childrenBoundingBox [
 	| aChildrenBoundingBox |
 	aChildrenBoundingBox := self children accountedByLayout
 			ifEmpty: [ 0 @ 0 extent: 0 @ 0 ]
 			ifNotEmpty: [ :theChildren | 
 				| theBounds |
-				theBounds := theChildren first bounds bounds.
-				theChildren do: [ :eachChild | theBounds merge: eachChild bounds bounds ].
+				theBounds := theChildren first measuredBounds bounds.
+				theChildren do: [ :eachChild | theBounds merge: eachChild measuredBounds bounds ].
 				theBounds asRectangle ].
 	aChildrenBoundingBox := self padding expand: aChildrenBoundingBox.
 	^ aChildrenBoundingBox
@@ -66,36 +48,51 @@ BlCanvassableElement >> childrenBoundingbox [
 
 { #category : #accessing }
 BlCanvassableElement >> childrenScaleFactor [
+	<return: #Number>
+
 	^ childrenScaleFactor
 ]
 
-{ #category : #accessing }
+{ #category : #'api - zooming' }
 BlCanvassableElement >> childrenScaleFactor: aNumber [
-	(childrenScaleFactor closeTo: aNumber)
+	"Change a scale factor of the children transformation and recompute transformation matrix.
+	
+	Performance notes:
+	 - Since we assume that children' position and extent don't depend on the transformation matrix,
+	there is no need to request layout recomputation.
+	 - If a fraction part of the new scale factor is small, we round down it down to get integer scale.
+	
+	Usage:
+	 - #childrenScaleFactor: can be used within animations to implement a smooth zooming behavior."
+	| aNewScaleFactor |
+	
+	aNewScaleFactor := aNumber asFloat.
+	(aNewScaleFactor fractionPart abs <= 0.01)
+		ifTrue: [ aNewScaleFactor := aNewScaleFactor rounded ].
+		
+	(childrenScaleFactor closeTo: aNewScaleFactor)
 		ifTrue: [ ^ self ].
-
-	childrenScaleFactor := aNumber max: 0.001.
+	
+	childrenScaleFactor := aNewScaleFactor.
 	self updateChildrenTransformation.
-	self dispatchEvent: (BlCanvassableZoomLevelChanged new)
 ]
 
 { #category : #accessing }
 BlCanvassableElement >> childrenTranslationFactor [
+	<return: #Point>
+	
 	^ childrenTranslationFactor
 ]
 
 { #category : #accessing }
 BlCanvassableElement >> childrenTranslationFactor: aPoint [
-	(childrenTranslationFactor closeTo: aPoint)
-		ifTrue: [ ^ self ].
-
 	childrenTranslationFactor := aPoint.
 	self updateChildrenTransformation.
 ]
 
 { #category : #'api - zooming' }
 BlCanvassableElement >> defaultZoomStep [
-	^ 0.2
+	^ 1.2
 ]
 
 { #category : #'api - zooming' }
@@ -106,19 +103,11 @@ BlCanvassableElement >> disableAutoScale [
 
 { #category : #'api - zooming' }
 BlCanvassableElement >> enableAutoScale [
+	"Automatically calculate a scale factor and translate children to center them within a viewport of the canvassable element. When enabled, auto-scale overtakes control of the zooming and positioning logic.
+	
+	Auto-scale will be automatically disabled as soon as users manually change a zoom factor or drag a content of the canvas."
+	
 	autoScaleEnabled := true.
-	self requestLayout
-]
-
-{ #category : #'api - zooming' }
-BlCanvassableElement >> enableCenterOnce [
-	centerOnce := true.
-	self requestLayout
-]
-
-{ #category : #'api - zooming' }
-BlCanvassableElement >> enableScaleOnce [
-	scaleOnce := true.
 	self requestLayout
 ]
 
@@ -156,14 +145,12 @@ BlCanvassableElement >> gtLiveFor: aView [
 BlCanvassableElement >> initialize [
 	super initialize.
 
+	zoomStep := self defaultZoomStep.
+	autoScaleEnabled := false.
+	
 	childrenScaleFactor := 1.
 	childrenTranslationFactor := 0@0.
-	zoomStep := 0.1.
-	automaticScaleFactor := (0@0) -> 1.
-	automaticTranslationFactor := 0@0.
-	autoScaleEnabled := false.
-	scaleOnce := false.
-	centerOnce := false.
+	childrenTransformationOrigin := 0@0.
 	
 	self addEventHandler: BlCanvassableElementSlideHandler new.
 	self beInSeparateCompositionLayer
@@ -171,69 +158,62 @@ BlCanvassableElement >> initialize [
 
 { #category : #layout }
 BlCanvassableElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
+	"Layout algorithm inputs:
+	 - autoScaleEnabled
+	 
+	 - children scale factor (if auto scale is disabled)
+	 - children translation factor (if auto scale is disabled)
+	 
+	 output:
+	 - children scale factor (if auto scale is enabled)
+	 - children translation factor (if auto scale is enabled)"
+	 
 	super onLayout: aBounds context: aBlElementBoundsUpdateContext.
-	self autoScaleEnabled ifTrue: [ ^ self scaleToFit ].
-	self scaleOnce
-		ifTrue: [ scaleOnce := false.
-			^ self scaleToFit ].
-	self centerOnce
-		ifTrue: [ centerOnce := false.
-			^ self translateToCenter ]
-]
 
-{ #category : #accessing }
-BlCanvassableElement >> scaleOnce [
-	^ scaleOnce
+	self autoScaleEnabled
+		ifTrue: [ ^ self scaleToFit ]
 ]
 
 { #category : #layout }
 BlCanvassableElement >> scaleToFit [
+	"Must only be used during a layout phase"
 	| aMyExtent aChildrenBoundingBox aNewScaleFactor aChildrenExtent |
-	aMyExtent := self extent.
-
-	(aMyExtent closeTo: automaticScaleFactor key) ifTrue: [ ^ self ].
-
-	aChildrenBoundingBox := self childrenBoundingbox.
-	aChildrenExtent := self childrenBoundingbox extent.
+	
+	aMyExtent := self measuredExtent.
+	aChildrenBoundingBox := self childrenBoundingBox.
+	aChildrenExtent := aChildrenBoundingBox extent.
+	
+	((aMyExtent x closeTo: 0) or: [ aMyExtent y closeTo: 0 ])
+		ifTrue: [ ^ self ].
+	
 	((aChildrenExtent x closeTo: 0) or: [ aChildrenExtent y closeTo: 0 ])
 		ifTrue: [ ^ self ].
 
 	aNewScaleFactor := (aMyExtent / aChildrenExtent) min.
-	automaticScaleFactor := aMyExtent -> aNewScaleFactor.
-	automaticTranslationFactor := aMyExtent / 2.0 - aChildrenBoundingBox center.
-
 	self
-		childrenTransformDo: [ :t | 
-			t
-				translateBy: automaticTranslationFactor;
-				scaleBy: childrenScaleFactor * automaticScaleFactor value ]
-]
-
-{ #category : #layout }
-BlCanvassableElement >> translateToCenter [
-	"Experimental. Should be refactored from scaleToFit"
-
-	| aMyExtent aChildrenBoundingBox aChildrenExtent |
-	aMyExtent := self extent.
-
-	(aMyExtent closeTo: automaticScaleFactor key) ifTrue: [ ^ self ].
-
-	aChildrenBoundingBox := self childrenBoundingbox.
-	aChildrenExtent := aChildrenBoundingBox extent.
-	((aChildrenExtent x closeTo: 0) or: [ aChildrenExtent y closeTo: 0 ])
-		ifTrue: [ ^ self ].
-
-	automaticTranslationFactor := aMyExtent / 2.0 - aChildrenBoundingBox center.
-
-	self childrenTransformDo: [ :t | t translateBy: automaticTranslationFactor ]
+		assert: [ (aNewScaleFactor closeTo: 0) not ]
+		description: [ 'Scale factor must not be zero' ].
+	
+	childrenScaleFactor := aNewScaleFactor.
+	childrenTransformationOrigin := (self measuredExtent / 2.0).
+	childrenTranslationFactor := (self measuredExtent / 2.0) - (aChildrenBoundingBox center).	
+	
+	self updateChildrenTransformation
 ]
 
 { #category : #transformations }
 BlCanvassableElement >> updateChildrenTransformation [
-	self childrenTransformDo: [ :t |
-		t
-			translateBy: automaticTranslationFactor + childrenTranslationFactor;
-			scaleBy: childrenScaleFactor * automaticScaleFactor value ]
+	self
+		childrenTransformDo: [ :t |
+			t
+				origin: (BlAffineTransformationPositionOrigin new position: childrenTransformationOrigin);
+				translateBy: childrenTranslationFactor;
+				scaleBy: childrenScaleFactor ]
+]
+
+{ #category : #'api - zooming' }
+BlCanvassableElement >> zoomIn [
+	self zoomLevel: self zoomLevel * self zoomStep
 ]
 
 { #category : #'api - zooming' }
@@ -245,7 +225,12 @@ BlCanvassableElement >> zoomLevel [
 
 { #category : #'api - zooming' }
 BlCanvassableElement >> zoomLevel: aNumber [
+	"Animate a change to zoom level"
 	| anAnimation |
+	
+	childrenTransformationOrigin := self extent / 2.0.
+	
+	self disableAutoScale.
 	
 	anAnimation := BlNumberTransition new
 		onStepDo: [ :aScaleFactor | self childrenScaleFactor: aScaleFactor ];
@@ -257,12 +242,16 @@ BlCanvassableElement >> zoomLevel: aNumber [
 ]
 
 { #category : #'api - zooming' }
+BlCanvassableElement >> zoomOut [
+	self zoomLevel: self zoomLevel / self zoomStep
+]
+
+{ #category : #'api - zooming' }
 BlCanvassableElement >> zoomToActualSize [
-	self zoomLevel: 1.
-	self enableCenterOnce
+	self zoomLevel: 1
 ]
 
 { #category : #'api - zooming' }
 BlCanvassableElement >> zoomToFit [
-	self enableScaleOnce
+	self enableAutoScale
 ]
