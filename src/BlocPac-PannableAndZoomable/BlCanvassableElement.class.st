@@ -1,3 +1,10 @@
+"
+I offer a replacement for compositions of {{gtClass:name=BlPannableElement}} and {{gtClass:name=BlZoomableElement}} by supporting both panning and zooming.
+
+I also support auto-scaling via `enableAutoScale`. Auto-scaling is turned on by the *Zoom to fit* action, and turned off by any other zooming or panning action.
+
+Examples and demos are in {{gtClass:name=BlCanvassableElementExamples}}
+"
 Class {
 	#name : #BlCanvassableElement,
 	#superclass : #BlElement,
