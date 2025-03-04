@@ -97,7 +97,7 @@ BlCanvassableElementExamples >> graphEditorDemo [
 				do: [ :evt | 
 					| newNode |
 					newNode := self pullableNodeStencil asElement.
-					newNode relocate: evt localPosition.
+					newNode relocate: evt childrenPosition.
 					graphCanvas addChild: newNode. ];
 			aptitude: (BrGlamorousWithContextMenuAptitude
 					content: [ BrGlamorousSimpleContextMenuContent new
