@@ -171,11 +171,11 @@ BlCanvassableElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext
 	super onLayout: aBounds context: aBlElementBoundsUpdateContext.
 
 	self autoScaleEnabled
-		ifTrue: [ ^ self scaleToFit ]
+		ifTrue: [ ^ self scaleChildrenToFitContentDuringLayout ]
 ]
 
 { #category : #layout }
-BlCanvassableElement >> scaleToFit [
+BlCanvassableElement >> scaleChildrenToFitContentDuringLayout [
 	"Must only be used during a layout phase"
 	| aMyExtent aChildrenBoundingBox aNewScaleFactor aChildrenExtent |
 	
