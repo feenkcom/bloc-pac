@@ -31,6 +31,8 @@ BlCanvassableElementSlideHandler >> dragEvent: anEvent [
 BlCanvassableElementSlideHandler >> dragStartEvent: anEvent [
 	anEvent consumed: true.
 
+	anEvent currentTarget disableAutoScale.
+	
 	"drag start position in space"
 	dragStartPosition := anEvent position.
 	
