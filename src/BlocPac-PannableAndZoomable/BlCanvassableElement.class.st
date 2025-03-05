@@ -46,8 +46,8 @@ BlCanvassableElement >> childrenBoundingBox [
 			ifEmpty: [ 0 @ 0 extent: 0 @ 0 ]
 			ifNotEmpty: [ :theChildren | 
 				| theBounds |
-				theBounds := theChildren first measuredBounds bounds.
-				theChildren do: [ :eachChild | theBounds merge: eachChild measuredBounds bounds ].
+				theBounds := theChildren first bounds bounds.
+				theChildren do: [ :eachChild | theBounds merge: eachChild bounds bounds ].
 				theBounds asRectangle ].
 	aChildrenBoundingBox := self padding expand: aChildrenBoundingBox.
 	^ aChildrenBoundingBox
@@ -186,7 +186,7 @@ BlCanvassableElement >> scaleChildrenToFitContentDuringLayout [
 	"Must only be used during a layout phase"
 	| aMyExtent aChildrenBoundingBox aNewScaleFactor aChildrenExtent |
 	
-	aMyExtent := self measuredExtent.
+	aMyExtent := self extent.
 	aChildrenBoundingBox := self childrenBoundingBox.
 	aChildrenExtent := aChildrenBoundingBox extent.
 	
@@ -202,8 +202,8 @@ BlCanvassableElement >> scaleChildrenToFitContentDuringLayout [
 		description: [ 'Scale factor must not be zero' ].
 	
 	childrenScaleFactor := aNewScaleFactor.
-	childrenTransformationOrigin := (self measuredExtent / 2.0).
-	childrenTranslationFactor := (self measuredExtent / 2.0) - (aChildrenBoundingBox center).	
+	childrenTransformationOrigin := (self extent / 2.0).
+	childrenTranslationFactor := (self extent / 2.0) - (aChildrenBoundingBox center).
 	
 	self updateChildrenTransformation
 ]
