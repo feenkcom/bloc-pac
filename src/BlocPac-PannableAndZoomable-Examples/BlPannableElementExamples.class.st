@@ -89,7 +89,7 @@ BlPannableElementExamples >> pannablePinchableDemo [
 { #category : #'examples - instance creation' }
 BlPannableElementExamples >> pannablePinchableGraphEditorDemo [
 	"graph editor demo example using a composition of elements.
-	NB: It should now be possible to create a similar demo directly using a BlCanvassableElement.
+	NB: It is now possible to create a similar demo directly using a BlCanvassableElement. See BlCanvassableElementExamples>>#graphEditorDemo
 
 	This demo only builds a view without an underlying model, just to show in a script how to compose the key UI elements. Each element has a border or shading to make its bounds visible.
 	
