@@ -77,8 +77,18 @@ BlCanvassableElementExamples >> emptyCanvassableElement [
 
 { #category : #'as yet unclassified' }
 BlCanvassableElementExamples >> graphEditorDemo [
-	"An attempt to port BlPannableElementExamples>>#pannablePinchableGraphEditorDemo.
-	Not yet working."
+	"This demo illustrates how one might build a view for an interactive graph editor
+	using a BlCanvassableElement.
+	
+	Note that this is only a view without an underlying model.
+		
+	- double click to create a node
+	- click and drag to move it
+	- double click node to inspect
+	- drag the background to pan
+	- control-click node or background to open a context menu
+	
+	NB: This demo replaces BlPannableElementExamples>>#pannablePinchableGraphEditorDemo."
 
 	<gtExample>
 	| padding margin graphCanvas |
