@@ -153,7 +153,7 @@ BlCanvassableElement >> initialize [
 	super initialize.
 
 	zoomStep := self defaultZoomStep.
-	autoScaleEnabled := false.
+	autoScaleEnabled := true.
 	
 	childrenScaleFactor := 1.
 	childrenTranslationFactor := 0@0.

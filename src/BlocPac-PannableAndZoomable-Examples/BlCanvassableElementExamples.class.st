@@ -29,7 +29,7 @@ BlCanvassableElementExamples >> canvassableWithOneNode [
 	aCanvassableElement children first relocate: 100@ 100.
 	
 	self assert: aCanvassableElement children size equals: 1.
-	self assert: aCanvassableElement autoScaleEnabled not.
+	self assert: aCanvassableElement autoScaleEnabled.
 	self assert: aCanvassableElement childrenScaleFactor equals: 1.
 	self assert: aCanvassableElement childrenTranslationFactor equals: 0 @ 0.
 	self assert: aCanvassableElement childrenScaleFactor equals: 1.
@@ -47,7 +47,7 @@ BlCanvassableElementExamples >> canvassableWithTwoNodes [
 	aCanvassableElement children second background: Color red.
 
 	self assert: aCanvassableElement children size equals: 2.
-	self assert: aCanvassableElement autoScaleEnabled not.
+	self assert: aCanvassableElement autoScaleEnabled.
 	self assert: aCanvassableElement childrenScaleFactor equals: 1.
 	self assert: aCanvassableElement childrenTranslationFactor equals: 0 @ 0.
 	self assert: aCanvassableElement childrenScaleFactor equals: 1.
@@ -66,7 +66,7 @@ BlCanvassableElementExamples >> emptyCanvassableElement [
 				c horizontal matchParent ].
 
 	self assert: aCanvassableElement children size equals: 0.
-	self assert: aCanvassableElement autoScaleEnabled not.
+	self assert: aCanvassableElement autoScaleEnabled.
 	self assert: aCanvassableElement childrenScaleFactor equals: 1.
 	self assert: aCanvassableElement childrenTranslationFactor equals: 0 @ 0.
 	self assert: aCanvassableElement childrenScaleFactor equals: 1.
