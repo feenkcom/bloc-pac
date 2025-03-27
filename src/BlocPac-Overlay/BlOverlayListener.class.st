@@ -110,12 +110,18 @@ BlOverlayListener >> overlayElement: anOverlayElement [
 { #category : #geometry }
 BlOverlayListener >> positionFor: anElement [
 	<return: #Point>
-	
+	| aNewPosition |
 	self
 		assert: [ anElement isNotNil ]
 		description: [ 'Reference element must not be nil' ].
-	
-	^ (self overlayElement globalPointToParent: anElement bounds inSpace position)
+
+	aNewPosition := self overlayElement
+			globalPointToParent: anElement bounds inSpace position.
+
+	self overlayElement hasParent
+		ifTrue: [ aNewPosition := self overlayElement parent localPointToChildren: aNewPosition ].
+
+	^ aNewPosition
 ]
 
 { #category : #'api - updating' }
