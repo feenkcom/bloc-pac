@@ -32,8 +32,8 @@ BlResizerListener >> dragDelta: anEvent [
 		dragDelta := dragPosition - dragStartPosition."
 
 	| dragPosition startPosition |
-	dragPosition := anEvent currentTarget globalPointToParent: anEvent position.
-	startPosition := anEvent currentTarget globalPointToParent: dragStartPosition.
+	dragPosition := anEvent position.
+	startPosition := dragStartPosition.
 	^ dragPosition - startPosition
 ]
 
@@ -69,6 +69,8 @@ BlResizerListener >> dragEvent: anEvent [
 	
 	self hasTarget
 		ifFalse: [ ^ self ].
+	self resizeTarget hasParent 
+		ifFalse: [ ^ self ].
 
 	dragDelta := self dragDelta: anEvent.
 
@@ -84,6 +86,7 @@ BlResizerListener >> dragEvent: anEvent [
 	
 	self resizeTarget globalBoundsToLocal: theBounds.
 	self resizeTarget localBoundsToParent: theBounds.
+	self resizeTarget parent localBoundsToChildren: theBounds.
 
 	self resizeTarget relocate: theBounds position.
 	
