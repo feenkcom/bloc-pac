@@ -79,6 +79,9 @@ BlCanvassableElement >> childrenScaleFactor: aNumber [
 		
 	(childrenScaleFactor closeTo: aNewScaleFactor)
 		ifTrue: [ ^ self ].
+		
+	aNewScaleFactor < self minChildrenScaleFactor
+		ifTrue: [ ^ self ].
 	
 	childrenScaleFactor := aNewScaleFactor.
 	self updateChildrenTransformation.
@@ -161,6 +164,11 @@ BlCanvassableElement >> initialize [
 	
 	self addEventHandler: BlCanvassableElementSlideHandler new.
 	self beInSeparateCompositionLayer
+]
+
+{ #category : #'api - zooming' }
+BlCanvassableElement >> minChildrenScaleFactor [
+	^ 0.014
 ]
 
 { #category : #layout }
