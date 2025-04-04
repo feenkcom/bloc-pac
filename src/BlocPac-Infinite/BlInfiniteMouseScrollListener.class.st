@@ -5,38 +5,6 @@ Class {
 }
 
 { #category : #'mouse handlers' }
-BlInfiniteMouseScrollListener >> canScrollDown: anInfiniteElement [
-	"Return true if an infinite element can be scrolled down"
-	<return: #Boolean>	
-	| aLastChild |
-	
-	aLastChild := anInfiniteElement layout childAtPosition: anInfiniteElement layout itemCount.
-	aLastChild
-		ifNil: [ ^ true ].
-
-	aLastChild bounds inParent bottom > (anInfiniteElement height - anInfiniteElement layout paddingBottom) 
-		ifTrue: [ ^ true ].
-
-	^ false
-]
-
-{ #category : #'mouse handlers' }
-BlInfiniteMouseScrollListener >> canScrollUp: anInfiniteElement [
-	"Return true if an infinite element can be scrolled up"
-	<return: #Boolean>	
-	| aFirstChild |
-
-	aFirstChild := anInfiniteElement layout childAtPosition: 1.
-	aFirstChild
-		ifNil: [ ^ true ].
-
-	aFirstChild position y < (anInfiniteElement layout paddingTop) 
-		ifTrue: [ ^ true ].
-		
-	^ false
-]
-
-{ #category : #'mouse handlers' }
 BlInfiniteMouseScrollListener >> doScrollDown: anEvent [
 	| aVectorLength anInfiniteElement |
 	aVectorLength := anEvent vector y abs.
@@ -136,23 +104,34 @@ BlInfiniteMouseScrollListener >> handleEvent: anEvent [
 
 { #category : #'mouse handlers' }
 BlInfiniteMouseScrollListener >> mouseWheelEvent: anEvent [
-	| dX dY anInfiniteElement isHorizontal scrollDelta |
+	| dX dY anInfiniteElement isVertical scrollDelta |
 	anEvent vector isZero ifTrue: [ ^ self ].
 
 	anInfiniteElement := anEvent currentTarget.
-	isHorizontal := anEvent isPrimarilyHorizontal.
+	isVertical := anEvent isPrimarilyHorizontal not.
+	"(anInfiniteElement childrenManager hasChildren and: isVertical)
+		ifTrue: [ ((anInfiniteElement childrenManager childAt: 1) query // BlInfiniteElement)
+				anyOne
+				ifNotNil: [ :child | 
+					child layout canScrollVertically
+						ifTrue: [ (anEvent isScrollDown and: [ child canScrollDown ])
+								ifTrue: [ child fireEvent: anEvent.
+									^ self ].
+							(anEvent isScrollUp and: [ child canScrollUp ])
+								ifTrue: [ child fireEvent: anEvent.
+									^ self ] ] ] ]."
 
-	dX := isHorizontal
-			ifTrue: [ anEvent vector length * anEvent vector x sign ]
-			ifFalse: [ 0 ].
+	dX := isVertical
+			ifTrue: [ 0 ]
+			ifFalse: [ anEvent vector length * anEvent vector x sign ].
 
-	dY := isHorizontal not
-			ifTrue: [ (anEvent isScrollDown and: [ self canScrollDown: anInfiniteElement ])
+	dY := isVertical
+			ifTrue: [ (anEvent isScrollDown and: [ anInfiniteElement canScrollDown ])
 					ifTrue: [ self doScrollDown: anEvent ]
-					ifFalse: [ (anEvent isScrollUp and: [ self canScrollUp: anInfiniteElement ])
+					ifFalse: [ (anEvent isScrollUp and: [ anInfiniteElement canScrollUp ])
 							ifTrue: [ self doScrollUp: anEvent ]
 							ifFalse: [ 0 ] ] ]
-			ifFalse: [  "we are horizontal => no vertical scroll"0 ].
+			ifFalse: [ 0 ].
 	scrollDelta := dX @ dY * 10.
 	anInfiniteElement smoothScrollBy: scrollDelta
 ]
