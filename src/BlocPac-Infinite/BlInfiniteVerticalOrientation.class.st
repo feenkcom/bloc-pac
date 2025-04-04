@@ -4,38 +4,6 @@ Class {
 	#category : #'BlocPac-Infinite-Layout'
 }
 
-{ #category : #testing }
-BlInfiniteVerticalOrientation >> canScrollDown: anInfiniteElement [
-	"Return true if an infinite element can be scrolled down"
-	<return: #Boolean>	
-	| aLastChild |
-	
-	aLastChild := anInfiniteElement layout childAtPosition: anInfiniteElement layout itemCount.
-	aLastChild
-		ifNil: [ ^ true ].
-
-	aLastChild bounds inParent bottom > (anInfiniteElement height - anInfiniteElement layout paddingBottom) 
-		ifTrue: [ ^ true ].
-
-	^ false
-]
-
-{ #category : #testing }
-BlInfiniteVerticalOrientation >> canScrollUp: anInfiniteElement [
-	"Return true if an infinite element can be scrolled up"
-	<return: #Boolean>	
-	| aFirstChild |
-
-	aFirstChild := anInfiniteElement layout childAtPosition: 1.
-	aFirstChild
-		ifNil: [ ^ true ].
-		
-	aFirstChild position y < (anInfiniteElement layout paddingTop) 
-		ifTrue: [ ^ true ].
-		
-	^ false
-]
-
 { #category : #'children - geometry' }
 BlInfiniteVerticalOrientation >> decoratedEnd: anElement [
 	^ (self layout decoratedBottom: anElement) + anElement constraints margin bottom
@@ -115,9 +83,9 @@ BlInfiniteVerticalOrientation >> mouseWheelEvent: anEvent [
 	isHorizontal := anEvent isPrimarilyHorizontal.
 	isHorizontal ifTrue: [ ^ self ].
 
-	dY := (anEvent isScrollDown and: [ self canScrollDown: anInfiniteElement ])
+	dY := (anEvent isScrollDown and: [ anInfiniteElement canScrollDown])
 			ifTrue: [ anEvent vector length ]
-			ifFalse: [ (anEvent isScrollUp and: [ self canScrollUp: anInfiniteElement ])
+			ifFalse: [ (anEvent isScrollUp and: [ anInfiniteElement canScrollUp ])
 					ifTrue: [ anEvent vector length negated ]
 					ifFalse: [ 0 ] ].
 

@@ -153,12 +153,38 @@ BlInfiniteElement >> assertNotInLayoutOrScroll [
 		description: [ 'Can not change the structure of InfiniteElement during scrolling' ]
 ]
 
+{ #category : #'api - scrolling' }
+BlInfiniteElement >> canScrollDown [
+	"Return true if an infinite element can be scrolled down"
+
+	<return: #Boolean>
+	| aLastChild |
+	aLastChild := self layout childAtPosition: self layout itemCount.
+	aLastChild ifNil: [ ^ true ].
+
+	aLastChild bounds inParent bottom > (self height - self layout paddingBottom)
+		ifTrue: [ ^ true ].
+
+	^ false
+]
+
 { #category : #'api - scrolling testing' }
 BlInfiniteElement >> canScrollHorizontally [
 	"Return true if I can scroll the current contents horizontally, false otherwise"
 	<return: #Boolean>
 
 	^ self layout canScrollHorizontally
+]
+
+{ #category : #'api - scrolling' }
+BlInfiniteElement >> canScrollUp [
+	| aFirstChild |
+	aFirstChild := self layout childAtPosition: 1.
+	aFirstChild ifNil: [ ^ true ].
+
+	aFirstChild position y < self layout paddingTop ifTrue: [ ^ true ].
+
+	^ false
 ]
 
 { #category : #'api - scrolling testing' }
@@ -437,11 +463,6 @@ BlInfiniteElement >> decorationInsets: anElement [
         }
         lp.mInsetsDirty = false;
         return insets;"
-]
-
-{ #category : #'private - focus' }
-BlInfiniteElement >> deepestFocusedChildIn: anElement [
-	self shouldBeImplemented
 ]
 
 { #category : #initialization }
