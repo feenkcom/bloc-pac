@@ -14,7 +14,8 @@ Class {
 		'autoScaleEnabled',
 		'childrenTransformationOrigin',
 		'childrenScaleFactor',
-		'childrenTranslationFactor'
+		'childrenTranslationFactor',
+		'shouldTranslateOnMouseWheelZoom'
 	],
 	#category : #'BlocPac-PannableAndZoomable-Core'
 }
@@ -163,7 +164,8 @@ BlCanvassableElement >> initialize [
 	childrenTransformationOrigin := 0@0.
 	
 	self addEventHandler: BlCanvassableElementSlideHandler new.
-	self beInSeparateCompositionLayer
+	self beInSeparateCompositionLayer.
+	self withZoomOnScrollWheel.
 ]
 
 { #category : #'api - zooming' }
@@ -216,6 +218,31 @@ BlCanvassableElement >> scaleChildrenToFitContentDuringLayout [
 	self updateChildrenTransformation
 ]
 
+{ #category : #accessing }
+BlCanvassableElement >> shouldTranslateOnMouseWheelZoom [
+	^ shouldTranslateOnMouseWheelZoom
+		ifNil: [ shouldTranslateOnMouseWheelZoom := false ]
+]
+
+{ #category : #accessing }
+BlCanvassableElement >> shouldTranslateOnMouseWheelZoom: aBoolean [
+	shouldTranslateOnMouseWheelZoom := aBoolean
+]
+
+{ #category : #'api - zooming' }
+BlCanvassableElement >> translateOnMouseWheelZoom: anEvent [
+	"This code is not run by default as it can look a bit choppy and/or translate elements out of the scene too quickly as one zooms in, especially if using a trackpad. But it may be useful to set explicitly when exploring very large scenes in more detail quickly, without having to both zoom in/out and drag canvas to re-center. Zooming in with the mouse away from the center of the element both zooms in AND scrolls the canvas so that the elements in the mouse position get centralized. This logic does not happen when zooming out.."
+
+	| localPosition translateScalingFactor translateX translateY |
+	self shouldTranslateOnMouseWheelZoom
+		ifTrue: [ translateScalingFactor := 1 / 2.
+			localPosition := self globalPointToLocal: anEvent position.
+			translateX := (self extent x / 2 - localPosition x) * translateScalingFactor.
+			translateY := (self extent y / 2 - localPosition y) * translateScalingFactor.
+			self
+				childrenTranslationFactor: self childrenTranslationFactor + (translateX @ translateY) ]
+]
+
 { #category : #transformations }
 BlCanvassableElement >> updateChildrenTransformation [
 	self
@@ -224,6 +251,25 @@ BlCanvassableElement >> updateChildrenTransformation [
 				origin: (BlAffineTransformationPositionOrigin new position: childrenTransformationOrigin);
 				translateBy: childrenTranslationFactor;
 				scaleBy: childrenScaleFactor ]
+]
+
+{ #category : #'api - zooming' }
+BlCanvassableElement >> withZoomOnScrollWheel [
+	self
+		when: BlMouseWheelEvent
+		do: [ :anEvent | 
+			anEvent modifiers = BlKeyModifiers primary
+				ifTrue: [ anEvent isPrimarilyVertical
+						ifTrue: [ | eventYvector newZoomLevel scalingFactor |
+							anEvent consumed: true.
+							eventYvector := anEvent vector y.
+							scalingFactor := 1 / 2.
+							eventYvector positive
+								ifTrue: [ newZoomLevel := (self zoomLevel * scalingFactor reciprocal) round: 2.
+									self zoomLevel: newZoomLevel.
+									self translateOnMouseWheelZoom: anEvent ]
+								ifFalse: [ newZoomLevel := (self zoomLevel * scalingFactor) round: 2.
+									self zoomLevel: newZoomLevel ] ] ] ]
 ]
 
 { #category : #'api - zooming' }
