@@ -240,6 +240,24 @@ BlCanvassableElement >> shouldTranslateOnMouseWheelZoom: aBoolean [
 	shouldTranslateOnMouseWheelZoom := aBoolean
 ]
 
+{ #category : #'api - transformation' }
+BlCanvassableElement >> translate: aPoint [
+	"Animate a change to translation"
+	| translateAnimation  |
+	
+	childrenTransformationOrigin := self extent / 2.0.
+	
+	"self disableAutoScale."
+	
+	translateAnimation := BlNumberTransition new
+		onStepDo: [ :aTranslateFactor | self childrenTranslationFactor: aTranslateFactor ];
+		from: self childrenTranslationFactor;
+		to: self childrenTranslationFactor + aPoint;
+		duration: 250 milliSeconds.
+	
+	self addAnimation: translateAnimation
+]
+
 { #category : #transformations }
 BlCanvassableElement >> updateChildrenTransformation [
 	self
@@ -255,8 +273,8 @@ BlCanvassableElement >> withZoomOnScrollWheel [
 	self
 		when: BlMouseWheelEvent
 		do: [ :anEvent | 
-			anEvent modifiers = BlKeyModifiers primary
-				ifTrue: [ anEvent isPrimarilyVertical
+			anEvent isPrimarilyVertical
+				ifTrue: [ anEvent modifiers = BlKeyModifiers primary
 						ifTrue: [ | eventYvector newZoomLevel scalingFactor |
 							anEvent consumed: true.
 							eventYvector := anEvent vector y.
@@ -265,7 +283,25 @@ BlCanvassableElement >> withZoomOnScrollWheel [
 								ifTrue: [ newZoomLevel := self zoomLevel * scalingFactor reciprocal round: 2.
 									self zoomLevel: newZoomLevel withTranslate: anEvent ]
 								ifFalse: [ newZoomLevel := self zoomLevel * scalingFactor round: 2.
-									self zoomLevel: newZoomLevel ] ] ] ]
+									self zoomLevel: newZoomLevel ] ].
+
+					anEvent modifiers = BlKeyModifiers alt
+						ifTrue: [ | eventYvector |
+							anEvent consumed: true.
+							eventYvector := anEvent vector y.
+							eventYvector positive
+								ifTrue: [ self translate: (anEvent currentTarget topMostParent extent x / 10) @ 0 ]
+								ifFalse: [ self
+										translate: (anEvent currentTarget topMostParent extent x / 10) negated @ 0 ] ].
+
+					anEvent modifiers = BlKeyModifiers new
+						ifTrue: [ | eventYvector |
+							anEvent consumed: true.
+							eventYvector := anEvent vector y.
+							eventYvector positive
+								ifTrue: [ self translate: 0 @ (anEvent currentTarget topMostParent extent x / 10) ]
+								ifFalse: [ self
+										translate: 0 @ (anEvent currentTarget topMostParent extent x / 10) negated ] ] ] ]
 ]
 
 { #category : #'api - zooming' }
