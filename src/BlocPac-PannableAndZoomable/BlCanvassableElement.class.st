@@ -273,7 +273,7 @@ BlCanvassableElement >> withZoomOnScrollWheel [
 	self
 		when: BlMouseWheelEvent
 		do: [ :anEvent | 
-			anEvent isPrimarilyVertical
+			(self shouldTranslateOnMouseWheelZoom and: [ anEvent isPrimarilyVertical ])
 				ifTrue: [ anEvent modifiers = BlKeyModifiers primary
 						ifTrue: [ | eventYvector newZoomLevel scalingFactor |
 							anEvent consumed: true.
