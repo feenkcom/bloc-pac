@@ -43,12 +43,11 @@ BlCanvassableElement >> autoScaleEnabled [
 { #category : #'api - zooming' }
 BlCanvassableElement >> calculateTranslationFactorOnMouseWheelZoom: anEvent [
 	| localPosition translateScalingFactor translateX translateY |
-	self shouldTranslateOnMouseWheelZoom
-		ifTrue: [ translateScalingFactor := 1 / 2.
-			localPosition := self globalPointToLocal: anEvent position.
-			translateX := (self extent x / 2 - localPosition x) * translateScalingFactor.
-			translateY := (self extent y / 2 - localPosition y) * translateScalingFactor.
-			^ self childrenTranslationFactor + (translateX @ translateY) ]
+	translateScalingFactor := 1 / 2.
+	localPosition := self globalPointToLocal: anEvent position.
+	translateX := (self extent x / 2 - localPosition x) * translateScalingFactor.
+	translateY := (self extent y / 2 - localPosition y) * translateScalingFactor.
+	^ self childrenTranslationFactor + (translateX @ translateY)
 ]
 
 { #category : #accessing }
