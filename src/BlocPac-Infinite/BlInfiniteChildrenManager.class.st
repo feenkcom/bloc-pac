@@ -192,6 +192,11 @@ BlInfiniteChildrenManager >> findHiddenNonRemovedChildAt: aPosition type: anItem
 		ifNone: [ nil ]
 ]
 
+{ #category : #'children accessing' }
+BlInfiniteChildrenManager >> firstVisibleChild [
+	^self childAt: 1
+]
+
 { #category : #testing }
 BlInfiniteChildrenManager >> hasChildren [
 	"Return true if there are any non-hidden children, false otherwise"
@@ -237,6 +242,11 @@ BlInfiniteChildrenManager >> isHidden: aChildElement [
 	<return: #Boolean>
 
 	^ hiddenChildren includes: aChildElement
+]
+
+{ #category : #'children accessing' }
+BlInfiniteChildrenManager >> lastVisibleChild [
+	^self childAt: self childrenCount
 ]
 
 { #category : #'children add/remove' }

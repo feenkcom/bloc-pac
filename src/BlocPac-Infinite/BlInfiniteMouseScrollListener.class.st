@@ -110,14 +110,27 @@ BlInfiniteMouseScrollListener >> mouseWheelEvent: anEvent [
 	anInfiniteElement := anEvent currentTarget.
 	isVertical := anEvent isPrimarilyHorizontal not.
 	"(anInfiniteElement childrenManager hasChildren and: isVertical)
-		ifTrue: [ ((anInfiniteElement childrenManager childAt: 1) query // BlInfiniteElement)
-				anyOne
+		ifTrue: [ (anInfiniteElement childrenManager firstVisibleChild query
+				// BlInfiniteElement) anyOne
 				ifNotNil: [ :child | 
 					child layout canScrollVertically
 						ifTrue: [ (anEvent isScrollDown and: [ child canScrollDown ])
 								ifTrue: [ child fireEvent: anEvent.
 									^ self ].
-							(anEvent isScrollUp and: [ child canScrollUp ])
+							child asBeaconSignal emit.
+							(anEvent isScrollUp
+								and: [ child canScrollUp and: [ (child layout childAtPosition: 1) notNil ] ])
+								ifTrue: [ child fireEvent: anEvent.
+									^ self ] ] ].
+			(anInfiniteElement childrenManager lastVisibleChild query
+				// BlInfiniteElement) anyOne
+				ifNotNil: [ :child | 
+					child layout canScrollVertically
+						ifTrue: [ (anEvent isScrollDown and: [ child canScrollDown ])
+								ifTrue: [ child fireEvent: anEvent.
+									^ self ].
+							(anEvent isScrollUp
+								and: [ child canScrollUp and: [ (child layout childAtPosition: 1) notNil ] ])
 								ifTrue: [ child fireEvent: anEvent.
 									^ self ] ] ] ]."
 
