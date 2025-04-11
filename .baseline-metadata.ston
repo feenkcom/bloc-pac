@@ -2,6 +2,6 @@
 	"repositories" : {
 		"github://feenkcom/pharo-beacon/repository" : "676efa9751879dc8935145e1be7f7700cfbbbcfc",
 		"github://feenkcom/Sparta/src" : "v0.8.197",
-		"github://feenkcom/Bloc/src" : "v0.8.816"
+		"github://feenkcom/Bloc/src" : "v0.8.817"
 	}
 }
