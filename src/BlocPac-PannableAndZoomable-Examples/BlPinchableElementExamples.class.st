@@ -7,18 +7,18 @@ Class {
 { #category : #'examples - instance creation' }
 BlPinchableElementExamples >> contentElement [
 	<gtExample>
-	
+	<return: #BlElement>
 	^ BlElement new
-		size: 300@200;
-		background: ((BlLinearGradientPaint direction: 1@1) from: Color red to: Color blue);
+		size: 300 @ 200;
+		background: ((BlLinearGradientPaint direction: 1 @ 1) from: Color red to: Color blue);
 		geometry: BlEllipseGeometry new
 ]
 
 { #category : #'examples - instance creation' }
 BlPinchableElementExamples >> pinchableElement [
 	<gtExample>
+	<return: #BlPinchableElement>
 	| aPinchableElement |
-	
 	aPinchableElement := BlPinchableElement new.
 
 	self assert: aPinchableElement hasContentElement not.
@@ -34,13 +34,13 @@ BlPinchableElementExamples >> pinchableElement [
 { #category : #'examples - pinchable' }
 BlPinchableElementExamples >> pinchableElementWithContent [
 	<gtExample>
+	<return: #BlPinchableElement>
 	| aPinchableElement |
-	
 	aPinchableElement := self pinchableElement.
 	aPinchableElement background: Color lightGray.
 	aPinchableElement contentElement: self contentElement.
-	
+
 	self assert: aPinchableElement hasContentElement.
-	
+
 	^ aPinchableElement
 ]

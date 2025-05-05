@@ -12,21 +12,24 @@ BlPolygonElementExamples >> attachPoint [
 { #category : #examples }
 BlPolygonElementExamples >> octagon [
 	<gtExample>
+	<return: #BlElement>
 	| n aPolygon theVertices theCorners theAnchors |
-	
 	n := 8.
-	theVertices := (1 to: n) collect: [ :i |
-		| angle |
-		angle := (i * (360 / n)) degreesToRadians.
-		(75 * (angle sin @ angle cos)) + (75@75) ].
-	
-	theCorners := theVertices collect: [ :eachPoint | self attachPoint relocate: eachPoint ].
-	theAnchors := theCorners collect: [ :eachCorner | BlElementCenterAnchor element: eachCorner ].
-	
+	theVertices := (1 to: n)
+			collect: [ :i | 
+				| angle |
+				angle := (i * (360 / n)) degreesToRadians.
+				75 * (angle sin @ angle cos) + (75 @ 75) ].
+
+	theCorners := theVertices
+			collect: [ :eachPoint | self attachPoint relocate: eachPoint ].
+	theAnchors := theCorners
+			collect: [ :eachCorner | BlElementCenterAnchor element: eachCorner ].
+
 	aPolygon := BlPolygonElement new
-		anchors: theAnchors;
-		background: (Color gray alpha: 0.3);
-		border: (BlBorder paint: Color gray width: 2).
+			anchors: theAnchors;
+			background: (Color gray alpha: 0.3);
+			border: (BlBorder paint: Color gray width: 2).
 
 	^ self container
 		addChild: aPolygon;
@@ -36,22 +39,22 @@ BlPolygonElementExamples >> octagon [
 { #category : #examples }
 BlPolygonElementExamples >> rectangle [
 	<gtExample>
+	<return: #BlElement>
 	| aPolygon theVertices theCorners theAnchors |
-	
-	theVertices := { 
-		0@0.
-		200@0.
-		200@100.
-		0@100.
-	}.
-	
-	theCorners := theVertices collect: [ :eachPoint | self attachPoint relocate: eachPoint ].
-	theAnchors := theCorners collect: [ :eachCorner | BlElementCenterAnchor element: eachCorner ].
-	
+	theVertices := {0 @ 0.
+			200 @ 0.
+			200 @ 100.
+			0 @ 100}.
+
+	theCorners := theVertices
+			collect: [ :eachPoint | self attachPoint relocate: eachPoint ].
+	theAnchors := theCorners
+			collect: [ :eachCorner | BlElementCenterAnchor element: eachCorner ].
+
 	aPolygon := BlPolygonElement new
-		anchors: theAnchors;
-		background: (Color gray alpha: 0.3);
-		border: (BlBorder paint: Color gray width: 2).
+			anchors: theAnchors;
+			background: (Color gray alpha: 0.3);
+			border: (BlBorder paint: Color gray width: 2).
 
 	^ self container
 		addChild: aPolygon;
@@ -61,22 +64,22 @@ BlPolygonElementExamples >> rectangle [
 { #category : #examples }
 BlPolygonElementExamples >> square [
 	<gtExample>
+	<return: #BlElement>
 	| aPolygon theVertices theCorners theAnchors |
-	
-	theVertices := { 
-		0@0.
-		100@0.
-		100@100.
-		0@100.
-	}.
-	
-	theCorners := theVertices collect: [ :eachPoint | self attachPoint relocate: eachPoint ].
-	theAnchors := theCorners collect: [ :eachCorner | BlElementCenterAnchor element: eachCorner ].
-	
+	theVertices := {0 @ 0.
+			100 @ 0.
+			100 @ 100.
+			0 @ 100}.
+
+	theCorners := theVertices
+			collect: [ :eachPoint | self attachPoint relocate: eachPoint ].
+	theAnchors := theCorners
+			collect: [ :eachCorner | BlElementCenterAnchor element: eachCorner ].
+
 	aPolygon := BlPolygonElement new
-		anchors: theAnchors;
-		background: (Color gray alpha: 0.3);
-		border: (BlBorder paint: Color gray width: 2).
+			anchors: theAnchors;
+			background: (Color gray alpha: 0.3);
+			border: (BlBorder paint: Color gray width: 2).
 
 	^ self container
 		addChild: aPolygon;
@@ -86,21 +89,21 @@ BlPolygonElementExamples >> square [
 { #category : #examples }
 BlPolygonElementExamples >> triangle [
 	<gtExample>
+	<return: #BlElement>
 	| aPolygon theVertices theCorners theAnchors |
-	
-	theVertices := { 
-		100@0.
-		175@150.
-		25@150.
-	}.
-	
-	theCorners := theVertices collect: [ :eachPoint | self attachPoint relocate: eachPoint ].
-	theAnchors := theCorners collect: [ :eachCorner | BlElementCenterAnchor element: eachCorner ].
-	
+	theVertices := {100 @ 0.
+			175 @ 150.
+			25 @ 150}.
+
+	theCorners := theVertices
+			collect: [ :eachPoint | self attachPoint relocate: eachPoint ].
+	theAnchors := theCorners
+			collect: [ :eachCorner | BlElementCenterAnchor element: eachCorner ].
+
 	aPolygon := BlPolygonElement new
-		anchors: theAnchors;
-		background: (Color gray alpha: 0.3);
-		border: (BlBorder paint: Color gray width: 2).
+			anchors: theAnchors;
+			background: (Color gray alpha: 0.3);
+			border: (BlBorder paint: Color gray width: 2).
 
 	^ self container
 		addChild: aPolygon;

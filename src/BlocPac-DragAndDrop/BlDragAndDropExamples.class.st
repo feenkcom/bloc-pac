@@ -33,6 +33,7 @@ BlDragAndDropExamples >> letterFor: aCharacter [
 { #category : #examples }
 BlDragAndDropExamples >> lettersSorter [
 	<gtExample>
+	<return: #BlElement>
 	| letters vowels consonants |
 	letters := self lettersSorterContainer.
 	vowels := self lettersSorterRoundedContainerWithBorder.
@@ -170,55 +171,56 @@ BlDragAndDropExamples >> tagOrdererSlidingTagFor: aString [
 { #category : #accessing }
 BlDragAndDropExamples >> tagsOrderer [
 	<gtExample>
+	<return: #BlElement>
 	| aContainer |
-
 	aContainer := BlElement new.
 	aContainer layout: (BlLinearLayout horizontal cellSpacing: 5).
-	aContainer constraintsDo: [ :c |
-		c horizontal matchParent.
-		c vertical fitContent ].
+	aContainer
+		constraintsDo: [ :c | 
+			c horizontal matchParent.
+			c vertical fitContent ].
 
-	aContainer addEventHandler: (BlDropHandler new
-		acceptOnlyFromThisElement;
-		whenDragOverDo: [ :anItemsDraggedOverEvent |
-			| container locationElement position childPosition |
+	aContainer
+		addEventHandler: (BlDropHandler new
+				acceptOnlyFromThisElement;
+				whenDragOverDo: [ :anItemsDraggedOverEvent | 
+					| container locationElement position childPosition |
+					container := anItemsDraggedOverEvent currentTarget.
+					locationElement := container
+							childWithId: #'drop-area--drop-location'
+							ifFound: [ :anElement | anElement ]
+							ifNone: [ | anElement |
+								anElement := BlElement new
+										background: Color orange;
+										width: 2;
+										constraintsDo: [ :c | 
+											c ignoreByLayout.
+											c vertical matchParent ].
 
-			container := anItemsDraggedOverEvent currentTarget.
-			locationElement := container
-				childWithId: #'drop-area--drop-location'
-				ifFound: [ :anElement | anElement ]
-				ifNone: [
-					| anElement |
+								container addChild: anElement as: #'drop-area--drop-location'.
+								anElement ].
 
-					anElement := BlElement new
-						background: Color orange;
-						width: 2;
-						constraintsDo: [ :c |
-							c ignoreByLayout.
-							c vertical matchParent ].
+					position := anItemsDraggedOverEvent position x.
+					childPosition := container children accountedByLayout
+							detect: [ :eachChild | position < eachChild bounds inParent center x ]
+							ifFound: [ :eachChild | eachChild bounds inParent left - 10 ]
+							ifNone: [ container children accountedByLayout last bounds inParent right
+									+ 10 ].
 
-					container addChild: anElement as: #'drop-area--drop-location'.
-					anElement ].
+					locationElement relocate: childPosition @ 0 ];
+				whenDragLeftDo: [ :anItemsLeftEvent | anItemsLeftEvent currentTarget removeChildNamed: #'drop-area--drop-location' ];
+				whenHorizontalDroppedDo: [ :anItemsDroppedEvent :anIndex | 
+					anItemsDroppedEvent items
+						reverseDo: [ :eachDragItem | 
+							anItemsDroppedEvent currentTarget
+								addChild: eachDragItem sourceElement
+								at: anIndex + 1 ] ]).
 
-			position := anItemsDraggedOverEvent position x.
-			childPosition := container children accountedByLayout
-				detect: [ :eachChild | position < eachChild bounds inParent center x ] 
-				ifFound: [ :eachChild | eachChild bounds inParent left - 10 ]
-				ifNone: [ container children accountedByLayout last bounds inParent right + 10 ].
-
-			locationElement relocate: childPosition @ 0 ];
-
-		whenDragLeftDo: [ :anItemsLeftEvent | anItemsLeftEvent currentTarget removeChildNamed: #'drop-area--drop-location' ];
-		whenHorizontalDroppedDo: [ :anItemsDroppedEvent :anIndex |
-			(anItemsDroppedEvent items reverseDo: [ :eachDragItem |
-				anItemsDroppedEvent currentTarget addChild: eachDragItem sourceElement at: anIndex + 1 ]) ]).
-
-	aContainer addChildren: ({
-		'One'.
-		'Two'.
-		'Three'.
-		'Four'.
-	} collect: [ :eachName | self tagOrdererDraggableTagFor: eachName ]).
+	aContainer
+		addChildren: ({'One'.
+				'Two'.
+				'Three'.
+				'Four'} collect: [ :eachName | self tagOrdererDraggableTagFor: eachName ]).
 
 	^ aContainer
 ]
@@ -226,39 +228,40 @@ BlDragAndDropExamples >> tagsOrderer [
 { #category : #accessing }
 BlDragAndDropExamples >> tagsSlidingOrderer [
 	<gtExample>
+	<return: #BlElement>
 	| aContainer |
-
 	aContainer := BlElement new.
 	aContainer layout: (BlLinearLayout horizontal cellSpacing: 5).
-	aContainer constraintsDo: [ :c |
-		c horizontal matchParent.
-		c vertical fitContent ].
+	aContainer
+		constraintsDo: [ :c | 
+			c horizontal matchParent.
+			c vertical fitContent ].
 
-	aContainer addEventHandler: (BlDropHandler new
-		acceptOnlyFromThisElement;
-		whenHorizontalSlideOverDo: [];
-		whenDroppedDo: [ :anItemsDroppedEvent |
-			| container position childBefore |
+	aContainer
+		addEventHandler: (BlDropHandler new
+				acceptOnlyFromThisElement;
+				whenHorizontalSlideOverDo: [  ];
+				whenDroppedDo: [ :anItemsDroppedEvent | 
+					| container position childBefore |
+					container := anItemsDroppedEvent currentTarget.
+					position := anItemsDroppedEvent position x.
+					childBefore := container children accountedByLayout
+							detect: [ :eachChild | position < (eachChild bounds inParent center x - 5) ]
+							ifFound: [ :eachChild | eachChild ]
+							ifNone: [ nil ].
 
-			container := anItemsDroppedEvent currentTarget.
-			position := anItemsDroppedEvent position x.
-			childBefore := container children accountedByLayout
-				detect: [ :eachChild | position < (eachChild bounds inParent center x - 5) ]
-				ifFound: [ :eachChild | eachChild ]
-				ifNone: [ nil ].
+					(anItemsDroppedEvent items
+						collect: [ :eachDragItem | eachDragItem sourceElement ])
+						do: [ :each | 
+							childBefore
+								ifNil: [ container addChild: each ]
+								ifNotNil: [ container addChild: each before: childBefore ] ] ]).
 
-			(anItemsDroppedEvent items collect: [ :eachDragItem | eachDragItem sourceElement ])
-				do: [ :each |
-					childBefore
-						ifNil: [ container addChild: each ]
-						ifNotNil: [ container addChild: each before: childBefore ] ] ]).
-
-	aContainer addChildren: ({
-		'One'.
-		'Two'.
-		'Three'.
-		'Four'.
-	} collect: [ :eachName | self tagOrdererSlidingTagFor: eachName ]).
+	aContainer
+		addChildren: ({'One'.
+				'Two'.
+				'Three'.
+				'Four'} collect: [ :eachName | self tagOrdererSlidingTagFor: eachName ]).
 
 	^ aContainer
 ]
