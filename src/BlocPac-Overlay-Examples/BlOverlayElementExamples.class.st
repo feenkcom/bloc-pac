@@ -9,24 +9,30 @@ BlOverlayElementExamples >> overlayOnParent [
 	"An overlay is attached to the parent and is added as a child to said parent.
 	As a result, an overlay always assumes the size of the parent. Honestly,
 	this feature is quite pointless to use because the same can be achieved by simply matching parent and using #ignoreByLayout."
+
 	<gtExample>
+	<return: #BlElement>
 	| aContainer anOverlay |
-	
 	aContainer := BlElement new
-		size: 500@400;
-		border: (BlBorder builder dashed; paint: Color gray; width: 2; build).
-	
+			size: 500 @ 400;
+			border: (BlBorder builder
+					dashed;
+					paint: Color gray;
+					width: 2;
+					build).
+
 	anOverlay := BlOverlayElement on: aContainer.
 	anOverlay background: (Color gray alpha: 0.2).
-	
+
 	aContainer addChild: anOverlay as: #overlay.
-	
+
 	^ aContainer
 ]
 
 { #category : #'examples - overlay' }
 BlOverlayElementExamples >> overlayOnParentByScripter [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := BlScripter new.
 	aScripter element: self overlayOnParent.
@@ -60,32 +66,38 @@ BlOverlayElementExamples >> overlayOnParentByScripter [
 { #category : #'examples - overlay' }
 BlOverlayElementExamples >> overlayOnScaledSibling [
 	"An overlay which is attached to its scaled down sibling with a common parent. This is a quite common usecase if you want one element to always be the size of another element and overlap."
+
 	<gtExample>
+	<return: #BlElement>
 	| aContainer aSibling anOverlay |
-	
 	aContainer := BlElement new
-		size: 500@400;
-		border: (BlBorder builder dashed; paint: Color gray; width: 2; build).
-	
+			size: 500 @ 400;
+			border: (BlBorder builder
+					dashed;
+					paint: Color gray;
+					width: 2;
+					build).
+
 	aSibling := BlElement new
-		size: 300@200;
-		border: (BlBorder paint: Color gray width: 2);
-		transformDo: [ :t | t scaleBy: 0.5 ];
-		addEventHandler: BlPullHandler new.
-	
+			size: 300 @ 200;
+			border: (BlBorder paint: Color gray width: 2);
+			transformDo: [ :t | t scaleBy: 0.5 ];
+			addEventHandler: BlPullHandler new.
+
 	anOverlay := BlOverlayElement on: aSibling.
 	anOverlay preventMeAndChildrenMouseEvents.
 	anOverlay background: (Color gray alpha: 0.2).
-	
+
 	aContainer addChild: aSibling as: #sibling.
 	aContainer addChild: anOverlay as: #overlay.
-	
+
 	^ aContainer
 ]
 
 { #category : #'examples - overlay' }
 BlOverlayElementExamples >> overlayOnScaledSiblingByScripter [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := BlScripter new.
 	aScripter element: self overlayOnScaledSibling.
@@ -135,14 +147,16 @@ BlOverlayElementExamples >> overlayOnScaledSiblingByScripter [
 { #category : #'examples - overlay' }
 BlOverlayElementExamples >> overlayOnSibling [
 	"An overlay which is attached to its sibling with a common parent. This is a quite common usecase if you want one element to always be the size of another element and overlap."
-	<gtExample>
 
+	<gtExample>
+	<return: #BlElement>
 	^ self overlayOnSiblingWithContainerClass: BlElement
 ]
 
 { #category : #'examples - overlay' }
 BlOverlayElementExamples >> overlayOnSiblingByScripter [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := BlScripter new.
 	aScripter element: self overlayOnSibling.
@@ -184,15 +198,18 @@ BlOverlayElementExamples >> overlayOnSiblingByScripter [
 { #category : #'examples - overlay' }
 BlOverlayElementExamples >> overlayOnSiblingInParentWithChildrenTransformation [
 	"An overlay which is attached to its sibling with a common parent that implements support for children transformation. This is a quite common usecase if you want one element to always be the size of another element and overlap."
+
 	<gtExample>
-	
-	^ (self overlayOnSiblingWithContainerClass: BlOverlayExampleElementWithChildrenTransformation)
+	<return: #BlOverlayExampleElementWithChildrenTransformation>
+	^ (self
+		overlayOnSiblingWithContainerClass: BlOverlayExampleElementWithChildrenTransformation)
 		childrenTransformDo: [ :t | t topLeftOrigin scaleBy: 0.5 ]
 ]
 
 { #category : #'examples - overlay' }
 BlOverlayElementExamples >> overlayOnSiblingInParentWithChildrenTransformationByScripter [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := BlScripter new.
 	aScripter element: self overlayOnSiblingInParentWithChildrenTransformation.
@@ -234,15 +251,16 @@ BlOverlayElementExamples >> overlayOnSiblingInParentWithChildrenTransformationBy
 { #category : #'examples - overlay' }
 BlOverlayElementExamples >> overlayOnSiblingInScaledParent [
 	"An overlay which is attached to its sibling with a common parent that is scaled down. This is a quite common usecase if you want one element to always be the size of another element and overlap."
+
 	<gtExample>
-	
-	^ self overlayOnSibling
-		transformDo: [ :t | t topLeftOrigin scaleBy: 0.5 ]
+	<return: #BlElement>
+	^ self overlayOnSibling transformDo: [ :t | t topLeftOrigin scaleBy: 0.5 ]
 ]
 
 { #category : #'examples - overlay' }
 BlOverlayElementExamples >> overlayOnSiblingInScaledParentByScripter [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := BlScripter new.
 	aScripter element: self overlayOnSiblingInScaledParent.

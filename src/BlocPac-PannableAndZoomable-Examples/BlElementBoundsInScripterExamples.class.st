@@ -38,6 +38,7 @@ BlElementBoundsInScripterExamples >> canvasInScripter: aScripter [
 { #category : #examples }
 BlElementBoundsInScripterExamples >> canvassableElement [
 	<gtExample>
+	<return: #BlElement>
 	| aChildBuilder |
 	aChildBuilder := [ :aPosition :aSize :aColor | 
 		BlElement new
@@ -88,6 +89,7 @@ BlElementBoundsInScripterExamples >> containerInScripter: aScripter [
 { #category : #examples }
 BlElementBoundsInScripterExamples >> displayCanvassableElement [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter aCanvas |
 	aScripter := self scripterWithElement: [ self canvassableElement ].
 
@@ -103,6 +105,7 @@ BlElementBoundsInScripterExamples >> displayCanvassableElement [
 { #category : #examples }
 BlElementBoundsInScripterExamples >> displayCanvassableElement_canvasBoundsInSpace [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter anElement aBoundsInSpace |
 	aScripter := self displayCanvassableElement.
 	anElement := self canvasInScripter: aScripter.
@@ -111,7 +114,7 @@ BlElementBoundsInScripterExamples >> displayCanvassableElement_canvasBoundsInSpa
 
 	aBoundsInSpace := anElement bounds inSpace.
 	self assert: aBoundsInSpace asRectangle equals: (30 @ 30 corner: 770 @ 570).
-	
+
 	self assertBoundsInSpaceForElement: anElement.
 	^ aScripter
 ]
@@ -119,6 +122,7 @@ BlElementBoundsInScripterExamples >> displayCanvassableElement_canvasBoundsInSpa
 { #category : #examples }
 BlElementBoundsInScripterExamples >> displayCanvassableElement_containerBoundsInSpace [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter anElement aBoundsInSpace |
 	aScripter := self displayCanvassableElement.
 	anElement := self containerInScripter: aScripter.
@@ -129,13 +133,14 @@ BlElementBoundsInScripterExamples >> displayCanvassableElement_containerBoundsIn
 	self assert: aBoundsInSpace asRectangle equals: (10 @ 10 corner: 790 @ 590).
 
 	self assertBoundsInSpaceForElement: anElement.
-	
+
 	^ aScripter
 ]
 
 { #category : #examples }
 BlElementBoundsInScripterExamples >> displayCanvassableElement_nodeOneBoundsInSpace [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter anElement |
 	aScripter := self displayCanvassableElement.
 	anElement := self nodeOneInScripter: aScripter.
@@ -143,14 +148,14 @@ BlElementBoundsInScripterExamples >> displayCanvassableElement_nodeOneBoundsInSp
 	self assert: anElement position equals: 60 @ 200.
 	self assert: anElement extent equals: 30 @ 20.
 	self assert: anElement bounds asRectangle equals: (60 @ 200 corner: 90 @ 220).
-	
+
 	self
 		assertBoundsRectangle: anElement bounds inSpace asRectangle
 		equals: (236.74418604651163 @ 30.00000000000003
 				corner: 274.4186046511628 @ 55.11627906976747)
 		description: 'nodeOne bounds inSpace ({1}) ~= expected {2}'.
 	self assertBoundsInSpaceForElement: anElement.
-	
+
 	^ aScripter
 ]
 
@@ -159,14 +164,14 @@ BlElementBoundsInScripterExamples >> displayCanvassableElement_nodeOneWithResize
 	"Assertions are correct."
 
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter aNodeOne aResizer aCanvas aListener |
 	aScripter := self displayCanvassableElement.
 	aCanvas := self canvasInScripter: aScripter.
 	aNodeOne := self nodeOneInScripter: aScripter.
 
 	aScripter do
-		block: [ 
-			aResizer := BlResizerElement new preventMouseEvents zIndex: 100.
+		block: [ aResizer := BlResizerElement new preventMouseEvents zIndex: 100.
 			aListener := aResizer instVarNamed: #overlayListener.
 			aResizer attachTo: aNodeOne.
 			aCanvas addChild: aResizer ];
@@ -192,6 +197,7 @@ BlElementBoundsInScripterExamples >> displayCanvassableElement_nodeOneWithResize
 	"Assertions are correct."
 
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter anElement aResizer |
 	aScripter := self displayCanvassableElement.
 	anElement := self nodeOneInScripter: aScripter.
@@ -204,9 +210,7 @@ BlElementBoundsInScripterExamples >> displayCanvassableElement_nodeOneWithResize
 			aResizer attachTo: anElement.
 			aParent addChild: aResizer ];
 		onSpaceRoot;
-		play.
-
-	"self
+		play.	"self
 		assertBoundsRectangle: aResizer bounds asRectangle
 		equals: (236.74418604651163 @ 30.00000000000003
 				corner: 274.4186046511628 @ 55.11627906976747)
@@ -225,6 +229,7 @@ BlElementBoundsInScripterExamples >> displayCanvassableElement_nodeOneWithResize
 { #category : #examples }
 BlElementBoundsInScripterExamples >> displayCanvassableElement_nodeTwoBoundsInSpace [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter anElement aBoundsInSpace |
 	aScripter := self displayCanvassableElement.
 	anElement := self nodeTwoInScripter: aScripter.
@@ -247,6 +252,7 @@ BlElementBoundsInScripterExamples >> displayCanvassableElement_nodeTwoBoundsInSp
 { #category : #examples }
 BlElementBoundsInScripterExamples >> displayCanvassableElement_topBoundsInSpace [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter anElement aBoundsInSpace |
 	aScripter := self displayCanvassableElement.
 	anElement := self topInScripter: aScripter.
@@ -257,7 +263,7 @@ BlElementBoundsInScripterExamples >> displayCanvassableElement_topBoundsInSpace 
 	self assert: aBoundsInSpace asRectangle equals: (0 @ 0 corner: 800 @ 600).
 
 	self assertBoundsInSpaceForElement: anElement.
-	
+
 	^ aScripter
 ]
 
