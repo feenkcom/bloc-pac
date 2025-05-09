@@ -7,7 +7,8 @@ Class {
 		'totalHeight',
 		'totalWidth',
 		'currentDataSourceIndex',
-		'availableHeight'
+		'availableHeight',
+		'startDataSourceIndex'
 	],
 	#category : #'BlocPac-VirtualList'
 }
@@ -37,11 +38,26 @@ BlVirtualListSpaceFillerState >> filledElements [
 	^ filledElements
 ]
 
+{ #category : #accessing }
+BlVirtualListSpaceFillerState >> filledElements: anObject [
+	filledElements := anObject
+]
+
 { #category : #'as yet unclassified' }
 BlVirtualListSpaceFillerState >> initialize [
 	super initialize.
 	
 	filledElements := LinkedList new
+]
+
+{ #category : #'as yet unclassified' }
+BlVirtualListSpaceFillerState >> isDown [
+	^ self subclassResponsibility
+]
+
+{ #category : #'as yet unclassified' }
+BlVirtualListSpaceFillerState >> isUp [
+	^ self subclassResponsibility
 ]
 
 { #category : #accessing }
@@ -57,6 +73,16 @@ BlVirtualListSpaceFillerState >> itemCount: anObject [
 { #category : #'as yet unclassified' }
 BlVirtualListSpaceFillerState >> postCopy [
 	filledElements := filledElements copy
+]
+
+{ #category : #accessing }
+BlVirtualListSpaceFillerState >> startDataSourceIndex [
+	^ startDataSourceIndex
+]
+
+{ #category : #accessing }
+BlVirtualListSpaceFillerState >> startDataSourceIndex: anObject [
+	startDataSourceIndex := anObject
 ]
 
 { #category : #accessing }

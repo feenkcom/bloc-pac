@@ -12,9 +12,9 @@ BlVirtualListSpaceFillerExamples >> colorsFiller [
 	dataSource := BlVirtualListExampleColorsDataSource new.
 	fetcher := BlVirtualListElementFetcher new setDataSource: dataSource.
 	viewport := BlVirtualListViewport new
-		topItemOffset: 10;
-		bottomItemOffset: 30;
-		topItemIndex: 2.
+		topItemOffset: 60;
+		bottomItemOffset: 100;
+		topItemIndex: 3.
 	
 	filler := BlVirtualListSpaceFiller new
 		setFetcher: fetcher

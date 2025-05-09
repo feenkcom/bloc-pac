@@ -2,7 +2,8 @@ Class {
 	#name : #BlVirtualListSpaceFillerDownState,
 	#superclass : #BlVirtualListSpaceFillerState,
 	#instVars : [
-		'currentTopPosition'
+		'currentTopPosition',
+		'startTopOffset'
 	],
 	#category : #'BlocPac-VirtualList'
 }
@@ -17,7 +18,7 @@ BlVirtualListSpaceFillerDownState >> asPreviewElement [
 					width: 1;
 					paint: Color gray;
 					build).
-					
+
 	firstOffset := filledElements
 		ifEmpty: [ 0 ]
 		ifNotEmpty: [ :theElements | theElements first measuredPosition y ].
@@ -48,9 +49,8 @@ BlVirtualListSpaceFillerDownState >> asPreviewElement [
 		addChild: (BrFrame new
 				background: BrGlamorousColors primaryBorderColor;
 				hMatchParent;
-				vExact: 3;
-				relocate: 0 @ (currentTopPosition - 1)).
-
+				vExact: 2;
+				relocate: 0 @ (startTopOffset - 1)).
 
 	state := BrFrame new
 			hFitContent;
@@ -66,18 +66,18 @@ BlVirtualListSpaceFillerDownState >> asPreviewElement [
 									0.5 @ 1}.
 								{0 @ 1.
 									1 @ 1}});
-				height: currentTopPosition - 1;
+				height: currentTopPosition - startTopOffset;
 				width: 10;
-				margin: (BlInsets top: 1 left: 10);
+				margin: (BlInsets top: startTopOffset left: 10);
 				outskirts: BlOutskirts centered;
 				border: (BlBorder paint: BrGlamorousColors primaryBorderColor width: 2)).
 
 	state
 		addChild: (BrLabel new
 				aptitude: BrGlamorousLabelAptitude;
-				text: currentTopPosition asString , 'pt';
+				text: (currentTopPosition - startTopOffset) asString , 'pt';
 				margin: (BlInsets left: 20);
-				constraintsDo: [ :c | c frame vertical alignCenterAt: currentTopPosition / 2.0 / totalHeight ]).
+				constraintsDo: [ :c | c frame vertical alignCenterAt: ((currentTopPosition - startTopOffset) / 2.0 + startTopOffset) / totalHeight ]).
 
 	container := BrHorizontalPane new
 			fitContent;
@@ -93,6 +93,28 @@ BlVirtualListSpaceFillerDownState >> asPreviewElement [
 			yourself.
 
 	^ container
+]
+
+{ #category : #'as yet unclassified' }
+BlVirtualListSpaceFillerDownState >> asUpState [
+	^ BlVirtualListSpaceFillerUpState new
+		filledElements: filledElements;
+		startDataSourceIndex: self startDataSourceIndex;
+		startBottomOffset: self startTopOffset;
+		currentDataSourceIndex: self startDataSourceIndex - 1;
+		currentBottomPosition: self startTopOffset;
+		itemCount: itemCount;
+		availableHeight: self availableSpaceAboveFirst;
+		totalWidth: totalWidth;
+		totalHeight: totalHeight;
+		yourself
+]
+
+{ #category : #'as yet unclassified' }
+BlVirtualListSpaceFillerDownState >> availableSpaceAboveFirst [
+	^ filledElements
+		ifEmpty: [ 0 ]
+		ifNotEmpty: [ :theElements | theElements first measuredPosition y max: 0.0 ]
 ]
 
 { #category : #accessing }
@@ -114,4 +136,29 @@ BlVirtualListSpaceFillerDownState >> gtPreviewFor: aView [
 		object: [ self asPreviewElement asCanvassableElement ];
 		view: #gtLiveFor:;
 		actionUpdateButton
+]
+
+{ #category : #'as yet unclassified' }
+BlVirtualListSpaceFillerDownState >> isDown [
+	^ true
+]
+
+{ #category : #'as yet unclassified' }
+BlVirtualListSpaceFillerDownState >> isUp [
+	^ false
+]
+
+{ #category : #'as yet unclassified' }
+BlVirtualListSpaceFillerDownState >> shouldFillUp [
+	^ self availableSpaceAboveFirst > 0 and: [ self startDataSourceIndex > 1 ]
+]
+
+{ #category : #accessing }
+BlVirtualListSpaceFillerDownState >> startTopOffset [
+	^ startTopOffset
+]
+
+{ #category : #accessing }
+BlVirtualListSpaceFillerDownState >> startTopOffset: anObject [
+	startTopOffset := anObject
 ]
