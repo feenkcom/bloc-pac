@@ -46,9 +46,9 @@ BlVirtualListSpaceFiller >> createFillerDownState: anItemToFillFrom [
 		startDataSourceIndex: anItemToFillFrom dataSourceIndex;
 		startTopOffset: anItemToFillFrom offset;
 		currentDataSourceIndex: anItemToFillFrom dataSourceIndex;
-		currentTopPosition: anItemToFillFrom offset;
+		currentPosition: anItemToFillFrom offset;
 		itemCount: fetcher dataSource itemCount;
-		availableHeight: totalHeight + (anItemToFillFrom offset min: 0) abs;
+		availableHeight: totalHeight - anItemToFillFrom offset;
 		totalWidth: totalWidth;
 		totalHeight: totalHeight;
 		yourself
@@ -60,7 +60,7 @@ BlVirtualListSpaceFiller >> createFillerUpState: anItemToFillFrom [
 		startDataSourceIndex: anItemToFillFrom dataSourceIndex;
 		startBottomOffset: anItemToFillFrom offset;
 		currentDataSourceIndex: anItemToFillFrom dataSourceIndex;
-		currentBottomPosition: totalHeight - anItemToFillFrom offset;
+		currentPosition: totalHeight - anItemToFillFrom offset;
 		itemCount: fetcher dataSource itemCount;
 		availableHeight: totalHeight + (anItemToFillFrom offset min: 0) abs;
 		totalWidth: totalWidth;
@@ -92,12 +92,22 @@ BlVirtualListSpaceFiller >> fillSpaceAndDo: eachStateBlock [
 
 { #category : #'private - measurement' }
 BlVirtualListSpaceFiller >> fillSpaceDown: aFillerDownState andEachStepDo: aBlock [
-	 [ aBlock cull: aFillerDownState. self tryFillNextSpaceDown: aFillerDownState ] whileTrue
+	aBlock cull: aFillerDownState.
+
+	[ | shouldContinue |
+	shouldContinue := self tryFillNextSpaceDown: aFillerDownState.
+	shouldContinue ifTrue: [ aBlock cull: aFillerDownState ].
+	shouldContinue ] whileTrue
 ]
 
 { #category : #'private - measurement' }
 BlVirtualListSpaceFiller >> fillSpaceUp: aFillerUpState andEachStepDo: aBlock [
-	 [ aBlock cull: aFillerUpState. self tryFillNextSpaceUp: aFillerUpState ] whileTrue
+	aBlock cull: aFillerUpState.
+
+	[ | shouldContinue |
+	shouldContinue := self tryFillNextSpaceUp: aFillerUpState.
+	shouldContinue ifTrue: [ aBlock cull: aFillerUpState ].
+	shouldContinue ] whileTrue
 ]
 
 { #category : #views }
@@ -139,7 +149,7 @@ BlVirtualListSpaceFiller >> tryFillNextSpaceDown: aFillDownState [
 	aFillDownState currentDataSourceIndex > aFillDownState itemCount
 		ifTrue: [ ^ false ].
 
-	aFillDownState currentTopPosition >= totalHeight
+	aFillDownState currentPosition >= totalHeight
 		ifTrue: [ ^ false ].
 
 	nextElement := fetcher fetchElementAt: aFillDownState currentDataSourceIndex.
@@ -149,10 +159,10 @@ BlVirtualListSpaceFiller >> tryFillNextSpaceDown: aFillDownState [
 		measureChild: nextElement
 		parentSpec: measurementSpec.
 
-	nextElement measuredBounds position: 0 @ aFillDownState currentTopPosition.
+	nextElement measuredBounds position: 0 @ aFillDownState currentPosition.
 
 	aFillDownState availableHeight: aFillDownState availableHeight - nextElement measuredHeight.
-	aFillDownState currentTopPosition: aFillDownState currentTopPosition + nextElement measuredHeight.
+	aFillDownState currentPosition: aFillDownState currentPosition + nextElement measuredHeight.
 	aFillDownState filledElements addLast: nextElement.
 	
 	^ true
@@ -169,7 +179,7 @@ BlVirtualListSpaceFiller >> tryFillNextSpaceUp: aFillTopState [
 	aFillTopState currentDataSourceIndex < 1
 		ifTrue: [ ^ false ].
 
-	aFillTopState currentBottomPosition <= 0.0
+	aFillTopState currentPosition <= 0.0
 		ifTrue: [ ^ false ].
 
 	nextElement := fetcher fetchElementAt: aFillTopState currentDataSourceIndex.
@@ -179,9 +189,9 @@ BlVirtualListSpaceFiller >> tryFillNextSpaceUp: aFillTopState [
 		measureChild: nextElement
 		parentSpec: measurementSpec.
 	
-	aFillTopState currentBottomPosition: aFillTopState currentBottomPosition - nextElement measuredHeight.
+	aFillTopState currentPosition: aFillTopState currentPosition - nextElement measuredHeight.
 	
-	nextElement measuredBounds position: 0 @ aFillTopState currentBottomPosition.
+	nextElement measuredBounds position: 0 @ aFillTopState currentPosition.
 
 	aFillTopState availableHeight: aFillTopState availableHeight - nextElement measuredHeight.
 	

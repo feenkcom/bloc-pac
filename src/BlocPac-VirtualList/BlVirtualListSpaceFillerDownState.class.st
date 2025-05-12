@@ -2,7 +2,6 @@ Class {
 	#name : #BlVirtualListSpaceFillerDownState,
 	#superclass : #BlVirtualListSpaceFillerState,
 	#instVars : [
-		'currentTopPosition',
 		'startTopOffset'
 	],
 	#category : #'BlocPac-VirtualList'
@@ -10,7 +9,7 @@ Class {
 
 { #category : #views }
 BlVirtualListSpaceFillerDownState >> asPreviewElement [
-	| state container frame realFrame firstOffset |
+	| state container frame realFrame firstOffset markerPosition |
 	frame := BlElement new
 			size: totalWidth @ totalHeight;
 			border: (BlBorder builder
@@ -45,54 +44,34 @@ BlVirtualListSpaceFillerDownState >> asPreviewElement [
 							c frame horizontal alignNone.
 							c frame vertical alignNone ]) ].
 
+	
+	markerPosition := startTopOffset.
+	
 	frame
 		addChild: (BrFrame new
 				background: BrGlamorousColors primaryBorderColor;
 				hMatchParent;
-				vExact: 2;
-				relocate: 0 @ (startTopOffset - 1)).
+				vExact: 3;
+				relocate: 0 @ (markerPosition - 1)).
 
-	state := BrFrame new
-			hFitContent;
-			clipChildren: false;
-			vMatchParent.
-
-	state
-		addChild: (BlElement new
-				geometry: (BlNormalizedMultiPolylineGeometry
-						polylines: {{0 @ 0.
-									1 @ 0}.
-								{0.5 @ 0.
-									0.5 @ 1}.
-								{0 @ 1.
-									1 @ 1}});
-				height: currentTopPosition - startTopOffset;
-				width: 10;
-				margin: (BlInsets top: startTopOffset left: 10);
-				outskirts: BlOutskirts centered;
-				border: (BlBorder paint: BrGlamorousColors primaryBorderColor width: 2)).
-
-	state
-		addChild: (BrLabel new
-				aptitude: BrGlamorousLabelAptitude;
-				text: (currentTopPosition - startTopOffset) asString , 'pt';
-				margin: (BlInsets left: 20);
-				constraintsDo: [ :c | c frame vertical alignCenterAt: ((currentTopPosition - startTopOffset) / 2.0 + startTopOffset) / totalHeight ]).
+	state := self
+		gtNewDistanceMarker: availableHeight
+		from: currentPosition
+		color: BrGlamorousColors primaryBorderColor.
 
 	container := BrHorizontalPane new
 			fitContent;
 			clipChildren: false;
-			addChildren: {
-				BrFrame new
-					fitContent;
-					clipChildren: false;
-					addChildren: { realFrame. frame }.
-			
-			
-					state};
+			padding: (BlInsets top: (firstOffset min: 0) abs);
+			addChildren: {BrFrame new
+						fitContent;
+						clipChildren: false;
+						addChildren: {realFrame.
+								frame}.
+					state };
 			yourself.
-
 	^ container
+
 ]
 
 { #category : #'as yet unclassified' }
@@ -100,9 +79,9 @@ BlVirtualListSpaceFillerDownState >> asUpState [
 	^ BlVirtualListSpaceFillerUpState new
 		filledElements: filledElements;
 		startDataSourceIndex: self startDataSourceIndex;
-		startBottomOffset: self startTopOffset;
+		startBottomOffset: totalHeight - self startTopOffset;
 		currentDataSourceIndex: self startDataSourceIndex - 1;
-		currentBottomPosition: self startTopOffset;
+		currentPosition: self startTopOffset;
 		itemCount: itemCount;
 		availableHeight: self availableSpaceAboveFirst;
 		totalWidth: totalWidth;
@@ -117,14 +96,20 @@ BlVirtualListSpaceFillerDownState >> availableSpaceAboveFirst [
 		ifNotEmpty: [ :theElements | theElements first measuredPosition y max: 0.0 ]
 ]
 
-{ #category : #accessing }
-BlVirtualListSpaceFillerDownState >> currentTopPosition [
-	^ currentTopPosition
-]
-
-{ #category : #accessing }
-BlVirtualListSpaceFillerDownState >> currentTopPosition: anObject [
-	currentTopPosition := anObject
+{ #category : #views }
+BlVirtualListSpaceFillerDownState >> gtDetailsFor: aView [
+	<gtView>
+	^ aView columnedList
+		title: 'Details';
+		priority: 3;
+		items: [ {'Available height' -> availableHeight.
+				'Start index' -> startDataSourceIndex.
+				'Start top offset' -> startTopOffset.
+				'Next index' -> currentDataSourceIndex.
+				'Next position' -> currentPosition} ];
+		column: 'Property' text: [ :each | each key ];
+		column: 'Value' text: [ :each | each value ];
+		send: [ :each | each value ]
 ]
 
 { #category : #views }
