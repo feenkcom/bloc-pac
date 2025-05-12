@@ -2,7 +2,6 @@ Class {
 	#name : #BlVirtualListSpaceFillerUpState,
 	#superclass : #BlVirtualListSpaceFillerState,
 	#instVars : [
-		'currentBottomPosition',
 		'startBottomOffset'
 	],
 	#category : #'BlocPac-VirtualList'
@@ -15,7 +14,7 @@ BlVirtualListSpaceFillerUpState >> asDownState [
 
 { #category : #'as yet unclassified' }
 BlVirtualListSpaceFillerUpState >> asPreviewElement [
-	| state container frame realFrame firstOffset distanceMarker distanceLabel distance |
+	| state container frame realFrame firstOffset markerPosition |
 	frame := BlElement new
 			size: totalWidth @ totalHeight;
 			border: (BlBorder builder
@@ -23,11 +22,9 @@ BlVirtualListSpaceFillerUpState >> asPreviewElement [
 					width: 1;
 					paint: Color gray;
 					build).
-
 	firstOffset := filledElements
 			ifEmpty: [ 0 ]
 			ifNotEmpty: [ :theElements | theElements first measuredPosition y ].
-
 	realFrame := BrVerticalPane new
 			fitContent;
 			padding: (BlInsets top: firstOffset);
@@ -37,7 +34,6 @@ BlVirtualListSpaceFillerUpState >> asPreviewElement [
 					width: 1;
 					paint: Color gray;
 					build).
-
 	filledElements
 		do: [ :eachChild | 
 			realFrame
@@ -49,48 +45,18 @@ BlVirtualListSpaceFillerUpState >> asPreviewElement [
 						constraintsDo: [ :c | 
 							c frame horizontal alignNone.
 							c frame vertical alignNone ]) ].
-
+	markerPosition := totalHeight - startBottomOffset.
 	frame
 		addChild: (BrFrame new
 				background: BrGlamorousColors errorBorderColor;
 				hMatchParent;
 				vExact: 3;
-				relocate: 0 @ (startBottomOffset - 1)).
+				relocate: 0 @ (markerPosition - 1)).
 
-
-	state := BrFrame new
-			hFitContent;
-			clipChildren: false;
-			vMatchParent.
-
-	distance := (startBottomOffset - currentBottomPosition) abs.
-
-	distanceMarker := BlElement new
-			geometry: (BlNormalizedMultiPolylineGeometry
-					polylines: {{0 @ 0.
-								1 @ 0}.
-							{0.5 @ 0.
-								0.5 @ 1}.
-							{0 @ 1.
-								1 @ 1}});
-			height: distance - 1;
-			width: 10;
-			outskirts: BlOutskirts centered;
-			border: (BlBorder paint: BrGlamorousColors errorBorderColor width: 2).
-
-	distanceLabel := BrLabel new
-			aptitude: BrGlamorousLabelAptitude;
-			text: distance asString , 'pt'.
-
-	state
-		addChild: (BrHorizontalPane new
-				alignCenter;
-				vExact: distance;
-				hFitContent;
-				clipChildren: false;
-				margin: (BlInsets top: currentBottomPosition left: 10);
-				addChildren: {distanceMarker.
-						distanceLabel}).
+	state := self
+		gtNewDistanceMarker: availableHeight
+		from: 0
+		color: BrGlamorousColors errorBorderColor.
 
 	container := BrHorizontalPane new
 			fitContent;
@@ -101,20 +67,25 @@ BlVirtualListSpaceFillerUpState >> asPreviewElement [
 						clipChildren: false;
 						addChildren: {realFrame.
 								frame}.
-					state};
+					state };
 			yourself.
-
 	^ container
 ]
 
-{ #category : #accessing }
-BlVirtualListSpaceFillerUpState >> currentBottomPosition [
-	^ currentBottomPosition
-]
-
-{ #category : #accessing }
-BlVirtualListSpaceFillerUpState >> currentBottomPosition: anObject [
-	currentBottomPosition := anObject
+{ #category : #'as yet unclassified' }
+BlVirtualListSpaceFillerUpState >> gtDetailsFor: aView [
+	<gtView>
+	^ aView columnedList
+		title: 'Details';
+		priority: 3;
+		items: [ {'Available height' -> availableHeight.
+				'Start index' -> startDataSourceIndex.
+				'Start bottom offset' -> startBottomOffset.
+				'Current index' -> currentDataSourceIndex.
+				'Current position' -> currentPosition } ];
+		column: 'Property' text: [ :each | each key ];
+		column: 'Value' text: [ :each | each value ];
+		send: [ :each | each value ]
 ]
 
 { #category : #'as yet unclassified' }
