@@ -254,8 +254,6 @@ BlScrollFlinger >> run [
 			self onLayoutScrolled.
 			
 			self runSmoothOn: aSmoothScroller with: aState.
-
-			self runOverscrollOn: aScroller with: aState.
 			
 			aState didScroll
 				ifTrue: [ scrollable dispatchOnScrolled: aState hResult @ aState vResult ].
@@ -331,45 +329,6 @@ BlScrollFlinger >> runLayoutScrollWith: aState [
 		ifFalse: [ 
 			aState vResult: (scrollable scrollVerticallyBy: aState dY).
 			aState overscrollY: aState dY - aState vResult ]
-]
-
-{ #category : #private }
-BlScrollFlinger >> runOverscrollOn: anOverScroller with: aState [
-	| aVelocity aVelocityX aVelocityY |
-
-	"Should not overscroll if distances in both directions are zero"
-	(aState overscrollX isZero and: [
-		aState overscrollY isZero ])
-			ifTrue: [ ^ self ].
-			
-	aVelocity := anOverScroller velocity.
-	
-	aVelocityX := 0.
-	(aState overscrollX ~= aState x)
-		ifTrue: [
-			aVelocityX := (aState overscrollX < 0)
-				ifTrue: [ aVelocity x negated ]
-				ifFalse: [ (aState overscrollX > 0)
-					ifTrue: [ aVelocity x ]
-					ifFalse: [ 0 ] ] ].
-		
-	aVelocityY := 0.
-	(aState overscrollY ~= aState y)
-		ifTrue: [
-			aVelocityY := (aState overscrollY < 0)
-				ifTrue: [ aVelocity y negated ]
-				ifFalse: [ (aState overscrollY > 0)
-					ifTrue: [ aVelocity y ]
-					ifFalse: [ 0 ] ] ].
-	
-	"Check if we need to finish scrolling"
-	((aVelocityX isZero not or: [
-		aState overscrollX = aState x or: [ 
-			anOverScroller finalX isZero ] ])
-		and: [ aVelocityY isZero not or: [
-					aState overscrollY = aState y or: [ 
-						anOverScroller finalY isZero ] ] ])
-			ifTrue: [ anOverScroller finish ]
 ]
 
 { #category : #private }
