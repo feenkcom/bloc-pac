@@ -9,7 +9,17 @@ Class {
 
 { #category : #'as yet unclassified' }
 BlVirtualListSpaceFillerUpState >> asDownState [
-	^ self shouldBeImplemented
+	^ BlVirtualListSpaceFillerDownState new
+		filledElements: filledElements;
+		startDataSourceIndex: self startDataSourceIndex;
+		startTopOffset: totalHeight - self startBottomOffset;
+		currentDataSourceIndex: self startDataSourceIndex + 1;
+		currentPosition: totalHeight - self startBottomOffset;
+		itemCount: itemCount;
+		availableHeight: self availableSpaceBelowLast;
+		totalWidth: totalWidth;
+		totalHeight: totalHeight;
+		yourself
 ]
 
 { #category : #'as yet unclassified' }
@@ -35,16 +45,22 @@ BlVirtualListSpaceFillerUpState >> asPreviewElement [
 					paint: Color gray;
 					build).
 	filledElements
-		do: [ :eachChild | 
+		withIndexDo: [ :eachChild :anIndex | 
 			realFrame
-				addChild: (BlElement new
+				addChild: (BrFrame new
 						background: Color veryVeryLightGray;
 						border: Color veryLightGray;
 						size: eachChild measuredExtent;
 						relocate: eachChild measuredPosition;
 						constraintsDo: [ :c | 
 							c frame horizontal alignNone.
-							c frame vertical alignNone ]) ].
+							c frame vertical alignNone ];
+						addChild: (BrLabel new
+								aptitude: (BrGlamorousLabelAptitude new foreground: Color darkGray);
+								text: anIndex + self currentDataSourceIndex;
+								constraintsDo: [ :c | 
+									c frame horizontal alignCenter.
+									c frame vertical alignCenter ])) ].
 	markerPosition := totalHeight - startBottomOffset.
 	frame
 		addChild: (BrFrame new
@@ -54,9 +70,9 @@ BlVirtualListSpaceFillerUpState >> asPreviewElement [
 				relocate: 0 @ (markerPosition - 1)).
 
 	state := self
-		gtNewDistanceMarker: availableHeight
-		from: 0
-		color: BrGlamorousColors errorBorderColor.
+			gtNewDistanceMarker: availableHeight
+			from: 0
+			color: BrGlamorousColors errorBorderColor.
 
 	container := BrHorizontalPane new
 			fitContent;
@@ -67,9 +83,16 @@ BlVirtualListSpaceFillerUpState >> asPreviewElement [
 						clipChildren: false;
 						addChildren: {realFrame.
 								frame}.
-					state };
+					state};
 			yourself.
 	^ container
+]
+
+{ #category : #'as yet unclassified' }
+BlVirtualListSpaceFillerUpState >> availableSpaceBelowLast [
+	^ filledElements
+		ifEmpty: [ 0 ]
+		ifNotEmpty: [ :theElements | totalHeight - theElements last measuredBounds bottom ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -111,7 +134,7 @@ BlVirtualListSpaceFillerUpState >> isUp [
 
 { #category : #'as yet unclassified' }
 BlVirtualListSpaceFillerUpState >> shouldFillDown [
-	^ self shouldBeImplemented
+	^ self availableSpaceBelowLast > 0 and: [ self startDataSourceIndex < self itemCount ]
 ]
 
 { #category : #accessing }

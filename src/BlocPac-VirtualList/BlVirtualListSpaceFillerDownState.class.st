@@ -19,8 +19,8 @@ BlVirtualListSpaceFillerDownState >> asPreviewElement [
 					build).
 
 	firstOffset := filledElements
-		ifEmpty: [ 0 ]
-		ifNotEmpty: [ :theElements | theElements first measuredPosition y ].
+			ifEmpty: [ 0 ]
+			ifNotEmpty: [ :theElements | theElements first measuredPosition y ].
 
 	realFrame := BrVerticalPane new
 			fitContent;
@@ -31,22 +31,28 @@ BlVirtualListSpaceFillerDownState >> asPreviewElement [
 					width: 1;
 					paint: Color gray;
 					build).
-					
+
 	filledElements
-		do: [ :eachChild | 
+		withIndexDo: [ :eachChild :anIndex | 
 			realFrame
-				addChild: (BlElement new
+				addChild: (BrFrame new
 						background: Color veryVeryLightGray;
 						border: Color veryLightGray;
 						size: eachChild measuredExtent;
 						relocate: eachChild measuredPosition;
 						constraintsDo: [ :c | 
 							c frame horizontal alignNone.
-							c frame vertical alignNone ]) ].
+							c frame vertical alignNone ];
+						addChild: (BrLabel new
+								aptitude: (BrGlamorousLabelAptitude new foreground: Color darkGray);
+								text: self currentDataSourceIndex - filledElements size + anIndex - 1;
+								constraintsDo: [ :c | 
+									c frame horizontal alignCenter.
+									c frame vertical alignCenter ])) ].
 
-	
+
 	markerPosition := startTopOffset.
-	
+
 	frame
 		addChild: (BrFrame new
 				background: BrGlamorousColors primaryBorderColor;
@@ -55,9 +61,9 @@ BlVirtualListSpaceFillerDownState >> asPreviewElement [
 				relocate: 0 @ (markerPosition - 1)).
 
 	state := self
-		gtNewDistanceMarker: availableHeight
-		from: currentPosition
-		color: BrGlamorousColors primaryBorderColor.
+			gtNewDistanceMarker: availableHeight
+			from: currentPosition
+			color: BrGlamorousColors primaryBorderColor.
 
 	container := BrHorizontalPane new
 			fitContent;
@@ -68,10 +74,9 @@ BlVirtualListSpaceFillerDownState >> asPreviewElement [
 						clipChildren: false;
 						addChildren: {realFrame.
 								frame}.
-					state };
+					state};
 			yourself.
 	^ container
-
 ]
 
 { #category : #'as yet unclassified' }
