@@ -1,3 +1,6 @@
+"
+{{gtClass:BlVirtualListSpaceFiller}} is used within a virtualized list to occupy space that is not filled by actual content elements. It allows the virtual list to maintain the correct scrollable area size and positioning, even as only a subset of elements are rendered.
+"
 Class {
 	#name : #BlVirtualListSpaceFiller,
 	#superclass : #Object,
@@ -62,7 +65,7 @@ BlVirtualListSpaceFiller >> createFillerUpState: anItemToFillFrom [
 		currentDataSourceIndex: anItemToFillFrom dataSourceIndex;
 		currentPosition: totalHeight - anItemToFillFrom offset;
 		itemCount: fetcher dataSource itemCount;
-		availableHeight: totalHeight + (anItemToFillFrom offset min: 0) abs;
+		availableHeight: totalHeight - anItemToFillFrom offset;
 		totalWidth: totalWidth;
 		totalHeight: totalHeight;
 		yourself
