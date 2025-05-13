@@ -13,7 +13,8 @@ BlVirtualListSpaceFillerExamples >> colorsFiller [
 	fetcher := BlVirtualListElementFetcher new setDataSource: dataSource.
 	anchor := BlVirtualListFillerAnchor new
 		dataSourceIndex: 1;
-		elementAlignment: BlElementAlignment vertical center.
+		elementAlignment: BlElementAlignment vertical center;
+		offset: 0.
 	
 	filler := BlVirtualListSpaceFiller new
 		setFetcher: fetcher

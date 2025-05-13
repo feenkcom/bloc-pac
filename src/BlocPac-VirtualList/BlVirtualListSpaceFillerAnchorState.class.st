@@ -7,7 +7,7 @@ Class {
 	#category : #'BlocPac-VirtualList'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #converting }
 BlVirtualListSpaceFillerAnchorState >> asDownState [
 	| availableSpaceBelowLast |
 	
@@ -26,7 +26,7 @@ BlVirtualListSpaceFillerAnchorState >> asDownState [
 		yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #converting }
 BlVirtualListSpaceFillerAnchorState >> asPreviewElement [
 	| state container frame realFrame firstOffset markerPosition |
 	frame := BlElement new
@@ -98,7 +98,7 @@ BlVirtualListSpaceFillerAnchorState >> asPreviewElement [
 	^ container
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #converting }
 BlVirtualListSpaceFillerAnchorState >> asUpState [
 	| availableSpaceAboveFirst |
 	
@@ -125,4 +125,15 @@ BlVirtualListSpaceFillerAnchorState >> elementAlignment [
 { #category : #accessing }
 BlVirtualListSpaceFillerAnchorState >> elementAlignment: anObject [
 	elementAlignment := anObject
+]
+
+{ #category : #views }
+BlVirtualListSpaceFillerAnchorState >> gtPreviewFor: aView [
+	<gtView>
+	^ aView forward
+		title: 'Preview';
+		priority: 5;
+		object: [ self asPreviewElement asCanvassableElement ];
+		view: #gtLiveFor:;
+		actionUpdateButton
 ]

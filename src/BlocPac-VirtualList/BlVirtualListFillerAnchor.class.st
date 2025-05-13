@@ -9,7 +9,8 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'dataSourceIndex',
-		'elementAlignment'
+		'elementAlignment',
+		'offset'
 	],
 	#category : #'BlocPac-VirtualList'
 }
@@ -34,4 +35,21 @@ BlVirtualListFillerAnchor >> elementAlignment [
 { #category : #accessing }
 BlVirtualListFillerAnchor >> elementAlignment: anElementAlignment [
 	elementAlignment := anElementAlignment
+]
+
+{ #category : #'as yet unclassified' }
+BlVirtualListFillerAnchor >> initialize [
+	super initialize.
+	
+	offset := 0
+]
+
+{ #category : #accessing }
+BlVirtualListFillerAnchor >> offset [
+	^ offset
+]
+
+{ #category : #accessing }
+BlVirtualListFillerAnchor >> offset: anObject [
+	offset := anObject
 ]

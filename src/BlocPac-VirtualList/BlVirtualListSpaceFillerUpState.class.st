@@ -8,21 +8,6 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-BlVirtualListSpaceFillerUpState >> asDownState [
-	^ BlVirtualListSpaceFillerDownState new
-		filledElements: filledElements;
-		startDataSourceIndex: self startDataSourceIndex;
-		startTopOffset: totalHeight - self startBottomOffset;
-		currentDataSourceIndex: self startDataSourceIndex + 1;
-		currentPosition: totalHeight - self startBottomOffset;
-		itemCount: itemCount;
-		availableHeight: self availableSpaceBelowLast;
-		totalWidth: totalWidth;
-		totalHeight: totalHeight;
-		yourself
-]
-
-{ #category : #'as yet unclassified' }
 BlVirtualListSpaceFillerUpState >> asPreviewElement [
 	| state container frame realFrame firstOffset markerPosition |
 	frame := BlElement new

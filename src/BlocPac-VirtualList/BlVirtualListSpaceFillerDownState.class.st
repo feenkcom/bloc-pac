@@ -79,21 +79,6 @@ BlVirtualListSpaceFillerDownState >> asPreviewElement [
 	^ container
 ]
 
-{ #category : #'as yet unclassified' }
-BlVirtualListSpaceFillerDownState >> asUpState [
-	^ BlVirtualListSpaceFillerUpState new
-		filledElements: filledElements;
-		startDataSourceIndex: self startDataSourceIndex;
-		startBottomOffset: totalHeight - self startTopOffset;
-		currentDataSourceIndex: self startDataSourceIndex - 1;
-		currentPosition: self startTopOffset;
-		itemCount: itemCount;
-		availableHeight: self availableSpaceAboveFirst;
-		totalWidth: totalWidth;
-		totalHeight: totalHeight;
-		yourself
-]
-
 { #category : #views }
 BlVirtualListSpaceFillerDownState >> gtDetailsFor: aView [
 	<gtView>

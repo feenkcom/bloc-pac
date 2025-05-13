@@ -49,7 +49,7 @@ BlVirtualListSpaceFiller >> createFillerAnchorState: aFillerAnchor [
 		elementAlignment: aFillerAnchor elementAlignment;
 		startDataSourceIndex: aFillerAnchor dataSourceIndex;
 		currentDataSourceIndex: aFillerAnchor dataSourceIndex;
-		currentPosition: 0;
+		currentPosition: aFillerAnchor offset;
 		itemCount: fetcher dataSource itemCount;
 		availableHeight: totalHeight;
 		totalWidth: totalWidth;
@@ -175,9 +175,6 @@ BlVirtualListSpaceFiller >> tryFillAnchor: aFillAnchorState [
 	aFillAnchorState currentDataSourceIndex > aFillAnchorState itemCount
 		ifTrue: [ ^ false ].
 
-	aFillAnchorState currentPosition >= totalHeight
-		ifTrue: [ ^ false ].
-
 	initialElement := fetcher fetchElementAt: aFillAnchorState currentDataSourceIndex.
 
 	self
@@ -187,6 +184,8 @@ BlVirtualListSpaceFiller >> tryFillAnchor: aFillAnchorState [
 	initialElementPosition := aFillAnchorState elementAlignment
 		translationOf: initialElement measuredBounds
 		in: (0@0 extent: totalWidth@totalHeight).
+		
+	initialElementPosition := initialElementPosition + aFillAnchorState currentPosition.
 
 	initialElement measuredBounds position: initialElementPosition.
 
