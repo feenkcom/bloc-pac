@@ -8,21 +8,6 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-BlVirtualListSpaceFillerUpState >> asDownState [
-	^ BlVirtualListSpaceFillerDownState new
-		filledElements: filledElements;
-		startDataSourceIndex: self startDataSourceIndex;
-		startTopOffset: totalHeight - self startBottomOffset;
-		currentDataSourceIndex: self startDataSourceIndex + 1;
-		currentPosition: totalHeight - self startBottomOffset;
-		itemCount: itemCount;
-		availableHeight: self availableSpaceBelowLast;
-		totalWidth: totalWidth;
-		totalHeight: totalHeight;
-		yourself
-]
-
-{ #category : #'as yet unclassified' }
 BlVirtualListSpaceFillerUpState >> asPreviewElement [
 	| state container frame realFrame firstOffset markerPosition |
 	frame := BlElement new
@@ -89,13 +74,6 @@ BlVirtualListSpaceFillerUpState >> asPreviewElement [
 ]
 
 { #category : #'as yet unclassified' }
-BlVirtualListSpaceFillerUpState >> availableSpaceBelowLast [
-	^ filledElements
-		ifEmpty: [ 0 ]
-		ifNotEmpty: [ :theElements | totalHeight - theElements last measuredBounds bottom ]
-]
-
-{ #category : #'as yet unclassified' }
 BlVirtualListSpaceFillerUpState >> gtDetailsFor: aView [
 	<gtView>
 	^ aView columnedList
@@ -120,21 +98,6 @@ BlVirtualListSpaceFillerUpState >> gtPreviewFor: aView [
 		object: [ self asPreviewElement asCanvassableElement ];
 		view: #gtLiveFor:;
 		actionUpdateButton
-]
-
-{ #category : #'as yet unclassified' }
-BlVirtualListSpaceFillerUpState >> isDown [
-	^ false
-]
-
-{ #category : #'as yet unclassified' }
-BlVirtualListSpaceFillerUpState >> isUp [
-	^ true
-]
-
-{ #category : #'as yet unclassified' }
-BlVirtualListSpaceFillerUpState >> shouldFillDown [
-	^ self availableSpaceBelowLast > 0 and: [ self startDataSourceIndex < self itemCount ]
 ]
 
 { #category : #accessing }

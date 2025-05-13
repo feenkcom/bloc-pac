@@ -24,6 +24,20 @@ BlVirtualListSpaceFillerState >> availableHeight: anObject [
 	availableHeight := anObject
 ]
 
+{ #category : #'as yet unclassified' }
+BlVirtualListSpaceFillerState >> availableSpaceAboveFirst [
+	^ filledElements
+		ifEmpty: [ 0 ]
+		ifNotEmpty: [ :theElements | theElements first measuredPosition y max: 0.0 ]
+]
+
+{ #category : #'as yet unclassified' }
+BlVirtualListSpaceFillerState >> availableSpaceBelowLast [
+	^ filledElements
+		ifEmpty: [ 0 ]
+		ifNotEmpty: [ :theElements | totalHeight - theElements last measuredBounds bottom ]
+]
+
 { #category : #accessing }
 BlVirtualListSpaceFillerState >> currentDataSourceIndex [
 	^ currentDataSourceIndex
@@ -98,16 +112,6 @@ BlVirtualListSpaceFillerState >> initialize [
 	filledElements := LinkedList new
 ]
 
-{ #category : #'as yet unclassified' }
-BlVirtualListSpaceFillerState >> isDown [
-	^ self subclassResponsibility
-]
-
-{ #category : #'as yet unclassified' }
-BlVirtualListSpaceFillerState >> isUp [
-	^ self subclassResponsibility
-]
-
 { #category : #accessing }
 BlVirtualListSpaceFillerState >> itemCount [
 	^ itemCount
@@ -121,6 +125,16 @@ BlVirtualListSpaceFillerState >> itemCount: anObject [
 { #category : #'as yet unclassified' }
 BlVirtualListSpaceFillerState >> postCopy [
 	filledElements := filledElements copy
+]
+
+{ #category : #'as yet unclassified' }
+BlVirtualListSpaceFillerState >> shouldFillDown [
+	^ self availableSpaceBelowLast > 0 and: [ self startDataSourceIndex < self itemCount ]
+]
+
+{ #category : #'as yet unclassified' }
+BlVirtualListSpaceFillerState >> shouldFillUp [
+	^ self availableSpaceAboveFirst > 0 and: [ self startDataSourceIndex > 1 ]
 ]
 
 { #category : #accessing }

@@ -36,15 +36,19 @@ BlVirtualListElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext
 
 { #category : #'as yet unclassified' }
 BlVirtualListElement >> onMeasure: anExtentMeasurementSpec [
-	| fetcher filler state |
+	| fetcher anchor filler state |
 	
 	dataSource ifNil: [ ^ self ].
 	
 	fetcher := BlVirtualListElementFetcher new setDataSource: dataSource.
 	
+	anchor := BlVirtualListFillerAnchor new
+		dataSourceIndex: viewport topItemIndex;
+		elementAlignment: BlElementAlignment vertical start.
+	
 	filler := BlVirtualListSpaceFiller new
 		setFetcher: fetcher
-		viewport: viewport
+		anchor: anchor
 		measurementSpec: anExtentMeasurementSpec.
 
 	state := filler fillSpace.

@@ -8,7 +8,7 @@ Class {
 	#classTraits : 'TBlWithLayoutMeasurement classTrait',
 	#instVars : [
 		'fetcher',
-		'viewport',
+		'anchor',
 		'measurementSpec',
 		'totalHeight',
 		'totalWidth'
@@ -41,6 +41,20 @@ BlVirtualListSpaceFiller >> asPreviewElement [
 						margin: (BlInsets all: 20)) ].
 
 	^ container asScrollableElement
+]
+
+{ #category : #'private - measurement' }
+BlVirtualListSpaceFiller >> createFillerAnchorState: aFillerAnchor [
+	^ BlVirtualListSpaceFillerAnchorState new
+		elementAlignment: aFillerAnchor elementAlignment;
+		startDataSourceIndex: aFillerAnchor dataSourceIndex;
+		currentDataSourceIndex: aFillerAnchor dataSourceIndex;
+		currentPosition: aFillerAnchor offset;
+		itemCount: fetcher dataSource itemCount;
+		availableHeight: totalHeight;
+		totalWidth: totalWidth;
+		totalHeight: totalHeight;
+		yourself
 ]
 
 { #category : #'private - measurement' }
@@ -77,20 +91,29 @@ BlVirtualListSpaceFiller >> fillSpace [
 ]
 
 { #category : #'private - measurement' }
+BlVirtualListSpaceFiller >> fillSpaceAnchor: aFillerAnchorState andEachStepDo: aBlock [
+	aBlock cull: aFillerAnchorState.
+	self tryFillAnchor: aFillerAnchorState.
+	aBlock cull: aFillerAnchorState.
+	
+	^ aFillerAnchorState
+]
+
+{ #category : #'private - measurement' }
 BlVirtualListSpaceFiller >> fillSpaceAndDo: eachStateBlock [
-	self itemToFillFrom
-		ifTop: [ :itemToFillFromTop |
-			| fillerState |
-			fillerState := self createFillerDownState: itemToFillFromTop.
-			self fillSpaceDown: fillerState andEachStepDo: eachStateBlock.
-			fillerState shouldFillUp
-				ifTrue: [ self fillSpaceUp: fillerState asUpState andEachStepDo: eachStateBlock ] ]
-		ifBottom: [ :itemToFillFromBottom |
-			| fillerState |
-			fillerState := self createFillerUpState: itemToFillFromBottom.
-			self fillSpaceUp: fillerState andEachStepDo: eachStateBlock.
-			fillerState shouldFillDown
-				ifTrue: [ self fillSpaceDown: fillerState asDownState andEachStepDo: eachStateBlock ] ]
+	| initialState |
+	
+	initialState := self
+		fillSpaceAnchor: (self createFillerAnchorState: anchor)
+		andEachStepDo: eachStateBlock.
+
+	initialState shouldFillUp
+		ifTrue: [ self fillSpaceUp: initialState asUpState andEachStepDo: eachStateBlock ].
+		
+	initialState shouldFillDown
+		ifTrue: [ self fillSpaceDown: initialState asDownState andEachStepDo: eachStateBlock ].
+
+	^ initialState
 ]
 
 { #category : #'private - measurement' }
@@ -100,7 +123,8 @@ BlVirtualListSpaceFiller >> fillSpaceDown: aFillerDownState andEachStepDo: aBloc
 	[ | shouldContinue |
 	shouldContinue := self tryFillNextSpaceDown: aFillerDownState.
 	shouldContinue ifTrue: [ aBlock cull: aFillerDownState ].
-	shouldContinue ] whileTrue
+	shouldContinue ] whileTrue.
+	^ aFillerDownState
 ]
 
 { #category : #'private - measurement' }
@@ -110,7 +134,9 @@ BlVirtualListSpaceFiller >> fillSpaceUp: aFillerUpState andEachStepDo: aBlock [
 	[ | shouldContinue |
 	shouldContinue := self tryFillNextSpaceUp: aFillerUpState.
 	shouldContinue ifTrue: [ aBlock cull: aFillerUpState ].
-	shouldContinue ] whileTrue
+	shouldContinue ] whileTrue.
+	
+	^ aFillerUpState
 ]
 
 { #category : #views }
@@ -130,12 +156,42 @@ BlVirtualListSpaceFiller >> itemToFillFrom [
 ]
 
 { #category : #initialization }
-BlVirtualListSpaceFiller >> setFetcher: aFetcher viewport: aViewport measurementSpec: aMeasurementSpec [
+BlVirtualListSpaceFiller >> setFetcher: aFetcher anchor: anAnchor measurementSpec: aMeasurementSpec [
 	fetcher := aFetcher.
-	viewport := aViewport.
+	anchor := anAnchor.
 	measurementSpec := aMeasurementSpec.
 	totalWidth := measurementSpec widthSpec sizeFor: Float infinity.
 	totalHeight := measurementSpec heightSpec sizeFor: Float infinity.
+]
+
+{ #category : #'private - measurement' }
+BlVirtualListSpaceFiller >> tryFillAnchor: aFillAnchorState [
+	<return: #Boolean>
+	| initialElement initialElementPosition|
+
+	aFillAnchorState availableHeight <= 0
+		ifTrue: [ ^ false ].
+
+	aFillAnchorState currentDataSourceIndex > aFillAnchorState itemCount
+		ifTrue: [ ^ false ].
+
+	initialElement := fetcher fetchElementAt: aFillAnchorState currentDataSourceIndex.
+
+	self
+		measureChild: initialElement
+		parentSpec: measurementSpec.
+		
+	initialElementPosition := aFillAnchorState elementAlignment
+		translationOf: initialElement measuredBounds
+		in: (0@0 extent: totalWidth@totalHeight).
+		
+	initialElementPosition := initialElementPosition + aFillAnchorState currentPosition.
+
+	initialElement measuredBounds position: initialElementPosition.
+
+	aFillAnchorState filledElements addLast: initialElement.
+	
+	^ true
 ]
 
 { #category : #'private - measurement' }

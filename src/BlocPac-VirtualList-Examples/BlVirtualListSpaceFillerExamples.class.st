@@ -7,19 +7,18 @@ Class {
 { #category : #'as yet unclassified' }
 BlVirtualListSpaceFillerExamples >> colorsFiller [
 	<gtExample>
-	| dataSource fetcher viewport filler |
+	| dataSource fetcher anchor filler |
 	
 	dataSource := BlVirtualListExampleColorsDataSource new.
 	fetcher := BlVirtualListElementFetcher new setDataSource: dataSource.
-	viewport := BlVirtualListViewport new
-		topItemOffset: 100;
-		topItemIndex: 3;
-		bottomItemIndex: 3;
-		bottomItemOffset: 60.
+	anchor := BlVirtualListFillerAnchor new
+		dataSourceIndex: 1;
+		elementAlignment: BlElementAlignment vertical center;
+		offset: 0.
 	
 	filler := BlVirtualListSpaceFiller new
 		setFetcher: fetcher
-		viewport: viewport
+		anchor: anchor
 		measurementSpec: (BlExtentMeasurementSpec exact: 200@220).
 
 	^ filler
