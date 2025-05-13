@@ -89,13 +89,6 @@ BlVirtualListSpaceFillerUpState >> asPreviewElement [
 ]
 
 { #category : #'as yet unclassified' }
-BlVirtualListSpaceFillerUpState >> availableSpaceBelowLast [
-	^ filledElements
-		ifEmpty: [ 0 ]
-		ifNotEmpty: [ :theElements | totalHeight - theElements last measuredBounds bottom ]
-]
-
-{ #category : #'as yet unclassified' }
 BlVirtualListSpaceFillerUpState >> gtDetailsFor: aView [
 	<gtView>
 	^ aView columnedList
@@ -120,21 +113,6 @@ BlVirtualListSpaceFillerUpState >> gtPreviewFor: aView [
 		object: [ self asPreviewElement asCanvassableElement ];
 		view: #gtLiveFor:;
 		actionUpdateButton
-]
-
-{ #category : #'as yet unclassified' }
-BlVirtualListSpaceFillerUpState >> isDown [
-	^ false
-]
-
-{ #category : #'as yet unclassified' }
-BlVirtualListSpaceFillerUpState >> isUp [
-	^ true
-]
-
-{ #category : #'as yet unclassified' }
-BlVirtualListSpaceFillerUpState >> shouldFillDown [
-	^ self availableSpaceBelowLast > 0 and: [ self startDataSourceIndex < self itemCount ]
 ]
 
 { #category : #accessing }
