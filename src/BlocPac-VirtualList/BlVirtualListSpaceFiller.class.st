@@ -65,7 +65,7 @@ BlVirtualListSpaceFiller >> createFillerUpState: anItemToFillFrom [
 		currentDataSourceIndex: anItemToFillFrom dataSourceIndex;
 		currentPosition: totalHeight - anItemToFillFrom offset;
 		itemCount: fetcher dataSource itemCount;
-		availableHeight: totalHeight + (anItemToFillFrom offset min: 0) abs;
+		availableHeight: totalHeight - anItemToFillFrom offset;
 		totalWidth: totalWidth;
 		totalHeight: totalHeight;
 		yourself
