@@ -1,3 +1,6 @@
+"
+{{gtClass:BlVirtualListViewport}} represents the visual portion or window of a virtualized list that is currently visible to the user. It manages which elements from a possibly very large data source are actually rendered and displayed at any given time, based on the user's scrolling or navigation. This enables efficient memory and rendering management by only keeping visible items and some surrounding buffer in memory, improving performance for large lists.
+"
 Class {
 	#name : #BlVirtualListViewport,
 	#superclass : #Object,
