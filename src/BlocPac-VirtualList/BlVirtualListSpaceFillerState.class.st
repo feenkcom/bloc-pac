@@ -58,6 +58,19 @@ BlVirtualListSpaceFillerState >> currentPosition: anObject [
 	currentPosition := anObject
 ]
 
+{ #category : #views }
+BlVirtualListSpaceFillerState >> filledElementBoundsAssertion [
+	| source coder |
+	source := '
+	self assert: self filledElementsMeasuredBounds equals: {1}'
+			format: {self filledElementsMeasuredBounds printString}.
+
+
+	coder := GtPharoSnippetCoder forSource: source.
+	coder format.
+	^ coder currentSourceString
+]
+
 { #category : #accessing }
 BlVirtualListSpaceFillerState >> filledElements [
 	^ filledElements
@@ -66,6 +79,25 @@ BlVirtualListSpaceFillerState >> filledElements [
 { #category : #accessing }
 BlVirtualListSpaceFillerState >> filledElements: anObject [
 	filledElements := anObject
+]
+
+{ #category : #'as yet unclassified' }
+BlVirtualListSpaceFillerState >> filledElementsMeasuredBounds [
+	^ self filledElements collect: [ :each | each measuredBounds asRectangle ] as: Array
+]
+
+{ #category : #views }
+BlVirtualListSpaceFillerState >> gtFilledElementsBoundsAssertionFor: aView [
+	<gtView>
+	^ aView explicit
+		title: 'Bounds assertion';
+		priority: 15;
+		stencil: [ | source coder coderViewModel |
+			source := self filledElementBoundsAssertion.
+			coder := GtPharoSnippetCoder forSource: source.
+			coderViewModel := coder asCoderViewModel.
+			coderViewModel selfObject: self.
+			coderViewModel asExpandedOnlyElement matchParent ]
 ]
 
 { #category : #'as yet unclassified' }
