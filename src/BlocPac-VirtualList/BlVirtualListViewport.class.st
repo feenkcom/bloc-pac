@@ -44,31 +44,6 @@ BlVirtualListViewport >> initialize [
 ]
 
 { #category : #accessing }
-BlVirtualListViewport >> itemToFillFrom [
-	topItemOffset <= 0.0
-		ifTrue: [ ^ BlVirtualListFillerAnchor new
-				beTop;
-				dataSourceIndex: topItemIndex;
-				offset: topItemOffset ].
-
-	bottomItemOffset <= 0.0
-		ifTrue: [ ^ BlVirtualListFillerAnchor new
-				beBottom;
-				dataSourceIndex: bottomItemIndex;
-				offset: bottomItemOffset ].
-
-	^ topItemOffset < bottomItemOffset
-		ifTrue: [ BlVirtualListFillerAnchor new
-				beTop;
-				dataSourceIndex: topItemIndex;
-				offset: topItemOffset ]
-		ifFalse: [ BlVirtualListFillerAnchor new
-				beBottom;
-				dataSourceIndex: bottomItemIndex;
-				offset: bottomItemOffset ]
-]
-
-{ #category : #accessing }
 BlVirtualListViewport >> topItemIndex [
 	^ topItemIndex
 ]

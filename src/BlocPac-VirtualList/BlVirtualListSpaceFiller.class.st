@@ -108,10 +108,10 @@ BlVirtualListSpaceFiller >> fillSpaceAndDo: eachStateBlock [
 		andEachStepDo: eachStateBlock.
 
 	initialState shouldFillUp
-		ifTrue: [ self fillSpaceUp: initialState asUpState andEachStepDo: eachStateBlock ].
-		
+		ifTrue: [ self fillSpaceUp: initialState asFillUpState andEachStepDo: eachStateBlock ].
+
 	initialState shouldFillDown
-		ifTrue: [ self fillSpaceDown: initialState asDownState andEachStepDo: eachStateBlock ].
+		ifTrue: [ self fillSpaceDown: initialState asFillDownState andEachStepDo: eachStateBlock ].
 
 	^ initialState
 ]
@@ -148,11 +148,6 @@ BlVirtualListSpaceFiller >> gtStepsFor: aView [
 		object: [ self asPreviewElement ];
 		view: #gtLiveFor:;
 		actionUpdateButton
-]
-
-{ #category : #'as yet unclassified' }
-BlVirtualListSpaceFiller >> itemToFillFrom [
-	^ viewport itemToFillFrom
 ]
 
 { #category : #initialization }

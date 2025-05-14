@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #converting }
-BlVirtualListSpaceFillerAnchorState >> asDownState [
+BlVirtualListSpaceFillerAnchorState >> asFillDownState [
 	| availableSpaceBelowLast |
 	
 	availableSpaceBelowLast := self availableSpaceBelowLast.
@@ -21,6 +21,25 @@ BlVirtualListSpaceFillerAnchorState >> asDownState [
 		currentPosition: totalHeight - availableSpaceBelowLast;
 		itemCount: itemCount;
 		availableHeight: availableSpaceBelowLast;
+		totalWidth: totalWidth;
+		totalHeight: totalHeight;
+		yourself
+]
+
+{ #category : #converting }
+BlVirtualListSpaceFillerAnchorState >> asFillUpState [
+	| availableSpaceAboveFirst |
+	
+	availableSpaceAboveFirst := self availableSpaceAboveFirst.
+	
+	^ BlVirtualListSpaceFillerUpState new
+		filledElements: filledElements;
+		startDataSourceIndex: self startDataSourceIndex;
+		startBottomOffset: totalHeight - availableSpaceAboveFirst;
+		currentDataSourceIndex: self startDataSourceIndex - 1;
+		currentPosition: availableSpaceAboveFirst;
+		itemCount: itemCount;
+		availableHeight: availableSpaceAboveFirst;
 		totalWidth: totalWidth;
 		totalHeight: totalHeight;
 		yourself
@@ -96,25 +115,6 @@ BlVirtualListSpaceFillerAnchorState >> asPreviewElement [
 					state};
 			yourself.
 	^ container
-]
-
-{ #category : #converting }
-BlVirtualListSpaceFillerAnchorState >> asUpState [
-	| availableSpaceAboveFirst |
-	
-	availableSpaceAboveFirst := self availableSpaceAboveFirst.
-	
-	^ BlVirtualListSpaceFillerUpState new
-		filledElements: filledElements;
-		startDataSourceIndex: self startDataSourceIndex;
-		startBottomOffset: totalHeight - availableSpaceAboveFirst;
-		currentDataSourceIndex: self startDataSourceIndex - 1;
-		currentPosition: availableSpaceAboveFirst;
-		itemCount: itemCount;
-		availableHeight: availableSpaceAboveFirst;
-		totalWidth: totalWidth;
-		totalHeight: totalHeight;
-		yourself
 ]
 
 { #category : #accessing }
