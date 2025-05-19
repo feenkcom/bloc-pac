@@ -89,7 +89,9 @@ BlDragHandler >> initialize [
 
 { #category : #accessing }
 BlDragHandler >> liftItem: aBlock [
-	"Set a block that creates collection of BlDragItem instances.
+	"Set a block that creates:
+	- one BlDragItem instance, or
+	- a collection of BlDragItem instances.
 	The block has one argument: [ :aSourceElement | BlDragItem new ]"
 
 	liftItemBlock := aBlock
