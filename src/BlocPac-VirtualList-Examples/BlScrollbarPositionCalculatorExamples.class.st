@@ -25,6 +25,34 @@ BlScrollbarPositionCalculatorExamples >> nonuniformSizeList [
 ]
 
 { #category : #examples }
+BlScrollbarPositionCalculatorExamples >> nonuniformSizeSmallerViewportAtElement5 [
+	<gtExample>
+	| calc sizes vpSize |
+	sizes := self nonuniformSizeList.
+	calc := BlScrollbarPositionCalculator forSizes: sizes.
+	vpSize := sizes sum / 3.
+	calc viewportSize: vpSize.
+	calc topIndex: 5.
+	self assert: calc thumbOffset equals: 80.
+	self assert: calc thumbSize equals: sizes sum / 9.
+	^ calc
+]
+
+{ #category : #examples }
+BlScrollbarPositionCalculatorExamples >> nonuniformSizeSmallerViewportAtElement7 [
+	<gtExample>
+	| calc sizes vpSize |
+	sizes := self nonuniformSizeList.
+	calc := BlScrollbarPositionCalculator forSizes: sizes.
+	vpSize := sizes sum / 3.
+	calc viewportSize: vpSize.
+	calc topIndex: 7.
+	self assert: calc thumbOffset equals: 100.
+	self assert: calc thumbSize equals: sizes sum / 9.
+	^ calc
+]
+
+{ #category : #examples }
 BlScrollbarPositionCalculatorExamples >> uniformSizeFullViewport [
 	<gtExample>
 	| calc sizes |
@@ -41,7 +69,21 @@ BlScrollbarPositionCalculatorExamples >> uniformSizeFullViewport [
 { #category : #examples }
 BlScrollbarPositionCalculatorExamples >> uniformSizeList [
 	<gtExample>
-	^Array new: 20 withAll: 50
+	^Array new: 21 withAll: 50
+]
+
+{ #category : #examples }
+BlScrollbarPositionCalculatorExamples >> uniformSizeSmallerViewportAtBottom [
+	<gtExample>
+	| calc sizes |
+	sizes := self uniformSizeList.
+	calc := BlScrollbarPositionCalculator forSizes: sizes.
+	calc viewportSize: sizes sum / 3.
+	calc scrollOffset: 0.
+	calc topIndex: 15.
+	self assert: calc thumbOffset equals: 14*50/3.
+	self assert: calc thumbSize equals: sizes sum / 9.
+	^ calc
 ]
 
 { #category : #examples }
@@ -87,12 +129,30 @@ BlScrollbarPositionCalculatorExamples >> uniformSizeSmallerViewportAtTopWithOffs
 
 { #category : #examples }
 BlScrollbarPositionCalculatorExamples >> uniformSizeSmallerViewportAtTopWithOffsetThatIsTooLarge [
+	"If offset is too big, it will just draw rather than throw an error"
+
 	<gtExample>
 	| calc sizes |
 	sizes := self uniformSizeList.
 	calc := BlScrollbarPositionCalculator forSizes: sizes.
 	calc viewportSize: sizes sum / 3.
-	calc topIndex: 2.
+	calc topIndex: 3.
 	calc scrollOffset: 60.
+	self assert: calc thumbOffset equals: 40/3.
+	self assert: calc thumbSize equals: sizes sum / 9.
+	^ calc
+]
+
+{ #category : #examples }
+BlScrollbarPositionCalculatorExamples >> uniformSizeSmallerViewportOffEnd [
+	<gtExample>
+	| calc sizes |
+	sizes := self uniformSizeList.
+	calc := BlScrollbarPositionCalculator forSizes: sizes.
+	calc viewportSize: sizes sum / 3.
+	calc scrollOffset: 0.
+	calc topIndex: 21.
+	self assert: calc thumbOffset equals: 20*50/3.
+	self assert: calc thumbSize equals: sizes sum / 9.
 	^ calc
 ]
