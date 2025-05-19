@@ -47,7 +47,7 @@ BlScrollbarPositionCalculator >> gtViewFor: aView [
 					constraintsDo: [ :c | 
 						c vertical exact: 50.
 						c horizontal exact: viewportSize ];
-					relocate: (20 + (50 * (topIndex-1) - scrollOffset)) @ 80;
+					relocate: (20 + (sizes at: topIndex) - scrollOffset) @ 80;
 					layout: BlBasicLayout new;
 					border: (BlBorder paint: Color gray).
 			scrollbar := BlElement new
