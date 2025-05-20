@@ -17,14 +17,14 @@ BlDragHandler >> allowFreeDrag [
 
 { #category : #'dnd handlers' }
 BlDragHandler >> createDragItemFor: aSourceElement [
-	<return: #BlDragItem>
+	<return: #Collection of: #BlDragItem>
 
 	^ liftItemBlock
 		ifNil: [
-			BlDragItem new
+			{ BlDragItem new
 				sourceElement: aSourceElement;
-				domainObject: nil ]
-		ifNotNil: [ :aBlock | aBlock cull: aSourceElement ]
+				domainObject: nil } ]
+		ifNotNil: [ :aBlock | (aBlock cull: aSourceElement) asCollection ]
 ]
 
 { #category : #accessing }
@@ -39,7 +39,7 @@ BlDragHandler >> dragStartEvent: anEvent [
 	anEvent consumed: true.
 
 	aDragDelegate := BlDragDelegate new.
-	aDragDelegate items: { self createDragItemFor: anEvent currentTarget }.
+	aDragDelegate items: (self createDragItemFor: anEvent currentTarget).
 	aDragDelegate offset: anEvent localPosition.
 	
 	shouldMarkAsCopy := canBeCopied and: [
@@ -89,6 +89,11 @@ BlDragHandler >> initialize [
 
 { #category : #accessing }
 BlDragHandler >> liftItem: aBlock [
+	"Set a block that creates:
+	- one BlDragItem instance, or
+	- a collection of BlDragItem instances.
+	The block has one argument: [ :aSourceElement | BlDragItem new ]"
+
 	liftItemBlock := aBlock
 ]
 
