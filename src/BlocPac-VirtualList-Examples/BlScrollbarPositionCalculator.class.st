@@ -5,7 +5,8 @@ Class {
 		'sizes',
 		'viewportSize',
 		'scrollOffset',
-		'topIndex'
+		'topIndex',
+		'minimumThumb'
 	],
 	#category : #'BlocPac-VirtualList-Examples'
 }
@@ -13,6 +14,11 @@ Class {
 { #category : #examples }
 BlScrollbarPositionCalculator class >> forSizes: aSizeCollection [
 	^self new sizes: aSizeCollection
+]
+
+{ #category : #'as yet unclassified' }
+BlScrollbarPositionCalculator >> calculatedThumbSize [
+	^ viewportSize / self totalSize * viewportSize
 ]
 
 { #category : #views }
@@ -66,8 +72,14 @@ BlScrollbarPositionCalculator >> initialize [
 	super initialize.
 	topIndex := 1.
 	scrollOffset := 0.
+	minimumThumb := 0.
 	viewportSize := 1.
 	sizes := #(0)
+]
+
+{ #category : #'as yet unclassified' }
+BlScrollbarPositionCalculator >> minimumThumb: aNumber [ 
+	minimumThumb := aNumber
 ]
 
 { #category : #private }
@@ -89,14 +101,19 @@ BlScrollbarPositionCalculator >> sizes: aSizeCollection [
 	sizes := self rollup: aSizeCollection
 ]
 
+{ #category : #'as yet unclassified' }
+BlScrollbarPositionCalculator >> thumbDifferenceWithCalculated [
+	^ (minimumThumb - self calculatedThumbSize) max: 0
+]
+
 { #category : #computing }
 BlScrollbarPositionCalculator >> thumbOffset [
-	^ ((sizes at: topIndex) - scrollOffset) / self totalSize * viewportSize
+	^ ((sizes at: topIndex) - scrollOffset) / self totalSize * (viewportSize - self thumbDifferenceWithCalculated)
 ]
 
 { #category : #'as yet unclassified' }
 BlScrollbarPositionCalculator >> thumbSize [
-	^ viewportSize / self totalSize * viewportSize
+	^ self calculatedThumbSize max: minimumThumb
 ]
 
 { #category : #'as yet unclassified' }
@@ -107,6 +124,11 @@ BlScrollbarPositionCalculator >> topIndex: anInteger [
 { #category : #computing }
 BlScrollbarPositionCalculator >> totalSize [
 	^ sizes last
+]
+
+{ #category : #accessing }
+BlScrollbarPositionCalculator >> viewportSize [
+	^ viewportSize
 ]
 
 { #category : #'as yet unclassified' }
