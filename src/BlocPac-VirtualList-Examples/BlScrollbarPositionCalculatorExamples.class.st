@@ -171,3 +171,38 @@ BlScrollbarPositionCalculatorExamples >> uniformSizeSmallerViewportOffEnd [
 	self assert: calc thumbOffset equals: 20*50/3.
 	^ calc
 ]
+
+{ #category : #examples }
+BlScrollbarPositionCalculatorExamples >> uniformSizeSmallerViewportWithMinimumSize [
+	"We'll make the minimum 50% of the total viewport to make it obvious"
+	<gtExample>
+	| calc |
+	calc := self uniformSizeSmallerViewportAtTop.
+	calc minimumThumb: calc viewportSize / 2.
+	self assert: calc thumbOffset equals: 0.
+	self assert: calc thumbSize equals: calc viewportSize / 2.
+	^ calc
+]
+
+{ #category : #examples }
+BlScrollbarPositionCalculatorExamples >> uniformSizeSmallerViewportWithMinimumSizeAtBottom [
+	"We'll make the minimum 50% of the total viewport to make it obvious"
+	<gtExample>
+	| calc |
+	calc := self uniformSizeSmallerViewportAtBottom.
+	calc minimumThumb: calc viewportSize / 2.
+	self assert: calc thumbOffset equals: 1750/9.
+	self assert: calc thumbSize equals: calc viewportSize / 2.
+	^ calc
+]
+
+{ #category : #examples }
+BlScrollbarPositionCalculatorExamples >> uniformSizeSmallerViewportWithMinimumSizeAtElement5 [
+	<gtExample>
+	| calc |
+	calc := self uniformSizeSmallerViewportAtElement5.
+	calc minimumThumb: calc viewportSize / 2.
+	self assert: calc thumbOffset equals: 500/9.
+	self assert: calc thumbSize equals: calc viewportSize / 2.
+	^ calc
+]
