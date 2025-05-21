@@ -162,7 +162,7 @@ BlVirtualListSpaceFiller >> setFetcher: aFetcher anchor: anAnchor measurementSpe
 { #category : #'private - measurement' }
 BlVirtualListSpaceFiller >> tryFillAnchor: aFillAnchorState [
 	<return: #Boolean>
-	| initialElement initialElementPosition|
+	| initialElement initialElementPosition |
 
 	aFillAnchorState availableHeight <= 0
 		ifTrue: [ ^ false ].
@@ -182,10 +182,12 @@ BlVirtualListSpaceFiller >> tryFillAnchor: aFillAnchorState [
 		
 	initialElementPosition := initialElementPosition + aFillAnchorState currentPosition.
 
-	initialElement measuredBounds position: initialElementPosition.
+	initialElement measuredBounds position: 0 @ initialElementPosition y.
 
-	aFillAnchorState filledElements addLast: initialElement.
-	
+	aFillAnchorState
+		addFilledElementLast: initialElement
+		dataSourceIndex: aFillAnchorState currentDataSourceIndex.
+
 	^ true
 ]
 
@@ -195,7 +197,7 @@ BlVirtualListSpaceFiller >> tryFillNextSpaceDown: aFillDownState [
 	
 	This logic is specific for bottom-filling behaviors in virtualized lists."
 	<return: #Boolean>
-	| nextElement |
+	| nextElementIndex nextElement |
 
 	aFillDownState availableHeight <= 0
 		ifTrue: [ ^ false ].
@@ -206,8 +208,9 @@ BlVirtualListSpaceFiller >> tryFillNextSpaceDown: aFillDownState [
 	aFillDownState currentPosition >= totalHeight
 		ifTrue: [ ^ false ].
 
-	nextElement := fetcher fetchElementAt: aFillDownState currentDataSourceIndex.
-	aFillDownState currentDataSourceIndex: aFillDownState currentDataSourceIndex + 1.
+	nextElementIndex := aFillDownState currentDataSourceIndex.
+	nextElement := fetcher fetchElementAt: nextElementIndex.
+	aFillDownState currentDataSourceIndex: nextElementIndex + 1.
 
 	self
 		measureChild: nextElement
@@ -217,7 +220,10 @@ BlVirtualListSpaceFiller >> tryFillNextSpaceDown: aFillDownState [
 
 	aFillDownState availableHeight: aFillDownState availableHeight - nextElement measuredHeight.
 	aFillDownState currentPosition: aFillDownState currentPosition + nextElement measuredHeight.
-	aFillDownState filledElements addLast: nextElement.
+	
+	aFillDownState
+		addFilledElementLast: nextElement
+		dataSourceIndex: nextElementIndex.
 	
 	^ true
 ]
@@ -225,7 +231,7 @@ BlVirtualListSpaceFiller >> tryFillNextSpaceDown: aFillDownState [
 { #category : #'private - measurement' }
 BlVirtualListSpaceFiller >> tryFillNextSpaceUp: aFillTopState [
 	<return: #Boolean>
-	| nextElement |
+	| nextElement nextElementIndex |
 
 	aFillTopState availableHeight <= 0
 		ifTrue: [ ^ false ].
@@ -236,8 +242,9 @@ BlVirtualListSpaceFiller >> tryFillNextSpaceUp: aFillTopState [
 	aFillTopState currentPosition <= 0.0
 		ifTrue: [ ^ false ].
 
-	nextElement := fetcher fetchElementAt: aFillTopState currentDataSourceIndex.
-	aFillTopState currentDataSourceIndex: aFillTopState currentDataSourceIndex - 1.
+	nextElementIndex := aFillTopState currentDataSourceIndex.
+	nextElement := fetcher fetchElementAt: nextElementIndex.
+	aFillTopState currentDataSourceIndex: nextElementIndex - 1.
 
 	self
 		measureChild: nextElement
@@ -249,7 +256,9 @@ BlVirtualListSpaceFiller >> tryFillNextSpaceUp: aFillTopState [
 
 	aFillTopState availableHeight: aFillTopState availableHeight - nextElement measuredHeight.
 	
-	aFillTopState filledElements addFirst: nextElement.
+	aFillTopState
+		addFilledElementFirst: nextElement
+		dataSourceIndex: nextElementIndex.
 	
 	^ true
 ]

@@ -23,7 +23,11 @@ BlVirtualListElement >> dataSource: anObject [
 BlVirtualListElement >> initialize [
 	super initialize.
 	
-	viewport := BlVirtualListViewport new
+	viewport := BlVirtualListViewport new.
+	
+	self when: BlMouseWheelEvent do: [ :anEvent |
+		self scrollBy: anEvent vector
+	].
 ]
 
 { #category : #'as yet unclassified' }
@@ -44,7 +48,8 @@ BlVirtualListElement >> onMeasure: anExtentMeasurementSpec [
 	
 	anchor := BlVirtualListFillerAnchor new
 		dataSourceIndex: viewport topItemIndex;
-		elementAlignment: BlElementAlignment vertical start.
+		elementAlignment: BlElementAlignment vertical start;
+		offset: viewport topItemOffset.
 	
 	filler := BlVirtualListSpaceFiller new
 		setFetcher: fetcher
@@ -52,14 +57,20 @@ BlVirtualListElement >> onMeasure: anExtentMeasurementSpec [
 		measurementSpec: anExtentMeasurementSpec.
 
 	state := filler fillSpace.
+	viewport := state viewport.
 	
 	self ignoreRequestLayoutDuring: [
 		self removeChildren.
-		self addChildren: state filledElements
-	].
+		self addChildren: (state filledElements collect: [ :each | each element ] as: Array) ].
 	
 	self measuredExtent: (anExtentMeasurementSpec sizeFor: 0.0@0.0).
 	
+]
+
+{ #category : #'as yet unclassified' }
+BlVirtualListElement >> scrollBy: anOffsetPoint [
+	viewport topItemOffset: viewport topItemOffset + anOffsetPoint y.
+	self requestLayout
 ]
 
 { #category : #accessing }
