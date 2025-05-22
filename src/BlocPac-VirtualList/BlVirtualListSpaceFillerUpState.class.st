@@ -17,7 +17,7 @@ BlVirtualListSpaceFillerUpState >> asPreviewElement [
 					width: 1;
 					paint: Color gray;
 					build).
-	firstOffset := filledElements
+	firstOffset := filledItems
 			ifEmpty: [ 0 ]
 			ifNotEmpty: [ :theElements | theElements first measuredPosition y ].
 	realFrame := BrVerticalPane new
@@ -29,7 +29,7 @@ BlVirtualListSpaceFillerUpState >> asPreviewElement [
 					width: 1;
 					paint: Color gray;
 					build).
-	filledElements
+	filledItems
 		withIndexDo: [ :eachChild :anIndex | 
 			realFrame
 				addChild: (BrFrame new
@@ -83,10 +83,12 @@ BlVirtualListSpaceFillerUpState >> gtDetailsFor: aView [
 				'Start index' -> startDataSourceIndex.
 				'Start bottom offset' -> startBottomOffset.
 				'Current index' -> currentDataSourceIndex.
-				'Current position' -> currentPosition } ];
+				'Current position' -> currentPosition.
+				'Viewport' -> self viewport } ];
 		column: 'Property' text: [ :each | each key ];
 		column: 'Value' text: [ :each | each value ];
-		send: [ :each | each value ]
+		send: [ :each | each value ];
+		actionUpdateButton
 ]
 
 { #category : #'as yet unclassified' }

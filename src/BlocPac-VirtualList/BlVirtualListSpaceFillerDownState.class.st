@@ -18,7 +18,7 @@ BlVirtualListSpaceFillerDownState >> asPreviewElement [
 					paint: Color gray;
 					build).
 
-	firstOffset := filledElements
+	firstOffset := filledItems
 			ifEmpty: [ 0 ]
 			ifNotEmpty: [ :theElements | theElements first measuredPosition y ].
 
@@ -32,7 +32,7 @@ BlVirtualListSpaceFillerDownState >> asPreviewElement [
 					paint: Color gray;
 					build).
 
-	filledElements
+	filledItems
 		withIndexDo: [ :eachChild :anIndex | 
 			realFrame
 				addChild: (BrFrame new
@@ -45,7 +45,7 @@ BlVirtualListSpaceFillerDownState >> asPreviewElement [
 							c frame vertical alignNone ];
 						addChild: (BrLabel new
 								aptitude: (BrGlamorousLabelAptitude new foreground: Color darkGray);
-								text: self currentDataSourceIndex - filledElements size + anIndex - 1;
+								text: self currentDataSourceIndex - filledItems size + anIndex - 1;
 								constraintsDo: [ :c | 
 									c frame horizontal alignCenter.
 									c frame vertical alignCenter ])) ].
@@ -89,10 +89,12 @@ BlVirtualListSpaceFillerDownState >> gtDetailsFor: aView [
 				'Start index' -> startDataSourceIndex.
 				'Start top offset' -> startTopOffset.
 				'Next index' -> currentDataSourceIndex.
-				'Next position' -> currentPosition} ];
+				'Next position' -> currentPosition.
+				'Viewport' -> self viewport } ];
 		column: 'Property' text: [ :each | each key ];
 		column: 'Value' text: [ :each | each value ];
-		send: [ :each | each value ]
+		send: [ :each | each value ];
+		actionUpdateButton
 ]
 
 { #category : #views }
