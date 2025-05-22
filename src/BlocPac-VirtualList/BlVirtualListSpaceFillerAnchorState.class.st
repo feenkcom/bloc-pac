@@ -14,7 +14,7 @@ BlVirtualListSpaceFillerAnchorState >> asFillDownState [
 	availableSpaceBelowLast := self availableSpaceBelowLast.
 
 	^ BlVirtualListSpaceFillerDownState new
-		filledElements: filledElements;
+		filledElements: filledItems;
 		startDataSourceIndex: self startDataSourceIndex;
 		startTopOffset: totalHeight - availableSpaceBelowLast;
 		currentDataSourceIndex: self startDataSourceIndex + 1;
@@ -33,7 +33,7 @@ BlVirtualListSpaceFillerAnchorState >> asFillUpState [
 	availableSpaceAboveFirst := self availableSpaceAboveFirst.
 	
 	^ BlVirtualListSpaceFillerUpState new
-		filledElements: filledElements;
+		filledElements: filledItems;
 		startDataSourceIndex: self startDataSourceIndex;
 		startBottomOffset: totalHeight - availableSpaceAboveFirst;
 		currentDataSourceIndex: self startDataSourceIndex - 1;
@@ -56,7 +56,7 @@ BlVirtualListSpaceFillerAnchorState >> asPreviewElement [
 					paint: Color gray;
 					build).
 
-	firstOffset := filledElements
+	firstOffset := filledItems
 			ifEmpty: [ 0 ]
 			ifNotEmpty: [ :theElements | theElements first measuredPosition y ].
 
@@ -70,7 +70,7 @@ BlVirtualListSpaceFillerAnchorState >> asPreviewElement [
 					paint: Color gray;
 					build).
 
-	filledElements
+	filledItems
 		withIndexDo: [ :eachChild :anIndex | 
 			realFrame
 				addChild: (BrFrame new

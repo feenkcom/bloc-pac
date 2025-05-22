@@ -62,7 +62,7 @@ BlVirtualListSpaceFillerExamples >> fillAt1AlignTopOffset0 [
 			0 @ 50.0 corner: 200.0 @ 100.0.
 			0 @ 100.0 corner: 200.0 @ 150.0.
 			0 @ 150.0 corner: 200.0 @ 200.0.
-			0 @ 200.0 corner: 200.0 @ 250.0}.
+			0 @ 200.0 corner: 200.0 @ 250.0 }.
 	
 	^ filler
 ]

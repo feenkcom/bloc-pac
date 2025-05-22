@@ -33,6 +33,19 @@ BlVirtualListViewport >> bottomItemOffset: anObject [
 	bottomItemOffset := anObject
 ]
 
+{ #category : #'as yet unclassified' }
+BlVirtualListViewport >> gtDisplayOn: stream [
+	stream
+		nextPutAll: 'Top index: ';
+		print: topItemIndex;
+		nextPutAll: ' offset: ';
+		print: topItemOffset;
+		nextPutAll: ' bottom index: ';
+		print: bottomItemIndex;
+		nextPutAll: ' offset: ';
+		print: bottomItemOffset
+]
+
 { #category : #initialization }
 BlVirtualListViewport >> initialize [
 	super initialize.
