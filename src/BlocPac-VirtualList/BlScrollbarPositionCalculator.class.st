@@ -8,7 +8,7 @@ Class {
 		'topIndex',
 		'minimumThumb'
 	],
-	#category : #'BlocPac-VirtualList-Examples'
+	#category : #'BlocPac-VirtualList'
 }
 
 { #category : #examples }
