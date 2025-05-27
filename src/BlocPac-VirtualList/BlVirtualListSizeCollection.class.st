@@ -8,19 +8,19 @@ Class {
 	#category : #'BlocPac-VirtualList'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 BlVirtualListSizeCollection >> averageSize [
 	| tot cnt |
 	tot := 0.
 	cnt := 0.
 	intervals
 		do: [ :each | 
-			cnt := cnt + each second.
-			tot := tot + (each second * each third) ].
+			cnt := cnt + each count.
+			tot := tot + each totalSize ].
 	^ tot / cnt
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 BlVirtualListSizeCollection >> count [
 	^count
 ]
@@ -30,18 +30,16 @@ BlVirtualListSizeCollection >> count: anObject [
 	count := anObject
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 BlVirtualListSizeCollection >> from: startIndex to: endIndex size: aNumber [
 	| cnt |
 	cnt := endIndex - startIndex + 1.
 	intervals
-		add: {startIndex.
-				cnt.
-				aNumber}.
+		add: (BlVirtualListSizeInterval index: startIndex count: cnt elementSize: aNumber).
 	count := count max: endIndex.
 ]
 
-{ #category : #views }
+{ #category : #accessing }
 BlVirtualListSizeCollection >> gtDetailsViewFor: aView [
 	<gtView>
 	^ aView columnedList
@@ -54,24 +52,35 @@ BlVirtualListSizeCollection >> gtDetailsViewFor: aView [
 		send: [ :each | each value ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 BlVirtualListSizeCollection >> initialize [
 	super initialize.
-	intervals := SortedCollection sortBlock: [:a :b | a first < b first].
+	intervals := SortedCollection sortBlock: [:a :b | a index < b index].
 	count := 0.
 ]
 
-{ #category : #'as yet unclassified' }
-BlVirtualListSizeCollection >> totalSize [
-	| lastIndex totalSize avg |
+{ #category : #accessing }
+BlVirtualListSizeCollection >> sizeUpTo: anInteger [
+	| lastIndex totalSize avg stream each |
 	lastIndex := 0.
 	totalSize := 0.
 	avg := self averageSize.
-	intervals
-		do: [ :each | 
-			totalSize := totalSize + ((each first - (lastIndex + 1)) * avg).
-			lastIndex := (each first + each second - 1).
-			totalSize := totalSize + (each second * each third) ].
-	totalSize := totalSize + ((count - lastIndex) * avg).
+	stream := intervals readStream.
+	[ stream atEnd not and: [ stream peek lastIndex < anInteger ] ]
+		whileTrue: [ each := stream next.
+			totalSize := totalSize + ((each index - (lastIndex + 1)) * avg).	"add unknown sizes"
+			lastIndex := each lastIndex.
+			totalSize := totalSize + each totalSize ].
+	(stream atEnd
+		or: [ each := stream next.
+			anInteger < each index ])
+		ifTrue: [ totalSize := totalSize + ((anInteger - lastIndex) * avg) ]
+		ifFalse: [ totalSize := totalSize + ((each index - (lastIndex + 1)) * avg).
+			totalSize := totalSize + ((anInteger - each index + 1) * each elementSize) ].
 	^ totalSize
+]
+
+{ #category : #accessing }
+BlVirtualListSizeCollection >> totalSize [
+	^ self sizeUpTo: self count
 ]
