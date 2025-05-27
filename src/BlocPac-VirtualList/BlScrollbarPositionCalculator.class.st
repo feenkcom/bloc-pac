@@ -18,7 +18,7 @@ BlScrollbarPositionCalculator class >> forSizes: aSizeCollection [
 
 { #category : #'as yet unclassified' }
 BlScrollbarPositionCalculator >> calculatedThumbSize [
-	^ viewportSize / self totalSize * viewportSize
+	^ viewportSize / sizes totalSize * viewportSize
 ]
 
 { #category : #views }
@@ -38,10 +38,10 @@ BlScrollbarPositionCalculator >> gtViewFor: aView [
 					relocate: 20 @ 20;
 					layout: BlGridLayout horizontal.
 			2
-				to: sizes size
+				to: sizes count
 				do: [ :i | 
 					| each |
-					each := (sizes at: i) - (sizes at: i - 1).
+					each := (sizes sizeUpTo: i) - (sizes sizeUpTo: i - 1).
 					itemContainer
 						addChild: (BlElement new
 								constraintsDo: [ :c | 
@@ -53,7 +53,7 @@ BlScrollbarPositionCalculator >> gtViewFor: aView [
 					constraintsDo: [ :c | 
 						c vertical exact: 50.
 						c horizontal exact: viewportSize ];
-					relocate: (20 + (sizes at: topIndex) - scrollOffset) @ 80;
+					relocate: (20 + (sizes sizeUpTo: topIndex) - scrollOffset) @ 80;
 					layout: BlBasicLayout new;
 					border: (BlBorder paint: Color gray).
 			scrollbar := BlElement new
@@ -74,7 +74,7 @@ BlScrollbarPositionCalculator >> initialize [
 	scrollOffset := 0.
 	minimumThumb := 0.
 	viewportSize := 1.
-	sizes := #(0)
+	sizes := BlVirtualListSizeCollection new.
 ]
 
 { #category : #'as yet unclassified' }
@@ -96,9 +96,7 @@ BlScrollbarPositionCalculator >> scrollOffset: aNumber [
 
 { #category : #accesing }
 BlScrollbarPositionCalculator >> sizes: aSizeCollection [
-	"sizes stores the cumulative size at each index with a 0 in the first position and the total size in the last"
-	
-	sizes := self rollup: aSizeCollection
+	sizes := BlVirtualListSizeCollection fromSizes: aSizeCollection
 ]
 
 { #category : #'as yet unclassified' }
@@ -108,7 +106,7 @@ BlScrollbarPositionCalculator >> thumbDifferenceWithCalculated [
 
 { #category : #computing }
 BlScrollbarPositionCalculator >> thumbOffset [
-	^ ((sizes at: topIndex) - scrollOffset) / self totalSize * (viewportSize - self thumbDifferenceWithCalculated)
+	^ ((sizes sizeUpTo: topIndex) - scrollOffset) / sizes totalSize * (viewportSize - self thumbDifferenceWithCalculated)
 ]
 
 { #category : #'as yet unclassified' }
@@ -119,11 +117,6 @@ BlScrollbarPositionCalculator >> thumbSize [
 { #category : #'as yet unclassified' }
 BlScrollbarPositionCalculator >> topIndex: anInteger [ 
 	topIndex := anInteger
-]
-
-{ #category : #computing }
-BlScrollbarPositionCalculator >> totalSize [
-	^ sizes last
 ]
 
 { #category : #accessing }

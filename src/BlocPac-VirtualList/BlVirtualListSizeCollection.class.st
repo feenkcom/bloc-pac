@@ -8,6 +8,16 @@ Class {
 	#category : #'BlocPac-VirtualList'
 }
 
+{ #category : #'instance creation' }
+BlVirtualListSizeCollection class >> fromSizes: aSizeCollection [
+	| coll |
+	coll := self new.
+	aSizeCollection withIndexDo: [:each :i |
+		coll from: i to: i size: each
+	].
+	^coll
+]
+
 { #category : #accessing }
 BlVirtualListSizeCollection >> averageSize [
 	| tot cnt |
@@ -61,6 +71,8 @@ BlVirtualListSizeCollection >> initialize [
 
 { #category : #accessing }
 BlVirtualListSizeCollection >> sizeUpTo: anInteger [
+	"Cumulative size up to, but not including, anInteger"
+
 	| lastIndex totalSize avg stream each |
 	lastIndex := 0.
 	totalSize := 0.
@@ -74,13 +86,13 @@ BlVirtualListSizeCollection >> sizeUpTo: anInteger [
 	(stream atEnd
 		or: [ each := stream next.
 			anInteger < each index ])
-		ifTrue: [ totalSize := totalSize + ((anInteger - lastIndex) * avg) ]
+		ifTrue: [ totalSize := totalSize + ((anInteger - (lastIndex + 1)) * avg) ]
 		ifFalse: [ totalSize := totalSize + ((each index - (lastIndex + 1)) * avg).
-			totalSize := totalSize + ((anInteger - each index + 1) * each elementSize) ].
+			totalSize := totalSize + ((anInteger - each index) * each elementSize) ].
 	^ totalSize
 ]
 
 { #category : #accessing }
 BlVirtualListSizeCollection >> totalSize [
-	^ self sizeUpTo: self count
+	^ self sizeUpTo: self count + 1
 ]
