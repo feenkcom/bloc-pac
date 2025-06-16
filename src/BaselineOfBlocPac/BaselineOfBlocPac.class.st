@@ -10,13 +10,13 @@ BaselineOfBlocPac >> baseline: spec [
 	spec for: #'common' do: [
 		spec
 			baseline: 'Bloc' with: [
-				spec repository: 'github://feenkcom/Bloc:v0.8.871/src' ].
+				spec repository: 'github://feenkcom/Bloc:v0.8.872/src' ].
 		spec
 			baseline: 'Beacon' with: [
 				spec repository: 'github://feenkcom/pharo-beacon:de37185d7059e38a0af0ff008944ecf7a953e406/repository' ].
 		spec
 			baseline: 'SpartaSkia' with: [
-				spec repository: 'github://feenkcom/Sparta:v0.8.206/src' ].
+				spec repository: 'github://feenkcom/Sparta:v0.8.207/src' ].
 
 		spec package: 'BlocPac-CommonParent' with: [
 			spec requires: #(#Bloc) ].
