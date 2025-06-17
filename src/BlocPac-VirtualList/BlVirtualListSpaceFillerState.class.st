@@ -98,7 +98,7 @@ BlVirtualListSpaceFillerState >> filledElements: anObject [
 
 { #category : #'as yet unclassified' }
 BlVirtualListSpaceFillerState >> filledElementsMeasuredBounds [
-	^ self filledElements collect: [ :each | each measuredBounds asRectangle ] as: Array
+	^ self filledElements collect: [ :each | each bounds ] as: Array
 ]
 
 { #category : #'as yet unclassified' }
@@ -173,7 +173,7 @@ BlVirtualListSpaceFillerState >> gtNewDistanceMarker: distance from: position co
 BlVirtualListSpaceFillerState >> initialize [
 	super initialize.
 	
-	filledItems := DoubleLinkedList new
+	filledItems := LinkedList new
 ]
 
 { #category : #accessing }

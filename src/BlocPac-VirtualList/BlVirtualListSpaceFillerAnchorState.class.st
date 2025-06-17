@@ -58,7 +58,7 @@ BlVirtualListSpaceFillerAnchorState >> asPreviewElement [
 
 	firstOffset := filledItems
 			ifEmpty: [ 0 ]
-			ifNotEmpty: [ :theElements | theElements first measuredPosition y ].
+			ifNotEmpty: [ :theElements | theElements first bounds origin y ].
 
 	realFrame := BrVerticalPane new
 			fitContent;
@@ -76,8 +76,8 @@ BlVirtualListSpaceFillerAnchorState >> asPreviewElement [
 				addChild: (BrFrame new
 						background: (Color gray alpha: 0.25);
 						border: Color veryLightGray;
-						size: eachChild measuredExtent;
-						relocate: eachChild measuredPosition;
+						size: eachChild bounds extent;
+						relocate: eachChild bounds origin;
 						constraintsDo: [ :c | 
 							c frame horizontal alignNone.
 							c frame vertical alignNone ];
