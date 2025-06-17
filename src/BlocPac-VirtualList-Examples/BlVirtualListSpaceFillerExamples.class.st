@@ -123,14 +123,14 @@ BlVirtualListSpaceFillerExamples >> fillAt6AlignCenterOffset20 [
 
 	state := filler fillSpace.
 
-	state
+	self
 		assert: state filledElementsMeasuredBounds
 		equals: {0 @ -45.0 corner: 200.0 @ 5.0.
-			0 @ 5.0 corner: 200.0 @ 55.0.
-			0 @ 55.0 corner: 200.0 @ 105.0.
-			20 @ 105.0 corner: 220.0 @ 155.0.
-			0 @ 155.0 corner: 200.0 @ 205.0.
-			0 @ 205.0 corner: 200.0 @ 255.0}.
+				0 @ 5.0 corner: 200.0 @ 55.0.
+				0 @ 55.0 corner: 200.0 @ 105.0.
+				0 @ 105.0 corner: 200.0 @ 155.0.
+				0 @ 155.0 corner: 200.0 @ 205.0.
+				0 @ 205.0 corner: 200.0 @ 255.0}.
 	
 	^ filler
 ]
