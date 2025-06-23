@@ -3,7 +3,8 @@ Class {
 	#superclass : #BlElement,
 	#instVars : [
 		'dataSource',
-		'viewport'
+		'viewport',
+		'scrollbar'
 	],
 	#category : #'BlocPac-VirtualList'
 }
