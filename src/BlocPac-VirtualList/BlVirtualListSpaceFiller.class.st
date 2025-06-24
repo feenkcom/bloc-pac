@@ -11,7 +11,8 @@ Class {
 		'anchor',
 		'measurementSpec',
 		'totalHeight',
-		'totalWidth'
+		'totalWidth',
+		'availableHeight'
 	],
 	#category : #'BlocPac-VirtualList'
 }
@@ -51,7 +52,7 @@ BlVirtualListSpaceFiller >> createFillerAnchorState: aFillerAnchor [
 		currentDataSourceIndex: aFillerAnchor dataSourceIndex;
 		currentPosition: aFillerAnchor offset;
 		itemCount: fetcher dataSource itemCount;
-		availableHeight: totalHeight;
+		availableHeight: availableHeight;
 		totalWidth: totalWidth;
 		totalHeight: totalHeight;
 		yourself
@@ -65,7 +66,7 @@ BlVirtualListSpaceFiller >> createFillerDownState: anItemToFillFrom [
 		currentDataSourceIndex: anItemToFillFrom dataSourceIndex;
 		currentPosition: anItemToFillFrom offset;
 		itemCount: fetcher dataSource itemCount;
-		availableHeight: totalHeight - anItemToFillFrom offset;
+		availableHeight: availableHeight - anItemToFillFrom offset;
 		totalWidth: totalWidth;
 		totalHeight: totalHeight;
 		yourself
@@ -79,7 +80,7 @@ BlVirtualListSpaceFiller >> createFillerUpState: anItemToFillFrom [
 		currentDataSourceIndex: anItemToFillFrom dataSourceIndex;
 		currentPosition: totalHeight - anItemToFillFrom offset;
 		itemCount: fetcher dataSource itemCount;
-		availableHeight: totalHeight - anItemToFillFrom offset;
+		availableHeight: availableHeight - anItemToFillFrom offset;
 		totalWidth: totalWidth;
 		totalHeight: totalHeight;
 		yourself
@@ -155,8 +156,10 @@ BlVirtualListSpaceFiller >> setFetcher: aFetcher anchor: anAnchor measurementSpe
 	fetcher := aFetcher.
 	anchor := anAnchor.
 	measurementSpec := aMeasurementSpec.
-	totalWidth := measurementSpec widthSpec sizeFor: Float infinity.
-	totalHeight := measurementSpec heightSpec sizeFor: Float infinity.
+
+	totalWidth := measurementSpec widthSpec sizeFor: 0.
+	totalHeight := measurementSpec heightSpec sizeFor: 0.
+	availableHeight := measurementSpec heightSpec sizeFor: Float infinity.
 ]
 
 { #category : #'private - measurement' }
@@ -178,8 +181,8 @@ BlVirtualListSpaceFiller >> tryFillAnchor: aFillAnchorState [
 		
 	initialElementPosition := aFillAnchorState elementAlignment
 		translationOf: initialElement measuredBounds
-		in: (0@0 extent: totalWidth@totalHeight).
-		
+		in: (0@0 extent: totalWidth @ totalHeight).
+
 	initialElementPosition := initialElementPosition + aFillAnchorState currentPosition.
 
 	initialElement measuredBounds position: 0 @ initialElementPosition y.
@@ -197,24 +200,33 @@ BlVirtualListSpaceFiller >> tryFillNextSpaceDown: aFillDownState [
 	
 	This logic is specific for bottom-filling behaviors in virtualized lists."
 	<return: #Boolean>
-	| nextElementIndex nextElement |
+	| nextElementIndex nextElement childMeasurementSpec |
 
 	aFillDownState availableHeight <= 0
 		ifTrue: [ ^ false ].
 
 	aFillDownState currentDataSourceIndex > aFillDownState itemCount
 		ifTrue: [ ^ false ].
+		
+	measurementSpec viewport ifNotNil: [ :aViewport |
+		aFillDownState currentPosition >= aViewport bottom
+			ifTrue: [ ^ false ] ].
 
-	aFillDownState currentPosition >= totalHeight
-		ifTrue: [ ^ false ].
+	self flag: #TODO. "is this check needed"
+	"aFillDownState currentPosition >= totalHeight
+		ifTrue: [ ^ false ]."
 
 	nextElementIndex := aFillDownState currentDataSourceIndex.
 	nextElement := fetcher fetchElementAt: nextElementIndex.
 	aFillDownState currentDataSourceIndex: nextElementIndex + 1.
 
-	self
-		measureChild: nextElement
-		parentSpec: measurementSpec.
+	childMeasurementSpec := (self
+		extentMeasurentSpecForChild: nextElement
+		parentSpec: measurementSpec
+		widthUsed: 0
+		heightUsed: 0).
+	
+	nextElement measure: childMeasurementSpec.
 
 	nextElement measuredBounds position: 0 @ aFillDownState currentPosition.
 
@@ -241,6 +253,10 @@ BlVirtualListSpaceFiller >> tryFillNextSpaceUp: aFillTopState [
 
 	aFillTopState currentPosition <= 0.0
 		ifTrue: [ ^ false ].
+		
+	measurementSpec viewport ifNotNil: [ :aViewport |
+		aFillTopState currentPosition <= aViewport top
+			ifTrue: [ ^ false ] ].
 
 	nextElementIndex := aFillTopState currentDataSourceIndex.
 	nextElement := fetcher fetchElementAt: nextElementIndex.

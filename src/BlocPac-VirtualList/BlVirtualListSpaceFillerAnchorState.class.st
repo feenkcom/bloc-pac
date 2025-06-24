@@ -9,16 +9,17 @@ Class {
 
 { #category : #converting }
 BlVirtualListSpaceFillerAnchorState >> asFillDownState [
-	| availableSpaceBelowLast |
+	| availableSpaceBelowLast anchorItemBottom |
 	
 	availableSpaceBelowLast := self availableSpaceBelowLast.
+	anchorItemBottom := filledItems last bounds bottom.
 
 	^ BlVirtualListSpaceFillerDownState new
 		filledElements: filledItems;
 		startDataSourceIndex: self startDataSourceIndex;
-		startTopOffset: totalHeight - availableSpaceBelowLast;
+		startTopOffset: anchorItemBottom;
 		currentDataSourceIndex: self startDataSourceIndex + 1;
-		currentPosition: totalHeight - availableSpaceBelowLast;
+		currentPosition: anchorItemBottom;
 		itemCount: itemCount;
 		availableHeight: availableSpaceBelowLast;
 		totalWidth: totalWidth;
@@ -47,7 +48,12 @@ BlVirtualListSpaceFillerAnchorState >> asFillUpState [
 
 { #category : #converting }
 BlVirtualListSpaceFillerAnchorState >> asPreviewElement [
-	| state container frame realFrame firstOffset markerPosition |
+	| state container frame realFrame firstOffset markerPosition actuallyAvailableHeight |
+	
+	
+	actuallyAvailableHeight := availableHeight isInfinite
+		ifTrue: [ 900 ].
+	
 	frame := BlElement new
 			size: totalWidth @ totalHeight;
 			border: (BlBorder builder
@@ -99,7 +105,7 @@ BlVirtualListSpaceFillerAnchorState >> asPreviewElement [
 				relocate: 0 @ (markerPosition - 1)).
 
 	state := self
-			gtNewDistanceMarker: availableHeight
+			gtNewDistanceMarker: actuallyAvailableHeight
 			from: currentPosition
 			color: BrGlamorousColors successBorderColor.
 

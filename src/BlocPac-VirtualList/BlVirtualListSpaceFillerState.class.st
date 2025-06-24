@@ -9,7 +9,8 @@ Class {
 		'availableHeight',
 		'startDataSourceIndex',
 		'currentPosition',
-		'filledItems'
+		'filledItems',
+		'measurementViewport'
 	],
 	#category : #'BlocPac-VirtualList'
 }
@@ -51,7 +52,7 @@ BlVirtualListSpaceFillerState >> availableSpaceAboveFirst [
 BlVirtualListSpaceFillerState >> availableSpaceBelowLast [
 	^ filledItems
 		ifEmpty: [ 0 ]
-		ifNotEmpty: [ :theElements | totalHeight - theElements last bounds bottom ]
+		ifNotEmpty: [ :theElements | availableHeight - theElements last bounds bottom ]
 ]
 
 { #category : #accessing }
@@ -93,6 +94,10 @@ BlVirtualListSpaceFillerState >> filledElements [
 
 { #category : #accessing }
 BlVirtualListSpaceFillerState >> filledElements: anObject [
+	self
+		assert: [ anObject isKindOf: OrderedCollection ]
+		description: [ 'Private api, must be an OrderedCollection' ].
+
 	filledItems := anObject
 ]
 
@@ -108,14 +113,17 @@ BlVirtualListSpaceFillerState >> firstVisibleFilledItem [
 	^ filledItems
 		ifEmpty: [ nil ]
 		ifNotEmpty: [ :allItems |
-			| aLink |
-			aLink := allItems firstLink.
-			[aLink == nil] whileFalse:
-				[
-				 aLink value bounds bottom > 0
-				 	ifTrue: [ ^ aLink value ].
-				 aLink := aLink nextLink ].
+			allItems do: [ :eachItem |
+				eachItem bounds bottom > 0
+				 	ifTrue: [ ^ eachItem ] ].
 			allItems first ]
+]
+
+{ #category : #'as yet unclassified' }
+BlVirtualListSpaceFillerState >> firstVisibleFilledItemTop [
+	^ self firstVisibleFilledItem
+		ifNil: [ 0 ]
+		ifNotNil: [ :aFilledItem | aFilledItem bounds top ].
 ]
 
 { #category : #views }
@@ -173,7 +181,7 @@ BlVirtualListSpaceFillerState >> gtNewDistanceMarker: distance from: position co
 BlVirtualListSpaceFillerState >> initialize [
 	super initialize.
 	
-	filledItems := LinkedList new
+	filledItems := OrderedCollection new
 ]
 
 { #category : #accessing }
@@ -193,14 +201,27 @@ BlVirtualListSpaceFillerState >> lastVisibleFilledItem [
 	^ filledItems
 		ifEmpty: [ nil ]
 		ifNotEmpty: [ :allItems |
-			| aLink |
-			aLink := allItems lastLink.
-			[aLink == nil] whileFalse:
-				[
-				 aLink value bounds top < totalHeight
-				 	ifTrue: [ ^ aLink value ].
-				 aLink := aLink previousLink ].
+			allItems reverseDo: [ :eachItem |
+				eachItem bounds top < totalHeight
+				 	ifTrue: [ ^ eachItem ] ].
 			allItems last ]
+]
+
+{ #category : #'as yet unclassified' }
+BlVirtualListSpaceFillerState >> lastVisibleFilledItemBottom [
+	^ self lastVisibleFilledItem
+		ifNil: [ 0 ]
+		ifNotNil: [ :aFilledItem | aFilledItem bounds bottom ].
+]
+
+{ #category : #accessing }
+BlVirtualListSpaceFillerState >> measurementViewport [
+	^ measurementViewport
+]
+
+{ #category : #accessing }
+BlVirtualListSpaceFillerState >> measurementViewport: anObject [
+	measurementViewport := anObject
 ]
 
 { #category : #copying }
