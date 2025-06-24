@@ -41,9 +41,10 @@ BlVirtualListElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext
 
 { #category : #'as yet unclassified' }
 BlVirtualListElement >> onMeasure: anExtentMeasurementSpec [
-	| fetcher anchor filler state |
+	| fetcher anchor filler state filledHeight|
 	
-	dataSource ifNil: [ ^ self ].
+	dataSource
+		ifNil: [ ^ self ].
 	
 	fetcher := BlVirtualListElementFetcher new setDataSource: dataSource.
 	
@@ -64,8 +65,9 @@ BlVirtualListElement >> onMeasure: anExtentMeasurementSpec [
 		self removeChildren.
 		self addChildren: (state filledElements collect: [ :each | each element ] as: Array) ].
 	
-	self measuredExtent: (anExtentMeasurementSpec sizeFor: 0.0@0.0).
+	filledHeight := state lastVisibleFilledItemBottom - state firstVisibleFilledItemTop.
 	
+	self measuredExtent: (anExtentMeasurementSpec sizeFor: 0 @ filledHeight)
 ]
 
 { #category : #'as yet unclassified' }
