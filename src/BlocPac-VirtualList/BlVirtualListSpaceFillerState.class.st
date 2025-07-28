@@ -106,6 +106,20 @@ BlVirtualListSpaceFillerState >> filledElementsMeasuredBounds [
 	^ self filledElements collect: [ :each | each bounds ] as: Array
 ]
 
+{ #category : #accessing }
+BlVirtualListSpaceFillerState >> filledItems [
+	^ filledItems
+]
+
+{ #category : #accessing }
+BlVirtualListSpaceFillerState >> filledItems: anObject [
+	self
+		assert: [ anObject isKindOf: OrderedCollection ]
+		description: [ 'Private api, must be an OrderedCollection' ].
+
+	filledItems := anObject
+]
+
 { #category : #'as yet unclassified' }
 BlVirtualListSpaceFillerState >> firstVisibleFilledItem [
 	<return: #BlVirtualListFilledItem or: nil>
@@ -142,7 +156,7 @@ BlVirtualListSpaceFillerState >> gtFilledElementsBoundsAssertionFor: aView [
 
 { #category : #'as yet unclassified' }
 BlVirtualListSpaceFillerState >> gtNewDistanceMarker: distance from: position color: color [
-	| state distanceMarker distanceLabel |
+	| state distanceMarker distanceLabel container |
 	distanceMarker := BlElement new
 			geometry: (BlNormalizedMultiPolylineGeometry
 					polylines: {{0 @ 0.
@@ -151,10 +165,13 @@ BlVirtualListSpaceFillerState >> gtNewDistanceMarker: distance from: position co
 								0.5 @ 1}.
 							{0 @ 1.
 								1 @ 1}});
-			height: (distance max: 0) - 1;
 			width: 10;
 			outskirts: BlOutskirts centered;
 			border: (BlBorder paint: color width: 2).
+
+	distance isInfinite
+		ifTrue: [ distanceMarker constraintsDo: [ :c | c vertical matchParent ] ]
+		ifFalse: [ distanceMarker height: (distance max: 0) - 1 ].
 
 	distanceLabel := BrLabel new
 			aptitude: BrGlamorousLabelAptitude;
@@ -165,16 +182,35 @@ BlVirtualListSpaceFillerState >> gtNewDistanceMarker: distance from: position co
 			clipChildren: false;
 			vMatchParent.
 
-	state
-		addChild: (BrHorizontalPane new
-				alignCenter;
-				vExact: (distance max: 0);
-				hFitContent;
-				clipChildren: false;
-				margin: (BlInsets top: (position + (distance min: 0)) left: 10);
-				addChildren: {distanceMarker.
-						distanceLabel}).
+	container := BrHorizontalPane new
+			alignCenter;
+			hFitContent;
+			clipChildren: false;
+			margin: (BlInsets top: position + (distance min: 0) left: 10);
+			addChildren: {distanceMarker.
+					distanceLabel}.
+					
+	distance isInfinite
+		ifTrue: [ container vMatchParent ]
+		ifFalse: [ container vExact: (distance max: 0) ].
+
+	state addChild: container.
 	^ state
+]
+
+{ #category : #views }
+BlVirtualListSpaceFillerState >> gtViewportAssertionFor: aView [
+	<gtView>
+	^ aView explicit
+		title: 'Viewport assertion';
+		priority: 16;
+		stencil: [ | coder coderViewModel |
+		
+			coder := GtPharoSnippetCoder forSource: ('self assert: self viewport equals: {1}' format: { self viewport storeString }).
+			coder format.
+			coderViewModel := coder asCoderViewModel.
+			coderViewModel selfObject: self.
+			coderViewModel asExpandedOnlyElement matchParent ]
 ]
 
 { #category : #initialization }

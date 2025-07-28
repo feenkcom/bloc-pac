@@ -45,6 +45,20 @@ BlVirtualListSpaceFiller >> asPreviewElement [
 ]
 
 { #category : #'private - measurement' }
+BlVirtualListSpaceFiller >> cleanUpSpace: initialState andEachStepDo: eachStateBlock [
+	""
+	| aViewport visibleItems |
+	
+	aViewport := measurementSpec viewport
+		ifNil: [ ^ self ].
+		
+	visibleItems := initialState filledItems
+		select: [ :eachItem | eachItem bounds intersects: aViewport ].
+		
+	initialState filledItems: visibleItems
+]
+
+{ #category : #'private - measurement' }
 BlVirtualListSpaceFiller >> createFillerAnchorState: aFillerAnchor [
 	^ BlVirtualListSpaceFillerAnchorState new
 		elementAlignment: aFillerAnchor elementAlignment;
@@ -113,6 +127,10 @@ BlVirtualListSpaceFiller >> fillSpaceAndDo: eachStateBlock [
 
 	initialState shouldFillDown
 		ifTrue: [ self fillSpaceDown: initialState asFillDownState andEachStepDo: eachStateBlock ].
+
+	self
+		cleanUpSpace: initialState
+		andEachStepDo: eachStateBlock.
 
 	^ initialState
 ]

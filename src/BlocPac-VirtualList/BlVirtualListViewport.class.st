@@ -13,6 +13,18 @@ Class {
 	#category : #'BlocPac-VirtualList'
 }
 
+{ #category : #comparing }
+BlVirtualListViewport >> = anObject [
+	"Answer whether the receiver and anObject represent the same object."
+
+	self == anObject ifTrue: [ ^ true ].
+	self class = anObject class ifFalse: [ ^ false ].
+	^ topItemOffset = anObject topItemOffset
+		and: [ bottomItemIndex = anObject bottomItemIndex
+				and: [ bottomItemOffset = anObject bottomItemOffset
+						and: [ topItemIndex = anObject topItemIndex ] ] ]
+]
+
 { #category : #accessing }
 BlVirtualListViewport >> bottomItemIndex [
 	^ bottomItemIndex
@@ -46,6 +58,14 @@ BlVirtualListViewport >> gtDisplayOn: stream [
 		print: bottomItemOffset
 ]
 
+{ #category : #comparing }
+BlVirtualListViewport >> hash [
+	"Answer an integer value that is related to the identity of the receiver."
+
+	^ topItemOffset hash
+		bitXor: (bottomItemIndex hash bitXor: (bottomItemOffset hash bitXor: topItemIndex hash))
+]
+
 { #category : #initialization }
 BlVirtualListViewport >> initialize [
 	super initialize.
@@ -54,6 +74,25 @@ BlVirtualListViewport >> initialize [
 	topItemOffset := 0.0.
 	bottomItemIndex := 1.
 	bottomItemOffset := 0.0
+]
+
+{ #category : #'as yet unclassified' }
+BlVirtualListViewport >> storeOn: aStream [
+	aStream nextPut: $(.
+	aStream nextPutAll: self class name.
+	aStream nextPutAll: ' new '.
+	aStream nextPutAll: ' topItemIndex: '.
+	aStream nextPutAll: self topItemIndex printString.
+	aStream nextPutAll: '; '.
+	aStream nextPutAll: ' topItemOffset: '.
+	aStream nextPutAll: self topItemOffset printString.
+	aStream nextPutAll: '; '.
+	aStream nextPutAll: ' bottomItemIndex: '.
+	aStream nextPutAll: self bottomItemIndex printString.
+	aStream nextPutAll: '; '.
+	aStream nextPutAll: ' bottomItemOffset: '.
+	aStream nextPutAll: self bottomItemOffset printString.
+	aStream nextPut: $)
 ]
 
 { #category : #accessing }

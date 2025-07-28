@@ -257,7 +257,8 @@ BlInfiniteLinearLayoutVerticalExample >> verticalMatchParentHorizontalFitzConten
 		layoutDo: [ :anInfiniteLayout | 
 			anInfiniteLayout
 				when: BlInfiniteLinearLayoutChunkAdded
-				do: [ chunksAdded := chunksAdded + 1 ] ].
+				do: [ chunksAdded := chunksAdded + 1 ]
+				for: self ].
 
 	aContainer addChild: aList.
 	aContainer forceLayout.
