@@ -119,5 +119,5 @@ BlInfiniteRecyclerPool >> size [
 
 	^ scrap
 		ifEmpty: [ 0 ]
-		ifNotEmpty: [ :aDictionary | aDictionary sum: [ :each | each size ] ]
+		ifNotEmpty: [ :aDictionary | aDictionary sumNumbers: [ :each | each size ] ]
 ]
