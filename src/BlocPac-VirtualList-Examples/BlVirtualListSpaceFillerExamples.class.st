@@ -94,20 +94,18 @@ BlVirtualListSpaceFillerExamples >> fillAt1AlignTopOffset0FitContent [
 BlVirtualListSpaceFillerExamples >> fillAt1AlignTopOffset0FitContentWithViewport [
 	<gtExample>
 	| filler state |
-	
-	filler := self fillerForFitContentAtAnchor: (BlVirtualListFillerAnchor new
-			dataSourceIndex: 1;
-			elementAlignment: BlElementAlignment vertical start;
-			offset: 0)
-		viewport: (0@120 extent: 300@500).
+	filler := self
+			fillerForFitContentAtAnchor: (BlVirtualListFillerAnchor new
+					dataSourceIndex: 1;
+					elementAlignment: BlElementAlignment vertical start;
+					offset: 0)
+			viewport: (0 @ 120 extent: 300 @ 500).
 
 	state := filler fillSpace.
 
 	state
 		assert: state filledElementsMeasuredBounds
-		equals: {0 @ 0.0 corner: 500.0 @ 50.0.
-				0 @ 50.0 corner: 500 @ 100.0.
-				0 @ 100.0 corner: 500 @ 150.0.
+		equals: {0 @ 100.0 corner: 500 @ 150.0.
 				0 @ 150.0 corner: 500 @ 200.0.
 				0 @ 200.0 corner: 500 @ 250.0.
 				0 @ 250.0 corner: 500 @ 300.0.
@@ -118,14 +116,15 @@ BlVirtualListSpaceFillerExamples >> fillAt1AlignTopOffset0FitContentWithViewport
 				0 @ 500.0 corner: 500 @ 550.0.
 				0 @ 550.0 corner: 500 @ 600.0.
 				0 @ 600.0 corner: 500 @ 650.0}.
-				
-	state assert: state viewport
+
+	state
+		assert: state viewport
 		equals: (BlVirtualListViewport new
-			bottomItemIndex: 0;
-			bottomItemOffset: 0;
-			topItemIndex: 0;
-			topItemOffset: 0).
-	
+				topItemIndex: 3;
+				topItemOffset: 100.0;
+				bottomItemIndex: 13;
+				bottomItemOffset: 650.0).
+
 	^ state
 ]
 

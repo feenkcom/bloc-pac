@@ -48,11 +48,7 @@ BlVirtualListSpaceFillerAnchorState >> asFillUpState [
 
 { #category : #converting }
 BlVirtualListSpaceFillerAnchorState >> asPreviewElement [
-	| state container frame realFrame firstOffset markerPosition actuallyAvailableHeight |
-	
-	
-	actuallyAvailableHeight := availableHeight isInfinite
-		ifTrue: [ 900 ].
+	| state container frame realFrame firstOffset markerPosition |
 	
 	frame := BlElement new
 			size: totalWidth @ totalHeight;
@@ -105,7 +101,7 @@ BlVirtualListSpaceFillerAnchorState >> asPreviewElement [
 				relocate: 0 @ (markerPosition - 1)).
 
 	state := self
-			gtNewDistanceMarker: actuallyAvailableHeight
+			gtNewDistanceMarker: availableHeight
 			from: currentPosition
 			color: BrGlamorousColors successBorderColor.
 
