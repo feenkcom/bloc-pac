@@ -24,6 +24,7 @@ BlVirtualListSpaceFillerAnchorState >> asFillDownState [
 		availableHeight: availableSpaceBelowLast;
 		totalWidth: totalWidth;
 		totalHeight: totalHeight;
+		measuredHeight: measuredHeight;
 		yourself
 ]
 
@@ -43,6 +44,7 @@ BlVirtualListSpaceFillerAnchorState >> asFillUpState [
 		availableHeight: availableSpaceAboveFirst;
 		totalWidth: totalWidth;
 		totalHeight: totalHeight;
+		measuredHeight: measuredHeight;
 		yourself
 ]
 
@@ -85,7 +87,7 @@ BlVirtualListSpaceFillerAnchorState >> asPreviewElement [
 							c frame vertical alignNone ];
 						addChild: (BrLabel new
 								aptitude: (BrGlamorousLabelAptitude new foreground: Color darkGray);
-								text: self currentDataSourceIndex;
+								text: eachChild dataSourceIndex;
 								constraintsDo: [ :c | 
 									c frame horizontal alignCenter.
 									c frame vertical alignCenter ])) ].
@@ -99,6 +101,19 @@ BlVirtualListSpaceFillerAnchorState >> asPreviewElement [
 				hMatchParent;
 				vExact: 3;
 				relocate: 0 @ (markerPosition - 1)).
+				
+	measurementViewport ifNotNil: [ :aViewportRectangle |
+		realFrame addChild: (BlElement new
+			constraintsDo: [ :c | c ignoreByLayout ];
+			relocate: aViewportRectangle bounds origin;
+			size: aViewportRectangle bounds extent;
+			border: (BlBorder builder
+					dashed;
+					width: 1;
+					paint: Color red;
+					build)).
+	
+	].
 
 	state := self
 			gtNewDistanceMarker: availableHeight

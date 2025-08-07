@@ -10,7 +10,8 @@ Class {
 		'startDataSourceIndex',
 		'currentPosition',
 		'filledItems',
-		'measurementViewport'
+		'measurementViewport',
+		'measuredHeight'
 	],
 	#category : #'BlocPac-VirtualList'
 }
@@ -61,8 +62,8 @@ BlVirtualListSpaceFillerState >> currentDataSourceIndex [
 ]
 
 { #category : #accessing }
-BlVirtualListSpaceFillerState >> currentDataSourceIndex: anObject [
-	currentDataSourceIndex := anObject
+BlVirtualListSpaceFillerState >> currentDataSourceIndex: aNumber [
+	currentDataSourceIndex := aNumber
 ]
 
 { #category : #accessing }
@@ -138,6 +139,20 @@ BlVirtualListSpaceFillerState >> firstVisibleFilledItemTop [
 	^ self firstVisibleFilledItem
 		ifNil: [ 0 ]
 		ifNotNil: [ :aFilledItem | aFilledItem bounds top ].
+]
+
+{ #category : #'as yet unclassified' }
+BlVirtualListSpaceFillerState >> getAttachedItemElementsAndTheirIndices [
+	| viewport attachedElements |
+	attachedElements := Dictionary new.
+	
+	viewport := self viewport.
+	viewport knowsTopItemIndex
+		ifFalse: [ ^ attachedElements ].
+
+	filledItems
+		withIndexDo: [ :eachItem :eachIndex | attachedElements at: viewport topItemIndex + eachIndex - 1 put: eachItem element ].
+	^ attachedElements
 ]
 
 { #category : #views }
@@ -251,6 +266,16 @@ BlVirtualListSpaceFillerState >> lastVisibleFilledItemBottom [
 ]
 
 { #category : #accessing }
+BlVirtualListSpaceFillerState >> measuredHeight [
+	^ measuredHeight
+]
+
+{ #category : #accessing }
+BlVirtualListSpaceFillerState >> measuredHeight: aVirtualListFillerMeasuredHeight [
+	measuredHeight := aVirtualListFillerMeasuredHeight
+]
+
+{ #category : #accessing }
 BlVirtualListSpaceFillerState >> measurementViewport [
 	^ measurementViewport
 ]
@@ -262,7 +287,8 @@ BlVirtualListSpaceFillerState >> measurementViewport: anObject [
 
 { #category : #copying }
 BlVirtualListSpaceFillerState >> postCopy [
-	filledItems := filledItems copy
+	filledItems := filledItems copy.
+	measuredHeight := measuredHeight copy
 ]
 
 { #category : #asserting }

@@ -4,10 +4,38 @@ Class {
 	#instVars : [
 		'dataSource',
 		'viewport',
-		'scrollbar'
+		'scrollbar',
+		'previousState',
+		'previousFiller'
 	],
 	#category : #'BlocPac-VirtualList'
 }
+
+{ #category : #'as yet unclassified' }
+BlVirtualListElement >> createSpaceFillerAnchor: anExtentMeasurementSpec [
+	viewport knowsTopItemIndex
+		ifFalse: [
+			^ BlVirtualListFillerAnchor new
+				dataSourceIndex: 1;
+				elementAlignment: BlElementAlignment vertical start;
+				offset: viewport topItemOffset ].
+
+	anExtentMeasurementSpec viewport ifNotNil: [ :aViewport |
+		aViewport
+			ifTop: [ ]
+			ifRight: []
+			ifBottom: [
+				^ BlVirtualListFillerAnchor new
+					dataSourceIndex: viewport bottomItemIndex;
+					elementAlignment: BlElementAlignment vertical end;
+					offset: viewport bottomItemOffset ]
+			ifLeft:  [] ].
+
+	^ BlVirtualListFillerAnchor new
+		dataSourceIndex: viewport topItemIndex;
+		elementAlignment: BlElementAlignment vertical start;
+		offset: viewport topItemOffset
+]
 
 { #category : #accessing }
 BlVirtualListElement >> dataSource [
@@ -21,17 +49,35 @@ BlVirtualListElement >> dataSource: anObject [
 ]
 
 { #category : #'as yet unclassified' }
+BlVirtualListElement >> getAttachedItemElementsAndTheirIndices [
+	| attachedElements |
+	attachedElements := Dictionary new.
+	
+	viewport knowsTopItemIndex
+		ifFalse: [ ^ attachedElements ].
+
+	self children
+		withIndexDo: [ :eachElement :eachIndex | attachedElements at: viewport topItemIndex + eachIndex - 1 put: eachElement ].
+	^ attachedElements
+]
+
+{ #category : #initialization }
 BlVirtualListElement >> initialize [
 	super initialize.
 	
 	viewport := BlVirtualListViewport new.
 	
-	self when: BlMouseWheelEvent do: [ :anEvent |
-		self scrollBy: anEvent vector
-	].
+	self
+		when: BlMouseWheelEvent
+		do: [ :anEvent |
+			self constraints vertical resizer isFitContent
+				ifFalse: [
+					self scrollBy: anEvent vector.
+					anEvent consumed: true
+				] ].
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #layout }
 BlVirtualListElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
 	self children accountedByLayout do: [ :child |
 		| childLayoutBounds |
@@ -39,40 +85,41 @@ BlVirtualListElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext
 		child applyLayoutIn: childLayoutBounds context: aBlElementBoundsUpdateContext ].
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #layout }
 BlVirtualListElement >> onMeasure: anExtentMeasurementSpec [
-	| fetcher anchor filler state filledHeight|
-	
-	dataSource
-		ifNil: [ ^ self ].
-	
-	fetcher := BlVirtualListElementFetcher new setDataSource: dataSource.
-	
-	anchor := BlVirtualListFillerAnchor new
-		dataSourceIndex: viewport topItemIndex;
-		elementAlignment: BlElementAlignment vertical start;
-		offset: viewport topItemOffset.
-	
-	filler := BlVirtualListSpaceFiller new
-		setFetcher: fetcher
-		anchor: anchor
-		measurementSpec: anExtentMeasurementSpec.
+	| fetcher anchor filler state filledHeight |
+	"(state lastVisibleFilledItemBottom
+			- state firstVisibleFilledItemTop) abs"
+	dataSource ifNil: [ ^ self ].
 
+	fetcher := BlVirtualListElementFetcher new
+			attachedElements: self getAttachedItemElementsAndTheirIndices;
+			setDataSource: dataSource.
+
+	anchor := self createSpaceFillerAnchor: anExtentMeasurementSpec.
+
+	filler := BlVirtualListSpaceFiller new
+			setFetcher: fetcher
+			anchor: anchor
+			measurementSpec: anExtentMeasurementSpec.
+	
+	previousFiller := filler copy.
+	
 	state := filler fillSpace.
+	previousState := state.
 	viewport := state viewport.
-	
-	self ignoreRequestLayoutDuring: [
-		self removeChildren.
-		self addChildren: (state filledElements collect: [ :each | each element ] as: Array) ].
-	
-	filledHeight := state lastVisibleFilledItemBottom - state firstVisibleFilledItemTop.
-	
+	self
+		ignoreRequestLayoutDuring: [ self removeChildren.
+			self
+				addChildren: (state filledElements collect: [ :each | each element ] as: Array) ].
+	filledHeight := state measuredHeight asNumber.
 	self measuredExtent: (anExtentMeasurementSpec sizeFor: 0 @ filledHeight)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #scrolling }
 BlVirtualListElement >> scrollBy: anOffsetPoint [
 	viewport topItemOffset: viewport topItemOffset + anOffsetPoint y.
+	viewport bottomItemOffset: viewport bottomItemOffset - anOffsetPoint y.
 	self requestLayout
 ]
 
