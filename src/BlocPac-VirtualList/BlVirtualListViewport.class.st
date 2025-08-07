@@ -27,6 +27,10 @@ BlVirtualListViewport >> = anObject [
 
 { #category : #accessing }
 BlVirtualListViewport >> bottomItemIndex [
+	self
+		assert: [ bottomItemIndex > 0 ]
+		description: [ 'Bottom index is undefined' ].
+
 	^ bottomItemIndex
 ]
 
@@ -70,10 +74,15 @@ BlVirtualListViewport >> hash [
 BlVirtualListViewport >> initialize [
 	super initialize.
 	
-	topItemIndex := 1.
+	topItemIndex := 0.
 	topItemOffset := 0.0.
-	bottomItemIndex := 1.
+	bottomItemIndex := 0.
 	bottomItemOffset := 0.0
+]
+
+{ #category : #'as yet unclassified' }
+BlVirtualListViewport >> knowsTopItemIndex [
+	^ topItemIndex > 0
 ]
 
 { #category : #'as yet unclassified' }
@@ -82,13 +91,13 @@ BlVirtualListViewport >> storeOn: aStream [
 	aStream nextPutAll: self class name.
 	aStream nextPutAll: ' new '.
 	aStream nextPutAll: ' topItemIndex: '.
-	aStream nextPutAll: self topItemIndex printString.
+	aStream nextPutAll: topItemIndex printString.
 	aStream nextPutAll: '; '.
 	aStream nextPutAll: ' topItemOffset: '.
 	aStream nextPutAll: self topItemOffset printString.
 	aStream nextPutAll: '; '.
 	aStream nextPutAll: ' bottomItemIndex: '.
-	aStream nextPutAll: self bottomItemIndex printString.
+	aStream nextPutAll: bottomItemIndex printString.
 	aStream nextPutAll: '; '.
 	aStream nextPutAll: ' bottomItemOffset: '.
 	aStream nextPutAll: self bottomItemOffset printString.
@@ -97,6 +106,10 @@ BlVirtualListViewport >> storeOn: aStream [
 
 { #category : #accessing }
 BlVirtualListViewport >> topItemIndex [
+	self
+		assert: [ topItemIndex > 0 ]
+		description: [ 'Top index is undefined' ].
+
 	^ topItemIndex
 ]
 

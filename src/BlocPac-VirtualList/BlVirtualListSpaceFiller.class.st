@@ -44,18 +44,29 @@ BlVirtualListSpaceFiller >> asPreviewElement [
 	^ container asScrollableElement
 ]
 
+{ #category : #'as yet unclassified' }
+BlVirtualListSpaceFiller >> attachedElements: aDictionary [
+	fetcher attachedElements: aDictionary
+]
+
 { #category : #'private - measurement' }
 BlVirtualListSpaceFiller >> cleanUpSpace: initialState andEachStepDo: eachStateBlock [
-	""
-	| aViewport visibleItems |
+	| listViewport visibleItems |
 	
-	aViewport := measurementSpec viewport
-		ifNil: [ ^ self ].
-		
+	listViewport := initialState viewport.
+	
 	visibleItems := initialState filledItems
-		select: [ :eachItem | eachItem bounds intersects: aViewport ].
-		
-	initialState filledItems: visibleItems
+		select: [ :eachItem |
+			eachItem dataSourceIndex
+				between: listViewport topItemIndex
+				and: listViewport bottomItemIndex ].
+				
+	measurementSpec viewport ifNotNil: [ :aViewport |
+		visibleItems := initialState filledItems
+			select: [ :eachItem | eachItem bounds intersects: aViewport bounds ] ].
+
+	initialState filledItems: visibleItems.
+	eachStateBlock cull: initialState
 ]
 
 { #category : #'private - measurement' }
@@ -69,34 +80,8 @@ BlVirtualListSpaceFiller >> createFillerAnchorState: aFillerAnchor [
 		availableHeight: availableHeight;
 		totalWidth: totalWidth;
 		totalHeight: totalHeight;
-		yourself
-]
-
-{ #category : #'private - measurement' }
-BlVirtualListSpaceFiller >> createFillerDownState: anItemToFillFrom [
-	^ BlVirtualListSpaceFillerDownState new
-		startDataSourceIndex: anItemToFillFrom dataSourceIndex;
-		startTopOffset: anItemToFillFrom offset;
-		currentDataSourceIndex: anItemToFillFrom dataSourceIndex;
-		currentPosition: anItemToFillFrom offset;
-		itemCount: fetcher dataSource itemCount;
-		availableHeight: availableHeight - anItemToFillFrom offset;
-		totalWidth: totalWidth;
-		totalHeight: totalHeight;
-		yourself
-]
-
-{ #category : #'private - measurement' }
-BlVirtualListSpaceFiller >> createFillerUpState: anItemToFillFrom [
-	^ BlVirtualListSpaceFillerUpState new
-		startDataSourceIndex: anItemToFillFrom dataSourceIndex;
-		startBottomOffset: anItemToFillFrom offset;
-		currentDataSourceIndex: anItemToFillFrom dataSourceIndex;
-		currentPosition: totalHeight - anItemToFillFrom offset;
-		itemCount: fetcher dataSource itemCount;
-		availableHeight: availableHeight - anItemToFillFrom offset;
-		totalWidth: totalWidth;
-		totalHeight: totalHeight;
+		measurementViewport: measurementSpec viewport;
+		measuredHeight: BlVirtualListFillerMeasuredHeight new;
 		yourself
 ]
 
@@ -116,7 +101,7 @@ BlVirtualListSpaceFiller >> fillSpaceAnchor: aFillerAnchorState andEachStepDo: a
 
 { #category : #'private - measurement' }
 BlVirtualListSpaceFiller >> fillSpaceAndDo: eachStateBlock [
-	| initialState |
+	| initialState fillStart filledHeight |
 	
 	initialState := self
 		fillSpaceAnchor: (self createFillerAnchorState: anchor)
@@ -127,6 +112,12 @@ BlVirtualListSpaceFiller >> fillSpaceAndDo: eachStateBlock [
 
 	initialState shouldFillDown
 		ifTrue: [ self fillSpaceDown: initialState asFillDownState andEachStepDo: eachStateBlock ].
+		
+	fillStart := initialState firstVisibleFilledItemTop.
+	filledHeight := initialState lastVisibleFilledItemBottom - fillStart.
+	filledHeight := filledHeight + fillStart max: 0.
+	
+	initialState measuredHeight: (BlVirtualListFillerMeasuredHeight new += filledHeight).
 
 	self
 		cleanUpSpace: initialState
@@ -183,9 +174,12 @@ BlVirtualListSpaceFiller >> setFetcher: aFetcher anchor: anAnchor measurementSpe
 { #category : #'private - measurement' }
 BlVirtualListSpaceFiller >> tryFillAnchor: aFillAnchorState [
 	<return: #Boolean>
-	| initialElement initialElementPosition |
-
+	| initialElement initialElementPosition childViewport |
+	
 	aFillAnchorState availableHeight <= 0
+		ifTrue: [ ^ false ].
+		
+	aFillAnchorState currentDataSourceIndex < 1
 		ifTrue: [ ^ false ].
 
 	aFillAnchorState currentDataSourceIndex > aFillAnchorState itemCount
@@ -193,9 +187,19 @@ BlVirtualListSpaceFiller >> tryFillAnchor: aFillAnchorState [
 
 	initialElement := fetcher fetchElementAt: aFillAnchorState currentDataSourceIndex.
 
+	childViewport := nil.
+	(measurementSpec widthSpec isUnspecified not
+		and: [ measurementSpec heightSpec isUnspecified not ])
+			ifTrue: [
+				self flag: 'Handle various alignments'.
+				childViewport := BlExtentMeasurementViewport fromTopEdge: (0@anchor offset negated extent: totalWidth @ totalHeight) ].
+	
+	initialElement measuredBounds position: 0@0.
+	
 	self
 		measureChild: initialElement
-		parentSpec: measurementSpec.
+		parentSpec: measurementSpec
+		viewport: childViewport.
 		
 	initialElementPosition := aFillAnchorState elementAlignment
 		translationOf: initialElement measuredBounds
@@ -204,6 +208,8 @@ BlVirtualListSpaceFiller >> tryFillAnchor: aFillAnchorState [
 	initialElementPosition := initialElementPosition + aFillAnchorState currentPosition.
 
 	initialElement measuredBounds position: 0 @ initialElementPosition y.
+	
+	aFillAnchorState measuredHeight += initialElement measuredBounds height.
 
 	aFillAnchorState
 		addFilledElementLast: initialElement
@@ -218,7 +224,7 @@ BlVirtualListSpaceFiller >> tryFillNextSpaceDown: aFillDownState [
 	
 	This logic is specific for bottom-filling behaviors in virtualized lists."
 	<return: #Boolean>
-	| nextElementIndex nextElement childMeasurementSpec |
+	| nextElementIndex nextElement childMeasurementSpec childViewport |
 
 	aFillDownState availableHeight <= 0
 		ifTrue: [ ^ false ].
@@ -227,12 +233,18 @@ BlVirtualListSpaceFiller >> tryFillNextSpaceDown: aFillDownState [
 		ifTrue: [ ^ false ].
 		
 	measurementSpec viewport ifNotNil: [ :aViewport |
-		aFillDownState currentPosition >= aViewport bottom
+		aFillDownState currentPosition >= aViewport bounds bottom
 			ifTrue: [ ^ false ] ].
 
 	self flag: #TODO. "is this check needed"
 	"aFillDownState currentPosition >= totalHeight
 		ifTrue: [ ^ false ]."
+		
+	childViewport := nil.
+	(measurementSpec widthSpec isUnspecified not
+		and: [ measurementSpec heightSpec isUnspecified not ])
+			ifTrue: [
+				childViewport := BlExtentMeasurementViewport fromTopEdge: (0@aFillDownState currentPosition negated extent: totalWidth @ totalHeight) ].
 
 	nextElementIndex := aFillDownState currentDataSourceIndex.
 	nextElement := fetcher fetchElementAt: nextElementIndex.
@@ -242,7 +254,8 @@ BlVirtualListSpaceFiller >> tryFillNextSpaceDown: aFillDownState [
 		extentMeasurentSpecForChild: nextElement
 		parentSpec: measurementSpec
 		widthUsed: 0
-		heightUsed: 0).
+		heightUsed: 0
+		viewport: childViewport).
 	
 	nextElement measure: childMeasurementSpec.
 
@@ -250,6 +263,8 @@ BlVirtualListSpaceFiller >> tryFillNextSpaceDown: aFillDownState [
 
 	aFillDownState availableHeight: aFillDownState availableHeight - nextElement measuredHeight.
 	aFillDownState currentPosition: aFillDownState currentPosition + nextElement measuredHeight.
+	
+	aFillDownState measuredHeight += nextElement measuredBounds height.
 	
 	aFillDownState
 		addFilledElementLast: nextElement
@@ -261,7 +276,7 @@ BlVirtualListSpaceFiller >> tryFillNextSpaceDown: aFillDownState [
 { #category : #'private - measurement' }
 BlVirtualListSpaceFiller >> tryFillNextSpaceUp: aFillTopState [
 	<return: #Boolean>
-	| nextElement nextElementIndex |
+	| nextElement nextElementIndex childViewport |
 
 	aFillTopState availableHeight <= 0
 		ifTrue: [ ^ false ].
@@ -273,22 +288,31 @@ BlVirtualListSpaceFiller >> tryFillNextSpaceUp: aFillTopState [
 		ifTrue: [ ^ false ].
 		
 	measurementSpec viewport ifNotNil: [ :aViewport |
-		aFillTopState currentPosition <= aViewport top
+		aFillTopState currentPosition <= aViewport bounds top
 			ifTrue: [ ^ false ] ].
 
 	nextElementIndex := aFillTopState currentDataSourceIndex.
 	nextElement := fetcher fetchElementAt: nextElementIndex.
 	aFillTopState currentDataSourceIndex: nextElementIndex - 1.
 
+	childViewport := nil.
+	(measurementSpec widthSpec isUnspecified not
+		and: [ measurementSpec heightSpec isUnspecified not ])
+			ifTrue: [
+				childViewport := BlExtentMeasurementViewport fromBottomEdge: (0@0 corner: totalWidth @ aFillTopState currentPosition) ].
+	
 	self
 		measureChild: nextElement
-		parentSpec: measurementSpec.
+		parentSpec: measurementSpec
+		"viewport: childViewport".
 	
 	aFillTopState currentPosition: aFillTopState currentPosition - nextElement measuredHeight.
 	
 	nextElement measuredBounds position: 0 @ aFillTopState currentPosition.
 
 	aFillTopState availableHeight: aFillTopState availableHeight - nextElement measuredHeight.
+	
+	aFillTopState measuredHeight += nextElement measuredBounds height.
 	
 	aFillTopState
 		addFilledElementFirst: nextElement

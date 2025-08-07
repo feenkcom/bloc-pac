@@ -2,18 +2,30 @@ Class {
 	#name : #BlVirtualListElementFetcher,
 	#superclass : #Object,
 	#instVars : [
-		'dataSource'
+		'dataSource',
+		'attachedElements'
 	],
 	#category : #'BlocPac-VirtualList'
 }
+
+{ #category : #accessing }
+BlVirtualListElementFetcher >> attachedElements: aDictionary [
+	attachedElements := aDictionary
+]
 
 { #category : #accessing }
 BlVirtualListElementFetcher >> dataSource [
 	^ dataSource
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 BlVirtualListElementFetcher >> fetchElementAt: aDataSourceIndex [
+	attachedElements
+		at: aDataSourceIndex
+		ifPresent: [ :anElement |
+			attachedElements removeKey: aDataSourceIndex.
+			^ anElement ].
+
 	^ self fetchNewElementFor: (dataSource itemAt: aDataSourceIndex) index: aDataSourceIndex
 ]
 
@@ -28,6 +40,13 @@ BlVirtualListElementFetcher >> fetchNewElementFor: anObject index: aDataSourceIn
 		index: aDataSourceIndex.
 
 	^ newElement
+]
+
+{ #category : #initialization }
+BlVirtualListElementFetcher >> initialize [
+	super initialize.
+	
+	attachedElements := Dictionary new
 ]
 
 { #category : #accessing }
