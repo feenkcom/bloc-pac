@@ -12,13 +12,24 @@ Class {
 }
 
 { #category : #examples }
+BlScrollbarPositionCalculator class >> forSizeCollection: aVirtualListSizeCollection [
+	^ self new setSizeCollection: aVirtualListSizeCollection
+]
+
+{ #category : #examples }
 BlScrollbarPositionCalculator class >> forSizes: aSizeCollection [
 	^self new sizes: aSizeCollection
 ]
 
 { #category : #'as yet unclassified' }
 BlScrollbarPositionCalculator >> calculatedThumbSize [
-	^ viewportSize / sizes totalSize * viewportSize
+	| totalSizes |
+	
+	totalSizes := sizes totalSize.
+	totalSizes isZero
+		ifTrue: [ ^ 0 ].
+
+	^ viewportSize / totalSizes * viewportSize
 ]
 
 { #category : #views }
@@ -95,6 +106,11 @@ BlScrollbarPositionCalculator >> scrollOffset: aNumber [
 ]
 
 { #category : #accesing }
+BlScrollbarPositionCalculator >> setSizeCollection: aVirtualListSizeCollection [
+	sizes := aVirtualListSizeCollection
+]
+
+{ #category : #accesing }
 BlScrollbarPositionCalculator >> sizes: aSizeCollection [
 	sizes := BlVirtualListSizeCollection fromSizes: aSizeCollection
 ]
@@ -106,7 +122,13 @@ BlScrollbarPositionCalculator >> thumbDifferenceWithCalculated [
 
 { #category : #computing }
 BlScrollbarPositionCalculator >> thumbOffset [
-	^ ((sizes sizeUpTo: topIndex) - scrollOffset) / sizes totalSize * (viewportSize - self thumbDifferenceWithCalculated)
+	| totalSizes |
+	
+	totalSizes := sizes totalSize.
+	totalSizes isZero
+		ifTrue: [ ^ 0 ].
+
+	^ ((sizes sizeUpTo: topIndex) - scrollOffset) / totalSizes * (viewportSize - self thumbDifferenceWithCalculated)
 ]
 
 { #category : #'as yet unclassified' }

@@ -9,6 +9,15 @@ Class {
 }
 
 { #category : #'instance creation' }
+BlVirtualListSizeCollection class >> fromIntervals: aSizeIntervalCollection [
+	| coll |
+	coll := self new.
+	coll setIntervals: aSizeIntervalCollection.
+	
+	^coll
+]
+
+{ #category : #'instance creation' }
 BlVirtualListSizeCollection class >> fromSizes: aSizeCollection [
 	| coll |
 	coll := self new.
@@ -23,10 +32,15 @@ BlVirtualListSizeCollection >> averageSize [
 	| tot cnt |
 	tot := 0.
 	cnt := 0.
+	
 	intervals
 		do: [ :each | 
 			cnt := cnt + each count.
 			tot := tot + each totalSize ].
+			
+	cnt isZero
+		ifTrue: [ ^ 0 ].
+	
 	^ tot / cnt
 ]
 
@@ -67,6 +81,16 @@ BlVirtualListSizeCollection >> initialize [
 	super initialize.
 	intervals := SortedCollection sortBlock: [:a :b | a index < b index].
 	count := 0.
+]
+
+{ #category : #accessing }
+BlVirtualListSizeCollection >> setIntervals: aSizeIntervalCollection [
+	count := 0.
+	aSizeIntervalCollection do: [ :each |
+		count := count max: each lastIndex ].
+	
+	intervals removeAll.
+	intervals addAll: aSizeIntervalCollection
 ]
 
 { #category : #accessing }
