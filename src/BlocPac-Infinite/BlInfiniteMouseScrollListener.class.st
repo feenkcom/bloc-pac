@@ -145,7 +145,7 @@ BlInfiniteMouseScrollListener >> mouseWheelEvent: anEvent [
 							ifTrue: [ self doScrollUp: anEvent ]
 							ifFalse: [ 0 ] ] ]
 			ifFalse: [ 0 ].
-	scrollDelta := dX @ dY * 10.
+	scrollDelta := dX @ (dY * 10).
 	anInfiniteElement smoothScrollBy: scrollDelta
 ]
 
