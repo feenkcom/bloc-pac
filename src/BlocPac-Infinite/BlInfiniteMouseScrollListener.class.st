@@ -104,12 +104,11 @@ BlInfiniteMouseScrollListener >> handleEvent: anEvent [
 
 { #category : #'mouse handlers' }
 BlInfiniteMouseScrollListener >> mouseWheelEvent: anEvent [
-	| dX dY anInfiniteElement isVertical scrollDelta |
+	| dX dY anInfiniteElement isVertical scrollDelta scrollDeltaX scrollDeltaY |
 	anEvent vector isZero ifTrue: [ ^ self ].
 
 	anInfiniteElement := anEvent currentTarget.
-	isVertical := anEvent isPrimarilyHorizontal not.
-	"(anInfiniteElement childrenManager hasChildren and: isVertical)
+	isVertical := anEvent isPrimarilyHorizontal not.	"(anInfiniteElement childrenManager hasChildren and: isVertical)
 		ifTrue: [ (anInfiniteElement childrenManager firstVisibleChild query
 				// BlInfiniteElement) anyOne
 				ifNotNil: [ :child | 
@@ -145,7 +144,11 @@ BlInfiniteMouseScrollListener >> mouseWheelEvent: anEvent [
 							ifTrue: [ self doScrollUp: anEvent ]
 							ifFalse: [ 0 ] ] ]
 			ifFalse: [ 0 ].
-	scrollDelta := dX @ (dY * 10).
+
+	scrollDeltaX := anEvent isPixelBased ifTrue: [ dX * 10 ] ifFalse: [ dX ].
+	scrollDeltaY := dY * 10.
+
+	scrollDelta := scrollDeltaX @ scrollDeltaY.
 	anInfiniteElement smoothScrollBy: scrollDelta
 ]
 
