@@ -1,8 +1,26 @@
 Class {
 	#name : #BlInfiniteMouseScrollListener,
 	#superclass : #BlBasicEventHandler,
+	#classInstVars : [
+		'ShiftWheelScrollSpeed'
+	],
 	#category : #'BlocPac-Infinite-Basic'
 }
+
+{ #category : #'as yet unclassified' }
+BlInfiniteMouseScrollListener class >> shiftWheelScrollSpeed [
+	ShiftWheelScrollSpeed ifNotNil: [ :aValue | ^ aValue ].
+	OSPlatform current isWindows
+		ifTrue: [ ^ 5 ].
+	OSPlatform current isMacOS
+		ifTrue: [ ^ 2 ].
+	^ 5
+]
+
+{ #category : #'as yet unclassified' }
+BlInfiniteMouseScrollListener class >> shiftWheelScrollSpeed: aNumber [
+	ShiftWheelScrollSpeed := aNumber
+]
 
 { #category : #'mouse handlers' }
 BlInfiniteMouseScrollListener >> doScrollDown: anEvent [
@@ -145,7 +163,13 @@ BlInfiniteMouseScrollListener >> mouseWheelEvent: anEvent [
 							ifFalse: [ 0 ] ] ]
 			ifFalse: [ 0 ].
 
-	scrollDeltaX := anEvent isPixelBased ifTrue: [ dX * 10 ] ifFalse: [ dX ].
+	scrollDeltaX := anEvent isPixelBased
+		ifTrue: [ dX * 10 ]
+		ifFalse: [
+			anEvent modifiers isShift
+				ifTrue: [ dX * self class shiftWheelScrollSpeed ]
+				ifFalse: [ dX ] ].
+
 	scrollDeltaY := dY * 10.
 
 	scrollDelta := scrollDeltaX @ scrollDeltaY.
