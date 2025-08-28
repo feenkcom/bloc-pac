@@ -10,7 +10,7 @@ Class {
 	#instVars : [
 		'lineY'
 	],
-	#category : 'BlocPac-Geometry-SVG'
+	#category : #'BlocPac-Geometry-SVG'
 }
 
 { #category : #comparing }
@@ -61,5 +61,5 @@ BlSvgPathVerticalLineSegment >> printOn: aStream [
 		nextPutAll: 'Vertical line ';
 		nextPutAll: self printAbsolute;
 		nextPutAll: ' to ';
-		printOn: self lineY
+		print: self lineY
 ]
