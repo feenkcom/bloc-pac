@@ -31,7 +31,6 @@ BlElementBoundsInScripterExamples >> assertBoundsRectangle: aRectangleOne equals
 
 { #category : #examples }
 BlElementBoundsInScripterExamples >> canvasInScripter: aScripter [
-	GtJustContextStackSignal emit.
 	^ self scripter: aScripter elementWithId: #'canvas'
 ]
 
