@@ -1,6 +1,6 @@
 Trait {
 	#name : #TBlShaperMovable,
-	#category : 'BlocPac-Geometry-Shaper'
+	#category : #'BlocPac-Geometry-Shaper'
 }
 
 { #category : #'api - movable' }

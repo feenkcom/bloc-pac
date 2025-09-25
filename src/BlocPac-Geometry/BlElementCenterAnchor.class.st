@@ -5,7 +5,7 @@ My position is equal to the center of a reference element
 Class {
 	#name : #BlElementCenterAnchor,
 	#superclass : #BlAnchorRelativeToElementBounds,
-	#category : 'BlocPac-Geometry-Anchors'
+	#category : #'BlocPac-Geometry-Anchors'
 }
 
 { #category : #accessing }

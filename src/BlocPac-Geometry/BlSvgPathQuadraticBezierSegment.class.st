@@ -5,7 +5,7 @@ Class {
 		'viaPoint',
 		'curveTo'
 	],
-	#category : 'BlocPac-Geometry-SVG'
+	#category : #'BlocPac-Geometry-SVG'
 }
 
 { #category : #comparing }

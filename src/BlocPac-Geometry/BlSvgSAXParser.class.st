@@ -1,0 +1,81 @@
+Class {
+	#name : #BlSvgSAXParser,
+	#superclass : #SAXHandler,
+	#instVars : [
+		'elements',
+		'result',
+		'instructions'
+	],
+	#category : #'BlocPac-Geometry-SVG'
+}
+
+{ #category : #views }
+BlSvgSAXParser >> gtInputFor: aView [
+	<gtView>
+	input ifNil: [ ^ aView empty ].
+	^ aView forward
+		title: 'Input';
+		object: [ XMLDOMParser parse: input ];
+		view: #gtItemsFor:
+]
+
+{ #category : #views }
+BlSvgSAXParser >> gtResultFor: aView [
+	<gtView>
+	result ifNil: [ ^ aView empty ].
+	^ aView explicit
+		title: 'Result';
+		stencil: [ self resultElement ]
+]
+
+{ #category : #'as yet unclassified' }
+BlSvgSAXParser >> initialize [
+	super initialize.
+	result := BlElement new
+			size: 16@16.
+	instructions := OrderedCollection new.
+]
+
+{ #category : #views }
+BlSvgSAXParser >> instructionString [
+	^ String streamContents: [:s | 
+		s 
+			nextPutAll: 'BlElement new size: 16@16; addChildren: {';
+			nextPutAll: (String cr join: instructions);
+			nextPutAll: '}' ]
+]
+
+{ #category : #views }
+BlSvgSAXParser >> resultElement [
+	^ OpalCompiler new
+		source: self instructionString;
+		evaluate
+]
+
+{ #category : #'as yet unclassified' }
+BlSvgSAXParser >> startElement: aQualifiedName attributes: anAttributeDictionary [
+	aQualifiedName = 'path'
+		ifTrue: [ instructions
+				add: '(BlElement new
+	size: 16 @ 16;
+	outskirts: BlOutskirts centered;
+	geometry: (BlSvgPath new svg: ''' , (anAttributeDictionary at: 'd'), '''
+	viewbox: (0 @ 0 extent: 16 @ 16));
+	border: (BlBorder builder
+		paint: Color black;
+		width: ' , (anAttributeDictionary at: 'stroke-width'), ';
+		capRound;
+		build)).' ].
+	aQualifiedName = 'rect'
+		ifTrue: [ instructions
+				add: '(BlElement new
+	size: ', (anAttributeDictionary at: 'width'), ' @ ', (anAttributeDictionary at: 'height'), ';
+	relocate: ', (anAttributeDictionary at: 'x'),  ' @ ', (anAttributeDictionary at: 'y'), ';
+	outskirts: BlOutskirts centered;
+	background: Color black;
+	border: (BlBorder builder
+		paint: Color black;
+		width: 1;
+		capRound;
+		build)).' ]
+]

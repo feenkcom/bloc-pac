@@ -14,7 +14,9 @@ BaselineOfBlocPac >> baseline: spec [
 			baseline: 'Beacon' with: [
 				spec repository: 'github://feenkcom/pharo-beacon/repository' ];
 			baseline: 'SpartaSkia' with: [
-				spec repository: 'github://feenkcom/Sparta:main/src' ].
+				spec repository: 'github://feenkcom/Sparta:main/src' ];
+			baseline: 'XMLParserForGlamorousToolkit' with: [
+				spec repository: 'github://feenkcom/XML-XMLParser:gt/src' ].
 		spec 
 			package: #'BlocPac-CommonParent' with: [
 				spec requires: #('Bloc' ). ];
@@ -33,7 +35,7 @@ BaselineOfBlocPac >> baseline: spec [
 			package: #'BlocPac-PannableAndZoomable' with: [
 				spec requires: #('Bloc' #'BlocPac-PullAndSlide' ). ];
 			package: #'BlocPac-Geometry' with: [
-				spec requires: #('Bloc' #'BlocPac-PullAndSlide' #'BlocPac-CommonParent'). ];
+				spec requires: #('Bloc' #'BlocPac-PullAndSlide' #'BlocPac-CommonParent' #'XMLParserForGlamorousToolkit'). ];
 			package: #'BlocPac-Resizable' with: [
 				spec requires: #('Bloc' #'BlocPac-Overlay' ). ];
 			package: #'BlocPac-Scalable' with: [

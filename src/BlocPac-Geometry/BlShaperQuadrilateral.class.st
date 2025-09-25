@@ -6,7 +6,7 @@ Class {
 	#instVars : [
 		'polygon'
 	],
-	#category : 'BlocPac-Geometry-Shaper'
+	#category : #'BlocPac-Geometry-Shaper'
 }
 
 { #category : #'api - shape' }

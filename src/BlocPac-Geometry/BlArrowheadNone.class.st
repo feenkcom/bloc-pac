@@ -1,7 +1,7 @@
 Class {
 	#name : #BlArrowheadNone,
 	#superclass : #BlArrowheadElement,
-	#category : 'BlocPac-Geometry-Arrowheads'
+	#category : #'BlocPac-Geometry-Arrowheads'
 }
 
 { #category : #changes }

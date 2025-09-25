@@ -24,7 +24,7 @@ Class {
 		'EvenOdd',
 		'Winding'
 	],
-	#category : 'BlocPac-Geometry-SVG'
+	#category : #'BlocPac-Geometry-SVG'
 }
 
 { #category : #'instance creation' }

@@ -23,7 +23,7 @@ Class {
 		'shapeBuilder',
 		'vectorShape'
 	],
-	#category : 'BlocPac-Geometry-Shaper'
+	#category : #'BlocPac-Geometry-Shaper'
 }
 
 { #category : #sparta }

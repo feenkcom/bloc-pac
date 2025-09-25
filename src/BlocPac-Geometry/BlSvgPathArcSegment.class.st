@@ -1,5 +1,5 @@
 Class {
 	#name : #BlSvgPathArcSegment,
 	#superclass : #BlSvgPathSegment,
-	#category : 'BlocPac-Geometry-SVG'
+	#category : #'BlocPac-Geometry-SVG'
 }

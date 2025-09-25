@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'moveTo'
 	],
-	#category : 'BlocPac-Geometry-SVG'
+	#category : #'BlocPac-Geometry-SVG'
 }
 
 { #category : #comparing }
