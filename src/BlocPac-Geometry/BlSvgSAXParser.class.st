@@ -25,7 +25,7 @@ BlSvgSAXParser >> gtResultFor: aView [
 	result ifNil: [ ^ aView empty ].
 	^ aView explicit
 		title: 'Result';
-		stencil: [ self resultElement ]
+		stencil: [ self resultElement asScalableElement ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -41,7 +41,7 @@ BlSvgSAXParser >> instructionString [
 	^ String streamContents: [:s | 
 		s 
 			nextPutAll: 'BlElement new size: 16@16; addChildren: {';
-			nextPutAll: (String cr join: instructions);
+			nextPutAll: ('.', String cr join: instructions);
 			nextPutAll: '}' ]
 ]
 
@@ -55,27 +55,42 @@ BlSvgSAXParser >> resultElement [
 { #category : #'as yet unclassified' }
 BlSvgSAXParser >> startElement: aQualifiedName attributes: anAttributeDictionary [
 	aQualifiedName = 'path'
-		ifTrue: [ instructions
-				add: '(BlElement new
+		ifTrue: [ | statement |
+			statement := 'BlElement new
 	size: 16 @ 16;
 	outskirts: BlOutskirts centered;
-	geometry: (BlSvgPath new svg: ''' , (anAttributeDictionary at: 'd'), '''
-	viewbox: (0 @ 0 extent: 16 @ 16));
+	geometry: (BlSvgPath new svg: ''' , (anAttributeDictionary at: 'd')
+					, '''
+	viewbox: (0 @ 0 extent: 16 @ 16))'.
+			anAttributeDictionary
+				at: 'fill'
+				ifPresent: [ :s | 
+					statement := statement, ';
+	background: Color black' ].
+			anAttributeDictionary
+				at: 'stroke-width'
+				ifPresent: [ :s | 
+					statement := statement, ';
 	border: (BlBorder builder
 		paint: Color black;
-		width: ' , (anAttributeDictionary at: 'stroke-width'), ';
+		width: ' , s, ';
 		capRound;
-		build)).' ].
+		build)' ].
+			instructions add: statement ].
 	aQualifiedName = 'rect'
 		ifTrue: [ instructions
-				add: '(BlElement new
-	size: ', (anAttributeDictionary at: 'width'), ' @ ', (anAttributeDictionary at: 'height'), ';
-	relocate: ', (anAttributeDictionary at: 'x'),  ' @ ', (anAttributeDictionary at: 'y'), ';
+				add: 'BlElement new
+	size: ' , (anAttributeDictionary at: 'width') , ' @ '
+						, (anAttributeDictionary at: 'height')
+						, ';
+	relocate: ' , (anAttributeDictionary at: 'x') , ' @ '
+						, (anAttributeDictionary at: 'y')
+						, ';
 	outskirts: BlOutskirts centered;
 	background: Color black;
 	border: (BlBorder builder
 		paint: Color black;
 		width: 1;
 		capRound;
-		build)).' ]
+		build)' ]
 ]
