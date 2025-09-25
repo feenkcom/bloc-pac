@@ -17,6 +17,9 @@ BaselineOfBlocPac >> baseline: spec [
 		spec
 			baseline: 'SpartaSkia' with: [
 				spec repository: 'github://feenkcom/Sparta:v0.8.217/src' ].
+		spec
+			baseline: 'XMLParserForGlamorousToolkit' with: [
+				spec repository: 'github://feenkcom/XML-XMLParser:v0.6.4/src' ].
 
 		spec package: 'BlocPac-CommonParent' with: [
 			spec requires: #(#Bloc) ].
@@ -35,7 +38,7 @@ BaselineOfBlocPac >> baseline: spec [
 		spec package: 'BlocPac-PannableAndZoomable' with: [
 			spec requires: #(#Bloc #'BlocPac-PullAndSlide') ].
 		spec package: 'BlocPac-Geometry' with: [
-			spec requires: #(#Bloc #'BlocPac-PullAndSlide' #'BlocPac-CommonParent') ].
+			spec requires: #(#Bloc #'BlocPac-PullAndSlide' #'BlocPac-CommonParent' #XMLParserForGlamorousToolkit) ].
 		spec package: 'BlocPac-Resizable' with: [
 			spec requires: #(#Bloc #'BlocPac-Overlay') ].
 		spec package: 'BlocPac-Scalable' with: [
