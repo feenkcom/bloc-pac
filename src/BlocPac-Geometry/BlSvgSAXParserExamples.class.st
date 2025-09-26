@@ -5,6 +5,32 @@ Class {
 }
 
 { #category : #accessing }
+BlSvgSAXParserExamples >> importSvgWithCircle [
+	<gtExample>
+	| parser resultElement |
+	parser := BlSvgSAXParser
+			parse: '<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xl="http://www.w3.org/1999/xlink" xmlns:dc="http://purl.org/dc/elements/1.1/" version="1.1" viewBox="0 0 16 16" width="16" height="16">
+  <defs/>
+  <g id="gray_flag" fill="none" stroke="none" stroke-opacity="1" stroke-dasharray="none" fill-opacity="1">
+    <title>gray flag</title>
+    <g id="gray_flag_Layer_1">
+      <title>Layer 1</title>
+      <g id="Graphic_299">
+        <circle cx="8" cy="8" r="3.00000479370569" fill="black"/>
+      </g>
+    </g>
+  </g>
+</svg>'.
+	resultElement := parser resultElement.
+	self assert: (resultElement isKindOf: BlElement).
+	self assert: resultElement children size equals: 1.
+	self assert: resultElement children anyOne border width isZero.
+	^ resultElement
+]
+
+{ #category : #accessing }
 BlSvgSAXParserExamples >> importSvgWithPathAndRect [
 	<gtExample>
 	| parser resultElement |
