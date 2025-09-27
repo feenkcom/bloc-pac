@@ -65,15 +65,18 @@ BlSvgSAXParser >> startElement: aQualifiedName attributes: anAttributeDictionary
 			anAttributeDictionary
 				at: 'fill'
 				ifPresent: [ :s | 
-					statement := statement, ';
+					statement := statement
+							, ';
 	background: Color black' ].
 			anAttributeDictionary
 				at: 'stroke-width'
 				ifPresent: [ :s | 
-					statement := statement, ';
+					statement := statement
+							, ';
 	border: (BlBorder builder
 		paint: Color black;
-		width: ' , s, ';
+		width: ' , s
+							, ';
 		capRound;
 		build)' ].
 			instructions add: statement ].
@@ -92,5 +95,34 @@ BlSvgSAXParser >> startElement: aQualifiedName attributes: anAttributeDictionary
 		paint: Color black;
 		width: 1;
 		capRound;
-		build)' ]
+		build)' ].
+	aQualifiedName = 'circle'
+		ifTrue: [ | radius cx cy statement |
+			radius := anAttributeDictionary at: 'r'.
+			cx := anAttributeDictionary at: 'cx'.
+			cy := anAttributeDictionary at: 'cy'.
+			statement := 'BlElement new
+	size: (' , radius , ' * 2) @ (' , radius
+					, '* 2) ;
+	relocate: (' , cx , ' - ' , radius , ') @ (' , cy , '-' , radius
+					, ');
+	geometry: BlCircleGeometry new'.
+			anAttributeDictionary
+				at: 'fill'
+				ifPresent: [ :s | 
+					statement := statement
+							, ';
+	background: Color black' ].
+			anAttributeDictionary
+				at: 'stroke-width'
+				ifPresent: [ :s | 
+					statement := statement
+							, ';
+	border: (BlBorder builder
+		paint: Color black;
+		width: ' , s
+							, ';
+		capRound;
+		build)' ].
+			instructions add: statement ]
 ]
