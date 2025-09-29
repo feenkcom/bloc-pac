@@ -25,8 +25,8 @@ BlSvgSAXParserExamples >> importSvgWithCircle [
 </svg>'.
 	resultElement := parser resultElement.
 	self assert: (resultElement isKindOf: BlElement).
-	self assert: resultElement children size equals: 1.
-	self assert: resultElement children anyOne border width isZero.
+	self assert: resultElement children isEmpty.
+	self assert: resultElement border width isZero.
 	^ resultElement
 ]
 
@@ -113,5 +113,32 @@ BlSvgSAXParserExamples >> importSvgWithPaths [
 </svg>'.
 	resultElement := parser resultElement.
 	self assert: (resultElement isKindOf: BlElement).
+	^ parser
+]
+
+{ #category : #accessing }
+BlSvgSAXParserExamples >> importSvgWithSinglePath [
+	<gtExample>
+	| parser resultElement |
+	parser := BlSvgSAXParser
+			parse: '<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xl="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" xmlns:dc="http://purl.org/dc/elements/1.1/" version="1.1" viewBox="0 0 16 16" width="16" height="16">
+  <defs/>
+  <g id="refresh_1" stroke="none" stroke-opacity="1" stroke-dasharray="none" fill="none" fill-opacity="1">
+    <title>refresh 1</title>
+    <g id="refresh_1_Layer_1">
+      <title>Layer 1</title>
+      <g id="Graphic_75">
+        <path d="M 10.5 6 L 7 6 L 11 10 L 15 6 L 11.5 6 L 11.5 3 L 11.417824 3 L 10.5 3 L 3 3 L 2.4178236 3 L 2 3 L 2 13 L 2.4178236 13 L 3 13 L 11.417824 13 L 11.417824 12 L 3 12 L 3 4 L 10.5 4 Z" fill="black"/>
+      </g>
+    </g>
+  </g>
+</svg>
+'.
+	resultElement := parser resultElement.
+	self assert: (resultElement isKindOf: BlElement).
+	self assert: (resultElement children isEmpty).
+	self assert: (resultElement geometry isKindOf: BlSvgPath).
 	^ parser
 ]
