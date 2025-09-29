@@ -38,11 +38,14 @@ BlSvgSAXParser >> initialize [
 
 { #category : #views }
 BlSvgSAXParser >> instructionString [
-	^ String streamContents: [:s | 
-		s 
-			nextPutAll: 'BlElement new size: 16@16; addChildren: {';
-			nextPutAll: ('.', String cr join: instructions);
-			nextPutAll: '}' ]
+	^ instructions size = 1
+		ifTrue: [ instructions first ]
+		ifFalse: [ String
+				streamContents: [ :s | 
+					s
+						nextPutAll: 'BlElement new size: 16@16; addChildren: {';
+						nextPutAll: ('.' , String cr join: instructions);
+						nextPutAll: '}' ] ]
 ]
 
 { #category : #views }
