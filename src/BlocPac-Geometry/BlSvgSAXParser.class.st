@@ -29,6 +29,33 @@ BlSvgSAXParser >> gtResultFor: aView [
 ]
 
 { #category : #'as yet unclassified' }
+BlSvgSAXParser >> handleFillFrom: anAttributeDictionary inStatement: statement [
+	^ anAttributeDictionary
+		at: 'fill'
+		ifPresent: [ :s | 
+			statement
+				, ';
+	background: Color black' ]
+		ifAbsent: [ statement ]
+]
+
+{ #category : #'as yet unclassified' }
+BlSvgSAXParser >> handleStrokeFrom: anAttributeDictionary inStatement: statement [
+	^ anAttributeDictionary
+		at: 'stroke-width'
+		ifPresent: [ :s | 
+			statement
+				, ';
+	border: (BlBorder builder
+		paint: Color black;
+		width: ' , s
+				, ';
+		capRound;
+		build)' ]
+		ifAbsent: [ statement ]
+]
+
+{ #category : #'as yet unclassified' }
 BlSvgSAXParser >> initialize [
 	super initialize.
 	result := BlElement new
@@ -65,40 +92,28 @@ BlSvgSAXParser >> startElement: aQualifiedName attributes: anAttributeDictionary
 	geometry: (BlSvgPath new svg: ''' , (anAttributeDictionary at: 'd')
 					, '''
 	viewbox: (0 @ 0 extent: 16 @ 16))'.
-			anAttributeDictionary
-				at: 'fill'
-				ifPresent: [ :s | 
-					statement := statement
-							, ';
-	background: Color black' ].
-			anAttributeDictionary
-				at: 'stroke-width'
-				ifPresent: [ :s | 
-					statement := statement
-							, ';
-	border: (BlBorder builder
-		paint: Color black;
-		width: ' , s
-							, ';
-		capRound;
-		build)' ].
+			statement := self
+					handleFillFrom: anAttributeDictionary
+					inStatement: statement.
+			statement := self
+					handleStrokeFrom: anAttributeDictionary
+					inStatement: statement.
 			instructions add: statement ].
 	aQualifiedName = 'rect'
-		ifTrue: [ instructions
-				add: 'BlElement new
+		ifTrue: [ | statement |
+			statement := 'BlElement new
 	size: ' , (anAttributeDictionary at: 'width') , ' @ '
-						, (anAttributeDictionary at: 'height')
-						, ';
+					, (anAttributeDictionary at: 'height')
+					, ';
 	relocate: ' , (anAttributeDictionary at: 'x') , ' @ '
-						, (anAttributeDictionary at: 'y')
-						, ';
-	outskirts: BlOutskirts centered;
-	background: Color black;
-	border: (BlBorder builder
-		paint: Color black;
-		width: 1;
-		capRound;
-		build)' ].
+					, (anAttributeDictionary at: 'y').
+			statement := self
+					handleFillFrom: anAttributeDictionary
+					inStatement: statement.
+			statement := self
+					handleStrokeFrom: anAttributeDictionary
+					inStatement: statement.
+			instructions add: statement ].
 	aQualifiedName = 'circle'
 		ifTrue: [ | radius cx cy statement |
 			radius := anAttributeDictionary at: 'r'.
@@ -110,22 +125,11 @@ BlSvgSAXParser >> startElement: aQualifiedName attributes: anAttributeDictionary
 	relocate: (' , cx , ' - ' , radius , ') @ (' , cy , '-' , radius
 					, ');
 	geometry: BlCircleGeometry new'.
-			anAttributeDictionary
-				at: 'fill'
-				ifPresent: [ :s | 
-					statement := statement
-							, ';
-	background: Color black' ].
-			anAttributeDictionary
-				at: 'stroke-width'
-				ifPresent: [ :s | 
-					statement := statement
-							, ';
-	border: (BlBorder builder
-		paint: Color black;
-		width: ' , s
-							, ';
-		capRound;
-		build)' ].
+			statement := self
+					handleFillFrom: anAttributeDictionary
+					inStatement: statement.
+			statement := self
+					handleStrokeFrom: anAttributeDictionary
+					inStatement: statement.
 			instructions add: statement ]
 ]
