@@ -10,13 +10,13 @@ BaselineOfBlocPac >> baseline: spec [
 	spec for: #'common' do: [
 		spec
 			baseline: 'Bloc' with: [
-				spec repository: 'github://feenkcom/Bloc:v0.8.953/src' ].
+				spec repository: 'github://feenkcom/Bloc:v0.8.954/src' ].
 		spec
 			baseline: 'Beacon' with: [
 				spec repository: 'github://feenkcom/pharo-beacon:77c26a9194d7e0494d56f0f1b86c55fc08925cf5/repository' ].
 		spec
 			baseline: 'SpartaSkia' with: [
-				spec repository: 'github://feenkcom/Sparta:v0.8.220/src' ].
+				spec repository: 'github://feenkcom/Sparta:v0.8.221/src' ].
 		spec
 			baseline: 'XMLParserForGlamorousToolkit' with: [
 				spec repository: 'github://feenkcom/XML-XMLParser:v0.6.4/src' ].
