@@ -83,7 +83,9 @@ TBlHorizontalTreeFlowLayoutScrollable >> scrollHorizontallyBy: aNumber [
 	<return: #Number>
 	self assert: [ self layout isKindOf: BlHorizontalTreeFlowLayout ].
 
-	self layout scrollHorizontallyBy: aNumber in: self
+	aNumber isZero ifTrue: [ ^ self ].
+	self layout scrollHorizontallyBy: aNumber in: self.
+	self dispatchOnScrolled: aNumber.
 ]
 
 { #category : #'api - scrolling' }
