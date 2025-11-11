@@ -16,7 +16,8 @@ Class {
 	#instVars : [
 		'scrap',
 		'maxScrap',
-		'attachCount'
+		'attachCount',
+		'defaultMaxScrap'
 	],
 	#category : #'BlocPac-Infinite-Recycler'
 }
@@ -50,7 +51,12 @@ BlInfiniteRecyclerPool >> clear [
 
 { #category : #initialization }
 BlInfiniteRecyclerPool >> defaultMaxScrap [
-	^ 50
+	^ defaultMaxScrap ifNil: [ 50 ]
+]
+
+{ #category : #initialization }
+BlInfiniteRecyclerPool >> defaultMaxScrap: anInteger [
+	defaultMaxScrap := anInteger
 ]
 
 { #category : #'as yet unclassified' }
