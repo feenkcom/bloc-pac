@@ -40,7 +40,8 @@ BlDropHandler >> dragEnterEvent: aDropEnterEvent [
 			delegate: self createDropDelegate;
 			position: aDropEnterEvent position.
 
-	aDropEnterEvent currentTarget space dispatchEvent: aSpaceDropEnterEvent
+	aDropEnterEvent currentTarget space ifNotNil: [ :aSpace | 
+		aSpace dispatchEvent: aSpaceDropEnterEvent ]
 ]
 
 { #category : #accessing }
@@ -52,10 +53,11 @@ BlDropHandler >> dragEvent: aDragEvent [
 
 	aDragEvent consumed: true.
 	
-	aDragEvent currentTarget space dispatchEvent: (BlSpaceDragDraggedEvent new
-		element: aDragEvent currentTarget;
-		delegate: self createDropDelegate;
-		position: aDragEvent position)
+	aDragEvent currentTarget space ifNotNil: [ :aSpace | 
+		aSpace dispatchEvent: (BlSpaceDragDraggedEvent new
+			element: aDragEvent currentTarget;
+			delegate: self createDropDelegate;
+			position: aDragEvent position) ]
 ]
 
 { #category : #accessing }
@@ -71,10 +73,11 @@ BlDropHandler >> dropEvent: aDropEvent [
 	aDropEvent currentTarget
 		dispatchEvent: (BlItemsLeftEvent new position: aDropEvent localPosition).
 
-	aDropEvent currentTarget space dispatchEvent: (BlSpaceDragDropEvent new
-		element: aDropEvent currentTarget;
-		delegate: self createDropDelegate;
-		position: aDropEvent position)
+	aDropEvent currentTarget space ifNotNil: [ :aSpace | 
+		aSpace dispatchEvent: (BlSpaceDragDropEvent new
+			element: aDropEvent currentTarget;
+			delegate: self createDropDelegate;
+			position: aDropEvent position) ]
 ]
 
 { #category : #accessing }
