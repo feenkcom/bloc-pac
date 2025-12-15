@@ -112,6 +112,41 @@ BlDragAndDropExamples >> lettersSorterRoundedContainerWithBorder [
 		geometry: (BlRoundedRectangleGeometry cornerRadius: 5)
 ]
 
+{ #category : #examples }
+BlDragAndDropExamples >> removeMouseDownElement [
+	"See https://github.com/feenkcom/gtoolkit/issues/4897"
+
+	<gtExample>
+	| scripter |
+	scripter := BlScripter new element: self tagsOrderer.
+
+	scripter mouseMoveOver
+		// BlTextElement;
+		@ 1;
+		play.
+
+	scripter mouseDown play.
+
+	scripter do
+		block: [ :aContainer | 
+			aContainer removeChildren.
+			aContainer
+				addChildren: ({'Five'.
+						'Six'.
+						'Seven'.
+						'Eight'} collect: [ :eachName | self tagOrdererDraggableTagFor: eachName ]) ];
+		play.
+
+	scripter mouseMoveOver
+		// BlTextElement;
+		@ 4;
+		play.
+
+	scripter mouseUp play.
+
+	^ scripter
+]
+
 { #category : #'instance creation' }
 BlDragAndDropExamples >> tagFor: aString [
 	^ BlElement new
