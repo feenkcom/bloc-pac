@@ -66,6 +66,8 @@ BlVerticalScrollbarElement >> scrollTo: aPoint [
 { #category : #'private - scrolling' }
 BlVerticalScrollbarElement >> updateScrollPosition [
 	| verticalContentLength verticalScrollOffset verticalScrollExtent realThumbWeight thumbTop y |
+	(scrollable height  closeTo: 0.0 precision: 0.1) ifTrue: [ ^ self ].
+	
 	verticalContentLength := scrollable computeVerticalScrollRange.
 
 	verticalContentLength isZero ifTrue: [ ^ self ].
