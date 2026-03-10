@@ -10,10 +10,10 @@ BaselineOfBlocPac >> baseline: spec [
 	spec for: #'common' do: [
 		spec
 			baseline: 'Bloc' with: [
-				spec repository: 'github://feenkcom/Bloc:v0.9.39/src' ].
+				spec repository: 'github://feenkcom/Bloc:v0.9.40/src' ].
 		spec
 			baseline: 'Beacon' with: [
-				spec repository: 'github://feenkcom/pharo-beacon:b5d0e2a131c39f361f75d5826716c14b822d5e4e/repository' ].
+				spec repository: 'github://feenkcom/pharo-beacon:14f253625b0e28a538c28182025440036991b339/repository' ].
 		spec
 			baseline: 'SpartaSkia' with: [
 				spec repository: 'github://feenkcom/Sparta:v0.8.234/src' ].
@@ -51,5 +51,7 @@ BaselineOfBlocPac >> baseline: spec [
 			spec requires: #(#Bloc #'BlocPac-Infinite') ].
 		spec package: 'BlocPac-Imager' with: [
 			spec requires: #(#Bloc #Beacon #SpartaSkia) ].
+		spec package: 'BlocPac-Examples' with: [
+			spec requires: #(#'BlocPac-ElementQuery') ].
 	]
 ]
