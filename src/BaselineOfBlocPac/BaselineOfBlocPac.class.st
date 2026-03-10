@@ -47,6 +47,8 @@ BaselineOfBlocPac >> baseline: spec [
 			package: #'BlocPac-Infinite-Layouts' with: [
 				spec requires: #('Bloc' #'BlocPac-Infinite' ). ];
 			package: #'BlocPac-Imager' with: [
-				spec requires: #('Bloc' 'Beacon' 'SpartaSkia'). ]. ].
+				spec requires: #('Bloc' 'Beacon' 'SpartaSkia') ];
+			package: #'BlocPac-Examples' with: [
+				spec requires: #('BlocPac-ElementQuery') ] ].
 
 ]
