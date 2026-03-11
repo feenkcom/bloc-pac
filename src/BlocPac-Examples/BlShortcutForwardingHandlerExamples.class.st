@@ -122,7 +122,9 @@ BlShortcutForwardingHandlerExamples >> sceneOne [
 			id: #one;
 			background: (Color red alpha: 0.5);
 			when: BlClickEvent
-				do: [ :anEvent | (anEvent currentTarget childWithId: #index) requestFocus ];
+				do: [ :anEvent | 
+					anEvent consumed: true.
+					(anEvent currentTarget childWithId: #index) requestFocus ];
 			addShortcut: (BlShortcutWithAction new
 					name: 'Change color';
 					combination: (BlKeyCombination builder
