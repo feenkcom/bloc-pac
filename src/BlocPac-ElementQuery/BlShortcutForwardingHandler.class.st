@@ -24,7 +24,8 @@ Class {
 	#instVars : [
 		'targetQuery',
 		'shortcutHandler',
-		'targetObject'
+		'targetObject',
+		'isForwardingAllowedBlock'
 	],
 	#category : #'BlocPac-ElementQuery-Events-Handler'
 }
@@ -75,13 +76,14 @@ BlShortcutForwardingHandler >> forwardEvent: aShortcutEvent do: aHandlerBlock if
 					aCurrentTarget := aShortcutEvent currentTarget.
 					someElements
 						do: [ :eachElement | 
-							eachElement eventDispatcher shortcutHandler
-								ifNotNil: [ :aHandler | 
-									(aHandler wantsEvent: aShortcutEvent)
-										ifTrue: [ aShortcutEvent forwardingTarget: eachElement.
-											aHandlerBlock value: aHandler ].
-									aShortcutEvent isConsumed
-										ifTrue: [ ^ aConsumedBlock value ] ] ].
+							(self isForwardingAllowedTo: eachElement) ifTrue: [
+									eachElement eventDispatcher shortcutHandler
+										ifNotNil: [ :aHandler | 
+											(aHandler wantsEvent: aShortcutEvent)
+												ifTrue: [ aShortcutEvent forwardingTarget: eachElement.
+													aHandlerBlock value: aHandler ].
+											aShortcutEvent isConsumed
+												ifTrue: [ ^ aConsumedBlock value ] ] ] ].
 					aShortcutEvent
 						target: aTarget;
 						currentTarget: aCurrentTarget ] ].
@@ -92,6 +94,17 @@ BlShortcutForwardingHandler >> forwardEvent: aShortcutEvent do: aHandlerBlock if
 { #category : #'api - adding / removing' }
 BlShortcutForwardingHandler >> forwardShortcuts [
 	^ self
+]
+
+{ #category : #accessing }
+BlShortcutForwardingHandler >> forwardWhen: aBlock [
+	"Set a block that evaluates whether shortcut events can be forwarded to a given target element.
+	The block have one argument [ :aTargetElement | ... ].
+	The block returns a boolean value:
+	- true means that events can be forwarded,
+	- false means that events cannot be forwarded."
+
+	isForwardingAllowedBlock := aBlock
 ]
 
 { #category : #'api - event managing' }
@@ -111,7 +124,18 @@ BlShortcutForwardingHandler >> initialize [
 	shortcutHandler := BlShortcutHandlerWithoutShortcuts uniqueInstance.
 	
 	"empty selector, which means we apply it on the widget itself"
-	targetQuery := BlElementLazyQuery new
+	targetQuery := BlElementLazyQuery new.
+	
+	"see forwardWhen: method comment"
+	isForwardingAllowedBlock := [ :aTargetElement | true ]
+]
+
+{ #category : #'private - event handling' }
+BlShortcutForwardingHandler >> isForwardingAllowedTo: anElement [
+	"See #forwardWhen: method comments."
+
+	<return: #Boolean>
+	^ isForwardingAllowedBlock cull: anElement
 ]
 
 { #category : #'api - adding / removing' }
