@@ -41,6 +41,18 @@ BlSvgPathQuadraticBezierSegment >> hash [
 	^ (self isAbsolute hash bitXor: self curveTo hash) bitXor: self viaPoint hash
 ]
 
+{ #category : #testing }
+BlSvgPathQuadraticBezierSegment >> isQuadraticBezier [
+	^ true
+]
+
+{ #category : #accessing }
+BlSvgPathQuadraticBezierSegment >> lastControlPointForFollowingCurrentPoint: aCurrentPoint [
+	^ self isAbsolute
+		ifTrue: [ self viaPoint ]
+		ifFalse: [ (aCurrentPoint - self curveTo) + self viaPoint ]
+]
+
 { #category : #accessing }
 BlSvgPathQuadraticBezierSegment >> viaPoint [
 	^ viaPoint

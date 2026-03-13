@@ -203,8 +203,13 @@ Draws an elliptical arc from the current point to (x, y). The size and orientati
 
 { #category : #'api - builder' }
 BlSvgPathBuilder >> ellipticalArc: r xrot: xrot large: large sweep: sweep to: pt [
-
-	self shouldBeImplemented
+	self addSegment: ((BlSvgPathEllipticalArcSegment absolute: absolute)
+		radii: r;
+		xAxisRotation: xrot;
+		largeArcFlag: large ~= 0;
+		sweepFlag: sweep ~= 0;
+		arcTo: pt;
+		yourself)
 ]
 
 { #category : #initialization }
@@ -548,9 +553,21 @@ cubic Bézier curve from the current point to (x,y). The first control point is 
 
 { #category : #'api - builder' }
 BlSvgPathBuilder >> reflectedCurveTo: aPoint [
+	| aPreviousQuadraticBezierSegment |
+	aPreviousQuadraticBezierSegment := segments
+		ifEmpty: [ nil ]
+		ifNotEmpty: [ :theSegments |
+			| aLastSegment |
+			aLastSegment := theSegments last.
+			((aLastSegment isKindOf: BlSvgPathQuadraticBezierSegment)
+				or: [ aLastSegment isKindOf: BlSvgPathReflectedQuadraticBezierSegment ])
+				ifTrue: [ aLastSegment ]
+				ifFalse: [ nil ] ].
 
-
-	self shouldBeImplemented
+	self addSegment: ((BlSvgPathReflectedQuadraticBezierSegment absolute: absolute)
+		previousQuadraticBezierSegment: aPreviousQuadraticBezierSegment;
+		curveTo: aPoint;
+		yourself)
 ]
 
 { #category : #'api - builder' }
