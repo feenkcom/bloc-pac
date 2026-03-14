@@ -2,7 +2,7 @@
 	"repositories" : {
 		"github://feenkcom/pharo-beacon/repository" : "14f253625b0e28a538c28182025440036991b339",
 		"github://feenkcom/Sparta/src" : "v0.8.234",
-		"github://feenkcom/Bloc/src" : "v0.9.41",
+		"github://feenkcom/Bloc/src" : "v0.9.42",
 		"github://feenkcom/XML-XMLParser/src" : "v0.6.4"
 	}
 }
