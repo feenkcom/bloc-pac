@@ -301,6 +301,15 @@ BlInfiniteLayout >> childAt: anIndex [
 ]
 
 { #category : #'children - accessing' }
+BlInfiniteLayout >> childAt: anIndex ifAbsent: anAbsentBlock [
+	"Return a child element at the given index.
+	Return anAbsentBlock value if the child element does not exist."
+	<return: #BlElement>
+	
+	^ childManager childAt: anIndex ifAbsent: anAbsentBlock
+]
+
+{ #category : #'children - accessing' }
 BlInfiniteLayout >> childAtPosition: aPosition [
 	"Finds the element which represents the given datasource position.
 	I traverse each child since I have no information about child order.

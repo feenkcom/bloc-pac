@@ -42,6 +42,11 @@ BlInfiniteDefaultChildrenController >> childAt: anIndex [
 ]
 
 { #category : #'manager -> element' }
+BlInfiniteDefaultChildrenController >> childAt: anIndex ifAbsent: anAbsentBlock [
+	^ infiniteElement children at: anIndex ifAbsent: anAbsentBlock
+]
+
+{ #category : #'manager -> element' }
 BlInfiniteDefaultChildrenController >> childIndexOf: aChildElement [
 	^ infiniteElement childIndexOf: aChildElement
 ]

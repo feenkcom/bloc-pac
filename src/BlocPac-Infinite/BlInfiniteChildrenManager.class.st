@@ -71,6 +71,21 @@ BlInfiniteChildrenManager >> childAt: anIndex [
 ]
 
 { #category : #'children accessing' }
+BlInfiniteChildrenManager >> childAt: anIndex ifAbsent: anAbsentBlock [
+	"Returns the child at anIndex.
+	Return anAbsentBlock value if the child element does not exist."
+	<return: #BlElement>
+	| anOffset |
+	
+	anOffset := self computeOffset: anIndex.
+	self
+		assert: [ anOffset >= 0 ]
+		description: [ 'Index must be positive!' ].
+
+	^ controller childAt: anOffset ifAbsent: anAbsentBlock
+]
+
+{ #category : #'children accessing' }
 BlInfiniteChildrenManager >> childIndexOf: aChildElement [
 	"Return the index of the child in regular perspective.
 	Return 0 if child is not present in infinite element"
