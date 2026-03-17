@@ -15,6 +15,13 @@ BlInfiniteChildBoundsBasedFinder >> childAt: anIndex [
 ]
 
 { #category : #accessing }
+BlInfiniteChildBoundsBasedFinder >> childAt: anIndex ifAbsent: anAbsentBlock [
+	<return: #BlElement>
+	
+	^ layout childAt: anIndex ifAbsent: anAbsentBlock
+]
+
+{ #category : #accessing }
 BlInfiniteChildBoundsBasedFinder >> layout [
 	^ layout
 ]
