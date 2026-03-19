@@ -1,6 +1,6 @@
 Trait {
 	#name : #TBlShaperEdge,
-	#category : 'BlocPac-Geometry-Shaper'
+	#category : #'BlocPac-Geometry-Shaper'
 }
 
 { #category : #'api - shape' }

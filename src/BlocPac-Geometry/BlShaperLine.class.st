@@ -8,7 +8,7 @@ Class {
 		'toVertex',
 		'figure'
 	],
-	#category : 'BlocPac-Geometry-Shaper'
+	#category : #'BlocPac-Geometry-Shaper'
 }
 
 { #category : #'api - shape' }

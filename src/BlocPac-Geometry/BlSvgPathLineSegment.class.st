@@ -10,7 +10,7 @@ Class {
 	#instVars : [
 		'lineTo'
 	],
-	#category : 'BlocPac-Geometry-SVG'
+	#category : #'BlocPac-Geometry-SVG'
 }
 
 { #category : #comparing }

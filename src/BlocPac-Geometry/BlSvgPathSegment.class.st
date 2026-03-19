@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'isAbsolute'
 	],
-	#category : 'BlocPac-Geometry-SVG'
+	#category : #'BlocPac-Geometry-SVG'
 }
 
 { #category : #'instance creation' }
