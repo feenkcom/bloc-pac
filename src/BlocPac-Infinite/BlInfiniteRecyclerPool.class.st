@@ -16,7 +16,8 @@ Class {
 	#instVars : [
 		'scrap',
 		'maxScrap',
-		'attachCount'
+		'attachCount',
+		'defaultMaxScrap'
 	],
 	#category : #'BlocPac-Infinite-Recycler'
 }
@@ -50,7 +51,12 @@ BlInfiniteRecyclerPool >> clear [
 
 { #category : #initialization }
 BlInfiniteRecyclerPool >> defaultMaxScrap [
-	^ 50
+	^ defaultMaxScrap ifNil: [ 50 ]
+]
+
+{ #category : #initialization }
+BlInfiniteRecyclerPool >> defaultMaxScrap: anInteger [
+	defaultMaxScrap := anInteger
 ]
 
 { #category : #'as yet unclassified' }
@@ -119,5 +125,5 @@ BlInfiniteRecyclerPool >> size [
 
 	^ scrap
 		ifEmpty: [ 0 ]
-		ifNotEmpty: [ :aDictionary | aDictionary sum: [ :each | each size ] ]
+		ifNotEmpty: [ :aDictionary | aDictionary sumNumbers: [ :each | each size ] ]
 ]

@@ -49,31 +49,31 @@ BlRectangleShapeWithArrowExplanation >> arrowLength [
 { #category : #'examples - rectangle' }
 BlRectangleShapeWithArrowExplanation >> elementTallWithTopArrowGeometry [
 	<gtExample>
-	
+	<return: #BlElement>
 	^ BlElement new
-		geometry: (BlShaperGeometry new shape: (self rectangleWithTopArrow));
-		size: 300@400;
-		background: (Color veryVeryLightGray);
+		geometry: (BlShaperGeometry new shape: self rectangleWithTopArrow);
+		size: 300 @ 400;
+		background: Color veryVeryLightGray;
 		border: (BlBorder paint: Color black width: 2)
 ]
 
 { #category : #'examples - rectangle' }
 BlRectangleShapeWithArrowExplanation >> elementWithTopArrowGeometry [
 	<gtExample>
-	
+	<return: #BlElement>
 	^ BlElement new
-		geometry: (BlShaperGeometry new shape: (self rectangleWithTopArrow));
-		size: 300@200;
-		background: (Color veryVeryLightGray);
+		geometry: (BlShaperGeometry new shape: self rectangleWithTopArrow);
+		size: 300 @ 200;
+		background: Color veryVeryLightGray;
 		border: (BlBorder paint: Color lightGray width: 10)
 ]
 
 { #category : #'examples - rectangle' }
 BlRectangleShapeWithArrowExplanation >> rectangleShape [
 	<gtExample>
+	<return: #BlShaperPolygon>
 	| aRectangle |
-	
-	aRectangle := BlShaperPolygon rectangle: (50@50 extent: 250@150).
+	aRectangle := BlShaperPolygon rectangle: (50 @ 50 extent: 250 @ 150).
 
 	self assert: aRectangle edges size equals: 4.
 
@@ -83,8 +83,8 @@ BlRectangleShapeWithArrowExplanation >> rectangleShape [
 { #category : #'examples - rectangle' }
 BlRectangleShapeWithArrowExplanation >> rectangleWithTopArrow [
 	<gtExample>
+	<return: #BlShaperPolygon>
 	| aRectangle |
-	
 	aRectangle := self rectangleWithTopPolylineSplitInHalf.
 	(aRectangle edgeAt: 2) toVertex moveBy: 0 @ self arrowLength negated.
 
@@ -94,11 +94,10 @@ BlRectangleShapeWithArrowExplanation >> rectangleWithTopArrow [
 { #category : #'examples - rectangle' }
 BlRectangleShapeWithArrowExplanation >> rectangleWithTopInjectedLine [
 	<gtExample>
+	<return: #BlShaperPolygon>
 	| aRectangle |
-	
 	aRectangle := self rectangleWithTranslatedTopEdge.
-	(aRectangle edgeAt: 1)
-		injectLineAt: 0.5 length: self arrowLength.
+	(aRectangle edgeAt: 1) injectLineAt: 0.5 length: self arrowLength.
 
 	^ aRectangle
 ]
@@ -106,8 +105,8 @@ BlRectangleShapeWithArrowExplanation >> rectangleWithTopInjectedLine [
 { #category : #'examples - rectangle' }
 BlRectangleShapeWithArrowExplanation >> rectangleWithTopPolylineSplitInHalf [
 	<gtExample>
+	<return: #BlShaperPolygon>
 	| aRectangle |
-	
 	aRectangle := self rectangleWithTopInjectedLine.
 	(aRectangle edgeAt: 2) splitAt: 0.5.
 
@@ -117,10 +116,10 @@ BlRectangleShapeWithArrowExplanation >> rectangleWithTopPolylineSplitInHalf [
 { #category : #'examples - rectangle' }
 BlRectangleShapeWithArrowExplanation >> rectangleWithTranslatedTopEdge [
 	<gtExample>
+	<return: #BlShaperPolygon>
 	| aRectangle |
-	
 	aRectangle := self rectangleShape.
-	(aRectangle edgeAt: 1) moveBy: (0@ self arrowLength).
+	(aRectangle edgeAt: 1) moveBy: 0 @ self arrowLength.
 
 	^ aRectangle
 ]

@@ -7,7 +7,7 @@ Class {
 		'curveTo',
 		'lastControlPoint'
 	],
-	#category : 'BlocPac-Geometry-SVG'
+	#category : #'BlocPac-Geometry-SVG'
 }
 
 { #category : #comparing }

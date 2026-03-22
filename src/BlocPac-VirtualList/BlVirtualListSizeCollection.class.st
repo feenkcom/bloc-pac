@@ -1,0 +1,122 @@
+Class {
+	#name : #BlVirtualListSizeCollection,
+	#superclass : #Object,
+	#instVars : [
+		'intervals',
+		'count'
+	],
+	#category : #'BlocPac-VirtualList'
+}
+
+{ #category : #'instance creation' }
+BlVirtualListSizeCollection class >> fromIntervals: aSizeIntervalCollection [
+	| coll |
+	coll := self new.
+	coll setIntervals: aSizeIntervalCollection.
+	
+	^coll
+]
+
+{ #category : #'instance creation' }
+BlVirtualListSizeCollection class >> fromSizes: aSizeCollection [
+	| coll |
+	coll := self new.
+	aSizeCollection withIndexDo: [:each :i |
+		coll from: i to: i size: each
+	].
+	^coll
+]
+
+{ #category : #accessing }
+BlVirtualListSizeCollection >> averageSize [
+	| tot cnt |
+	tot := 0.
+	cnt := 0.
+	
+	intervals
+		do: [ :each | 
+			cnt := cnt + each count.
+			tot := tot + each totalSize ].
+			
+	cnt isZero
+		ifTrue: [ ^ 0 ].
+	
+	^ tot / cnt
+]
+
+{ #category : #accessing }
+BlVirtualListSizeCollection >> count [
+	^count
+]
+
+{ #category : #accessing }
+BlVirtualListSizeCollection >> count: anObject [
+	count := anObject
+]
+
+{ #category : #accessing }
+BlVirtualListSizeCollection >> from: startIndex to: endIndex size: aNumber [
+	| cnt |
+	cnt := endIndex - startIndex + 1.
+	intervals
+		add: (BlVirtualListSizeInterval index: startIndex count: cnt elementSize: aNumber).
+	count := count max: endIndex.
+]
+
+{ #category : #accessing }
+BlVirtualListSizeCollection >> gtDetailsViewFor: aView [
+	<gtView>
+	^ aView columnedList
+		title: 'Details';
+		items: [ {'count' -> self count.
+				'totalSize' -> self totalSize.
+				'averageSize' -> self averageSize} ];
+		column: 'Key' text: [ :each | each key gtDisplayString ];
+		column: 'Value' text: [ :each | each value gtDisplayString ];
+		send: [ :each | each value ]
+]
+
+{ #category : #accessing }
+BlVirtualListSizeCollection >> initialize [
+	super initialize.
+	intervals := SortedCollection sortBlock: [:a :b | a index < b index].
+	count := 0.
+]
+
+{ #category : #accessing }
+BlVirtualListSizeCollection >> setIntervals: aSizeIntervalCollection [
+	count := 0.
+	aSizeIntervalCollection do: [ :each |
+		count := count max: each lastIndex ].
+	
+	intervals removeAll.
+	intervals addAll: aSizeIntervalCollection
+]
+
+{ #category : #accessing }
+BlVirtualListSizeCollection >> sizeUpTo: anInteger [
+	"Cumulative size up to, but not including, anInteger"
+
+	| lastIndex totalSize avg stream each |
+	lastIndex := 0.
+	totalSize := 0.
+	avg := self averageSize.
+	stream := intervals readStream.
+	[ stream atEnd not and: [ stream peek lastIndex < anInteger ] ]
+		whileTrue: [ each := stream next.
+			totalSize := totalSize + ((each index - (lastIndex + 1)) * avg).	"add unknown sizes"
+			lastIndex := each lastIndex.
+			totalSize := totalSize + each totalSize ].
+	(stream atEnd
+		or: [ each := stream next.
+			anInteger < each index ])
+		ifTrue: [ totalSize := totalSize + ((anInteger - (lastIndex + 1)) * avg) ]
+		ifFalse: [ totalSize := totalSize + ((each index - (lastIndex + 1)) * avg).
+			totalSize := totalSize + ((anInteger - each index) * each elementSize) ].
+	^ totalSize
+]
+
+{ #category : #accessing }
+BlVirtualListSizeCollection >> totalSize [
+	^ self sizeUpTo: self count + 1
+]

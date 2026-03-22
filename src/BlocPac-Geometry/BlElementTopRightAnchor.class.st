@@ -1,7 +1,7 @@
 Class {
 	#name : #BlElementTopRightAnchor,
 	#superclass : #BlAnchorRelativeToElementBounds,
-	#category : 'BlocPac-Geometry-Anchors'
+	#category : #'BlocPac-Geometry-Anchors'
 }
 
 { #category : #accessing }

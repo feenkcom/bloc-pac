@@ -15,7 +15,7 @@ BlElementBoundsInScripterExamples >> assertBoundsInSpaceForElement: anElement [
 	self
 		assertBoundsRectangle: aBoundsInSpace1 asRectangle
 		equals: aBoundsInSpace2
-		description: 'element bounds inSpace ({1}) ~= element boundsInSpace ({2})'
+  description: 'element bounds inSpace ({1}) ~= element boundsInSpace ({2})'      
 ]
 
 { #category : #examples }
@@ -31,7 +31,6 @@ BlElementBoundsInScripterExamples >> assertBoundsRectangle: aRectangleOne equals
 
 { #category : #examples }
 BlElementBoundsInScripterExamples >> canvasInScripter: aScripter [
-	GtJustContextStackSignal emit.
 	^ self scripter: aScripter elementWithId: #'canvas'
 ]
 

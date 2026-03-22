@@ -7,7 +7,7 @@ Class {
 { #category : #'examples - instance creation' }
 BlSigmoidElementExamples >> newSigmoid [
 	<gtExample>
-	
+	<return: #BlSigmoidElement>
 	^ BlSigmoidElement new
 		zIndex: 10;
 		border: (BlBorder paint: Color red width: 4);
@@ -16,12 +16,12 @@ BlSigmoidElementExamples >> newSigmoid [
 
 { #category : #'examples - orientation' }
 BlSigmoidElementExamples >> sigmoidAutomatic [
-	<gtExample>	
+	<gtExample>
+	<return: #BlElement>
 	| aSigmoid attachFrom attachTo |
-	
 	aSigmoid := self newSigmoid.
 	aSigmoid beAutomatic.
-	
+
 	attachFrom := self attachPoint.
 	attachFrom relocate: 100 @ 100.
 
@@ -32,18 +32,20 @@ BlSigmoidElementExamples >> sigmoidAutomatic [
 	aSigmoid toAnchor: (BlElementCenterAnchor element: attachTo).
 
 	^ self container
-		addChildren: { aSigmoid . attachFrom . attachTo }
+		addChildren: {aSigmoid.
+				attachFrom.
+				attachTo}
 ]
 
 { #category : #'examples - bending point' }
 BlSigmoidElementExamples >> sigmoidBendingFirstQuarterPoint [
 	<gtExample>
+	<return: #BlElement>
 	| aSigmoid attachFrom attachTo |
-	
 	aSigmoid := self newSigmoid.
 	aSigmoid bendingPoint: 0.25.
 	aSigmoid sharpness: 1.0.
-	
+
 	attachFrom := self attachPoint.
 	attachFrom relocate: 100 @ 100.
 
@@ -54,18 +56,20 @@ BlSigmoidElementExamples >> sigmoidBendingFirstQuarterPoint [
 	aSigmoid toAnchor: (BlElementCenterAnchor element: attachTo).
 
 	^ self container
-		addChildren: { aSigmoid . attachFrom . attachTo }
+		addChildren: {aSigmoid.
+				attachFrom.
+				attachTo}
 ]
 
 { #category : #'examples - bending point' }
 BlSigmoidElementExamples >> sigmoidBendingFourthQuarterPoint [
 	<gtExample>
+	<return: #BlElement>
 	| aSigmoid attachFrom attachTo |
-	
 	aSigmoid := self newSigmoid.
 	aSigmoid bendingPoint: 0.75.
 	aSigmoid sharpness: 1.0.
-	
+
 	attachFrom := self attachPoint.
 	attachFrom relocate: 100 @ 100.
 
@@ -76,18 +80,20 @@ BlSigmoidElementExamples >> sigmoidBendingFourthQuarterPoint [
 	aSigmoid toAnchor: (BlElementCenterAnchor element: attachTo).
 
 	^ self container
-		addChildren: { aSigmoid . attachFrom . attachTo }
+		addChildren: {aSigmoid.
+				attachFrom.
+				attachTo}
 ]
 
 { #category : #'examples - bending point' }
 BlSigmoidElementExamples >> sigmoidBendingMiddlePoint [
 	<gtExample>
+	<return: #BlElement>
 	| aSigmoid attachFrom attachTo |
-	
 	aSigmoid := self newSigmoid.
 	aSigmoid bendingPoint: 0.5.
 	aSigmoid sharpness: 1.0.
-	
+
 	attachFrom := self attachPoint.
 	attachFrom relocate: 100 @ 100.
 
@@ -98,16 +104,18 @@ BlSigmoidElementExamples >> sigmoidBendingMiddlePoint [
 	aSigmoid toAnchor: (BlElementCenterAnchor element: attachTo).
 
 	^ self container
-		addChildren: { aSigmoid . attachFrom . attachTo }
+		addChildren: {aSigmoid.
+				attachFrom.
+				attachTo}
 ]
 
 { #category : #'examples - sigmoid' }
 BlSigmoidElementExamples >> sigmoidDefault [
-	<gtExample>	
+	<gtExample>
+	<return: #BlElement>
 	| aSigmoid attachFrom attachTo |
-	
 	aSigmoid := self newSigmoid.
-	
+
 	attachFrom := self attachPoint.
 	attachFrom relocate: 100 @ 100.
 
@@ -118,17 +126,19 @@ BlSigmoidElementExamples >> sigmoidDefault [
 	aSigmoid toAnchor: (BlElementCenterAnchor element: attachTo).
 
 	^ self container
-		addChildren: { aSigmoid . attachFrom . attachTo }
+		addChildren: {aSigmoid.
+				attachFrom.
+				attachTo}
 ]
 
 { #category : #'examples - orientation' }
 BlSigmoidElementExamples >> sigmoidHorizontal [
-	<gtExample>	
+	<gtExample>
+	<return: #BlElement>
 	| aSigmoid attachFrom attachTo |
-	
 	aSigmoid := self newSigmoid.
 	aSigmoid beHorizontal.
-	
+
 	attachFrom := self attachPoint.
 	attachFrom relocate: 100 @ 100.
 
@@ -139,17 +149,19 @@ BlSigmoidElementExamples >> sigmoidHorizontal [
 	aSigmoid toAnchor: (BlElementCenterAnchor element: attachTo).
 
 	^ self container
-		addChildren: { aSigmoid . attachFrom . attachTo }
+		addChildren: {aSigmoid.
+				attachFrom.
+				attachTo}
 ]
 
 { #category : #'examples - orientation' }
 BlSigmoidElementExamples >> sigmoidHorizontalLine [
-	<gtExample>	
+	<gtExample>
+	<return: #BlElement>
 	| aSigmoid attachFrom attachTo |
-	
 	aSigmoid := self newSigmoid.
 	aSigmoid beHorizontal.
-	
+
 	attachFrom := self attachPoint.
 	attachFrom relocate: 100 @ 100.
 
@@ -160,17 +172,19 @@ BlSigmoidElementExamples >> sigmoidHorizontalLine [
 	aSigmoid toAnchor: (BlElementCenterAnchor element: attachTo).
 
 	^ self container
-		addChildren: { aSigmoid . attachFrom . attachTo }
+		addChildren: {aSigmoid.
+				attachFrom.
+				attachTo}
 ]
 
 { #category : #'examples - sharpness' }
 BlSigmoidElementExamples >> sigmoidSharp [
 	<gtExample>
+	<return: #BlElement>
 	| aSigmoid attachFrom attachTo |
-
 	aSigmoid := self newSigmoid.
 	aSigmoid sharpness: 1.
-	
+
 	attachFrom := self attachPoint.
 	attachFrom relocate: 100 @ 100.
 
@@ -181,18 +195,19 @@ BlSigmoidElementExamples >> sigmoidSharp [
 	aSigmoid toAnchor: (BlElementCenterAnchor element: attachTo).
 
 	^ self container
-		addChildren: { aSigmoid . attachFrom . attachTo }
+		addChildren: {aSigmoid.
+				attachFrom.
+				attachTo}
 ]
 
 { #category : #'examples - sharpness' }
 BlSigmoidElementExamples >> sigmoidSmooth [
 	<gtExample>
+	<return: #BlElement>
 	| aSigmoid attachFrom attachTo |
-	
-	aSigmoid := self newSigmoid.
-	"it degrades to a line"
+	aSigmoid := self newSigmoid.	"it degrades to a line"
 	aSigmoid sharpness: 0.
-	
+
 	attachFrom := self attachPoint.
 	attachFrom relocate: 100 @ 100.
 
@@ -203,17 +218,19 @@ BlSigmoidElementExamples >> sigmoidSmooth [
 	aSigmoid toAnchor: (BlElementCenterAnchor element: attachTo).
 
 	^ self container
-		addChildren: { aSigmoid . attachFrom . attachTo }
+		addChildren: {aSigmoid.
+				attachFrom.
+				attachTo}
 ]
 
 { #category : #'examples - sharpness' }
 BlSigmoidElementExamples >> sigmoidSoft [
 	<gtExample>
+	<return: #BlElement>
 	| aSigmoid attachFrom attachTo |
-
 	aSigmoid := self newSigmoid.
 	aSigmoid sharpness: 0.5.
-	
+
 	attachFrom := self attachPoint.
 	attachFrom relocate: 100 @ 100.
 
@@ -224,17 +241,19 @@ BlSigmoidElementExamples >> sigmoidSoft [
 	aSigmoid toAnchor: (BlElementCenterAnchor element: attachTo).
 
 	^ self container
-		addChildren: { aSigmoid . attachFrom . attachTo }
+		addChildren: {aSigmoid.
+				attachFrom.
+				attachTo}
 ]
 
 { #category : #'examples - orientation' }
 BlSigmoidElementExamples >> sigmoidVertical [
-	<gtExample>	
+	<gtExample>
+	<return: #BlElement>
 	| aSigmoid attachFrom attachTo |
-	
 	aSigmoid := self newSigmoid.
 	aSigmoid beVertical.
-	
+
 	attachFrom := self attachPoint.
 	attachFrom relocate: 100 @ 100.
 
@@ -245,5 +264,7 @@ BlSigmoidElementExamples >> sigmoidVertical [
 	aSigmoid toAnchor: (BlElementCenterAnchor element: attachTo).
 
 	^ self container
-		addChildren: { aSigmoid . attachFrom . attachTo }
+		addChildren: {aSigmoid.
+				attachFrom.
+				attachTo}
 ]

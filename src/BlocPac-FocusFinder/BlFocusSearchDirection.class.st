@@ -19,7 +19,7 @@ BlFocusSearchDirection >> initFocusedBounds: aFocusedBounds root: aFocusRootElem
 BlFocusSearchDirection >> name [
 	<return: #String>
 
-	^ 'Uknown'
+	^ 'Unknown'
 ]
 
 { #category : #focus }

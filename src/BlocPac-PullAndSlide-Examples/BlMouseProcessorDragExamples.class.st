@@ -7,6 +7,7 @@ Class {
 { #category : #'examples - scripter' }
 BlMouseProcessorDragExamples >> mouseDown [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := self mouseEnter.
 
@@ -30,6 +31,7 @@ BlMouseProcessorDragExamples >> mouseDown [
 { #category : #'examples - scripter' }
 BlMouseProcessorDragExamples >> mouseEnter [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := self scripter.
 	aScripter element: self scripterElement.
@@ -72,6 +74,7 @@ BlMouseProcessorDragExamples >> mouseEnter [
 { #category : #'examples - scripter' }
 BlMouseProcessorDragExamples >> mouseMove [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := self mouseDown.
 
@@ -131,6 +134,7 @@ BlMouseProcessorDragExamples >> mouseMove [
 { #category : #'examples - scripter' }
 BlMouseProcessorDragExamples >> mouseUp [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := self mouseMove.
 
@@ -157,11 +161,7 @@ BlMouseProcessorDragExamples >> mouseUp [
 						onSelf ].
 
 			aStep
-				checkStep: [ :s | 
-					s
-						label: 'Check drag end fired';
-						value: [ :anElement | anElement draggable dragEndCount ] equals: 1;
-						onSelf ]	"aStep check
+				checkStep: [  "aStep check
 			label: 'Check drop is not fired on draggable';
 			value: [ :anElement | anElement draggable dropCount ] equals: 0;
 			onSelf;
@@ -171,7 +171,11 @@ BlMouseProcessorDragExamples >> mouseUp [
 			label: 'Check drop fired on the drop target';
 			value: [ :anElement | anElement drop dropCount ] equals: 1;
 			onSelf;
-			play" ].
+			play":s | 
+					s
+						label: 'Check drag end fired';
+						value: [ :anElement | anElement draggable dragEndCount ] equals: 1;
+						onSelf ] ].
 
 	^ aScripter
 ]
@@ -179,6 +183,6 @@ BlMouseProcessorDragExamples >> mouseUp [
 { #category : #'examples - scripter' }
 BlMouseProcessorDragExamples >> scripterElement [
 	<gtExample>
-
+	<return: #BlExampleDragAndDropElement>
 	^ BlExampleDragAndDropElement new
 ]

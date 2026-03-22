@@ -19,165 +19,160 @@ BlImageCacheExamples >> deleteTestImages [
 BlImageCacheExamples >> getCachedSize100 [
 	<gtExample>
 	<after: #deleteTestImages>
-
+	<return: #BlImageCacheExamples>
 	| cache entry cachedForm maxDimension element |
-
 	cache := self newCache.
 	element := BlImageCacheTestEntry new.
-	cache fileAt: self image1200 size: 100 for: element.
+	cache
+		fileAt: self image1200
+		size: 100
+		for: element.
 	entry := element entry.
 	cachedForm := entry image.
-	maxDimension := cachedForm extent max.
-	"The next largest size is 200"
-	self 
-		assert: maxDimension 
-		equals: 200.
+	maxDimension := cachedForm extent max.	"The next largest size is 200"
+	self assert: maxDimension equals: 200.
 	self assert: entry isSmallest.
-	self assert: entry isOriginal not.
+	self assert: entry isOriginal not
 ]
 
 { #category : #tests }
 BlImageCacheExamples >> getCachedSize200 [
 	<gtExample>
 	<after: #deleteTestImages>
-
+	<return: #BlImageCacheExamples>
 	| cache entry cachedForm maxDimension element |
-
 	cache := self newCache.
 	element := BlImageCacheTestEntry new.
-	cache fileAt: self image1200 size: 200 for: element.
+	cache
+		fileAt: self image1200
+		size: 200
+		for: element.
 	entry := element entry.
 	cachedForm := entry image.
-	maxDimension := cachedForm extent max.
-	"The next largest size is 200"
-	self 
-		assert: maxDimension 
-		equals: 200.
+	maxDimension := cachedForm extent max.	"The next largest size is 200"
+	self assert: maxDimension equals: 200.
 	self assert: entry isSmallest.
-	self assert: entry isOriginal not.
+	self assert: entry isOriginal not
 ]
 
 { #category : #tests }
 BlImageCacheExamples >> getCachedSize2000 [
 	<gtExample>
 	<after: #deleteTestImages>
-
+	<return: #BlImageCacheExamples>
 	| cache entry cachedForm maxDimension element |
-
 	cache := self newCache.
 	element := BlImageCacheTestEntry new.
-	cache fileAt: self image1200 size: 2000 for: element.
+	cache
+		fileAt: self image1200
+		size: 2000
+		for: element.
 	entry := element entry.
 	cachedForm := entry image.
-	maxDimension := cachedForm extent max.
-	"The next largest size is 200"
-	self 
-		assert: maxDimension 
-		equals: 1200.
+	maxDimension := cachedForm extent max.	"The next largest size is 200"
+	self assert: maxDimension equals: 1200.
 	self assert: entry isSmallest not.
-	self assert: entry isOriginal.
+	self assert: entry isOriginal
 ]
 
 { #category : #tests }
 BlImageCacheExamples >> getCachedSize400 [
 	<gtExample>
 	<after: #deleteTestImages>
-
+	<return: #BlImageCacheExamples>
 	| cache entry cachedForm maxDimension element |
-
 	cache := self newCache.
 	element := BlImageCacheTestEntry new.
-	cache fileAt: self image400 size: 400 for: element.
+	cache
+		fileAt: self image400
+		size: 400
+		for: element.
 	entry := element entry.
 	cachedForm := entry image.
-	maxDimension := cachedForm extent max.
-	"The next largest size is 200"
-	self 
-		assert: maxDimension 
-		equals: 400.
+	maxDimension := cachedForm extent max.	"The next largest size is 200"
+	self assert: maxDimension equals: 400.
 	self assert: entry isSmallest not.
-	self assert: entry isOriginal.
+	self assert: entry isOriginal
 ]
 
 { #category : #tests }
 BlImageCacheExamples >> getCachedSize700 [
 	<gtExample>
 	<after: #deleteTestImages>
-
+	<return: #BlImageCacheExamples>
 	| cache entry cachedForm maxDimension element |
-
 	cache := self newCache.
 	element := BlImageCacheTestEntry new.
-	cache fileAt: self image1200 size: 700 for: element.
+	cache
+		fileAt: self image1200
+		size: 700
+		for: element.
 	entry := element entry.
 	cachedForm := entry image.
-	maxDimension := cachedForm extent max.
-	"The next largest size is 200"
-	self 
-		assert: maxDimension 
-		equals: 800.
+	maxDimension := cachedForm extent max.	"The next largest size is 200"
+	self assert: maxDimension equals: 800.
 	self assert: entry isSmallest not.
-	self assert: entry isOriginal not.
+	self assert: entry isOriginal not
 ]
 
 { #category : #tests }
 BlImageCacheExamples >> getCachedUrlSize300 [
 	<gtExample>
 	<after: #deleteTestImages>
-
+	<return: #BlImageCacheExamples>
 	| cache entry cachedForm maxDimension element |
-
 	cache := self newCache.
 	element := BlImageCacheTestEntry new.
-	cache url: self image1200 asZnUrl size: 300 for: element.
+	cache
+		url: self image1200 asZnUrl
+		size: 300
+		for: element.
 	entry := element entry.
 	cachedForm := entry image.
 	maxDimension := cachedForm extent max.
-	self 
-		assert: maxDimension 
-		equals: 400.
+	self assert: maxDimension equals: 400.
 	self assert: entry isSmallest not.
-	self assert: entry isOriginal not.
+	self assert: entry isOriginal not
 ]
 
 { #category : #tests }
 BlImageCacheExamples >> getCachedUrlSize400 [
 	<gtExample>
 	<after: #deleteTestImages>
-
+	<return: #BlImageCacheExamples>
 	| cache entry cachedForm maxDimension element |
-
 	cache := self newCache.
 	element := BlImageCacheTestEntry new.
-	cache url: self image400 asZnUrl size: 400 for: element.
+	cache
+		url: self image400 asZnUrl
+		size: 400
+		for: element.
 	entry := element entry.
 	cachedForm := entry image.
 	maxDimension := cachedForm extent max.
-	self 
-		assert: maxDimension 
-		equals: 400.
+	self assert: maxDimension equals: 400.
 	self assert: entry isSmallest not.
-	self assert: entry isOriginal.
+	self assert: entry isOriginal
 ]
 
 { #category : #tests }
 BlImageCacheExamples >> getCachedUrlSize800 [
 	<gtExample>
 	<after: #deleteTestImages>
-
+	<return: #BlImageCacheExamples>
 	| cache entry cachedForm maxDimension element |
-
 	cache := self newCache.
 	element := BlImageCacheTestEntry new.
-	cache url: self image400 asZnUrl size: 800 for: element.
+	cache
+		url: self image400 asZnUrl
+		size: 800
+		for: element.
 	entry := element entry.
 	cachedForm := entry image.
 	maxDimension := cachedForm extent max.
-	self 
-		assert: maxDimension 
-		equals: 400.
+	self assert: maxDimension equals: 400.
 	self assert: entry isSmallest not.
-	self assert: entry isOriginal.
+	self assert: entry isOriginal
 ]
 
 { #category : #accessing }
@@ -203,72 +198,68 @@ BlImageCacheExamples >> image400 [
 ]
 
 { #category : #examples }
-BlImageCacheExamples >> newCache [ 
+BlImageCacheExamples >> newCache [
 	"Answer a new memory cache"
+
 	<gtExample>
-
+	<return: #BlMemoryImageCache>
 	| cache |
-
-	cache := BlMemoryImageCache new.
-	"Check that the default size has been set"
+	cache := BlMemoryImageCache new.	"Check that the default size has been set"
 	self assert: cache cacheSize equals: 5.
 	cache imageSizes: #(200 400 800).
-	^cache
+	^ cache
 ]
 
 { #category : #examples }
 BlImageCacheExamples >> smallCache [
 	"Answer a small cache that we can quickly fill"
+
 	<gtExample>
-
+	<return: #BlMemoryImageCache>
 	| cache |
-
 	cache := self newCache.
 	cache maxCacheSize: 2.
 	self assert: cache cacheSize equals: 2.
-	^cache
+	^ cache
 ]
 
 { #category : #tests }
 BlImageCacheExamples >> testCacheSizeFor [
 	<gtExample>
-
+	<return: #BlImageCacheExamples>
 	| cache |
-
 	cache := self smallCache.
 	self assert: (cache cacheSizeFor: 100) equals: 200.
 	self assert: (cache cacheSizeFor: 200) equals: 200.
-	self assert: (cache cacheSizeFor: 400-1) equals: 400.
+	self assert: (cache cacheSizeFor: 400 - 1) equals: 400.
 	self assert: (cache cacheSizeFor: 400) equals: 400.
-	self assert: (cache cacheSizeFor: 400+1) equals: 800.
-	self assert: (cache cacheSizeFor: 800+1) isNil.
-
+	self assert: (cache cacheSizeFor: 400 + 1) equals: 800.
+	self assert: (cache cacheSizeFor: 800 + 1) isNil
 ]
 
 { #category : #tests }
 BlImageCacheExamples >> testDefaultImageSizes [
 	<gtExample>
-
+	<return: #Array>
 	| defaultSizes |
-
 	defaultSizes := BlMemoryImageCache new defaultImageSizes.
 	self assert: defaultSizes equals: #(300 600 1280 2560).
-	^defaultSizes
+	^ defaultSizes
 ]
 
 { #category : #tests }
 BlImageCacheExamples >> testForm [
 	"Create a form that can be used to test the cache"
+
 	<gtExample>
-
+	<return: #Form>
 	| form canvas |
-
-	form := Form extent: 400@300.
+	form := Form extent: 400 @ 300.
 	canvas := FormCanvas on: form.
 	canvas
-		drawString: Date today printString, ' ', Time now print24
-		at: 10@150
+		drawString: Date today printString , ' ' , Time now print24
+		at: 10 @ 150
 		font: (LogicalFont familyName: 'Bitmap DejaVu Sans' pointSize: 100)
 		color: Color black.
-	^form
+	^ form
 ]

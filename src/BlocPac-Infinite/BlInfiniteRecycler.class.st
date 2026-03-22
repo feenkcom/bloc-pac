@@ -152,6 +152,12 @@ BlInfiniteRecycler >> defaultEventDispatcher [
 	^ BlDirectEventDispatcher
 ]
 
+{ #category : #configuring }
+BlInfiniteRecycler >> disableRecycling [
+	self cacheSize: 0.
+	self pool defaultMaxScrap: 0
+]
+
 { #category : #'event dispatching' }
 BlInfiniteRecycler >> dispatchElementRecycled: anElementHolder [
 

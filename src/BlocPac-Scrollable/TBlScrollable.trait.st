@@ -140,16 +140,6 @@ TBlScrollable >> onScrolled: aPoint [
 ]
 
 { #category : #'api - scrolling accessing' }
-TBlScrollable >> overScrollMode [
-	^ BlOverScrollMode never
-]
-
-{ #category : #'api - scrolling accessing' }
-TBlScrollable >> overScrollMode: aBlOverScrollMode [
-	self explicitRequirement
-]
-
-{ #category : #'api - scrolling accessing' }
 TBlScrollable >> scrollFlinger [
 	<return: #BlScrollFlinger>
 

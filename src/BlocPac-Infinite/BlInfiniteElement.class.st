@@ -45,7 +45,6 @@ Class {
 		'dataSourceObserver',
 		'scrollFlinger',
 		'scrollState',
-		'overScrollMode',
 		'nestedScrolling'
 	],
 	#pools : [
@@ -500,11 +499,6 @@ BlInfiniteElement >> defaultLayout [
 { #category : #initialization }
 BlInfiniteElement >> defaultMouseScrollEventHandler [
 	^ BlInfiniteMouseScrollListener new
-]
-
-{ #category : #initialization }
-BlInfiniteElement >> defaultOverScrollMode [
-	^ BlOverScrollMode never
 ]
 
 { #category : #initialization }
@@ -1042,7 +1036,6 @@ BlInfiniteElement >> initialize [
 	infoStoreProcessor := self defaultInfoStoreProcessor on: self.
 	state := self defaultState.
 	childrenUpdateRunnable := self defaultChildrenUpdateRunnable on: self.
-	overScrollMode := self defaultOverScrollMode.
 	scrollFlinger := self defaultScrollFlinger on: self.
 	self initializeChildrenManager.
 	self initializeDataSource.
@@ -1519,16 +1512,6 @@ BlInfiniteElement >> onScrollStateChanged: aScrollingState [
 	This method will always be invoked before firing events, but after the Layout responds to the scroll state change"
 ]
 
-{ #category : #'api - scrolling accessing' }
-BlInfiniteElement >> overScrollMode [
-	^ overScrollMode
-]
-
-{ #category : #'api - scrolling accessing' }
-BlInfiniteElement >> overScrollMode: aBlOverScrollMode [
-	overScrollMode := aBlOverScrollMode
-]
-
 { #category : #'deferred actions' }
 BlInfiniteElement >> postAnimationRunner [
 	"It is up to animation runner to decide if it needs to be poster or not"
@@ -1818,12 +1801,6 @@ BlInfiniteElement >> scrollByInternal: aDeltaPoint from: anEventPoint [
 	self repositionShadowingElements.
 	self onExitLayoutOrScroll.
 	self resumeRequestLayout: false.
-	
-	self overScrollMode ~= BlOverScrollMode never
-		ifTrue: [ 
-			anEventPoint ifNotNil: [ 
-				self pullGlows: anEventPoint overscroll: unconsumedX @ unconsumedY ].
-			self considerReleasingGlowsOnScroll: aDeltaPoint ].
 	
 	(consumedX isZero and: [ consumedY isZero ])
 		ifFalse: [ self dispatchOnScrolled: consumedX @ consumedY ].

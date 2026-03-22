@@ -77,148 +77,176 @@ BlFocusExamples class >> vertical [
 { #category : #examples }
 BlFocusExamples >> cell [
 	<gtExample>
-	
+	<return: #BlElement>
 	^ BlElement new
 		size: 50 @ 30;
 		background: Color random muchLighter darker;
-		addEventHandlerOn: BlFocusEvent do: [ :anEvent | anEvent target border: (BlBorder paint: Color blue width: 2) ];
-		addEventHandlerOn: BlBlurEvent do: [ :anEvent | anEvent target border: BlBorder empty ];
-		addEventHandlerOn: BlClickEvent do: [ :anEvent | 
-			anEvent consumed: true.
-			anEvent target requestFocus ]
+		addEventHandlerOn: BlFocusEvent
+			do: [ :anEvent | anEvent target border: (BlBorder paint: Color blue width: 2) ];
+		addEventHandlerOn: BlBlurEvent
+			do: [ :anEvent | anEvent target border: BlBorder empty ];
+		addEventHandlerOn: BlClickEvent
+			do: [ :anEvent | 
+				anEvent consumed: true.
+				anEvent target requestFocus ]
 ]
 
 { #category : #examples }
 BlFocusExamples >> composed [
 	<gtExample>
+	<return: #BlElement>
 	| container children |
+	children := (1 to: 5)
+			collect: [ :index | 
+				| grid gridChildren |
+				gridChildren := (1 to: 20 atRandom + 6) collect: [ :i | self cell ].
 
-	children := (1 to: 5) collect: [ :index |
-		| grid gridChildren |
-		gridChildren := (1 to: 20 atRandom + 6) collect: [ :i | self cell ].
-
-		grid := BlElement new.
-		grid focusability: BlFocusability after.
-		grid background: Color white.
-		grid margin: (BlInsets all: 5).
-		grid layout: BlGridLayout new.
-		grid layout columnCount: (gridChildren size sqrt + 1) rounded.
-		grid layout cellSpacing: 2.
-		grid constraintsDo: [ :c | 
-			c horizontal fitContent.
-			c vertical fitContent ].
-		grid addChildren: gridChildren.
-		grid addEventHandlerOn: BlFocusEvent do: [ :anEvent | anEvent target border: (BlBorder paint: Color blue width: 2) ].
-		grid addEventHandlerOn: BlBlurEvent do: [ :anEvent | anEvent target border: BlBorder empty ].
-		grid ].
+				grid := BlElement new.
+				grid focusability: BlFocusability after.
+				grid background: Color white.
+				grid margin: (BlInsets all: 5).
+				grid layout: BlGridLayout new.
+				grid layout columnCount: (gridChildren size sqrt + 1) rounded.
+				grid layout cellSpacing: 2.
+				grid
+					constraintsDo: [ :c | 
+						c horizontal fitContent.
+						c vertical fitContent ].
+				grid addChildren: gridChildren.
+				grid
+					addEventHandlerOn: BlFocusEvent
+					do: [ :anEvent | anEvent target border: (BlBorder paint: Color blue width: 2) ].
+				grid
+					addEventHandlerOn: BlBlurEvent
+					do: [ :anEvent | anEvent target border: BlBorder empty ].
+				grid ].
 
 	container := BlElement new.
 	container background: Color veryVeryLightGray.
 	container layout: BlLinearLayout vertical.
-	container constraintsDo: [ :c | 
-		c horizontal fitContent.
-		c vertical fitContent ].
-	
+	container
+		constraintsDo: [ :c | 
+			c horizontal fitContent.
+			c vertical fitContent ].
+
 	container addChildren: children.
 	container addEventHandler: BlFocusExampleNavigationListener new.
-	
+
 	^ container
 ]
 
 { #category : #examples }
 BlFocusExamples >> composedFlow [
 	<gtExample>
+	<return: #BlElement>
 	| container children |
+	children := (1 to: 5)
+			collect: [ :index | 
+				| grid gridChildren |
+				gridChildren := (1 to: 20 atRandom + 6)
+						collect: [ :i | 
+							self cell
+								size: 30 @ 30 + (50 atRandom @ 10 atRandom);
+								margin: (BlInsets all: 2) ].
 
-	children := (1 to: 5) collect: [ :index |
-		| grid gridChildren |
-		gridChildren := (1 to: 20 atRandom + 6)
-			collect: [ :i | self cell size: ((30 @ 30) + (50 atRandom @ 10 atRandom)); margin: (BlInsets all: 2) ].
-
-		grid := BlElement new.
-		grid focusability: BlFocusability after.
-		grid background: Color white.
-		grid margin: (BlInsets all: 5).
-		grid layout: BlFlowLayout new.
-		grid constraintsDo: [ :c | 
-			c horizontal exact: 400.
-			c vertical fitContent ].
-		grid addChildren: gridChildren.
-		grid addEventHandlerOn: BlFocusEvent do: [ :anEvent | anEvent target border: (BlBorder paint: Color blue width: 2) ].
-		grid addEventHandlerOn: BlBlurEvent do: [ :anEvent | anEvent target border: BlBorder empty ].
-		grid ].
+				grid := BlElement new.
+				grid focusability: BlFocusability after.
+				grid background: Color white.
+				grid margin: (BlInsets all: 5).
+				grid layout: BlFlowLayout new.
+				grid
+					constraintsDo: [ :c | 
+						c horizontal exact: 400.
+						c vertical fitContent ].
+				grid addChildren: gridChildren.
+				grid
+					addEventHandlerOn: BlFocusEvent
+					do: [ :anEvent | anEvent target border: (BlBorder paint: Color blue width: 2) ].
+				grid
+					addEventHandlerOn: BlBlurEvent
+					do: [ :anEvent | anEvent target border: BlBorder empty ].
+				grid ].
 
 	container := BlElement new.
 	container background: Color veryVeryLightGray.
 	container layout: BlLinearLayout vertical.
-	container constraintsDo: [ :c | 
-		c horizontal fitContent.
-		c vertical fitContent ].
-	
+	container
+		constraintsDo: [ :c | 
+			c horizontal fitContent.
+			c vertical fitContent ].
+
 	container addChildren: children.
 	container addEventHandler: BlFocusExampleNavigationListener new.
-	
+
 	^ container
 ]
 
 { #category : #examples }
 BlFocusExamples >> grid [
 	<gtExample>
+	<return: #BlElement>
 	| container children |
-
-	children := (1 to: 50) collect: [ :index |
-		self cell ].
+	children := (1 to: 50) collect: [ :index | self cell ].
 
 	container := BlElement new.
 	container layout: BlGridLayout new.
 	container layout columnCount: 8.
 	container layout cellSpacing: 5.
-	container constraintsDo: [ :c | 
-		c horizontal fitContent.
-		c vertical fitContent ].
-	
+	container
+		constraintsDo: [ :c | 
+			c horizontal fitContent.
+			c vertical fitContent ].
+
 	container addChildren: children.
 	container addEventHandler: BlFocusExampleNavigationListener new.
-	
+
 	^ container
 ]
 
 { #category : #examples }
 BlFocusExamples >> linearHorizontal [
 	<gtExample>
+	<return: #BlElement>
 	| container children |
-
-	children := (1 to: 10) collect: [ :index |
-		self cell size: 40@200; margin: (BlInsets all: 2)  ].
+	children := (1 to: 10)
+			collect: [ :index | 
+				self cell
+					size: 40 @ 200;
+					margin: (BlInsets all: 2) ].
 
 	container := BlElement new.
 	container layout: BlLinearLayout horizontal.
-	container constraintsDo: [ :c | 
-		c horizontal fitContent.
-		c vertical fitContent ].
-	
+	container
+		constraintsDo: [ :c | 
+			c horizontal fitContent.
+			c vertical fitContent ].
+
 	container addChildren: children.
 	container addEventHandler: BlFocusExampleNavigationListener new.
-	
+
 	^ container
 ]
 
 { #category : #examples }
 BlFocusExamples >> linearVertical [
 	<gtExample>
+	<return: #BlElement>
 	| container children |
-
-	children := (1 to: 10) collect: [ :index |
-		self cell size: 200@50; margin: (BlInsets all: 2)  ].
+	children := (1 to: 10)
+			collect: [ :index | 
+				self cell
+					size: 200 @ 50;
+					margin: (BlInsets all: 2) ].
 
 	container := BlElement new.
 	container layout: BlLinearLayout vertical.
-	container constraintsDo: [ :c | 
-		c horizontal fitContent.
-		c vertical fitContent ].
-	
+	container
+		constraintsDo: [ :c | 
+			c horizontal fitContent.
+			c vertical fitContent ].
+
 	container addChildren: children.
 	container addEventHandler: BlFocusExampleNavigationListener new.
-	
+
 	^ container
 ]

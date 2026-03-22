@@ -24,6 +24,7 @@ BlManhattanLineElementExamples >> addAttachmentsTo: mLine from: fromPoint to: to
 { #category : #'examples - orientation' }
 BlManhattanLineElementExamples >> manhattanAutomatic [
 	<gtExample>
+	<return: #BlElement>
 	| mLine |
 	mLine := self newManhattanLine.
 	mLine beAutomatic.
@@ -35,9 +36,9 @@ BlManhattanLineElementExamples >> manhattanAutomatic [
 
 { #category : #'examples - sigmoid' }
 BlManhattanLineElementExamples >> manhattanDefault [
-	<gtExample>	
+	<gtExample>
+	<return: #BlElement>
 	| mLine |
-	
 	mLine := self newManhattanLine.
 	^ self
 		addAttachmentsTo: mLine
@@ -48,6 +49,7 @@ BlManhattanLineElementExamples >> manhattanDefault [
 { #category : #'examples - orientation' }
 BlManhattanLineElementExamples >> manhattanFixedFrom [
 	<gtExample>
+	<return: #BlElement>
 	| mLine |
 	mLine := self newManhattanLine.
 	mLine beFixedFrom.
@@ -61,6 +63,7 @@ BlManhattanLineElementExamples >> manhattanFixedFrom [
 { #category : #'examples - orientation' }
 BlManhattanLineElementExamples >> manhattanFixedTo [
 	<gtExample>
+	<return: #BlElement>
 	| mLine |
 	mLine := self newManhattanLine.
 	mLine beFixedTo.
@@ -73,9 +76,9 @@ BlManhattanLineElementExamples >> manhattanFixedTo [
 
 { #category : #'examples - orientation' }
 BlManhattanLineElementExamples >> manhattanHorizontal [
-	<gtExample>	
+	<gtExample>
+	<return: #BlElement>
 	| mLine |
-	
 	mLine := self newManhattanLine.
 	mLine beHorizontal.
 	^ self
@@ -87,6 +90,7 @@ BlManhattanLineElementExamples >> manhattanHorizontal [
 { #category : #'examples - orientation' }
 BlManhattanLineElementExamples >> manhattanHorizontalLine [
 	<gtExample>
+	<return: #BlElement>
 	| mLine |
 	mLine := self newManhattanLine.
 	mLine beHorizontal.
@@ -99,6 +103,7 @@ BlManhattanLineElementExamples >> manhattanHorizontalLine [
 { #category : #'examples - orientation' }
 BlManhattanLineElementExamples >> manhattanProportional [
 	<gtExample>
+	<return: #BlElement>
 	| mLine |
 	mLine := self newManhattanLine.
 	mLine beProportional.
@@ -111,9 +116,9 @@ BlManhattanLineElementExamples >> manhattanProportional [
 
 { #category : #'examples - sigmoid' }
 BlManhattanLineElementExamples >> manhattanRoundedCorners [
-	<gtExample>	
+	<gtExample>
+	<return: #BlElement>
 	| mLine |
-	
 	mLine := self newManhattanLine.
 	mLine cornerRadius: 20.
 	^ self
@@ -125,6 +130,7 @@ BlManhattanLineElementExamples >> manhattanRoundedCorners [
 { #category : #'examples - orientation' }
 BlManhattanLineElementExamples >> manhattanVertical [
 	<gtExample>
+	<return: #BlElement>
 	| mLine |
 	mLine := self newManhattanLine.
 	mLine beVertical.
@@ -137,6 +143,7 @@ BlManhattanLineElementExamples >> manhattanVertical [
 { #category : #'examples - orientation' }
 BlManhattanLineElementExamples >> manhattanVerticalAndRoundedCorners [
 	<gtExample>
+	<return: #BlElement>
 	| mLine |
 	mLine := self newManhattanLine.
 	mLine beVertical.
@@ -150,7 +157,7 @@ BlManhattanLineElementExamples >> manhattanVerticalAndRoundedCorners [
 { #category : #'examples - instance creation' }
 BlManhattanLineElementExamples >> newManhattanLine [
 	<gtExample>
-	
+	<return: #BlManhattanLineElement>
 	^ BlManhattanLineElement new
 		zIndex: 10;
 		border: (BlBorder paint: Color red width: 4);

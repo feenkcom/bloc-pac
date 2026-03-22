@@ -71,6 +71,21 @@ BlInfiniteChildrenManager >> childAt: anIndex [
 ]
 
 { #category : #'children accessing' }
+BlInfiniteChildrenManager >> childAt: anIndex ifAbsent: anAbsentBlock [
+	"Returns the child at anIndex.
+	Return anAbsentBlock value if the child element does not exist."
+	<return: #BlElement>
+	| anOffset |
+	
+	anOffset := self computeOffset: anIndex.
+	self
+		assert: [ anOffset >= 0 ]
+		description: [ 'Index must be positive!' ].
+
+	^ controller childAt: anOffset ifAbsent: anAbsentBlock
+]
+
+{ #category : #'children accessing' }
 BlInfiniteChildrenManager >> childIndexOf: aChildElement [
 	"Return the index of the child in regular perspective.
 	Return 0 if child is not present in infinite element"
@@ -192,6 +207,11 @@ BlInfiniteChildrenManager >> findHiddenNonRemovedChildAt: aPosition type: anItem
 		ifNone: [ nil ]
 ]
 
+{ #category : #'children accessing' }
+BlInfiniteChildrenManager >> firstVisibleChild [
+	^self childAt: 1
+]
+
 { #category : #testing }
 BlInfiniteChildrenManager >> hasChildren [
 	"Return true if there are any non-hidden children, false otherwise"
@@ -237,6 +257,11 @@ BlInfiniteChildrenManager >> isHidden: aChildElement [
 	<return: #Boolean>
 
 	^ hiddenChildren includes: aChildElement
+]
+
+{ #category : #'children accessing' }
+BlInfiniteChildrenManager >> lastVisibleChild [
+	^self childAt: self childrenCount
 ]
 
 { #category : #'children add/remove' }

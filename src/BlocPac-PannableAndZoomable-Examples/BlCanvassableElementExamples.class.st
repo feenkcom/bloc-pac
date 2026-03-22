@@ -7,10 +7,11 @@ Class {
 { #category : #examples }
 BlCanvassableElementExamples >> autoscaledCanvassableWithTwoNodes [
 	<gtExample>
+	<return: #BlCanvassableElement>
 	| aCanvassableElement |
 	aCanvassableElement := self canvassableWithTwoNodes.
 	aCanvassableElement enableAutoScale.
-	
+
 	self assert: aCanvassableElement children size equals: 2.
 	self assert: aCanvassableElement autoScaleEnabled.
 	self assert: aCanvassableElement childrenScaleFactor equals: 1.
@@ -23,11 +24,12 @@ BlCanvassableElementExamples >> autoscaledCanvassableWithTwoNodes [
 { #category : #examples }
 BlCanvassableElementExamples >> canvassableWithOneNode [
 	<gtExample>
+	<return: #BlCanvassableElement>
 	| aCanvassableElement |
 	aCanvassableElement := self emptyCanvassableElement.
 	aCanvassableElement addChild: self roundedNode.
-	aCanvassableElement children first relocate: 100@ 100.
-	
+	aCanvassableElement children first relocate: 100 @ 100.
+
 	self assert: aCanvassableElement children size equals: 1.
 	self assert: aCanvassableElement autoScaleEnabled.
 	self assert: aCanvassableElement childrenScaleFactor equals: 1.
@@ -40,10 +42,11 @@ BlCanvassableElementExamples >> canvassableWithOneNode [
 { #category : #examples }
 BlCanvassableElementExamples >> canvassableWithTwoNodes [
 	<gtExample>
+	<return: #BlCanvassableElement>
 	| aCanvassableElement |
 	aCanvassableElement := self canvassableWithOneNode.
 	aCanvassableElement addChild: self roundedNode.
-	aCanvassableElement children second relocate: 200@ 200.
+	aCanvassableElement children second relocate: 200 @ 200.
 	aCanvassableElement children second background: Color red.
 
 	self assert: aCanvassableElement children size equals: 2.
@@ -58,6 +61,7 @@ BlCanvassableElementExamples >> canvassableWithTwoNodes [
 { #category : #examples }
 BlCanvassableElementExamples >> emptyCanvassableElement [
 	<gtExample>
+	<return: #BlCanvassableElement>
 	| aCanvassableElement |
 	aCanvassableElement := BlCanvassableElement new
 			background: Color white;

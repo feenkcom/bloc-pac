@@ -103,39 +103,37 @@ BlInfiniteExample class >> exampleGallery [
 { #category : #'example - classes' }
 BlInfiniteExample >> classesDataSource [
 	<gtExample>
-	
+	<return: #BlInfiniteExampleClassesDataSource>
 	^ BlInfiniteExampleClassesDataSource new
 ]
 
 { #category : #'example - classes' }
 BlInfiniteExample >> classesList [
 	<gtExample>
-	
-	^ self verticalList
-		dataSource: self classesDataSource
+	<return: #BlInfiniteExampleElement>
+	^ self verticalList dataSource: self classesDataSource
 ]
 
 { #category : #'example - colors' }
 BlInfiniteExample >> colorsDataSource [
 	<gtExample>
-	
+	<return: #BlInfiniteExampleColorsDataSource>
 	^ BlInfiniteExampleColorsDataSource new
 ]
 
 { #category : #'example - colors' }
 BlInfiniteExample >> colorsList [
 	<gtExample>
-	
-	^ self verticalList
-		dataSource: self colorsDataSource
+	<return: #BlInfiniteExampleElement>
+	^ self verticalList dataSource: self colorsDataSource
 ]
 
 { #category : #'instance creation' }
 BlInfiniteExample >> verticalList [
 	<gtExample>
-	
+	<return: #BlInfiniteExampleElement>
 	^ BlInfiniteExampleElement new
-		constraintsDo: [ :c |
+		constraintsDo: [ :c | 
 			c horizontal matchParent.
 			c vertical matchParent ];
 		yourself

@@ -11,24 +11,24 @@ Class {
 { #category : #'examples - clock' }
 BlClockExample >> animatedClock [
 	<gtExample>
+	<return: #BlElement>
 	| secondHand animation |
-
 	secondHand := self secondHand.
-	
+
 	animation := BlNumberTransition new
-		onStepDo: [ :aSecond |
-			secondHand transformDo: [ :aTransform |
-				aTransform rotateBy: aSecond * self minuteRotationDelta - 90 ] ];
-		from: 0;
-		to: 60;
-		by: 1;
-		loops: 1;
-		duration: 60 seconds.
-		
+			onStepDo: [ :aSecond | 
+				secondHand
+					transformDo: [ :aTransform | aTransform rotateBy: aSecond * self minuteRotationDelta - 90 ] ];
+			from: 0;
+			to: 60;
+			by: 1;
+			loops: 1;
+			duration: 60 seconds.
+
 	secondHand addAnimation: animation.
 
 	^ self clock
-		relocate: 50@50;
+		relocate: 50 @ 50;
 		addChildren: self hourTicks;
 		addChildren: self minuteTicks;
 		addChild: secondHand
@@ -37,7 +37,7 @@ BlClockExample >> animatedClock [
 { #category : #'instance creation - clock' }
 BlClockExample >> clock [
 	<gtExample>
-
+	<return: #BlElement>
 	^ BlElement new
 		geometry: BlEllipseGeometry new;
 		border: (BlBorder paint: Color black width: 1);
@@ -48,10 +48,10 @@ BlClockExample >> clock [
 { #category : #'instance creation - hand' }
 BlClockExample >> hand [
 	<gtExample>
-
+	<return: #BlElement>
 	^ BlElement new
 		layout: BlFrameLayout new;
-		constraintsDo: [ :c |
+		constraintsDo: [ :c | 
 			c vertical fitContent.
 			c horizontal exact: 200.
 			c frame horizontal alignCenter.
@@ -62,12 +62,12 @@ BlClockExample >> hand [
 { #category : #'instance creation - hand' }
 BlClockExample >> handDot [
 	<gtExample>
-
+	<return: #BlElement>
 	^ BlElement new
 		background: Color red;
-		size: 15@15;
+		size: 15 @ 15;
 		geometry: BlEllipseGeometry new;
-		constraintsDo: [ :c |
+		constraintsDo: [ :c | 
 			c frame vertical alignCenter.
 			c frame horizontal alignRight ];
 		yourself
@@ -76,9 +76,8 @@ BlClockExample >> handDot [
 { #category : #'instance creation - hand' }
 BlClockExample >> handLine [
 	<gtExample>
-
-	^ BlLineElement new
-		border: (BlBorder paint: Color red width: 1)
+	<return: #BlLineElement>
+	^ BlLineElement new border: (BlBorder paint: Color red width: 1)
 ]
 
 { #category : #parameters }
@@ -89,23 +88,23 @@ BlClockExample >> handOffset [
 { #category : #'instance creation - hand' }
 BlClockExample >> handStart [
 	<gtExample>
-
+	<return: #BlElement>
 	^ BlElement new
-		size: 0@0;
+		size: 0 @ 0;
 		constraintsDo: [ :c | c frame vertical alignCenter ]
 ]
 
 { #category : #parameters }
 BlClockExample >> hourRotationDelta [
 	<gtExample>
-
+	<return: #SmallInteger>
 	^ 360 / 12
 ]
 
 { #category : #'instance creation - ticks' }
 BlClockExample >> hourTick [
 	<gtExample>
-	
+	<return: #BlElement>
 	^ self tick
 		background: Color black;
 		size: self hourTickLength @ self hourTickBreadth
@@ -137,21 +136,21 @@ BlClockExample >> hourTickLength [
 { #category : #'instance creation - ticks' }
 BlClockExample >> hourTicks [
 	<gtExample>
-	
+	<return: #Array>
 	^ 12 timesCollect: [ :anHour | self hourTickAt: anHour ]
 ]
 
 { #category : #parameters }
 BlClockExample >> minuteRotationDelta [
 	<gtExample>
-
+	<return: #SmallInteger>
 	^ 360 / 60
 ]
 
 { #category : #'instance creation - ticks' }
 BlClockExample >> minuteTick [
 	<gtExample>
-
+	<return: #BlElement>
 	^ self tick
 		background: Color black;
 		size: self minuteTickLength @ self minuteTickBreadth
@@ -184,7 +183,7 @@ BlClockExample >> minuteTickLength [
 { #category : #'instance creation - ticks' }
 BlClockExample >> minuteTicks [
 	<gtExample>
-
+	<return: #Array>
 	^ 60 timesCollect: [ :anHour | self minuteTickAt: anHour ]
 ]
 
@@ -201,22 +200,25 @@ BlClockExample >> radius [
 { #category : #'instance creation - hand' }
 BlClockExample >> secondHand [
 	<gtExample>
+	<return: #BlElement>
 	| handStart handDot handLine |
-	
 	handStart := self handStart.
-	handStart relocate: (self secondHandLength - self handOffset - self handOffset) @ 0.
-	
+	handStart
+		relocate: (self secondHandLength - self handOffset - self handOffset) @ 0.
+
 	handDot := self handDot.
-	
+
 	handLine := self handLine.
 	handLine fromAnchor: (BlElementCenterAnchor element: handStart).
 	handLine toAnchor: (BlElementCenterAnchor element: handDot).
-	
+
 	^ self hand
-		constraintsDo: [ :c |
+		constraintsDo: [ :c | 
 			c horizontal exact: (self secondHandLength - self handOffset) * 2.
 			c vertical fitContent ];
-		addChildren: { handStart . handDot . handLine };
+		addChildren: {handStart.
+				handDot.
+				handLine};
 		yourself
 ]
 
@@ -228,9 +230,8 @@ BlClockExample >> secondHandLength [
 { #category : #'instance creation - ticks' }
 BlClockExample >> tick [
 	<gtExample>
-
+	<return: #BlElement>
 	^ BlElement new
-		constraintsDo: [ :c |
-			c ignoreByLayout ];
+		constraintsDo: [ :c | c ignoreByLayout ];
 		background: Color black
 ]

@@ -20,6 +20,11 @@ Class {
 	#category : #'BlocPac-FocusFinder-Core'
 }
 
+{ #category : #'api - configuration' }
+BlFocusFinder >> backward [
+	self direction: BlFocusSearchDirectionBackward new
+]
+
 { #category : #accessing }
 BlFocusFinder >> bestCandidateBounds [
 	^ bestCandidateBounds

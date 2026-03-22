@@ -7,13 +7,14 @@ Class {
 { #category : #'anchor - accessing' }
 BlGeometryAnchorExamples >> bottomCenterAnchor [
 	<gtExample>
+	<return: #BlElementBottomCenterAnchor>
 	| anAnchor |
-
 	anAnchor := BlElementBottomCenterAnchor new.
 
 	self
-		assert: (anAnchor positionWithinBounds: (BlBounds origin: 40.0@20.0 extent: 200.0@100.0))
-		equals: 140@120.
+		assert: (anAnchor
+				positionWithinBounds: (BlBounds origin: 40.0 @ 20.0 extent: 200.0 @ 100.0))
+		equals: 140 @ 120.
 
 	^ anAnchor
 ]
@@ -21,13 +22,14 @@ BlGeometryAnchorExamples >> bottomCenterAnchor [
 { #category : #'anchor - accessing' }
 BlGeometryAnchorExamples >> bottomLeftAnchor [
 	<gtExample>
+	<return: #BlElementBottomLeftAnchor>
 	| anAnchor |
-
 	anAnchor := BlElementBottomLeftAnchor new.
 
 	self
-		assert: (anAnchor positionWithinBounds: (BlBounds origin: 40.0@20.0 extent: 200.0@100.0))
-		equals: 40@120.
+		assert: (anAnchor
+				positionWithinBounds: (BlBounds origin: 40.0 @ 20.0 extent: 200.0 @ 100.0))
+		equals: 40 @ 120.
 
 	^ anAnchor
 ]
@@ -35,13 +37,14 @@ BlGeometryAnchorExamples >> bottomLeftAnchor [
 { #category : #'anchor - accessing' }
 BlGeometryAnchorExamples >> bottomRightAnchor [
 	<gtExample>
+	<return: #BlElementBottomRightAnchor>
 	| anAnchor |
-
 	anAnchor := BlElementBottomRightAnchor new.
 
 	self
-		assert: (anAnchor positionWithinBounds: (BlBounds origin: 40.0@20.0 extent: 200.0@100.0))
-		equals: 240@120.
+		assert: (anAnchor
+				positionWithinBounds: (BlBounds origin: 40.0 @ 20.0 extent: 200.0 @ 100.0))
+		equals: 240 @ 120.
 
 	^ anAnchor
 ]
@@ -49,27 +52,29 @@ BlGeometryAnchorExamples >> bottomRightAnchor [
 { #category : #'anchor - accessing' }
 BlGeometryAnchorExamples >> centerAnchor [
 	<gtExample>
+	<return: #BlElementCenterAnchor>
 	| anAnchor |
-
 	anAnchor := BlElementCenterAnchor new.
-	
+
 	self
-		assert: (anAnchor positionWithinBounds: (BlBounds origin: 40.0@20.0 extent: 200.0@100.0))
-		equals: 140@70.
-	
+		assert: (anAnchor
+				positionWithinBounds: (BlBounds origin: 40.0 @ 20.0 extent: 200.0 @ 100.0))
+		equals: 140 @ 70.
+
 	^ anAnchor
 ]
 
 { #category : #'anchor - accessing' }
 BlGeometryAnchorExamples >> centerLeftAnchor [
 	<gtExample>
+	<return: #BlElementCenterLeftAnchor>
 	| anAnchor |
-
 	anAnchor := BlElementCenterLeftAnchor new.
 
 	self
-		assert: (anAnchor positionWithinBounds: (BlBounds origin: 40.0@20.0 extent: 200.0@100.0))
-		equals: 40@70.
+		assert: (anAnchor
+				positionWithinBounds: (BlBounds origin: 40.0 @ 20.0 extent: 200.0 @ 100.0))
+		equals: 40 @ 70.
 
 	^ anAnchor
 ]
@@ -77,13 +82,14 @@ BlGeometryAnchorExamples >> centerLeftAnchor [
 { #category : #'anchor - accessing' }
 BlGeometryAnchorExamples >> centerRightAnchor [
 	<gtExample>
+	<return: #BlElementCenterRightAnchor>
 	| anAnchor |
-
 	anAnchor := BlElementCenterRightAnchor new.
 
 	self
-		assert: (anAnchor positionWithinBounds: (BlBounds origin: 40.0@20.0 extent: 200.0@100.0))
-		equals: 240@70.
+		assert: (anAnchor
+				positionWithinBounds: (BlBounds origin: 40.0 @ 20.0 extent: 200.0 @ 100.0))
+		equals: 240 @ 70.
 
 	^ anAnchor
 ]
@@ -91,13 +97,14 @@ BlGeometryAnchorExamples >> centerRightAnchor [
 { #category : #'anchor - accessing' }
 BlGeometryAnchorExamples >> topCenterAnchor [
 	<gtExample>
+	<return: #BlElementTopCenterAnchor>
 	| anAnchor |
-
 	anAnchor := BlElementTopCenterAnchor new.
 
 	self
-		assert: (anAnchor positionWithinBounds: (BlBounds origin: 40.0@20.0 extent: 200.0@100.0))
-		equals: 140@20.
+		assert: (anAnchor
+				positionWithinBounds: (BlBounds origin: 40.0 @ 20.0 extent: 200.0 @ 100.0))
+		equals: 140 @ 20.
 
 	^ anAnchor
 ]
@@ -105,13 +112,14 @@ BlGeometryAnchorExamples >> topCenterAnchor [
 { #category : #'anchor - accessing' }
 BlGeometryAnchorExamples >> topLeftAnchor [
 	<gtExample>
+	<return: #BlElementTopLeftAnchor>
 	| anAnchor |
-
 	anAnchor := BlElementTopLeftAnchor new.
 
 	self
-		assert: (anAnchor positionWithinBounds: (BlBounds origin: 40.0@20.0 extent: 200.0@100.0))
-		equals: 40@20.
+		assert: (anAnchor
+				positionWithinBounds: (BlBounds origin: 40.0 @ 20.0 extent: 200.0 @ 100.0))
+		equals: 40 @ 20.
 
 	^ anAnchor
 ]
@@ -119,13 +127,14 @@ BlGeometryAnchorExamples >> topLeftAnchor [
 { #category : #'anchor - accessing' }
 BlGeometryAnchorExamples >> topRightAnchor [
 	<gtExample>
+	<return: #BlElementTopRightAnchor>
 	| anAnchor |
-
 	anAnchor := BlElementTopRightAnchor new.
 
 	self
-		assert: (anAnchor positionWithinBounds: (BlBounds origin: 40.0@20.0 extent: 200.0@100.0))
-		equals: 240@20.
+		assert: (anAnchor
+				positionWithinBounds: (BlBounds origin: 40.0 @ 20.0 extent: 200.0 @ 100.0))
+		equals: 240 @ 20.
 
 	^ anAnchor
 ]

@@ -33,63 +33,66 @@ BlScrollableElementExamples >> data [
 { #category : #'examples - setup' }
 BlScrollableElementExamples >> scrollableContent [
 	<gtExample>
+	<return: #BlElement>
 	| anElement |
-
 	anElement := BlElement new.
 	anElement layout: BlLinearLayout vertical.
-	anElement constraintsDo: [ :c |
-		c horizontal matchParent.
-		c vertical fitContent ].
-	anElement addChildren:  (self data flatCollect: [ :eachClassName |
-		{ BlTextElement new
-			text: eachClassName asRopedText;
-			padding: (BlInsets left: 15);
-			height: 45;
-			constraintsDo: [ :c | c horizontal matchParent ].
-		BlElement new
-			background: (Color gray alpha: 0.2);
-			constraintsDo: [ :c |
-				c horizontal matchParent.
-				c vertical exact: 1 ]	
-		 } ]).
+	anElement
+		constraintsDo: [ :c | 
+			c horizontal matchParent.
+			c vertical fitContent ].
+	anElement
+		addChildren: (self data
+				flatCollect: [ :eachClassName | 
+					{BlTextElement new
+							text: eachClassName asRopedText;
+							padding: (BlInsets left: 15);
+							height: 45;
+							constraintsDo: [ :c | c horizontal matchParent ].
+						BlElement new
+							background: (Color gray alpha: 0.2);
+							constraintsDo: [ :c | 
+								c horizontal matchParent.
+								c vertical exact: 1 ]} ]).
 	^ anElement
 ]
 
 { #category : #'examples - setup' }
 BlScrollableElementExamples >> scrollableContentInScalableElement [
 	<gtExample>
-
+	<return: #BlScalableElement>
 	^ self scrollableContent asScalableElement
 ]
 
 { #category : #'examples - setup' }
 BlScrollableElementExamples >> scrollableElement [
 	<gtExample>
-
-	^ BlScrollableElement new background: Color white.
+	<return: #BlScrollableElement>
+	^ BlScrollableElement new background: Color white
 ]
 
 { #category : #'examples - setup' }
 BlScrollableElementExamples >> scrollableElementWithContent [
 	<gtExample>
-	
+	<return: #BlScrollableElement>
 	^ self scrollableElement addChild: self scrollableContent
 ]
 
 { #category : #examples }
 BlScrollableElementExamples >> scrollableExactHeight_01_default [
 	<gtExample>
+	<return: #BlScrollableElement>
 	| aScrollableElement |
-	
 	aScrollableElement := self scrollableElementWithContent.
-	aScrollableElement constraintsDo: [ :c |
-		c horizontal exact: 300.
-		c vertical exact: 200 ].
-	
+	aScrollableElement
+		constraintsDo: [ :c | 
+			c horizontal exact: 300.
+			c vertical exact: 200 ].
+
 	aScrollableElement forceLayout.
-	self assert: aScrollableElement extent equals: 300@200.
-	self assert: aScrollableElement scrollPosition equals: 0@0.
-	self assert: aScrollableElement scrolledElement position equals: 0@0.
+	self assert: aScrollableElement extent equals: 300 @ 200.
+	self assert: aScrollableElement scrollPosition equals: 0 @ 0.
+	self assert: aScrollableElement scrolledElement position equals: 0 @ 0.
 
 	^ aScrollableElement
 ]
@@ -97,16 +100,18 @@ BlScrollableElementExamples >> scrollableExactHeight_01_default [
 { #category : #examples }
 BlScrollableElementExamples >> scrollableExactHeight_02_scrollToEnd [
 	<gtExample>
+	<return: #BlScrollableElement>
 	| aScrollableElement |
-	
 	aScrollableElement := self scrollableExactHeight_01_default.
-	aScrollableElement scrollBy: 0@2852.
+	aScrollableElement scrollBy: 0 @ 2852.
 
 	aScrollableElement forceLayout.
 	self assert: aScrollableElement scrolledElement height equals: 2852.0.
-	self assert: aScrollableElement extent equals: (300 @ 200).
-	self assert: aScrollableElement scrollPosition equals: 0@2652 negated.
-	self assert: aScrollableElement scrolledElement position equals: 0@2652 negated.
+	self assert: aScrollableElement extent equals: 300 @ 200.
+	self assert: aScrollableElement scrollPosition equals: 0 @ 2652 negated.
+	self
+		assert: aScrollableElement scrolledElement position
+		equals: 0 @ 2652 negated.
 
 	^ aScrollableElement
 ]
@@ -114,16 +119,16 @@ BlScrollableElementExamples >> scrollableExactHeight_02_scrollToEnd [
 { #category : #examples }
 BlScrollableElementExamples >> scrollableExactHeight_03_makeScrolledFixed [
 	<gtExample>
+	<return: #BlScrollableElement>
 	| aScrollableElement |
-	
 	aScrollableElement := self scrollableExactHeight_02_scrollToEnd.
 	aScrollableElement scrolledElement height: 200.
 
 	aScrollableElement forceLayout.
 	self assert: aScrollableElement scrolledElement height equals: 200.0.
-	self assert: aScrollableElement extent equals: (300 @ 200).
-	self assert: aScrollableElement scrollPosition equals: 0@0.
-	self assert: aScrollableElement scrolledElement position equals: 0@0.
+	self assert: aScrollableElement extent equals: 300 @ 200.
+	self assert: aScrollableElement scrollPosition equals: 0 @ 0.
+	self assert: aScrollableElement scrolledElement position equals: 0 @ 0.
 
 	^ aScrollableElement
 ]
@@ -131,16 +136,19 @@ BlScrollableElementExamples >> scrollableExactHeight_03_makeScrolledFixed [
 { #category : #examples }
 BlScrollableElementExamples >> scrollableFitContent [
 	<gtExample>
+	<return: #BlScrollableElement>
 	| aScrollableElement |
-	
 	aScrollableElement := self scrollableElementWithContent.
-	aScrollableElement constraintsDo: [ :c |
-		c horizontal exact: 300.
-		c vertical fitContent ].
+	aScrollableElement
+		constraintsDo: [ :c | 
+			c horizontal exact: 300.
+			c vertical fitContent ].
 
 	aScrollableElement forceLayout.
 	self assert: aScrollableElement scrolledElement height equals: 2852.0.
-	self assert: aScrollableElement extent equals: (300 @ aScrollableElement scrolledElement height).
+	self
+		assert: aScrollableElement extent
+		equals: 300 @ aScrollableElement scrolledElement height.
 
 	^ aScrollableElement
 ]
@@ -148,16 +156,17 @@ BlScrollableElementExamples >> scrollableFitContent [
 { #category : #examples }
 BlScrollableElementExamples >> scrollableFitContentWithMaxHeight [
 	<gtExample>
+	<return: #BlScrollableElement>
 	| aScrollableElement |
-	
 	aScrollableElement := self scrollableElementWithContent.
-	aScrollableElement constraintsDo: [ :c |
-		c horizontal exact: 300.
-		c vertical fitContent.
-		c maxHeight: 200 ].
-	
+	aScrollableElement
+		constraintsDo: [ :c | 
+			c horizontal exact: 300.
+			c vertical fitContent.
+			c maxHeight: 200 ].
+
 	aScrollableElement forceLayout.
-	self assert: aScrollableElement extent equals: 300@200.
+	self assert: aScrollableElement extent equals: 300 @ 200.
 
 	^ aScrollableElement
 ]
@@ -165,16 +174,17 @@ BlScrollableElementExamples >> scrollableFitContentWithMaxHeight [
 { #category : #examples }
 BlScrollableElementExamples >> scrollableMatchParemtWithMaxHeight [
 	<gtExample>
+	<return: #BlScrollableElement>
 	| aScrollableElement |
-	
 	aScrollableElement := self scrollableElementWithContent.
-	aScrollableElement constraintsDo: [ :c |
-		c horizontal exact: 300.
-		c vertical matchParent.
-		c maxHeight: 200 ].
-	
+	aScrollableElement
+		constraintsDo: [ :c | 
+			c horizontal exact: 300.
+			c vertical matchParent.
+			c maxHeight: 200 ].
+
 	aScrollableElement forceLayout.
-	self assert: aScrollableElement extent equals: 300@200.
+	self assert: aScrollableElement extent equals: 300 @ 200.
 
 	^ aScrollableElement
 ]
@@ -182,11 +192,12 @@ BlScrollableElementExamples >> scrollableMatchParemtWithMaxHeight [
 { #category : #examples }
 BlScrollableElementExamples >> scrollableMatchParent [
 	<gtExample>
+	<return: #BlScrollableElement>
 	| aScrollableElement |
-
 	aScrollableElement := self scrollableElementWithContent.
-	aScrollableElement constraintsDo: [ :c |
-		c horizontal matchParent.
-		c vertical matchParent ].
+	aScrollableElement
+		constraintsDo: [ :c | 
+			c horizontal matchParent.
+			c vertical matchParent ].
 	^ aScrollableElement
 ]

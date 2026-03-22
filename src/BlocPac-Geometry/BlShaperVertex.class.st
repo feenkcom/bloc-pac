@@ -13,7 +13,7 @@ Class {
 		'incomingEdge',
 		'outgoingEdge'
 	],
-	#category : 'BlocPac-Geometry-Shaper'
+	#category : #'BlocPac-Geometry-Shaper'
 }
 
 { #category : #accessing }

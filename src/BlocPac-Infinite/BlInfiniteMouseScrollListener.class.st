@@ -1,8 +1,26 @@
 Class {
 	#name : #BlInfiniteMouseScrollListener,
 	#superclass : #BlBasicEventHandler,
+	#classInstVars : [
+		'ShiftWheelScrollSpeed'
+	],
 	#category : #'BlocPac-Infinite-Basic'
 }
+
+{ #category : #'as yet unclassified' }
+BlInfiniteMouseScrollListener class >> shiftWheelScrollSpeed [
+	ShiftWheelScrollSpeed ifNotNil: [ :aValue | ^ aValue ].
+	OSPlatform current isWindows
+		ifTrue: [ ^ 5 ].
+	OSPlatform current isMacOS
+		ifTrue: [ ^ 2 ].
+	^ 5
+]
+
+{ #category : #'as yet unclassified' }
+BlInfiniteMouseScrollListener class >> shiftWheelScrollSpeed: aNumber [
+	ShiftWheelScrollSpeed := aNumber
+]
 
 { #category : #'mouse handlers' }
 BlInfiniteMouseScrollListener >> doScrollDown: anEvent [
@@ -104,20 +122,32 @@ BlInfiniteMouseScrollListener >> handleEvent: anEvent [
 
 { #category : #'mouse handlers' }
 BlInfiniteMouseScrollListener >> mouseWheelEvent: anEvent [
-	| dX dY anInfiniteElement isVertical scrollDelta |
+	| dX dY anInfiniteElement isVertical scrollDelta scrollDeltaX scrollDeltaY |
 	anEvent vector isZero ifTrue: [ ^ self ].
 
 	anInfiniteElement := anEvent currentTarget.
-	isVertical := anEvent isPrimarilyHorizontal not.
-	"(anInfiniteElement childrenManager hasChildren and: isVertical)
-		ifTrue: [ ((anInfiniteElement childrenManager childAt: 1) query // BlInfiniteElement)
-				anyOne
+	isVertical := anEvent isPrimarilyHorizontal not.	"(anInfiniteElement childrenManager hasChildren and: isVertical)
+		ifTrue: [ (anInfiniteElement childrenManager firstVisibleChild query
+				// BlInfiniteElement) anyOne
 				ifNotNil: [ :child | 
 					child layout canScrollVertically
 						ifTrue: [ (anEvent isScrollDown and: [ child canScrollDown ])
 								ifTrue: [ child fireEvent: anEvent.
 									^ self ].
-							(anEvent isScrollUp and: [ child canScrollUp ])
+							child asBeaconSignal emit.
+							(anEvent isScrollUp
+								and: [ child canScrollUp and: [ (child layout childAtPosition: 1) notNil ] ])
+								ifTrue: [ child fireEvent: anEvent.
+									^ self ] ] ].
+			(anInfiniteElement childrenManager lastVisibleChild query
+				// BlInfiniteElement) anyOne
+				ifNotNil: [ :child | 
+					child layout canScrollVertically
+						ifTrue: [ (anEvent isScrollDown and: [ child canScrollDown ])
+								ifTrue: [ child fireEvent: anEvent.
+									^ self ].
+							(anEvent isScrollUp
+								and: [ child canScrollUp and: [ (child layout childAtPosition: 1) notNil ] ])
 								ifTrue: [ child fireEvent: anEvent.
 									^ self ] ] ] ]."
 
@@ -132,7 +162,17 @@ BlInfiniteMouseScrollListener >> mouseWheelEvent: anEvent [
 							ifTrue: [ self doScrollUp: anEvent ]
 							ifFalse: [ 0 ] ] ]
 			ifFalse: [ 0 ].
-	scrollDelta := dX @ dY * 10.
+
+	scrollDeltaX := anEvent isPixelBased
+		ifTrue: [ dX * 10 ]
+		ifFalse: [
+			anEvent modifiers isShift
+				ifTrue: [ dX * self class shiftWheelScrollSpeed ]
+				ifFalse: [ dX ] ].
+
+	scrollDeltaY := dY * 10.
+
+	scrollDelta := scrollDeltaX @ scrollDeltaY.
 	anInfiniteElement smoothScrollBy: scrollDelta
 ]
 

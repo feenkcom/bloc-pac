@@ -7,8 +7,8 @@ Class {
 { #category : #'examples - instance creation' }
 BlPannableElementExamples >> pannableElement [
 	<gtExample>
+	<return: #BlPannableElement>
 	| aPannableElement |
-	
 	aPannableElement := BlPannableElement new.
 
 	self assert: aPannableElement hasContentElement not.
@@ -22,17 +22,17 @@ BlPannableElementExamples >> pannableElement [
 { #category : #'examples - instance creation' }
 BlPannableElementExamples >> pannableWithForm [
 	<gtExample>
+	<return: #BlPannableElement>
 	| form element aPannableElement |
-
-	form := (Form extent: 50@50 depth: 32) fillColor: Color veryLightGray.
-	form fill: (10@10 corner: 40@40) fillColor: Color gray.
+	form := (Form extent: 50 @ 50 depth: 32) fillColor: Color veryLightGray.
+	form fill: (10 @ 10 corner: 40 @ 40) fillColor: Color gray.
 	element := BlElement new
-		size: form extent;
-		background: form.
+			size: form extent;
+			background: form.
 
 	aPannableElement := BlPannableElement new.
 	aPannableElement contentElement: element.
-	
+
 	self assert: aPannableElement contentElement equals: element.
 	self assert: aPannableElement zoomLevel equals: 1.0.
 
@@ -42,19 +42,25 @@ BlPannableElementExamples >> pannableWithForm [
 { #category : #'examples - instance creation' }
 BlPannableElementExamples >> pannableWithFormExactSize [
 	<gtExample>
+	<return: #BlPannableElement>
 	| aPannableElement |
-
 	aPannableElement := self pannableWithForm.
-	aPannableElement size: 800@400.
+	aPannableElement size: 800 @ 400.
 	aPannableElement forceLayout.
 
-	self assert: aPannableElement extent equals: 800@400.
+	self assert: aPannableElement extent equals: 800 @ 400.
 	self assert: aPannableElement zoomLevel equals: 8.
-	
-	self assert: aPannableElement contentElement extent equals: 50@50.
-	self assert: aPannableElement contentElement position equals: 375@175.
-	self assert: aPannableElement contentElement transformation matrix decomposition scale asPoint equals: 8 asPoint.
-	self assert: aPannableElement contentElement transformation matrix decomposition translation asPoint equals: 175 negated asPoint.
+
+	self assert: aPannableElement contentElement extent equals: 50 @ 50.
+	self assert: aPannableElement contentElement position equals: 375 @ 175.
+	self
+		assert: aPannableElement contentElement transformation matrix decomposition scale
+				asPoint
+		equals: 8 asPoint.
+	self
+		assert: aPannableElement contentElement transformation matrix decomposition translation
+				asPoint
+		equals: 175 negated asPoint.
 
 
 	^ aPannableElement
@@ -63,19 +69,25 @@ BlPannableElementExamples >> pannableWithFormExactSize [
 { #category : #'examples - instance creation' }
 BlPannableElementExamples >> pannableWithFormExactSizeSquare [
 	<gtExample>
+	<return: #BlPannableElement>
 	| aPannableElement |
-
 	aPannableElement := self pannableWithForm.
-	aPannableElement size: 400@400.	
+	aPannableElement size: 400 @ 400.
 	aPannableElement forceLayout.
 
-	self assert: aPannableElement extent equals: 400@400.
+	self assert: aPannableElement extent equals: 400 @ 400.
 	self assert: aPannableElement zoomLevel equals: 8.
-	
-	self assert: aPannableElement contentElement extent equals: 50@50.
+
+	self assert: aPannableElement contentElement extent equals: 50 @ 50.
 	self assert: aPannableElement contentElement position equals: 175 asPoint.
-	self assert: aPannableElement contentElement transformation matrix decomposition scale asPoint equals: 8 asPoint.
-	self assert: aPannableElement contentElement transformation matrix decomposition translation asPoint equals: 175 negated asPoint.
+	self
+		assert: aPannableElement contentElement transformation matrix decomposition scale
+				asPoint
+		equals: 8 asPoint.
+	self
+		assert: aPannableElement contentElement transformation matrix decomposition translation
+				asPoint
+		equals: 175 negated asPoint.
 
 	^ aPannableElement
 ]
