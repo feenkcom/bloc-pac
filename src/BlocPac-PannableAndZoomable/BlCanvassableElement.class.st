@@ -14,7 +14,8 @@ Class {
 		'autoScaleEnabled',
 		'childrenTransformationOrigin',
 		'childrenScaleFactor',
-		'childrenTranslationFactor'
+		'childrenTranslationFactor',
+		'shouldTranslateOnMouseWheelZoom'
 	],
 	#category : #'BlocPac-PannableAndZoomable-Core'
 }
@@ -37,6 +38,16 @@ BlCanvassableElement >> asScalableElement [
 { #category : #accessing }
 BlCanvassableElement >> autoScaleEnabled [
 	^ autoScaleEnabled
+]
+
+{ #category : #'api - zooming' }
+BlCanvassableElement >> calculateTranslationFactorOnMouseWheelZoom: anEvent [
+	| localPosition translateScalingFactor translateX translateY |
+	translateScalingFactor := 1 / 2.
+	localPosition := self globalPointToLocal: anEvent position.
+	translateX := (self extent x / 2 - localPosition x) * translateScalingFactor.
+	translateY := (self extent y / 2 - localPosition y) * translateScalingFactor.
+	^ self childrenTranslationFactor + (translateX @ translateY)
 ]
 
 { #category : #accessing }
@@ -163,7 +174,13 @@ BlCanvassableElement >> initialize [
 	childrenTransformationOrigin := 0@0.
 	
 	self addEventHandler: BlCanvassableElementSlideHandler new.
-	self beInSeparateCompositionLayer
+	self beInSeparateCompositionLayer.
+	self withZoomOnScrollWheel.
+]
+
+{ #category : #'api - zooming' }
+BlCanvassableElement >> minChildrenScaleFactor [
+	^ 0.014
 ]
 
 { #category : #'api - zooming' }
@@ -216,6 +233,35 @@ BlCanvassableElement >> scaleChildrenToFitContentDuringLayout [
 	self updateChildrenTransformation
 ]
 
+{ #category : #accessing }
+BlCanvassableElement >> shouldTranslateOnMouseWheelZoom [
+	^ shouldTranslateOnMouseWheelZoom
+		ifNil: [ shouldTranslateOnMouseWheelZoom := true ]
+]
+
+{ #category : #accessing }
+BlCanvassableElement >> shouldTranslateOnMouseWheelZoom: aBoolean [
+	shouldTranslateOnMouseWheelZoom := aBoolean
+]
+
+{ #category : #'api - transformation' }
+BlCanvassableElement >> translate: aPoint [
+	"Animate a change to translation"
+	| translateAnimation  |
+	
+	childrenTransformationOrigin := self extent / 2.0.
+	
+	"self disableAutoScale."
+	
+	translateAnimation := BlNumberTransition new
+		onStepDo: [ :aTranslateFactor | self childrenTranslationFactor: aTranslateFactor ];
+		from: self childrenTranslationFactor;
+		to: self childrenTranslationFactor + aPoint;
+		duration: 250 milliSeconds.
+	
+	self addAnimation: translateAnimation
+]
+
 { #category : #transformations }
 BlCanvassableElement >> updateChildrenTransformation [
 	self
@@ -224,6 +270,42 @@ BlCanvassableElement >> updateChildrenTransformation [
 				origin: (BlAffineTransformationPositionOrigin new position: childrenTransformationOrigin);
 				translateBy: childrenTranslationFactor;
 				scaleBy: childrenScaleFactor ]
+]
+
+{ #category : #'api - zooming' }
+BlCanvassableElement >> withZoomOnScrollWheel [
+	self
+		when: BlMouseWheelEvent
+		do: [ :anEvent | 
+			(self shouldTranslateOnMouseWheelZoom and: [ anEvent isPrimarilyVertical ])
+				ifTrue: [ anEvent modifiers = BlKeyModifiers primary
+						ifTrue: [ | eventYvector newZoomLevel scalingFactor |
+							anEvent consumed: true.
+							eventYvector := anEvent vector y.
+							scalingFactor := 1 / 2.
+							eventYvector positive
+								ifTrue: [ newZoomLevel := self zoomLevel * scalingFactor reciprocal round: 2.
+									self zoomLevel: newZoomLevel withTranslate: anEvent ]
+								ifFalse: [ newZoomLevel := self zoomLevel * scalingFactor round: 2.
+									self zoomLevel: newZoomLevel ] ].
+
+					anEvent modifiers = BlKeyModifiers alt
+						ifTrue: [ | eventYvector |
+							anEvent consumed: true.
+							eventYvector := anEvent vector y.
+							eventYvector positive
+								ifTrue: [ self translate: (anEvent currentTarget topMostParent extent x / 10) @ 0 ]
+								ifFalse: [ self
+										translate: (anEvent currentTarget topMostParent extent x / 10) negated @ 0 ] ].
+
+					anEvent modifiers = BlKeyModifiers new
+						ifTrue: [ | eventYvector |
+							anEvent consumed: true.
+							eventYvector := anEvent vector y.
+							eventYvector positive
+								ifTrue: [ self translate: 0 @ (anEvent currentTarget topMostParent extent x / 10) ]
+								ifFalse: [ self
+										translate: 0 @ (anEvent currentTarget topMostParent extent x / 10) negated ] ] ] ]
 ]
 
 { #category : #'api - zooming' }
@@ -254,6 +336,30 @@ BlCanvassableElement >> zoomLevel: aNumber [
 		duration: 250 milliSeconds.
 
 	self addAnimation: anAnimation
+]
+
+{ #category : #'api - zooming' }
+BlCanvassableElement >> zoomLevel: aNumber withTranslate: anEvent [
+	"Animate a change to zoom level while translating to a new position"
+	| translateAnimation zoomAnimation |
+	
+	childrenTransformationOrigin := self extent / 2.0.
+	
+	self disableAutoScale.
+	
+	translateAnimation := BlNumberTransition new
+		onStepDo: [ :aTranslateFactor | childrenTranslationFactor := aTranslateFactor ];
+		from: self childrenTranslationFactor;
+		to: (self calculateTranslationFactorOnMouseWheelZoom: anEvent);
+		duration: 250 milliSeconds.
+	
+	zoomAnimation := BlNumberTransition new
+		onStepDo: [ :aScaleFactor | self childrenScaleFactor: aScaleFactor ];
+		from: self childrenScaleFactor;
+		to: aNumber;
+		duration: 250 milliSeconds.
+
+	self addAnimation: (BlParallelAnimation with: {translateAnimation. zoomAnimation})
 ]
 
 { #category : #'api - zooming' }
