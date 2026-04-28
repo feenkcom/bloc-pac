@@ -173,25 +173,25 @@ BlOvershootingSplineBasedScrollerExamples >> _4_flingMovingToTheOvershotMax [
 			250}.
 	expectedVelocities := {902.15955.
 			857.3191.
-			812.47864.
+			812.47865.
 			767.6382.
-			722.7977.
+			722.79775.
 			677.9573.
-			633.1168.
+			633.11684999.
 			588.2764.
-			543.4359.
+			543.43595.
 			498.5955.
-			453.75507.
+			453.75505.
 			408.9146.
-			364.07416.
+			364.07414999.
 			319.2337.
 			274.39325.
-			229.55286.
-			184.71234.
-			139.87189.
-			95.031494.
-			50.19098.
-			5.350586}.
+			229.55279999.
+			184.71234999.
+			139.87189999.
+			95.03144999.
+		  50.19099999.
+			5.35054999}.
 
 	theActualPositions := OrderedCollection new.
 	theActualVelocities := OrderedCollection new.
@@ -207,7 +207,7 @@ BlOvershootingSplineBasedScrollerExamples >> _4_flingMovingToTheOvershotMax [
 		with: expectedVelocities
 		do: [ :anActual :anExpected | self assert: (anActual closeTo: anExpected) ].
 
-	self assert: (aSplineOverScroller currentVelocity closeTo: 5.350586).
+	self assert: (aSplineOverScroller currentVelocity closeTo: 5.350549999).
 	self assert: aSplineOverScroller currentPosition equals: 250.	"<- we reached the max overshot position = 200 (final requested) + 50 (overshot distance)"
 	self
 		assert: aSplineOverScroller currentStep
@@ -242,7 +242,7 @@ BlOvershootingSplineBasedScrollerExamples >> _5_flingContinueWhenReachedTheOvers
 	shouldContinue := aSplineOverScroller continue.
 	self assert: shouldContinue.
 
-	self assert: (aSplineOverScroller currentVelocity closeTo: 6.5756397).
+	self assert: (aSplineOverScroller currentVelocity closeTo: 6.57563996).
 	self assert: aSplineOverScroller currentPosition equals: 250.
 	self
 		assert: aSplineOverScroller currentStep
@@ -315,50 +315,50 @@ BlOvershootingSplineBasedScrollerExamples >> _6_flingSpringBack [
 			200.
 			200.
 			200}.
-	expectedVelocities := {6.5756397.
-			12.849645.
-			18.822016.
-			24.49275.
-			29.86185.
-			34.929317.
-			39.69515.
-			44.159344.
-			48.321903.
-			52.18283.
-			55.742123.
-			58.99978.
-			61.9558.
-			64.61018.
-			66.96294.
-			69.01405.
-			70.76354.
-			72.21138.
-			73.3576.
-			74.20218.
-			74.74512.
-			74.98643.
-			74.926094.
-			74.56414.
-			73.90054.
-			72.93531.
-			71.668434.
-			70.099945.
-			68.22981.
-			66.05804.
-			63.584625.
-			60.809593.
-			57.73292.
-			54.354607.
-			50.674652.
-			46.693073.
-			42.409855.
-			37.825012.
-			32.93853.
-			27.75042.
-			22.260654.
-			16.469265.
-			10.376233.
-			3.9815784}.
+	expectedVelocities := {6.575639969.
+			12.849645076.
+			18.822015323.
+			24.492750709.
+			29.861851234.
+			34.929316898.
+			39.695147701.
+			44.159343643.
+			48.321904724.
+			52.182830944.
+			55.742122303.
+			58.999778801.
+			61.955800438.
+			64.610187215.
+			66.962939130.
+			69.014056185.
+			70.763538378.
+			72.211385711.
+			73.357598182.
+			74.202175793.
+			74.745118543.
+			74.986426431.
+			74.926099459.
+			74.564137626.
+			73.900540932.
+			72.935309377.
+			71.668442961.
+			70.099941684.
+			68.229805546.
+			66.058034547.
+			63.584628687.
+			60.809587967.
+			57.732912385.
+			54.354601943.
+			50.674656639.
+			46.693076474.
+			42.409861449.
+			37.825011563.
+			32.938526815.
+			27.750407207.
+			22.260652738.
+			16.469263408.
+			10.376239217.
+			3.981580164.}.
 
 	theActualPositions := OrderedCollection new.
 	theActualVelocities := OrderedCollection new.
@@ -374,7 +374,7 @@ BlOvershootingSplineBasedScrollerExamples >> _6_flingSpringBack [
 		with: expectedVelocities
 		do: [ :anActual :anExpected | self assert: (anActual closeTo: anExpected) ].
 
-	self assert: (aSplineOverScroller currentVelocity closeTo: 3.9815784).
+	self assert: (aSplineOverScroller currentVelocity closeTo: 3.981580164).
 	self assert: aSplineOverScroller currentPosition equals: 200.
 	self
 		assert: aSplineOverScroller currentStep
@@ -409,7 +409,7 @@ BlOvershootingSplineBasedScrollerExamples >> _7_flingContinueAfterSpringBack [
 	shouldContinue := aSplineOverScroller continue.
 	self assert: shouldContinue not.
 
-	self assert: (aSplineOverScroller currentVelocity closeTo: 3.9815784).
+	self assert: (aSplineOverScroller currentVelocity closeTo: 3.98158016).
 	self assert: aSplineOverScroller currentPosition equals: 200.
 	self
 		assert: aSplineOverScroller currentStep
@@ -491,7 +491,7 @@ BlOvershootingSplineBasedScrollerExamples >> decelerationRate [
 	| aSplineOverScroller |
 	aSplineOverScroller := self splineOverScroller.
 
-	self assert: (aSplineOverScroller decelerationRate closeTo: 2.3582017).
+	self assert: (aSplineOverScroller decelerationRate closeTo: 2.35820181).
 
 	^ aSplineOverScroller decelerationRate
 ]
@@ -629,16 +629,16 @@ BlOvershootingSplineBasedScrollerExamples >> splineDeceleration [
 	<return: #OrderedDictionary>
 	| aSplineOverScroller aVelocityMapping anActualMapping |
 	aSplineOverScroller := self splineOverScroller.	"spline deceleration depends on physical coefficient which depends on ppi"	"velocity -> spline deceleration"
-	aVelocityMapping := {0 -> Float negativeInfinity.
-			1 -> -7.196176620396506.
-			2 -> -6.503029439836561.
-			4 -> -5.809882259276615.
-			8 -> -5.11673507871667.
-			16 -> -4.4235878981567245.
-			32 -> -3.7304407175967795.
-			64 -> -3.037293537036834.
-			128 -> -2.3441463564768887.
-			256 -> -1.6509991759169433}.
+	aVelocityMapping := {0->Float infinity negated. 
+		1 -> -7.196176682877059. 
+		2 -> -6.503029502317114. 
+		4 -> -5.8098823217571685. 
+		8 -> -5.116735141197224. 
+		16 -> -4.4235879606372785. 
+		32 -> -3.7304407800773327. 
+		64 -> -3.0372935995173878. 
+		128 -> -2.3441464189574424. 
+		256 -> -1.650999238397497}.
 
 	anActualMapping := aVelocityMapping
 			collect: [ :anAssoc | anAssoc key -> (aSplineOverScroller splineDecelerationFor: anAssoc key) ].
@@ -656,16 +656,16 @@ BlOvershootingSplineBasedScrollerExamples >> splineFlingDistance [
 	<return: #OrderedDictionary>
 	| aSplineOverScroller aVelocityMapping anActualMapping |
 	aSplineOverScroller := self splineOverScroller.	"velocity -> spline fling distance"
-	aVelocityMapping := {0 -> 0.0.
-			1 -> 0.0017500093262010565.
-			2 -> 0.005830543034945757.
-			4 -> 0.01942574337940917.
-			8 -> 0.06472115951823502.
-			16 -> 0.2156328541756035.
-			32 -> 0.718428534748616.
-			64 -> 2.393603523518351.
-			128 -> 7.974819415829869.
-			256 -> 26.569874287958488}.
+	aVelocityMapping := {0->0.0 . 
+		1 -> 0.0017500097705743412 . 
+		2 -> 0.0058305443549882055 . 
+		4 -> 0.01942574724272983 . 
+		8 -> 0.06472117060829533 . 
+		16 -> 0.2156328851893084 . 
+		32 -> 0.7184286183029239 . 
+		64 -> 2.3936037360141915 . 
+		128 -> 7.974819904300267 . 
+		256 -> 26.56987518407128}.
 
 	anActualMapping := aVelocityMapping
 			collect: [ :anAssoc | anAssoc key -> (aSplineOverScroller splineFlingDistanceFor: anAssoc key) ].
@@ -733,107 +733,107 @@ BlOvershootingSplineBasedScrollerExamples >> splineTime [
 	| aSplineOverScroller anExpectedSplineTime |
 	aSplineOverScroller := self splineOverScroller.
 
-	anExpectedSplineTime := {2.002716e-6.
-			0.0035008886.
-			0.0070031513.
-			0.010507312.
-			0.014013893.
-			0.017523412.
-			0.02104418.
-			0.024568854.
-			0.028097969.
-			0.031639703.
-			0.035194505.
-			0.038755145.
-			0.04233729.
-			0.04592621.
-			0.049529932.
-			0.053156357.
-			0.05679837.
-			0.060456425.
-			0.06413834.
-			0.067844465.
-			0.071567826.
-			0.075316176.
-			0.079097174.
-			0.08290383.
-			0.08673657.
-			0.0905957.
-			0.09448885.
-			0.098416284.
-			0.10238549.
-			0.10638248.
-			0.11042188.
-			0.11449678.
-			0.11861465.
-			0.12278285.
-			0.12698735.
-			0.13124269.
-			0.1355491.
-			0.13989964.
-			0.1443087.
-			0.14877644.
-			0.15329593.
-			0.15788153.
-			0.1625191.
-			0.16722992.
-			0.17200707.
-			0.17685048.
-			0.18176731.
-			0.18675743.
-			0.1918349.
-			0.19699252.
-			0.20223011.
-			0.20755455.
-			0.21297249.
-			0.21849068.
-			0.22410871.
-			0.22983302.
-			0.23565608.
-			0.2415983.
-			0.24765876.
-			0.25383675.
-			0.26014706.
-			0.2665984.
-			0.27317786.
-			0.27991158.
-			0.2868116.
-			0.29384828.
-			0.30107498.
-			0.3084751.
-			0.3160603.
-			0.32383984.
-			0.3318245.
-			0.34003758.
-			0.34848738.
-			0.3571822.
-			0.36612952.
-			0.37534925.
-			0.38488656.
-			0.39473194.
-			0.4049011.
-			0.41544706.
-			0.42638117.
-			0.43773794.
-			0.4495572.
-			0.4618606.
-			0.47472918.
-			0.48817742.
-			0.5023109.
-			0.5171499.
-			0.5328217.
-			0.5494553.
-			0.5671298.
-			0.58606946.
-			0.6064431.
-			0.6285358.
-			0.6527741.
-			0.67973936.
-			0.7102442.
-			0.74580073.
-			0.7892455.
-			0.848082.
-			1.0}.
+	anExpectedSplineTime := {0.000002003.
+			0.003500889.
+			0.007003152.
+			0.010507311.
+			0.014013891.
+			0.017523413.
+			0.021044180.
+			0.024568857.
+			0.028097971.
+			0.031639707.
+			0.035194512.
+			0.038755150.
+			0.042337288.
+			0.045926215.
+			0.049529939.
+			0.053156355.
+			0.056798372.
+			0.060456430.
+			0.064138337.
+			0.067844456.
+			0.071567819.
+			0.075316167.
+			0.079097156.
+			0.082903824.
+			0.086736540.
+			0.090595673.
+			0.094488799.
+			0.098416236.
+			0.102385481.
+			0.106382457.
+			0.110421874.
+			0.114496770.
+			0.118614626.
+			0.122782824.
+			0.126987355.
+			0.131242707.
+			0.135549094.
+			0.139899624.
+			0.144308684.
+			0.148776431.
+			0.153295942.
+			0.157881492.
+			0.162519061.
+			0.167229922.
+			0.172007064.
+			0.176850523.
+			0.181767341.
+			0.186757482.
+			0.191834937.
+			0.196992555.
+			0.202230149.
+			0.207554593.
+			0.212972539.
+			0.218490708.
+			0.224108687.
+			0.229832994.
+			0.235656091.
+			0.241598271.
+			0.247658778.
+			0.253836743.
+			0.260147081.
+			0.266598429.
+			0.273177862.
+			0.279911536.
+			0.286811550.
+			0.293848304.
+			0.301074922.
+			0.308475044.
+			0.316060229.
+			0.323839788.
+			0.331824425.
+			0.340037446.
+			0.348487211.
+			0.357182072.
+			0.366129401.
+			0.375349069.
+			0.384886332.
+			0.394731681.
+			0.404900823.
+			0.415446814.
+			0.426380926.
+			0.437737711.
+			0.449556923.
+			0.461860404.
+			0.474728915.
+			0.488177160.
+			0.502310524.
+			0.517149596.
+			0.532821539.
+			0.549455174.
+			0.567129744.
+			0.586069449.
+			0.606443133.
+			0.628535939.
+			0.652774190.
+			0.679739422.
+			0.710244204.
+			0.745800808.
+			0.789245521.
+			0.848081988.
+			1.000000000.}.
 
 	aSplineOverScroller splineTime
 		with: anExpectedSplineTime
