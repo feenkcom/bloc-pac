@@ -191,7 +191,7 @@ BlScrollPaneExamples >> _1_flingDownWithOvershoot500_first305ms [
 
 	aScrollerY := aScrollPane scrollFlinger scroller scrollerY.
 
-	self assert: (aScrollerY currentVelocity closeTo: 73.3576).
+	self assert: (aScrollerY currentVelocity closeTo: 73.35759818).
 	self assert: aScrollerY currentPosition equals: 31.
 	self assert: aScrollerY currentStep equals: BlSplineOverScrollerStep cubic.
 	self assert: aScrollerY deceleration equals: -2000.
