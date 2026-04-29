@@ -123,8 +123,8 @@ BlScalableElementExamples >> exactContentSmallerInExactScalableFitAll [
 
 	self assert: aContent position equals: 100.0 @ 50.0.
 	self assert: aContent extent equals: self contentExtentSmaller.
-	self assert: (aContent bounds transformed position closeTo: -66.66666 @ -50.0).
-	self assert: (aContent bounds transformed extent closeTo: 533.333333 @ 400.0).
+	self assert: (aContent bounds transformed position closeTo: -66.66666666 @ -50.0).
+	self assert: (aContent bounds transformed extent closeTo: 533.33333333 @ 400.0).
 
 	^ aScalable
 ]
