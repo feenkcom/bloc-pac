@@ -1,6 +1,12 @@
 Extension { #name : #PluginBasedJPEGReadWriter }
 
 { #category : #'*BlocPac-Imager' }
+PluginBasedJPEGReadWriter class >> gtFromBuffer: aByteArray [
+
+	^self new gtFromBuffer: aByteArray
+]
+
+{ #category : #'*BlocPac-Imager' }
 PluginBasedJPEGReadWriter >> gtFromBuffer: bytes [
 	"Decode and answer a Form of the given depth from my stream. Close the stream if it is a file stream. Possible depths are 16-bit and 32-bit."
 	| width height form jpegDecompressStruct jpegErrorMgr2Struct depthToUse depth |
@@ -28,10 +34,4 @@ PluginBasedJPEGReadWriter >> gtFromBuffer: bytes [
 		doDithering: true
 		errorMgr: jpegErrorMgr2Struct.
 	^ form
-]
-
-{ #category : #'*BlocPac-Imager' }
-PluginBasedJPEGReadWriter class >> gtFromBuffer: aByteArray [
-
-	^self new gtFromBuffer: aByteArray
 ]
