@@ -171,6 +171,13 @@ BlScrollbarElement >> registerThumb: anElement [
 	anElement addEventHandler: pullEndHandler
 ]
 
+{ #category : #'api - scrollbar' }
+BlScrollbarElement >> releaseThumb [
+	"Stop handling the pull events of my thumb, so that the thumb can be reused by another scrollbar"
+
+	thumb ifNotNil: [ :aThumb | self unregisterThumb: aThumb ]
+]
+
 { #category : #'private - scrolling' }
 BlScrollbarElement >> scrollTo: aPoint [
 	self subclassResponsibility
