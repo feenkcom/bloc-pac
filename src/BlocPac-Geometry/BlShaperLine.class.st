@@ -11,9 +11,11 @@ Class {
 	#category : #'BlocPac-Geometry-Shaper'
 }
 
-{ #category : #'api - shape' }
+{ #category : #drawing }
 BlShaperLine >> appendPathTo: aPathBuilder [
-	(aPathBuilder currentPoint closeTo: self fromVertex point)
+	"Canvas backends can store path coordinates as single-precision floats.
+	Allow their rounding error when deciding whether to continue a subpath."
+	(aPathBuilder currentPoint closeTo: self fromVertex point precision: 0.00001)
 		ifFalse: [ aPathBuilder moveTo: self fromVertex point ].
 
 	aPathBuilder lineTo: self toVertex point
