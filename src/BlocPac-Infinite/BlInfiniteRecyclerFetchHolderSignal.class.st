@@ -35,7 +35,8 @@ BlInfiniteRecyclerFetchHolderSignal >> fetcherResult: anObject [
 
 { #category : #accessing }
 BlInfiniteRecyclerFetchHolderSignal >> itemElement [
-	^ fetcherResult ifNotNil: [ :aResult | aResult holder ifNotNil: #itemElement ]
+	^ fetcherResult
+		ifNotNil: [ :aResult | aResult holder ifNotNil: [ :v | v itemElement ] ]
 ]
 
 { #category : #accessing }
