@@ -1051,15 +1051,14 @@ BlInfiniteLinearLayout >> orientation [
 BlInfiniteLinearLayout >> orientation: anInfiniteLayoutOrientation [
 	"Sets the orientation of the layout. 
 	I will do my best to keep scroll position."
+
 	self
 		assert: [ anInfiniteLayoutOrientation isNotNil ]
 		description: [ 'Orientation must not be nil' ].
-	
-	self assertNotInLayoutOrScroll.
-	
-	"Clean state of previous orientation"
-	orientation ifNotNil: #reset.
-	
+
+	self assertNotInLayoutOrScroll.	"Clean state of previous orientation"
+	orientation ifNotNil: [ :v | v reset ].
+
 	orientation := anInfiniteLayoutOrientation.
 	orientation reset.
 	orientation layout: self.
